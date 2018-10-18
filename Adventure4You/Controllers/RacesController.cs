@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Adventure4You.DatabaseContext;
 using Adventure4You.ViewModels;
+using System.Linq;
 
 namespace Adventure4You.Controllers
 {
@@ -18,6 +19,7 @@ namespace Adventure4You.Controllers
         }
 
         [HttpGet]
+        [Route("getallraces")]
         public ActionResult<List<RaceViewModel>> GetAllRaces()
         {
             var retVal = new List<RaceViewModel>();
@@ -27,12 +29,32 @@ namespace Adventure4You.Controllers
                 retVal.Add(new RaceViewModel
                 {
                     RaceId = race.RaceId,
-                    RaceName = race.RaceName,
-                    RaceCoordinatesCheckEnabled = race.RaceCoordinatesCheckEnabled
+                    RaceName = race.RaceName
                 });
             }
 
             return retVal;
+        }
+
+        [HttpGet]
+        [Route("getrace")]
+        public ActionResult<RaceAdminViewModel> GetRace(int id)
+        {
+            var model = _Context.Races.FirstOrDefault(race => race.RaceId == id);
+
+            if (model != null)
+            {
+                return Ok(new RaceAdminViewModel
+                {
+                    RaceId = model.RaceId,
+                    RaceName = model.RaceName,
+                    RaceCoordinatesCheckEnabled = model.RaceCoordinatesCheckEnabled
+                });
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
