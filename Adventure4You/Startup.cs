@@ -6,17 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
 using Adventure4You.DatabaseContext;
-using Adventure4You.Models;
 
 namespace Adventure4You
 {
     public class Startup
     {
-        private const string Adventure4YouConnectionString = @"
-   Server=127.0.0.1,1433;
-   Database=Adventure4You;
-   User Id=SA;
-   Password=(WHTw2d2wdXsrBi6wkR,m#qzAF6%voxs";
+        private const string Adventure4YouConnectionString = @"Data Source=192.168.99.100;Initial Catalog=Adventure4You;User ID=sa;Password=(WHTw2d2wdXsrBi6wkR,m#qzAF6%voxs";
  
         public Startup(IConfiguration configuration)
         {
