@@ -10,6 +10,20 @@ namespace Adventure4You.DatabaseContext
         {
         }
 
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<UserLink> UserLinks { get; set; }
+
+        public DbSet<Team> Teams { get; set; }
+
+        public DbSet<TeamLink> TeamLinks { get; set; }
+
         public DbSet<RaceModel> Races { get; set; }
+
+        public DbSet<Point> Points { get; set; }
+
+        public DbSet<PointLink> PointLinks { get; set; }
+
+
     }
 }
