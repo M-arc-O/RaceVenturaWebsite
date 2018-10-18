@@ -13,14 +13,15 @@ CREATE TABLE Users (
 
 CREATE TABLE UserLinks (
 	UserLinkId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	UserLinkTeamId INT NOT NULL,
-	UserLinkRaceId INT NOT NULL
+	UserLinkUserId INT NOT NULL,
+	UserLinkTeamId INT,
+	UserLinkRaceId INT
 );
 
 CREATE TABLE Races (
     RaceId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     RaceName NVARCHAR(255) NOT NULL,
-    RaceCoordinatesCheckEnabled BIT
+    RaceCoordinatesCheckEnabled BIT NOT NULL
 );
 
 CREATE TABLE Points (
@@ -33,7 +34,8 @@ CREATE TABLE Points (
 
 CREATE TABLE PointLinks (
     PointLinkId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	PointLinkVisitedTeamId INT NOT NULL
+	PointLinkPointId INT NOT NULL,
+	PointLinkVisitedTeamId INT
 );
 
 CREATE TABLE Teams (
@@ -44,5 +46,5 @@ CREATE TABLE Teams (
 CREATE TABLE TeamLinks (
     TeamLinkId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	TeamLinkTeamId INT NOT NULL,
-    TeamLinkRaceId INT NOT NULL
+    TeamLinkRaceId INT
 );

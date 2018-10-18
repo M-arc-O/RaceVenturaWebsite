@@ -9,6 +9,9 @@ namespace Adventure4You.Models
         [Key]
         public int PointLinkId { get; set; }
 
+        [Required]
+        public int PointLinkPointId { get; set; }
+
         public int PointLinkVisitedTeamId { get; set; }
 
         public PointLink()

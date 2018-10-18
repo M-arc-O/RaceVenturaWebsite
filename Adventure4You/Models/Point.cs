@@ -9,11 +9,14 @@ namespace Adventure4You.Models
         [Key]
         public int PointId { get; set; }
 
+        [Required]
         public int PointRaceId { get; set; }
 
+        [Required]
         [MaxLength(255)]
         public string PointName { get; set; }
 
+        [Required]
         public int PointValue { get; set; }
 
         [MaxLength(255)]

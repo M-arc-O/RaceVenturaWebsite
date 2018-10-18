@@ -9,6 +9,7 @@ namespace Adventure4You.Models
         [Key]
         public int TeamId { get; set; }
 
+        [Required]
         [MaxLength(255)]
         public string TeamName { get; set; }
 

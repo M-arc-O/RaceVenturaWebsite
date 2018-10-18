@@ -9,9 +9,11 @@ namespace Adventure4You.Models
         [Key]
         public int RaceId { get; set; }
 
+        [Required]
         [MaxLength(255)]
         public string RaceName { get; set; }
 
+        [Required]
         public bool RaceCoordinatesCheckEnabled { get; set; }
 
         public RaceModel()

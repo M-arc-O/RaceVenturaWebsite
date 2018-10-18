@@ -8,9 +8,12 @@ namespace Adventure4You.Models
     {
         [Key]
         public int UserLinkId { get; set; }
+        
+        [Required]
+        public int UserLinkUserId { get; set; }
 
         public int UserLinkTeamId { get; set; }
-
+        
         public int UserLinkRaceId { get; set; }
 
         public UserLink()

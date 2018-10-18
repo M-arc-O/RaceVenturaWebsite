@@ -9,6 +9,7 @@ namespace Adventure4You.Models
         [Key]
         public int TeamLinkId { get; set; }
 
+        [Required]
         public int TeamLinkTeamId { get; set; }
 
         public int TeamLinkRaceId { get; set; }
