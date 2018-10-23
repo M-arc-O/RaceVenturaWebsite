@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 using Adventure4You.DatabaseContext;
 using Adventure4You.ViewModels;
-using System.Linq;
 
 namespace Adventure4You.Controllers
 {
@@ -11,9 +11,9 @@ namespace Adventure4You.Controllers
     [ApiController]
     public class RacesController : ControllerBase
     {
-        private readonly Adventure4YouContext _Context;
+        private readonly Adventure4YouDbContext _Context;
 
-        public RacesController(Adventure4YouContext context)
+        public RacesController(Adventure4YouDbContext context)
         {
             _Context = context;
         }
