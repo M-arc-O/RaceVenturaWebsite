@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RaceViewModel } from '../../Shared/Models/race-view-model';
-import { RaceService } from '../../Shared/race.service';
+import { RaceViewModel, RaceService } from '../../shared/';
 
 @Component({
     selector: 'app-race-overview',

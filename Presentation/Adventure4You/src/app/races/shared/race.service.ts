@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { ConfigurationService, ServiceBase } from 'src/app/Shared';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { RaceViewModel } from './Models/race-view-model';
+import { RaceViewModel } from './';
 
 @Injectable()
 export class RaceService extends ServiceBase {

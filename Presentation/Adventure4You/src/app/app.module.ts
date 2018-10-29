@@ -4,22 +4,22 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './NotFound';
-import { HomeComponent } from './Home';
-import { RaceOverviewComponent, RaceService } from './Race';
+import { AccountModule } from './account/account.module';
+import { RacesModule } from './races/races.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent,
-    HomeComponent,
-    RaceOverviewComponent
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    AccountModule,
+    RacesModule,
     AppRoutingModule
   ],
-  providers: [RaceService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
