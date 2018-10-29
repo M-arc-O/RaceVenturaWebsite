@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { ConfigurationService, ServiceBase } from 'src/app/Shared';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { RaceViewModel } from './';
+import { ConfigurationService } from 'src/app/shared';
 
 @Injectable()
-export class RaceService extends ServiceBase {
+export class RaceService {
     readonly baseUrl: string;
 
     constructor(private http: Http) {
-        super();
         this.baseUrl = ConfigurationService.ApiRoot + '/api/races';
     }
 
