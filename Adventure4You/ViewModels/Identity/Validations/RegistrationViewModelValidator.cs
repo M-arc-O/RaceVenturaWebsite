@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 
-using Adventure4You.ViewModels.Identity;
-
-namespace Adventure4You.ViewModels.Validations
+namespace Adventure4You.ViewModels.Identity.Validations
 {
     public class RegistrationViewModelValidator : AbstractValidator<RegistrationViewModel>
     {

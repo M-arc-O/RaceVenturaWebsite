@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 
 using Adventure4You.Models.Identity;
-using Adventure4You.ViewModels.Identity;
 
-namespace Adventure4You.ViewModels.Mappings
+namespace Adventure4You.ViewModels.Identity.Mappings
 {
     public class ViewModelToEntityMappingProfile: Profile
     {

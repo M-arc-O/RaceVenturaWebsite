@@ -1,12 +1,13 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using Adventure4You.DatabaseContext;
 using Adventure4You.ViewModels;
 
 namespace Adventure4You.Controllers
 {
+    [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class RacesController : ControllerBase

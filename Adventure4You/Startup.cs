@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -17,7 +18,7 @@ using FluentValidation.AspNetCore;
 using Adventure4You.DatabaseContext;
 using Adventure4You.Models.Identity;
 using Adventure4You.Helpers;
-using Microsoft.IdentityModel.Tokens;
+using Adventure4You.Auth;
 
 namespace Adventure4You
 {
@@ -40,6 +41,8 @@ namespace Adventure4You
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Adventure4YouConnection"), b => b.MigrationsAssembly("Adventure4You"));
             });
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
