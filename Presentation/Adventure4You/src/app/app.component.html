@@ -1,0 +1,25 @@
+<div class="header">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+<div class="container">
+  <div class="pull-left">
+    <div class="vertical-menu">
+      <h2>Menu</h2>
+      <a routerLink="/home" routerLinkActive="active-menu-link" href='#'>Home</a>
+      <a routerLink="/races" routerLinkActive="active-menu-link" href='#'>Races</a>
+    </div>
+  </div>
+
+  <div class="fill-right">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  footer
+</div>

@@ -1,0 +1,20 @@
+<h2>Races Overview</h2>
+<div *ngIf="races; else tableLoading">
+    <table style="text-align: left">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Coordinates check</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let race of races">
+                <td>{{race.raceName}}</td>
+                <td>{{race.raceCoordinatesCheckEnabled}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<ng-template #tableLoading>
+    Table is loading.
+</ng-template>

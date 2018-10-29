@@ -9,5 +9,6 @@ namespace Adventure4You.ViewModels
     {
         public int RaceId { get; set; }
         public string RaceName { get; set; }
+        public bool RaceCoordinatesCheckEnabled { get; set; }
     }
 }

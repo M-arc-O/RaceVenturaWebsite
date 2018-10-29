@@ -1,0 +1,59 @@
+.header {
+    background-color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-flow: row;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.pull-left {
+    float: left;
+    flex: 0 1 auto;
+    background-color: white;
+    margin-right: 5px;
+}
+
+.fill-right {    
+    flex: 1 1 auto;
+    background-color: white;
+}
+
+.content {
+    padding: 5px;
+}
+
+.footer {     
+    background-color: white;
+    text-align: center;
+    display: block;
+    padding: 20px;
+}
+
+.vertical-menu {
+    height: auto;
+    padding: 5px;
+    width: 200px;
+}
+
+.vertical-menu a {
+    background-color: white;
+    color: black;
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+    color: white;
+}
+
+.active-menu-link {
+    background-color: rgb(178, 252, 164);
+    color: white;
+}

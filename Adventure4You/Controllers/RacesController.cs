@@ -29,32 +29,12 @@ namespace Adventure4You.Controllers
                 retVal.Add(new RaceViewModel
                 {
                     RaceId = race.RaceId,
-                    RaceName = race.RaceName
+                    RaceName = race.RaceName,
+                    RaceCoordinatesCheckEnabled = race.RaceCoordinatesCheckEnabled
                 });
             }
 
             return retVal;
-        }
-
-        [HttpGet]
-        [Route("getrace")]
-        public ActionResult<RaceAdminViewModel> GetRace(int id)
-        {
-            var model = _Context.Races.FirstOrDefault(race => race.RaceId == id);
-
-            if (model != null)
-            {
-                return Ok(new RaceAdminViewModel
-                {
-                    RaceId = model.RaceId,
-                    RaceName = model.RaceName,
-                    RaceCoordinatesCheckEnabled = model.RaceCoordinatesCheckEnabled
-                });
-            }
-            else
-            {
-                return NotFound();
-            }
         }
     }
 }
