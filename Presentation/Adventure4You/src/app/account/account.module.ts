@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
-import { HomeComponent } from './home';
+import { HomeComponent, UserService } from './home';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,11 @@ import { HomeComponent } from './home';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     AccountRoutingModule
   ],
+  providers: [
+    UserService
+  ]
 })
 export class AccountModule { }

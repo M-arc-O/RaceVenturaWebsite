@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { RaceViewModel } from './';
@@ -14,7 +14,14 @@ export class RaceService {
     }
 
     public getRaces(): Observable<RaceViewModel[]> {
-        return this.http.get(`${this.baseUrl}/getallraces`).pipe(
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        const authToken = localStorage.getItem('auth_token');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.get(`${this.baseUrl}/getallraces`, options).pipe(
             map((res: Response) => {
                 return <RaceViewModel[]>res.json();
             }),
