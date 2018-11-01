@@ -7,8 +7,9 @@ namespace Adventure4You.ViewModels
 {
     public class RaceViewModel
     {
-        public int RaceId { get; set; }
-        public string RaceName { get; set; }
-        public bool RaceCoordinatesCheckEnabled { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool CoordinatesCheckEnabled { get; set; }
+        public bool SpecialTasksAreStage { get; set; }
     }
 }

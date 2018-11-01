@@ -7,14 +7,17 @@ namespace Adventure4You.Models
     public class RaceModel
     {
         [Key]
-        public int RaceId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string RaceName { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public bool RaceCoordinatesCheckEnabled { get; set; }
+        public bool CoordinatesCheckEnabled { get; set; }
+
+        [Required]
+        public bool SpecialTasksAreStage { get; set; }
 
         public RaceModel()
         {

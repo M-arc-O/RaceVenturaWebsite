@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
-import { HomeComponent, UserService } from './home';
+import { HomeComponent } from './home';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -13,8 +13,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     AccountRoutingModule
   ],
-  providers: [
-    UserService
-  ]
+  providers: []
 })
 export class AccountModule { }

@@ -29,9 +29,10 @@ namespace Adventure4You.Controllers
             {
                 retVal.Add(new RaceViewModel
                 {
-                    RaceId = race.RaceId,
-                    RaceName = race.RaceName,
-                    RaceCoordinatesCheckEnabled = race.RaceCoordinatesCheckEnabled
+                    Id = race.Id,
+                    Name = race.Name,
+                    CoordinatesCheckEnabled = race.CoordinatesCheckEnabled,
+                    SpecialTasksAreStage = race.SpecialTasksAreStage
                 });
             }
 

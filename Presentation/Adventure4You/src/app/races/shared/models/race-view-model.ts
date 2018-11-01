@@ -1,5 +1,6 @@
 export class RaceViewModel {
-    RaceId: number;
-    RaceName: string;
-    RaceCoordinatesCheckEnabled: boolean;
+    id: number;
+    name: string;
+    coordinatesCheckEnabled: boolean;
+    specialTasksAreStage: boolean;
 }

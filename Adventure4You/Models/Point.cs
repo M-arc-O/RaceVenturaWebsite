@@ -7,20 +7,17 @@ namespace Adventure4You.Models
     public class Point
     {
         [Key]
-        public int PointId { get; set; }
-
-        [Required]
-        public int PointRaceId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string PointName { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public int PointValue { get; set; }
+        public int Value { get; set; }
 
         [MaxLength(255)]
-        public string PointCoordinates { get; set; }
+        public string Coordinates { get; set; }
 
         public Point()
         {

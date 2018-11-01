@@ -5,12 +5,14 @@
             <tr>
                 <th>Name</th>
                 <th>Coordinates check</th>
+                <th>Specials taks are stage</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let race of races">
-                <td>{{race.raceName}}</td>
-                <td>{{race.raceCoordinatesCheckEnabled}}</td>
+                <td>{{race.name}}</td>
+                <td>{{race.coordinatesCheckEnabled}}</td>
+                <td>{{race.specialTasksAreStage}}</td>
             </tr>
         </tbody>
     </table>

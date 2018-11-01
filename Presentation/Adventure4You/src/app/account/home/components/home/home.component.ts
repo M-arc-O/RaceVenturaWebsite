@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from '../../../shared/user.service';
-import { map } from 'rxjs/operators';
+import { UserService } from 'src/app/shared';
 
 @Component({
     selector: 'app-home',

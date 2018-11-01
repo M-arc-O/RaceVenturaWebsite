@@ -3,14 +3,17 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NotFoundComponent } from './NotFound';
+import { NotFoundComponent } from './components/notFound/not-found.component';
 import { AccountModule } from './account/account.module';
 import { RacesModule } from './races/races.module';
+import { MenuComponent } from './components/menu/menu.component';
+import { UserService } from './shared';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +22,7 @@ import { RacesModule } from './races/races.module';
     RacesModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

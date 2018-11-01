@@ -7,12 +7,13 @@ namespace Adventure4You.Models
     public class TeamLink
     {
         [Key]
-        public int TeamLinkId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public int TeamLinkTeamId { get; set; }
+        public int TeamId { get; set; }
 
-        public int TeamLinkRaceId { get; set; }
+        [Required]
+        public int RaceId { get; set; }
 
         public TeamLink()
         {

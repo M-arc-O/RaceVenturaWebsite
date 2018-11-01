@@ -7,14 +7,14 @@ namespace Adventure4You.Models
     public class UserLink
     {
         [Key]
-        public int UserLinkId { get; set; }
+        public int Id { get; set; }
         
         [Required]
-        public int UserLinkUserId { get; set; }
+        public int UserId { get; set; }
 
-        public int UserLinkTeamId { get; set; }
+        public int TeamId { get; set; }
         
-        public int UserLinkRaceId { get; set; }
+        public int RaceId { get; set; }
 
         public UserLink()
         {

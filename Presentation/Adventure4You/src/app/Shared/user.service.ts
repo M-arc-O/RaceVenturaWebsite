@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { ConfigurationService } from 'src/app/shared';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ConfigurationService } from './configuration-service';
 
 @Injectable()
 export class UserService {
