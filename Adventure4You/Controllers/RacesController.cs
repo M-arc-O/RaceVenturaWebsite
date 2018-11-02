@@ -41,6 +41,7 @@ namespace Adventure4You.Controllers
         [Route("addRace")]
         public ActionResult<bool> AddRace([FromBody]AddRaceViewModel viewModel)
         {
+            var id = User.FindFirst("id")?.Value;
 
             return Ok();
         }
@@ -49,6 +50,7 @@ namespace Adventure4You.Controllers
         [Route("getRaceDetails")]
         public ActionResult<RaceDetailViewModel> GetRaceDetails(string userId, string raceId)
         {
+            var id = User.FindFirst("id")?.Value;
 
             return Ok();
         }

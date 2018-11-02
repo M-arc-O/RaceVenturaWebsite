@@ -1,6 +1,6 @@
 <h2>Races Overview</h2>
+<app-add-race></app-add-race>
 <div *ngIf="races; else racesLoading">
-    Races:
     <ul>
         <li *ngFor="let race of races" (click)="detailsClicked(race)">{{race.name}}</li>
     </ul>

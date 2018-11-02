@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from 'src/app/shared';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService, ComponentBase } from 'src/app/shared';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends ComponentBase implements OnInit {
     loginError = false;
     loginForm: FormGroup;
 
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
         private userService: UserService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -39,16 +40,5 @@ export class HomeComponent implements OnInit {
 
     logoutClicked(): void {
         this.userService.logout();
-    }
-
-    validateAllFormFields(formGroup: FormGroup): void {
-        Object.keys(formGroup.controls).forEach(key => {
-            const control = formGroup.get(key);
-            if (control instanceof FormControl) {
-                control.markAsTouched({ onlySelf: true });
-            } else if (control instanceof FormGroup) {
-                this.validateAllFormFields(control);
-            }
-        });
     }
 }

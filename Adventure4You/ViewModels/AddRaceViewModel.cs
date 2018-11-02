@@ -7,7 +7,6 @@ namespace Adventure4You.ViewModels
 {
     public class AddRaceViewModel
     {
-        public string UserId { get; set; }
         public string Name { get; set; }
         public bool CoordinatesCheckEnabled { get; set; }
         public bool SpecialTasksAreStage { get; set; }

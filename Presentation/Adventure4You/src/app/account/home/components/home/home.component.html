@@ -4,7 +4,6 @@
         <div class="form-group" [ngClass]="{'has-error': (loginForm.get('email').touched || loginForm.get('email').dirty) &&
                                       !loginForm.get('email').valid }">
             <label class="col-md-2 control-label" for="emailId">First Name</label>
-
             <div class="col-md-8">
                 <input class="form-control" id="emailId" type="text" placeholder="Email (required)" formControlName="email" />
                 <span class="help-block" *ngIf="(loginForm.get('email').touched || loginForm.get('email').dirty) && 
@@ -19,7 +18,6 @@
         <div class="form-group" [ngClass]="{'has-error': (loginForm.get('password').touched || loginForm.get('password').dirty) &&
                                       !loginForm.get('password').valid }">
             <label class="col-md-2 control-label" for="passwordId">Password</label>
-
             <div class="col-md-8">
                 <input class="form-control" id="passwordId" type="password" formControlName="password" />
                 <span class="help-block" *ngIf="(loginForm.get('password').touched || loginForm.get('password').dirty) && 
