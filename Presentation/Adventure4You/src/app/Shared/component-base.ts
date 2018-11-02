@@ -1,6 +1,6 @@
 import { FormGroup, FormControl } from '@angular/forms';
 
-export class ComponentBase {
+export abstract class ComponentBase {
 
     constructor() {
 
