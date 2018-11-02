@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
     loginForm: FormGroup;
 
     get loggedIn(): boolean {
-        return this.userService.loggedIn;
+        return this.userService.userId !== undefined;
     }
 
     constructor(private formBuilder: FormBuilder,
@@ -38,8 +38,7 @@ export class HomeComponent implements OnInit {
     }
 
     logoutClicked(): void {
-        this.userService.loggedIn = false;
-        localStorage.removeItem('auth_token');
+        this.userService.logout();
     }
 
     validateAllFormFields(formGroup: FormGroup): void {

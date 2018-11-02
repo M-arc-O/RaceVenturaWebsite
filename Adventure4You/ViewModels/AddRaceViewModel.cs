@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace Adventure4You.ViewModels
 {
-    public class RaceViewModel
+    public class AddRaceViewModel
     {
-        public int Id { get; set; }
+        public string UserId { get; set; }
         public string Name { get; set; }
+        public bool CoordinatesCheckEnabled { get; set; }
+        public bool SpecialTasksAreStage { get; set; }
     }
 }

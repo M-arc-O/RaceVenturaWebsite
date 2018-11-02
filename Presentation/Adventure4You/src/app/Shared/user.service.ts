@@ -8,7 +8,8 @@ import { ConfigurationService } from './configuration-service';
 export class UserService {
     readonly baseUrl: string;
 
-    public loggedIn = false;
+    public userId: string;
+    public authToken: string;
 
     constructor(private http: Http) {
         this.baseUrl = ConfigurationService.ApiRoot;
@@ -29,15 +30,21 @@ export class UserService {
     }
 
     login(email: string, password: string): void {
-        this.loggedIn = false;
+        this.logout();
+
         const body = JSON.stringify({ email, password });
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
         this.http.post(`${this.baseUrl}/api/auth/login`, body, options).subscribe(res => {
-                localStorage.setItem('auth_token', res.json().auth_token);
-                this.loggedIn = true;
-                return true;
+                const json = res.json();
+                this.userId = json.id;
+                this.authToken = json.auth_token;
             });
+    }
+
+    logout(): void {
+        this.userId = undefined;
+        this.authToken = undefined;
     }
 }

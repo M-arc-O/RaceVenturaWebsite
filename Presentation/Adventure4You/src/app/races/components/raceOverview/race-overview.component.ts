@@ -8,6 +8,7 @@ import { RaceViewModel, RaceService } from '../../shared/';
 })
 export class RaceOverviewComponent implements OnInit {
     races: RaceViewModel[];
+    selectedRace: RaceViewModel;
 
     constructor(private service: RaceService,
         private router: Router) {
@@ -22,5 +23,9 @@ export class RaceOverviewComponent implements OnInit {
                 this.router.navigateByUrl('home');
             }
         });
+    }
+
+    detailsClicked(race: RaceViewModel): void {
+        this.selectedRace = race;
     }
 }

@@ -1,22 +1,14 @@
 <h2>Races Overview</h2>
-<div *ngIf="races; else tableLoading">
-    <table style="text-align: left">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Coordinates check</th>
-                <th>Specials taks are stage</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let race of races">
-                <td>{{race.name}}</td>
-                <td>{{race.coordinatesCheckEnabled}}</td>
-                <td>{{race.specialTasksAreStage}}</td>
-            </tr>
-        </tbody>
-    </table>
+<div *ngIf="races; else racesLoading">
+    Races:
+    <ul>
+        <li *ngFor="let race of races" (click)="detailsClicked(race)">{{race.name}}</li>
+    </ul>
 </div>
-<ng-template #tableLoading>
+<ng-template #racesLoading>
     Table is loading.
 </ng-template>
+
+<div *ngIf="selectedRace">
+    <app-race-details [raceId]="selectedRace.id"></app-race-details>
+</div>

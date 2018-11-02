@@ -30,13 +30,27 @@ namespace Adventure4You.Controllers
                 retVal.Add(new RaceViewModel
                 {
                     Id = race.Id,
-                    Name = race.Name,
-                    CoordinatesCheckEnabled = race.CoordinatesCheckEnabled,
-                    SpecialTasksAreStage = race.SpecialTasksAreStage
+                    Name = race.Name
                 });
             }
 
             return retVal;
+        }
+
+        [HttpPost]
+        [Route("addRace")]
+        public ActionResult<bool> AddRace([FromBody]AddRaceViewModel viewModel)
+        {
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("getRaceDetails")]
+        public ActionResult<RaceDetailViewModel> GetRaceDetails(string userId, string raceId)
+        {
+
+            return Ok();
         }
     }
 }
