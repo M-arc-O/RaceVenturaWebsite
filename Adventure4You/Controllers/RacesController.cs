@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 
 using Adventure4You.DatabaseContext;
 using Adventure4You.ViewModels;
+using Adventure4You.Models;
+using System.Linq;
+using System;
 
 namespace Adventure4You.Controllers
 {
@@ -43,16 +46,53 @@ namespace Adventure4You.Controllers
         {
             var id = User.FindFirst("id")?.Value;
 
-            return Ok();
+            try
+            {
+                _Context.Races.Add(new Race
+                {
+                    Name = viewModel.Name,
+                    CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled,
+                    SpecialTasksAreStage = viewModel.SpecialTasksAreStage
+                });
+
+                _Context.UserLinks.Add(new UserLink
+                {
+                    RaceId = _Context.Races.ToList().Last<Race>().Id,
+                    UserId = int.Parse(id)
+                });
+
+                _Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(true);
         }
 
         [HttpGet]
         [Route("getRaceDetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails(string userId, string raceId)
+        public ActionResult<RaceDetailViewModel> GetRaceDetails(int userId, int raceId)
         {
             var id = User.FindFirst("id")?.Value;
 
-            return Ok();
+            if (_Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId) != null)
+            {
+                var race = _Context.Races.First(model => model.Id == raceId);
+
+                return Ok(new RaceDetailViewModel
+                {
+                    Id = race.Id,
+                    Name = race.Name,
+                    CoordinatesCheckEnabled = race.CoordinatesCheckEnabled,
+                    SpecialTasksAreStage = race.CoordinatesCheckEnabled,
+                    StartTime = race.StartTime,
+                    EndTime = race.EndTime
+                });
+            }
+
+            return NotFound();
         }
     }
 }

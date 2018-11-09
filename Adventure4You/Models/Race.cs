@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Adventure4You.Models
 {
     [Table("Races")]
-    public class RaceModel
+    public class Race
     {
         [Key]
         public int Id { get; set; }
@@ -19,7 +20,11 @@ namespace Adventure4You.Models
         [Required]
         public bool SpecialTasksAreStage { get; set; }
 
-        public RaceModel()
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
+        public Race()
         {
         }
     }

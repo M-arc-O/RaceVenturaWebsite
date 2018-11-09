@@ -12,16 +12,24 @@ namespace Adventure4You.DatabaseContext
         {
         }
 
-        public DbSet<UserLink> UserLinks { get; set; }
+        public DbSet<Point> Points { get; set; }
+
+        public DbSet<PointLink> PointLinks { get; set; }
+
+        public DbSet<Race> Races { get; set; }
+
+        public DbSet<Stage> Stages { get; set; }
+
+        public DbSet<StageLinks> StageLinks { get; set; }
 
         public DbSet<Team> Teams { get; set; }
 
         public DbSet<TeamLink> TeamLinks { get; set; }
 
-        public DbSet<RaceModel> Races { get; set; }
+        public DbSet<TeamPointVisited> TeamPointsVisited { get; set; }
 
-        public DbSet<Point> Points { get; set; }
+        public DbSet<TeamStageFinished> TeamStagesFinished { get; set; }
 
-        public DbSet<PointLink> PointLinks { get; set; }
+        public DbSet<UserLink> UserLinks { get; set; }
     }
 }

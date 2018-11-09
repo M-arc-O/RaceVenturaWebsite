@@ -9,5 +9,7 @@ namespace Adventure4You.ViewModels
     {
         public bool CoordinatesCheckEnabled { get; set; }
         public bool SpecialTasksAreStage { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }
