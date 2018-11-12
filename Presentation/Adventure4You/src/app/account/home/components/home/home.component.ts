@@ -11,7 +11,7 @@ export class HomeComponent extends ComponentBase implements OnInit {
     loginForm: FormGroup;
 
     get loggedIn(): boolean {
-        return this.userService.userId !== undefined;
+        return this.userService.authToken !== undefined;
     }
 
     constructor(private formBuilder: FormBuilder,

@@ -69,9 +69,9 @@ namespace Adventure4You.Controllers
             return Ok(new RaceViewModel(race));
         }
 
-        [HttpGet]
-        [Route("getRaceDetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails(int raceId)
+        [HttpGet()]
+        [Route("getracedetails")]
+        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
         {
             var id = User.FindFirst("id")?.Value;
 

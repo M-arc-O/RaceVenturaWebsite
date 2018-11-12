@@ -7,9 +7,15 @@ import { ConfigurationService } from './configuration-service';
 @Injectable()
 export class UserService {
     readonly baseUrl: string;
+    readonly tokenKey: 'token';
 
-    public userId: string;
-    public authToken: string;
+    public get authToken(): string {
+        const token = localStorage.getItem(this.tokenKey);
+        if (token === null) {
+            return undefined;
+        }
+        return token;
+    }
 
     constructor(private http: Http) {
         this.baseUrl = ConfigurationService.ApiRoot;
@@ -37,14 +43,12 @@ export class UserService {
         const options = new RequestOptions({ headers: headers });
 
         this.http.post(`${this.baseUrl}/api/auth/login`, body, options).subscribe(res => {
-                const json = res.json();
-                this.userId = json.id;
-                this.authToken = json.auth_token;
-            });
+            const json = res.json();
+            localStorage.setItem(this.tokenKey, json.auth_token);
+        });
     }
 
     logout(): void {
-        this.userId = undefined;
-        this.authToken = undefined;
+        localStorage.removeItem(this.tokenKey);
     }
 }

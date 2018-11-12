@@ -15,23 +15,16 @@ export class RacesEffects {
 
     @Effect() loadRaces$ = this.actions$.pipe(
         ofType(racesActions.LOAD_RACES),
-        switchMap(() => {
-            console.log('Load races switchmap');
-            return this.raceService.getRaces();
-        }),
-        map(races => {
-            console.log('Load races map');
-            return new racesActions.LoadRacesSuccesAction(races);
-        }));
+        switchMap(() => this.raceService.getRaces()),
+        map(races => new racesActions.LoadRacesSuccesAction(races)));
 
     @Effect() addRace$ = this.actions$.pipe(
         ofType(racesActions.ADD_RACE),
-        switchMap(action => {
-            console.log('Add race switchmap');
-            return this.raceService.addRace((action as racesActions.AddRaceAction).payload);
-        }),
-        map(race => {
-            console.log('Add races map');
-            return new racesActions.AddRaceSuccesAction(race);
-        }));
+        switchMap(action => this.raceService.addRace((action as racesActions.AddRaceAction).payload)),
+        map(race => new racesActions.AddRaceSuccesAction(race)));
+
+    @Effect() loadRaceDetails$ = this.actions$.pipe(
+        ofType(racesActions.LOAD_RACE_DETAILS),
+        switchMap(action => this.raceService.getRaceDetails((action as racesActions.LoadRaceDetailsAction).payload)),
+        map(raceDetails => new racesActions.LoadRaceDetailsSuccesAction(raceDetails)));
 }

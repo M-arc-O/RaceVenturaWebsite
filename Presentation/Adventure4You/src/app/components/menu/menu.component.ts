@@ -8,7 +8,7 @@ import { UserService } from 'src/app/shared';
   })
 export class MenuComponent {
     get loggedIn(): boolean {
-        return this.userService.userId !== undefined;
+        return this.userService.authToken !== undefined;
     }
 
     constructor(private userService: UserService) {

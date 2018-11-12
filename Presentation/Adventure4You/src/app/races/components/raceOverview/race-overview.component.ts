@@ -19,7 +19,6 @@ export class RaceOverviewComponent extends ComponentBase implements OnInit {
         private store: Store<AppState>) {
         super();
         this.races$ = this.store.select(state => state.racesFeature.races);
-        this.races$.subscribe(races => console.log(races));
     }
 
     ngOnInit(): void {
@@ -27,7 +26,6 @@ export class RaceOverviewComponent extends ComponentBase implements OnInit {
     }
 
     getRaces(): void {
-        console.log('Race overview component dispatch load races action');
         this.store.dispatch(new racesActions.LoadRacesAction());
     }
 
