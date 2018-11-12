@@ -1,5 +1,5 @@
-import { RaceViewModel } from '../races/shared';
+import { RacesState } from '../races/shared';
 
 export interface AppState {
-    races: RaceViewModel[];
+    racesFeature: RacesState;
 }

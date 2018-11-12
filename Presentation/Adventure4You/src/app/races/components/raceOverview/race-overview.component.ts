@@ -18,7 +18,8 @@ export class RaceOverviewComponent extends ComponentBase implements OnInit {
     constructor(
         private store: Store<AppState>) {
         super();
-        this.races$ = this.store.select(state => state.races);
+        this.races$ = this.store.select(state => state.racesFeature.races);
+        this.races$.subscribe(races => console.log(races));
     }
 
     ngOnInit(): void {

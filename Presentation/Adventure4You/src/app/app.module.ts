@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment'; // Angular CLI environemnt
 import { AppRoutingModule } from './app-routing.module';
@@ -12,8 +11,7 @@ import { AccountModule } from './account/account.module';
 import { RacesModule } from './races/races.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { UserService } from './shared';
-import { racesReducer } from './races/reducers/races.reducers';
-import { RacesEffects } from './races/effects/races.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -27,12 +25,12 @@ import { RacesEffects } from './races/effects/races.effects';
     AccountModule,
     RacesModule,
     AppRoutingModule,
-    StoreModule.forRoot({races: racesReducer}),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
-    }),
-    EffectsModule.forRoot([RacesEffects])
+    })
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
