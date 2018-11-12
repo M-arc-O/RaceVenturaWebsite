@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { RaceViewModel } from './';
 import { ConfigurationService, UserService } from 'src/app/shared';
+import { AddRaceViewModel } from './models/add-race-view-model';
 
 @Injectable()
 export class RaceService {
@@ -24,6 +25,24 @@ export class RaceService {
         return this.http.get(`${this.baseUrl}/getallraces`, options).pipe(
             map((res: Response) => {
                 return <RaceViewModel[]>res.json();
+            }),
+            catchError(error => {
+                return throwError(error);
+            }));
+    }
+
+    public addRace(viewModel: AddRaceViewModel): Observable<RaceViewModel> {
+        const body = JSON.stringify(viewModel);
+
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', `Bearer ${this.userService.authToken}`);
+
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.post(`${this.baseUrl}/addrace`, body, options).pipe(
+            map((res: Response) => {
+                return <RaceViewModel>res.json();
             }),
             catchError(error => {
                 return throwError(error);

@@ -30,11 +30,7 @@ namespace Adventure4You.Controllers
 
             foreach (var race in _Context.Races)
             {
-                retVal.Add(new RaceViewModel
-                {
-                    Id = race.Id,
-                    Name = race.Name
-                });
+                retVal.Add(new RaceViewModel(race));
             }
 
             return retVal;
@@ -42,54 +38,48 @@ namespace Adventure4You.Controllers
 
         [HttpPost]
         [Route("addRace")]
-        public ActionResult<bool> AddRace([FromBody]AddRaceViewModel viewModel)
+        public ActionResult<RaceViewModel> AddRace([FromBody]AddRaceViewModel viewModel)
         {
             var id = User.FindFirst("id")?.Value;
+            var race = new Race
+            {
+                Name = viewModel.Name,
+                CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled,
+                SpecialTasksAreStage = viewModel.SpecialTasksAreStage
+            };
 
             try
             {
-                _Context.Races.Add(new Race
-                {
-                    Name = viewModel.Name,
-                    CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled,
-                    SpecialTasksAreStage = viewModel.SpecialTasksAreStage
-                });
+                _Context.Races.Add(race);
+                _Context.SaveChanges();
 
                 _Context.UserLinks.Add(new UserLink
                 {
-                    RaceId = _Context.Races.ToList().Last<Race>().Id,
-                    UserId = int.Parse(id)
+                    RaceId = race.Id,
+                    UserId = id
                 });
 
                 _Context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500);
             }
 
-            return Ok(true);
+            return Ok(new RaceViewModel(race));
         }
 
         [HttpGet]
         [Route("getRaceDetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails(int userId, int raceId)
+        public ActionResult<RaceDetailViewModel> GetRaceDetails(int raceId)
         {
             var id = User.FindFirst("id")?.Value;
 
-            if (_Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId) != null)
+            if (_Context.UserLinks.FirstOrDefault(link => link.UserId.Equals(id) && link.RaceId == raceId) != null)
             {
                 var race = _Context.Races.First(model => model.Id == raceId);
 
-                return Ok(new RaceDetailViewModel
-                {
-                    Id = race.Id,
-                    Name = race.Name,
-                    CoordinatesCheckEnabled = race.CoordinatesCheckEnabled,
-                    SpecialTasksAreStage = race.CoordinatesCheckEnabled,
-                    StartTime = race.StartTime,
-                    EndTime = race.EndTime
-                });
+                return Ok(new RaceDetailViewModel(race));
             }
 
             return NotFound();

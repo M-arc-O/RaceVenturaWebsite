@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentBase } from 'src/app/shared';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { ComponentBase, AppState } from 'src/app/shared';
+import * as racesActions from './../../actions/race.actions';
+import { AddRaceViewModel } from '../../shared/models/add-race-view-model';
 
 @Component({
     selector: 'app-add-race',
@@ -9,7 +12,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddRaceComponent extends ComponentBase implements OnInit {
     addRaceForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(
+        private formBuilder: FormBuilder,
+        private store: Store<AppState>) {
         super();
     }
 
@@ -20,14 +25,19 @@ export class AddRaceComponent extends ComponentBase implements OnInit {
     setupForm(): void {
         this.addRaceForm = this.formBuilder.group({
             name: ['', [Validators.required]],
-            checkCoordinates: ['', [Validators.required]],
-            specialTasksAreStage: ['', [Validators.required]]
+            checkCoordinates: [false],
+            specialTasksAreStage: [false]
         });
     }
 
     addRaceClick(): void {
         if (this.addRaceForm.valid) {
+            const viewModel = new AddRaceViewModel();
+            viewModel.name = this.addRaceForm.get('name').value;
+            viewModel.coordinatesCheckEnabled = this.addRaceForm.get('checkCoordinates').value;
+            viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
 
+            this.store.dispatch(new racesActions.AddRaceAction(viewModel));
         } else {
             this.validateAllFormFields(this.addRaceForm);
         }

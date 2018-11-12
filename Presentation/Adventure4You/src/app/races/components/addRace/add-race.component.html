@@ -1,9 +1,9 @@
 <form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick()" role="form">
     <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
             !addRaceForm.get('name').valid }">
-        <label class="col-md-2 control-label" for="name">Name</label>
+        <label class="col-md-2 control-label" for="raceName">Name</label>
         <div class="col-md-8">
-            <input class="form-control" id="name" type="text" placeholder="Name (required)" formControlName="name" />
+            <input class="form-control" id="raceName" type="text" placeholder="Name (required)" formControlName="name" />
             <span class="help-block" *ngIf="(addRaceForm.get('name').touched || addRaceForm.get('name').dirty) && 
                 addRaceForm.get('name').errors">
                 <span *ngIf="addRaceForm.get('name').errors.required">

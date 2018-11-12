@@ -10,7 +10,5 @@ namespace Adventure4You.Models.Identity
 
         [Required]
         public string LastName { get; set; }
-        //public long? FacebookId { get; set; }
-        //public string PictureUrl { get; set; }
     }
 }
