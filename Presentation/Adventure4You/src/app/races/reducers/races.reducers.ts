@@ -7,11 +7,8 @@ export function racesReducer(state: RaceViewModel[], action: racesActions.Action
             return action.payload;
         }
         case racesActions.ADD_RACE_SUCCES: {
-            const race = new RaceViewModel();
-            race.id = action.payload.id;
-            race.name = action.payload.name;
-            state.push(race);
-            return Object.assign({}, state);
+            state.push(action.payload);
+            return Object.assign([], state);
         }
         default: {
             return state;
