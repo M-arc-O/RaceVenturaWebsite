@@ -18,11 +18,9 @@ export class RaceDetailsComponent implements OnChanges {
     constructor(
         private store: Store<AppState>) {
         this.raceDetails$ = this.store.select(state => state.racesFeature.selectedRace);
-        this.raceDetails$.subscribe(details => console.log(details));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.raceId);
         this.store.dispatch(new raceActions.LoadRaceDetailsAction(this.raceId));
     }
 }

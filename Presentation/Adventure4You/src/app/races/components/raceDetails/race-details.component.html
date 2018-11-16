@@ -1,2 +1,20 @@
 <h2>Race details</h2>
-Id: {{raceId}}
+<div *ngIf="raceDetails$ | async; else raceLoading">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>{{(raceDetails$ | async).name}}</td>
+        </tr>
+        <tr>
+            <td>Coordinates are checked:</td>
+            <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
+        </tr>
+        <tr>
+            <td>Special tasks are a stage:</td>
+            <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
+        </tr>
+    </table>
+</div>
+<ng-template #raceLoading>
+    Table is loading.
+</ng-template>
