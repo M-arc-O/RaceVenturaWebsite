@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using Adventure4You.DatabaseContext;
-using Adventure4You.ViewModels;
 using Adventure4You.Models;
-using System.Linq;
-using System;
+using Adventure4You.ViewModels.Races;
 
 namespace Adventure4You.Controllers
 {
@@ -33,7 +33,7 @@ namespace Adventure4You.Controllers
                 retVal.Add(new RaceViewModel(race));
             }
 
-            return retVal;
+            return Ok(retVal);
         }
 
         [HttpPost]
@@ -61,7 +61,7 @@ namespace Adventure4You.Controllers
 
                 _Context.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
                 return StatusCode(500);
             }

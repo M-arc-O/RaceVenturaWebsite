@@ -1,15 +1,13 @@
 ﻿using Adventure4You.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Adventure4You.ViewModels
+namespace Adventure4You.ViewModels.Races
 {
     public class RaceDetailViewModel: RaceViewModel
     {
         public bool CoordinatesCheckEnabled { get; set; }
         public bool SpecialTasksAreStage { get; set; }
+        public int MaximumTeamSize { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
@@ -17,6 +15,7 @@ namespace Adventure4You.ViewModels
         {
             CoordinatesCheckEnabled = race.CoordinatesCheckEnabled;
             SpecialTasksAreStage = race.SpecialTasksAreStage;
+            MaximumTeamSize = race.MaximumTeamSize;
             StartTime = race.StartTime;
             EndTime = race.EndTime;
         }

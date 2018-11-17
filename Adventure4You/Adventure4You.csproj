@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ViewModels\Teams\Validators\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

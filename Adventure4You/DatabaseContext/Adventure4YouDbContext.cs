@@ -20,7 +20,7 @@ namespace Adventure4You.DatabaseContext
 
         public DbSet<Stage> Stages { get; set; }
 
-        public DbSet<StageLinks> StageLinks { get; set; }
+        public DbSet<StageLink> StageLinks { get; set; }
 
         public DbSet<Team> Teams { get; set; }
 

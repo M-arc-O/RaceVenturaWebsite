@@ -16,6 +16,7 @@ CREATE TABLE Races (
     Name NVARCHAR(255) NOT NULL,
     CoordinatesCheckEnabled BIT NOT NULL,
 	SpecialTasksAreStage BIT NOT NULL,
+	MaximumTeamSize INT NOT NULL,
 	StartTime DATETIME2,
 	EndTime DATETIME2
 );

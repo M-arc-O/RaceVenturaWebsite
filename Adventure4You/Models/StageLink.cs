@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Adventure4You.Models
 {
     [Table("StageLinks")]
-    public class StageLinks
+    public class StageLink
     {
         [Required]
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace Adventure4You.Models
         [Required]
         public int RaceId { get; set; }
 
-        public StageLinks()
+        public StageLink()
         {
 
         }
