@@ -20,8 +20,9 @@ namespace Adventure4You.Models
         public int TeamId { get; set; }
 
         [Required]
-        public DateTime StageStartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
-        public DateTime StageStopTime { get; set; }
+        [Required]
+        public DateTime StopTime { get; set; }
     }
 }

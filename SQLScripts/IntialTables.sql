@@ -17,6 +17,7 @@ CREATE TABLE Races (
     CoordinatesCheckEnabled BIT NOT NULL,
 	SpecialTasksAreStage BIT NOT NULL,
 	MaximumTeamSize INT NOT NULL,
+	MimimumPointsToCompleteStage INT NOT NULL,
 	StartTime DATETIME2,
 	EndTime DATETIME2
 );
@@ -34,6 +35,7 @@ CREATE TABLE StageLinks (
 
 CREATE TABLE Points (
     Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	Type INT NOT NULL,
     Name NVARCHAR(255) NOT NULL,
 	Value INT NOT NULL,
     Coordinates NVARCHAR(255)

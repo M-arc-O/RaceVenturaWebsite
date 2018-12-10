@@ -1,10 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { RaceViewModel } from '../../shared/';
-import { ComponentBase, AppState } from 'src/app/shared';
-import { Store } from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import * as racesActions from './../../actions/race.actions';
+import { ComponentBase } from 'src/app/shared';
+import { RaceViewModel } from '../../shared/';
+import * as racesActions from '../../store/actions/race.actions';
+import { IRacesState } from '../../store/racesState.interface';
+import { racesSelector, racesBaseSelector } from '../../store/races.interface';
+import { IBase } from 'src/app/store/base.interface';
 
 @Component({
     selector: 'app-race-overview',
@@ -13,12 +15,14 @@ import * as racesActions from './../../actions/race.actions';
 })
 export class RaceOverviewComponent extends ComponentBase implements OnInit {
     races$: Observable<RaceViewModel[]>;
+    racesBase$: Observable<IBase>;
     selectedRace: RaceViewModel;
 
     constructor(
-        private store: Store<AppState>) {
+        private store: Store<IRacesState>) {
         super();
-        this.races$ = this.store.select(state => state.racesFeature.races);
+        this.races$ = this.store.pipe(select(racesSelector));
+        this.racesBase$ = this.store.pipe(select(racesBaseSelector));
     }
 
     ngOnInit(): void {

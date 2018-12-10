@@ -1,6 +1,6 @@
 <h2>Races Overview</h2>
 <app-add-race></app-add-race>
-<div *ngIf="races$ | async; else racesLoading">
+<div *ngIf="!(racesBase$ | async).isActive; else racesLoading">
     <ul>
         <li *ngFor="let race of races$ | async" (click)="detailsClicked(race)">{{race.name}}</li>
     </ul>

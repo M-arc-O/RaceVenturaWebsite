@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/shared';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { RaceDetailViewModel } from '../../shared';
-
-import * as raceActions from './../../actions/race.actions';
+import * as raceActions from '../../store/actions/race.actions';
+import { IRacesState } from '../../store/racesState.interface';
+import { selectedRaceSelector } from '../../store/selectedRace.interface';
 
 @Component({
     selector: 'app-race-details',
@@ -16,8 +16,8 @@ export class RaceDetailsComponent implements OnChanges {
     raceDetails$: Observable<RaceDetailViewModel>;
 
     constructor(
-        private store: Store<AppState>) {
-        this.raceDetails$ = this.store.select(state => state.racesFeature.selectedRace);
+        private store: Store<IRacesState>) {
+            this.raceDetails$ = this.store.pipe(select(selectedRaceSelector));
     }
 
     ngOnChanges(changes: SimpleChanges): void {

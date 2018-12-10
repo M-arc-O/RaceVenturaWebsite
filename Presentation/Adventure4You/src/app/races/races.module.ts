@@ -8,8 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddRaceComponent } from './components/addRace/add-race.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { RacesEffects } from './effects/races.effects';
-import { racesReducer, SelectedRaceReducer } from './reducers';
+import { RacesEffects } from './store/effects/races.effects';
+import { racesReducers } from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { racesReducer, SelectedRaceReducer } from './reducers';
     CommonModule,
     ReactiveFormsModule,
     RacesRoutingModule,
-    StoreModule.forFeature('racesFeature', { races: racesReducer, selectedRace: SelectedRaceReducer }),
+    StoreModule.forFeature('racesFeature', racesReducers),
     EffectsModule.forFeature([RacesEffects])
   ],
   providers: [RaceService],

@@ -10,6 +10,9 @@ namespace Adventure4You.Models
         public int Id { get; set; }
 
         [Required]
+        public PointType Type { get; set; }
+
+        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 

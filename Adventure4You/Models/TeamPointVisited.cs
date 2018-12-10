@@ -19,6 +19,9 @@ namespace Adventure4You.Models
         [Required]
         public int TeamId { get; set; }
 
+        [Required]
+        public DateTime Time { get; set; }
+
         public TeamPointVisited()
         {
 

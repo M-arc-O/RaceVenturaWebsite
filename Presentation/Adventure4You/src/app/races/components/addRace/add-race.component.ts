@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ComponentBase, AppState } from 'src/app/shared';
-import * as racesActions from './../../actions/race.actions';
+import { ComponentBase } from 'src/app/shared';
 import { AddRaceViewModel } from '../../shared/models/add-race-view-model';
+import * as racesActions from '../../store/actions/race.actions';
+import { IRacesState } from '../../store/racesState.interface';
 
 @Component({
     selector: 'app-add-race',
@@ -14,7 +15,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private store: Store<AppState>) {
+        private store: Store<IRacesState>) {
         super();
     }
 

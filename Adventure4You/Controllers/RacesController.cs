@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
 using Adventure4You.ViewModels.Races;
+using System.Threading;
 
 namespace Adventure4You.Controllers
 {
@@ -27,6 +28,8 @@ namespace Adventure4You.Controllers
         public ActionResult<List<RaceViewModel>> GetAllRaces()
         {
             var retVal = new List<RaceViewModel>();
+
+            Thread.Sleep(3000);
 
             foreach (var race in _Context.Races)
             {
