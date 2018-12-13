@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
 using Adventure4You.ViewModels.Points;
@@ -23,6 +24,8 @@ namespace Adventure4You.Controllers
         [Route("getpoints")]
         public ActionResult<List<PointViewModel>> GetPoints([FromQuery(Name = "stageId")]int stageId)
         {
+            Thread.Sleep(1000);
+
             var retVal = new List<PointViewModel>();
             var pointLinks = _Context.PointLinks.Where(link => link.StageId == stageId);
             foreach (var point in _Context.Points.Where(point => pointLinks.Any(link => link.StageId == point.Id)))
@@ -37,6 +40,8 @@ namespace Adventure4You.Controllers
         [Route("addpoint")]
         public ActionResult<PointViewModel> AddPoint([FromBody]AddPointViewModel viewModel)
         {
+            Thread.Sleep(1000);
+
             var point = new Point
             {
                 Name = viewModel.Name,

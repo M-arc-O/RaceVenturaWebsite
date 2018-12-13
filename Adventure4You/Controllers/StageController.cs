@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Adventure4You.Controllers
 {
@@ -24,6 +25,8 @@ namespace Adventure4You.Controllers
         [Route("getstages")]
         public ActionResult<List<StageViewModel>> GetStages([FromQuery(Name = "raceId")]int raceId)
         {
+            Thread.Sleep(1000);
+
             var retVal = new List<StageViewModel>();
             var stageLinks = _Context.StageLinks.Where(link => link.RaceId == raceId);
             foreach (var stage in _Context.Stages.Where(stage => stageLinks.Any(link => link.StageId == stage.Id)))
@@ -38,6 +41,8 @@ namespace Adventure4You.Controllers
         [Route("addstage")]
         public ActionResult<StageViewModel> AddStage([FromBody]AddStageViewModel viewModel)
         {
+            Thread.Sleep(1000);
+
             var stage = new Stage
             {
                 Name = viewModel.Name

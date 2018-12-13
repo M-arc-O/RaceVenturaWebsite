@@ -9,12 +9,13 @@ import { RaceActions } from '../actions/race.actions';
 
 export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>> {
     races: racesReducer,
-    racesBase: createBaseReducer(RaceActions.LOAD_RACES, RaceActions.LOAD_RACES_SUCCES, RaceActions.LOAD_RACES_ERROR)
+    load: createBaseReducer(RaceActions.LOAD_RACES, RaceActions.LOAD_RACES_SUCCES, RaceActions.LOAD_RACES_ERROR),
+    add: createBaseReducer(RaceActions.ADD_RACE, RaceActions.ADD_RACE_SUCCES, RaceActions.ADD_RACE_ERROR)
 });
 
 export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISelectedRace>> {
     selectedRace: selectedRaceReducer,
-    selectedRaceBase: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
+    load: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
         RaceActions.LOAD_RACE_DETAILS_ERROR)
 });
 

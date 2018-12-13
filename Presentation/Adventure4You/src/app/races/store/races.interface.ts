@@ -5,8 +5,10 @@ import { racesStateSelector } from './racesState.interface';
 
 export interface IRaces {
     races: RaceViewModel[];
-    racesBase: IBase;
+    load: IBase;
+    add: IBase;
 }
 
 export const racesSelector: MemoizedSelector<object, RaceViewModel[]> = createSelector(racesStateSelector, s => s.races);
-export const racesBaseSelector: MemoizedSelector<object, IBase> = createSelector(racesStateSelector, s => s.racesBase);
+export const loadRaceSelector: MemoizedSelector<object, IBase> = createSelector(racesStateSelector, s => s.load);
+export const addRaceSelector: MemoizedSelector<object, IBase> = createSelector(racesStateSelector, s => s.add);

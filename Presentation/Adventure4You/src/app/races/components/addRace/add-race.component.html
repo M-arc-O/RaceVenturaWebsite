@@ -45,5 +45,8 @@
         </div>
     </div>
 
-    <button type="submit">Add race</button>
+    <button type="submit" [disabled]="(addBase$ | async).isActive">Add race</button>
 </form>
+<div *ngIf="(addBase$ | async).isActive">
+    Adding race.
+</div>

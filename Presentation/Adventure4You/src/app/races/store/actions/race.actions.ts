@@ -28,7 +28,7 @@ export class LoadRacesSuccesAction {
 
 export class LoadRacesErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.LOAD_RACES_ERROR;
-    constructor(public readonly payload: { message: string; }) { }
+    constructor(public readonly payload: { error: Response; }) { }
 }
 
 export class LoadRaceDetailsAction {
@@ -43,7 +43,7 @@ export class LoadRaceDetailsSuccesAction {
 
 export class LoadRaceDetailsErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.LOAD_RACE_DETAILS_ERROR;
-    constructor(public readonly payload: { message: string; }) { }
+    constructor(public readonly payload: { error: Response; }) { }
 }
 
 export class AddRaceAction {
@@ -58,7 +58,7 @@ export class AddRaceSuccesAction {
 
 export class AddRaceErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.ADD_RACE_ERROR;
-    constructor(public readonly payload: { message: string; }) { }
+    constructor(public readonly payload: { error: Response; }) { }
 }
 
 export type RaceActionsUnion

@@ -27,9 +27,9 @@ namespace Adventure4You.Controllers
         [Route("getallraces")]
         public ActionResult<List<RaceViewModel>> GetAllRaces()
         {
-            var retVal = new List<RaceViewModel>();
+            Thread.Sleep(1000);
 
-            Thread.Sleep(3000);
+            var retVal = new List<RaceViewModel>();
 
             foreach (var race in _Context.Races)
             {
@@ -43,6 +43,8 @@ namespace Adventure4You.Controllers
         [Route("addRace")]
         public ActionResult<RaceViewModel> AddRace([FromBody]AddRaceViewModel viewModel)
         {
+            Thread.Sleep(1000);
+
             var id = User.FindFirst("id")?.Value;
             var race = new Race
             {
@@ -76,6 +78,8 @@ namespace Adventure4You.Controllers
         [Route("getracedetails")]
         public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
         {
+            Thread.Sleep(1000);
+
             var id = User.FindFirst("id")?.Value;
 
             if (_Context.UserLinks.FirstOrDefault(link => link.UserId.Equals(id) && link.RaceId == raceId) != null)

@@ -1,5 +1,5 @@
 <h2>Race details</h2>
-<div *ngIf="raceDetails$ | async; else raceLoading">
+<div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
     <table>
         <tr>
             <td>Name:</td>
@@ -15,6 +15,11 @@
         </tr>
     </table>
 </div>
+<div *ngIf="(raceDetailsLoad$ | async).error">
+    Error while loading race details.
+</div>
 <ng-template #raceLoading>
-    Table is loading.
+    <div *ngIf="(raceDetailsLoad$ | async).isActive">
+        Loading race details.
+    </div>
 </ng-template>

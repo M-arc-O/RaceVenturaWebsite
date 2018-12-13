@@ -34,7 +34,7 @@ export const createBaseReducer = (requestAction: string, successAction: string, 
         return {
           isActive: false,
           success: false,
-          error: error.payload.message
+          error: error.payload.error
         };
       default:
         if (resetActions && resetActions.indexOf(action.type) !== -1) {

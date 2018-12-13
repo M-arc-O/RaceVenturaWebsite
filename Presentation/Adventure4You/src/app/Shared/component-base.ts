@@ -1,9 +1,20 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { OnDestroy } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { UserService } from '.';
 
-export abstract class ComponentBase {
+export abstract class ComponentBase implements OnDestroy {
+    protected unsubscribe$: Subject<void>;
 
-    constructor() {
+    constructor(protected userService: UserService,
+        protected router: Router) {
+        this.unsubscribe$ = new Subject<void>();
+    }
 
+    ngOnDestroy(): void {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 
     validateAllFormFields(formGroup: FormGroup): void {
@@ -15,5 +26,13 @@ export abstract class ComponentBase {
                 this.validateAllFormFields(control);
             }
         });
+    }
+
+    handleError(error: Response) {
+        if (error.status === 401) {
+            this.userService.logout();
+            this.router.navigateByUrl('home');
+        }
+        console.log(error);
     }
 }

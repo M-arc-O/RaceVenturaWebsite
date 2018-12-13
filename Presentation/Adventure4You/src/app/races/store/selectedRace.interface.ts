@@ -5,10 +5,10 @@ import { selectedRaceStateSelector } from './racesState.interface';
 
 export interface ISelectedRace {
     selectedRace: RaceDetailViewModel;
-    selectedRaceBase: IBase;
+    load: IBase;
 }
 
 export const selectedRaceSelector: MemoizedSelector<object, RaceDetailViewModel> = createSelector(selectedRaceStateSelector,
     s => s.selectedRace);
-export const selectedRaceBaseSelector: MemoizedSelector<object, IBase> = createSelector(selectedRaceStateSelector,
-    s => s.selectedRaceBase);
+export const loadSelectedRaceSelector: MemoizedSelector<object, IBase> = createSelector(selectedRaceStateSelector,
+    s => s.load);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService, ComponentBase } from 'src/app/shared';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -15,8 +16,9 @@ export class HomeComponent extends ComponentBase implements OnInit {
     }
 
     constructor(private formBuilder: FormBuilder,
-        private userService: UserService) {
-        super();
+        userService: UserService,
+        router: Router) {
+        super(userService, router);
     }
 
     ngOnInit(): void {
