@@ -1,52 +1,57 @@
-<form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick()" role="form">
-    <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
-            !addRaceForm.get('name').valid }">
-        <label class="col-md-2 control-label" for="raceName">Name</label>
-        <div class="col-md-8">
-            <input class="form-control" id="raceName" type="text" placeholder="Name (required)" formControlName="name" />
-            <span class="help-block" *ngIf="(addRaceForm.get('name').touched || addRaceForm.get('name').dirty) && 
-                addRaceForm.get('name').errors">
-                <span *ngIf="addRaceForm.get('name').errors.required">
-                    Please enter a name.
-                </span>
-            </span>
-        </div>
-    </div>
-
-    <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) &&
-        !addRaceForm.get('checkCoordinates').valid }">
-        <div class="col-md-offset-1 col-md-8 checkbox">
-            <label>
-                <input id="checkCoordinates" type="checkbox" formControlName="checkCoordinates">
-                Check coordinates
-                <span class="help-block" *ngIf="(addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) && 
-                addRaceForm.get('checkCoordinates').errors">
-                    <span *ngIf="addRaceForm.get('checkCoordinates').errors.required">
-                        Please enter check coordinates checkbox.
+<p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#AddRace" role="button" aria-expanded="false" aria-controls="AddRace">
+        Add race
+    </a>
+</p>
+<div class="collapse" id="AddRace">
+    <form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick()" role="form">
+        <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
+                !addRaceForm.get('name').valid }">
+            <label class="control-label" for="raceName">Name</label>
+                <input class="form-control" id="raceName" type="text" placeholder="Name (required)" formControlName="name" />
+                <span class="help-block" *ngIf="(addRaceForm.get('name').touched || addRaceForm.get('name').dirty) && 
+                    addRaceForm.get('name').errors">
+                    <span *ngIf="addRaceForm.get('name').errors.required">
+                        Please enter a name.
                     </span>
                 </span>
-            </label>
         </div>
-    </div>
 
-    <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('specialTasksAreStage').touched || addRaceForm.get('specialTasksAreStage').dirty) &&
-        !addRaceForm.get('specialTasksAreStage').valid }">
-        <div class="col-md-offset-1 col-md-8 checkbox">
-            <label>
-                <input id="specialTasksAreStage" type="checkbox" formControlName="specialTasksAreStage">
-                Special tasks are a stage
-                <span class="help-block" *ngIf="(addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) && 
+        <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) &&
+            !addRaceForm.get('checkCoordinates').valid }">
+            <div class="checkbox">
+                <label>
+                    <input id="checkCoordinates" type="checkbox" formControlName="checkCoordinates">
+                    Check coordinates
+                    <span class="help-block" *ngIf="(addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) && 
                     addRaceForm.get('checkCoordinates').errors">
-                    <span *ngIf="addRaceForm.get('checkCoordinates').errors.required">
-                        Please enter check coordinates checkbox.
+                        <span *ngIf="addRaceForm.get('checkCoordinates').errors.required">
+                            Please enter check coordinates checkbox.
+                        </span>
                     </span>
-                </span>
-            </label>
+                </label>
+            </div>
         </div>
-    </div>
 
-    <button type="submit" [disabled]="(addBase$ | async).isActive">Add race</button>
-</form>
-<div *ngIf="(addBase$ | async).isActive">
-    Adding race.
+        <div class="form-group" [ngClass]="{'has-error': (addRaceForm.get('specialTasksAreStage').touched || addRaceForm.get('specialTasksAreStage').dirty) &&
+            !addRaceForm.get('specialTasksAreStage').valid }">
+            <div class="checkbox">
+                <label>
+                    <input id="specialTasksAreStage" type="checkbox" formControlName="specialTasksAreStage">
+                    Special tasks are a stage
+                    <span class="help-block" *ngIf="(addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) && 
+                        addRaceForm.get('checkCoordinates').errors">
+                        <span *ngIf="addRaceForm.get('checkCoordinates').errors.required">
+                            Please enter check coordinates checkbox.
+                        </span>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="(addBase$ | async).isActive">Add race</button>
+    </form>
+    <div *ngIf="(addBase$ | async).isActive">
+        Adding race.
+    </div>
 </div>

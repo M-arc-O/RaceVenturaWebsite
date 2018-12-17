@@ -13,6 +13,7 @@ import { IBase } from 'src/app/store/base.interface';
 @Component({
     selector: 'app-race-overview',
     templateUrl: './race-overview.component.html',
+    styleUrls: ['./race-overview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RaceOverviewComponent extends ComponentBase implements OnInit {

@@ -1,16 +1,25 @@
-<h2>Races Overview</h2>
-
-<app-add-race *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"></app-add-race>
-
-<div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
-    <ul *ngIf="(loadRacesBase$ | async).success">
-        <li *ngFor="let race of races$ | async" (click)="detailsClicked(race)">{{race.name}}</li>
-    </ul>
+<div class="row">
+    <app-add-race *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"></app-add-race>
 </div>
-<ng-template #racesLoading>
-    Table is loading.
-</ng-template>
 
-<div *ngIf="selectedRace">
+<div class="row pt-2">
+    <h5>Races</h5>
+</div>
+
+<div class="row pt-1">
+    <div class="col-md-6 race-list">
+        <div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
+            <div *ngIf="(loadRacesBase$ | async).success" class="list-group">
+                <a *ngFor="let race of races$ | async" class="list-group-item list-group-item-action" href="javascript:void(0)"
+                    (click)="detailsClicked(race)" [ngClass]="{'active': race === selectedRace}">{{race.name}}</a>
+            </div>
+        </div>
+    </div>
+    <ng-template #racesLoading>
+        Table is loading.
+    </ng-template>
+</div>
+
+<div *ngIf="selectedRace" class="row pt-2">
     <app-race-details [raceId]="selectedRace.id"></app-race-details>
 </div>

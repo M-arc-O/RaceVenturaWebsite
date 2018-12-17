@@ -1,39 +1,36 @@
-<h2>Home</h2>
-<div *ngIf="!loggedIn; else logout">
-    <form *ngIf="loginForm" [formGroup]="loginForm" (submit)="loginButtonClick()" role="form">
-        <div class="form-group" [ngClass]="{'has-error': (loginForm.get('email').touched || loginForm.get('email').dirty) &&
-                                      !loginForm.get('email').valid }">
-            <label class="col-md-2 control-label" for="emailId">First Name</label>
-            <div class="col-md-8">
+<div class="row">
+    <div *ngIf="!loggedIn; else logout">
+        <form *ngIf="loginForm" [formGroup]="loginForm" (submit)="loginButtonClick()" role="form">
+            <div class="form-group" [ngClass]="{'has-error': (loginForm.get('email').touched || loginForm.get('email').dirty) &&
+                                                      !loginForm.get('email').valid }">
+                <label class="control-label" for="emailId">First Name</label>
                 <input class="form-control" id="emailId" type="text" placeholder="Email (required)" formControlName="email" />
                 <span class="help-block" *ngIf="(loginForm.get('email').touched || loginForm.get('email').dirty) && 
-                loginForm.get('email').errors">
+                                loginForm.get('email').errors">
                     <span *ngIf="loginForm.get('email').errors.required">
                         Please enter your email address.
                     </span>
                 </span>
             </div>
-        </div>
 
-        <div class="form-group" [ngClass]="{'has-error': (loginForm.get('password').touched || loginForm.get('password').dirty) &&
-                                      !loginForm.get('password').valid }">
-            <label class="col-md-2 control-label" for="passwordId">Password</label>
-            <div class="col-md-8">
+            <div class="form-group" [ngClass]="{'has-error': (loginForm.get('password').touched || loginForm.get('password').dirty) &&
+                                                      !loginForm.get('password').valid }">
+                <label class="control-label" for="passwordId">Password</label>
                 <input class="form-control" id="passwordId" type="password" formControlName="password" />
                 <span class="help-block" *ngIf="(loginForm.get('password').touched || loginForm.get('password').dirty) && 
-                loginForm.get('password').errors">
+                                loginForm.get('password').errors">
                     <span *ngIf="loginForm.get('password').errors.required">
                         Please enter your password.
                     </span>
                 </span>
             </div>
-        </div>
-        <button type="submit">Login</button>
-        <div *ngIf="loginError">
-            Wrong email adres or password.
-        </div>
-    </form>
+            <button type="submit">Login</button>
+            <div *ngIf="loginError">
+                Wrong email adres or password.
+            </div>
+        </form>
+    </div>
+    <ng-template #logout>
+        <button type="button" (click)="logoutClicked()">Logout</button>
+    </ng-template>
 </div>
-<ng-template #logout>
-    <button type="button" (click)="logoutClicked()">Logout</button>
-</ng-template>

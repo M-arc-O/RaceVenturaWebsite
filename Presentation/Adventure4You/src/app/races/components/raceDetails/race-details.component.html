@@ -1,19 +1,17 @@
-<h2>Race details</h2>
 <div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
-    <table>
-        <tr>
-            <td>Name:</td>
-            <td>{{(raceDetails$ | async).name}}</td>
-        </tr>
-        <tr>
-            <td>Coordinates are checked:</td>
-            <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-        </tr>
-        <tr>
-            <td>Special tasks are a stage:</td>
-            <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
-        </tr>
-    </table>
+    <h5>{{(raceDetails$ | async).name}} details</h5>
+    <div class="pl-2">
+        <table>
+            <tr>
+                <td>Coordinates are checked:</td>
+                <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
+            </tr>
+            <tr>
+                <td>Special tasks are a stage:</td>
+                <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
+            </tr>
+        </table>
+    </div>
 </div>
 <div *ngIf="(raceDetailsLoad$ | async).error">
     Error while loading race details.
