@@ -8,6 +8,7 @@ using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
 using Adventure4You.ViewModels.Races;
 using System.Threading;
+using Adventure4You.ViewModels;
 
 namespace Adventure4You.Controllers
 {
@@ -27,8 +28,6 @@ namespace Adventure4You.Controllers
         [Route("getallraces")]
         public ActionResult<List<RaceViewModel>> GetAllRaces()
         {
-            Thread.Sleep(1000);
-
             var retVal = new List<RaceViewModel>();
 
             foreach (var race in _Context.Races)
@@ -43,43 +42,41 @@ namespace Adventure4You.Controllers
         [Route("addRace")]
         public ActionResult<RaceViewModel> AddRace([FromBody]AddRaceViewModel viewModel)
         {
-            Thread.Sleep(1000);
-
             var id = User.FindFirst("id")?.Value;
-            var race = new Race
-            {
-                Name = viewModel.Name,
-                CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled,
-                SpecialTasksAreStage = viewModel.SpecialTasksAreStage
-            };
+            var raceModel = viewModel.ToRaceModel();
 
             try
             {
-                _Context.Races.Add(race);
-                _Context.SaveChanges();
-
-                _Context.UserLinks.Add(new UserLink
+                if (!_Context.Races.Any(race => race.Name.Equals(raceModel.Name)))
                 {
-                    RaceId = race.Id,
-                    UserId = id
-                });
+                    _Context.Races.Add(raceModel);
+                    _Context.SaveChanges();
 
-                _Context.SaveChanges();
+                    _Context.UserLinks.Add(new UserLink
+                    {
+                        RaceId = raceModel.Id,
+                        UserId = id
+                    });
+
+                    _Context.SaveChanges();
+                }
+                else
+                {
+                    return BadRequest(ErrorCodes.Duplicate);
+                }
             }
             catch
             {
                 return StatusCode(500);
             }
 
-            return Ok(new RaceViewModel(race));
+            return Ok(new RaceViewModel(raceModel));
         }
 
         [HttpGet()]
         [Route("getracedetails")]
         public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
         {
-            Thread.Sleep(1000);
-
             var id = User.FindFirst("id")?.Value;
 
             if (_Context.UserLinks.FirstOrDefault(link => link.UserId.Equals(id) && link.RaceId == raceId) != null)

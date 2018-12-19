@@ -24,7 +24,8 @@ CREATE TABLE Races (
 
 CREATE TABLE Stages (
 	Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	Name NVARCHAR(255) NOT NULL	
+	Name NVARCHAR(255) NOT NULL,
+	MimimumPointsToCompleteStage INT,
 );
 
 CREATE TABLE StageLinks (

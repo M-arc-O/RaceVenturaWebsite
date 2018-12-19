@@ -21,10 +21,10 @@ namespace Adventure4You.Models
         public bool SpecialTasksAreStage { get; set; }
 
         [Required]
-        public int MaximumTeamSize { get; internal set; }
+        public int MaximumTeamSize { get; set; }
 
         [Required]
-        public int MimimumPointsToCompleteStage { get; internal set; }
+        public int MimimumPointsToCompleteStage { get; set; }
 
         public DateTime StartTime { get; set; }
 

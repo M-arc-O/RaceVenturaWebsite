@@ -17,6 +17,8 @@ namespace Adventure4You.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
+        public int? MimimumPointsToCompleteStage { get; set; }
+
         public Stage()
         {
 

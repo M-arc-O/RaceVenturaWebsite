@@ -1,15 +1,31 @@
 <div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
     <h5>{{(raceDetails$ | async).name}} details</h5>
-    <div class="pl-2">
-        <table>
-            <tr>
-                <td>Coordinates are checked:</td>
-                <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-            </tr>
-            <tr>
-                <td>Special tasks are a stage:</td>
-                <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
-            </tr>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Check GPS coordinates</th>
+                    <th scope="col">Spezial tasks are a stage</th>
+                    <th scope="col">Maximum team size</th>
+                    <th scope="col">Minumum points to complete stage</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">End date</th>
+                    <th scope="col">End time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{(raceDetails$ | async).name}}</td>
+                    <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
+                    <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
+                    <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
+                    <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
+                    <td>{{(raceDetails$ | async).startDate}}</td>
+                    <td>{{(raceDetails$ | async).endDate}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

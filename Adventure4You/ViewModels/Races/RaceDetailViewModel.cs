@@ -8,6 +8,7 @@ namespace Adventure4You.ViewModels.Races
         public bool CoordinatesCheckEnabled { get; set; }
         public bool SpecialTasksAreStage { get; set; }
         public int MaximumTeamSize { get; set; }
+        public int MinimumPointsToCompleteStage { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
@@ -16,6 +17,7 @@ namespace Adventure4You.ViewModels.Races
             CoordinatesCheckEnabled = race.CoordinatesCheckEnabled;
             SpecialTasksAreStage = race.SpecialTasksAreStage;
             MaximumTeamSize = race.MaximumTeamSize;
+            MinimumPointsToCompleteStage = race.MimimumPointsToCompleteStage;
             StartTime = race.StartTime;
             EndTime = race.EndTime;
         }
