@@ -19,23 +19,29 @@ export class RacesEffects {
         ofType(RaceActions.LOAD_RACES),
         switchMap(() => this.raceService.getRaces()),
         map(races => new racesActions.LoadRacesSuccesAction(races)),
-        catchError((error: Response) => {
-            return of(new racesActions.LoadRacesErrorAction({ error: error }));
-        }));
+        catchError((error: Response) => of(new racesActions.LoadRacesErrorAction({ error: error }))));
 
     @Effect() addRace$ = this.actions$.pipe(
         ofType(RaceActions.ADD_RACE),
         switchMap(action => this.raceService.addRace((action as racesActions.AddRaceAction).payload)),
         map(race => new racesActions.AddRaceSuccesAction(race)),
-        catchError((error: Response) => {
-            return of(new racesActions.AddRaceErrorAction({ error: error }));
-        }));
+        catchError((error: Response) => of(new racesActions.AddRaceErrorAction({ error: error }))));
+
+    @Effect() deleteRace$ = this.actions$.pipe(
+        ofType(RaceActions.DELETE_RACE),
+        switchMap(action => this.raceService.deleteRace((action as racesActions.DeleteRaceAction).payload)),
+        map(id => new racesActions.DeleteRaceSuccesAction(id)),
+        catchError((error: Response) => of(new racesActions.DeleteRaceErrorAction({ error: error }))));
 
     @Effect() loadRaceDetails$ = this.actions$.pipe(
         ofType(RaceActions.LOAD_RACE_DETAILS),
         switchMap(action => this.raceService.getRaceDetails((action as racesActions.LoadRaceDetailsAction).payload)),
         map(raceDetails => new racesActions.LoadRaceDetailsSuccesAction(raceDetails)),
-        catchError((error: Response) => {
-            return of(new racesActions.LoadRaceDetailsErrorAction({ error: error }));
-        }));
+        catchError((error: Response) => of(new racesActions.LoadRaceDetailsErrorAction({ error: error }))));
+
+    @Effect() editRace$ = this.actions$.pipe(
+        ofType(RaceActions.EDIT_RACE),
+        switchMap(action => this.raceService.editRace((action as racesActions.EditRaceAction).payload)),
+        map(race => new racesActions.EditRaceSuccesAction(race)),
+        catchError((error: Response) => of(new racesActions.EditRaceErrorAction({ error: error }))));
 }

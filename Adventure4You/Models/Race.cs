@@ -24,7 +24,7 @@ namespace Adventure4You.Models
         public int MaximumTeamSize { get; set; }
 
         [Required]
-        public int MimimumPointsToCompleteStage { get; set; }
+        public int MinimumPointsToCompleteStage { get; set; }
 
         public DateTime StartTime { get; set; }
 

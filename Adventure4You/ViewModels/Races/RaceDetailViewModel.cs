@@ -12,14 +12,34 @@ namespace Adventure4You.ViewModels.Races
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
+        public RaceDetailViewModel()
+        {
+
+        }
+
         public RaceDetailViewModel(Race race) : base(race)
         {
             CoordinatesCheckEnabled = race.CoordinatesCheckEnabled;
             SpecialTasksAreStage = race.SpecialTasksAreStage;
             MaximumTeamSize = race.MaximumTeamSize;
-            MinimumPointsToCompleteStage = race.MimimumPointsToCompleteStage;
+            MinimumPointsToCompleteStage = race.MinimumPointsToCompleteStage;
             StartTime = race.StartTime;
             EndTime = race.EndTime;
+        }
+
+        public virtual Race ToRaceModel()
+        {
+            return new Race
+            {
+                Id = this.Id,
+                Name = this.Name,
+                CoordinatesCheckEnabled = this.CoordinatesCheckEnabled,
+                SpecialTasksAreStage = this.SpecialTasksAreStage,
+                MaximumTeamSize = this.MaximumTeamSize,
+                MinimumPointsToCompleteStage = this.MinimumPointsToCompleteStage,
+                StartTime = this.StartTime,
+                EndTime = this.EndTime
+            };
         }
     }
 }

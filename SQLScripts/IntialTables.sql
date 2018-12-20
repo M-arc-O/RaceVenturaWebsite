@@ -17,7 +17,7 @@ CREATE TABLE Races (
     CoordinatesCheckEnabled BIT NOT NULL,
 	SpecialTasksAreStage BIT NOT NULL,
 	MaximumTeamSize INT NOT NULL,
-	MimimumPointsToCompleteStage INT NOT NULL,
+	MinimumPointsToCompleteStage INT NOT NULL,
 	StartTime DATETIME2,
 	EndTime DATETIME2
 );

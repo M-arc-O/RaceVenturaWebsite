@@ -10,6 +10,10 @@ export function racesReducer(state: RaceViewModel[], action: racesActions.RaceAc
             state.push(action.payload);
             return Object.assign([], state);
         }
+        case racesActions.RaceActions.DELETE_RACE_SUCCES: {
+            state.splice(state.findIndex(item => item.id === action.payload));
+            return Object.assign([], state);
+        }
         default: {
             return state;
         }

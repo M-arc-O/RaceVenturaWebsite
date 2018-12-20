@@ -7,19 +7,21 @@ import { ISelectedRace } from '../selectedRace.interface';
 import { createBaseReducer } from 'src/app/store/base.reducer';
 import { RaceActions } from '../actions/race.actions';
 
-export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>> {
+export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>>{
     races: racesReducer,
     load: createBaseReducer(RaceActions.LOAD_RACES, RaceActions.LOAD_RACES_SUCCES, RaceActions.LOAD_RACES_ERROR),
-    add: createBaseReducer(RaceActions.ADD_RACE, RaceActions.ADD_RACE_SUCCES, RaceActions.ADD_RACE_ERROR)
+    add: createBaseReducer(RaceActions.ADD_RACE, RaceActions.ADD_RACE_SUCCES, RaceActions.ADD_RACE_ERROR),
+    delete: createBaseReducer(RaceActions.DELETE_RACE, RaceActions.DELETE_RACE_SUCCES, RaceActions.DELETE_RACE_ERROR)
 });
 
-export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISelectedRace>> {
+export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISelectedRace>>{
     selectedRace: selectedRaceReducer,
     load: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
-        RaceActions.LOAD_RACE_DETAILS_ERROR)
+        RaceActions.LOAD_RACE_DETAILS_ERROR),
+    edit: createBaseReducer(RaceActions.EDIT_RACE, RaceActions.EDIT_RACE_SUCCES, RaceActions.EDIT_RACE_ERROR, RaceActions.LOAD_RACES)
 });
 
-export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>> {
+export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{
     races: racesCombinedReducers,
     selectedRace: selectedRaceCombinedReducer
 });

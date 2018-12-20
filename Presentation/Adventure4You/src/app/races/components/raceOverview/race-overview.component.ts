@@ -4,11 +4,11 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
-import { RaceViewModel } from '../../shared/';
-import * as racesActions from '../../store/actions/race.actions';
-import { loadRaceSelector, racesSelector } from '../../store/races.interface';
-import { IRacesState } from '../../store/racesState.interface';
 import { IBase } from 'src/app/store/base.interface';
+import { RaceViewModel } from '../../shared/';
+import { deleteRaceSelector, IRacesState, loadRaceSelector, racesSelector } from '../../store';
+import * as racesActions from '../../store/actions/race.actions';
+import { AddEditType } from '../addRace/add-edit-type';
 
 @Component({
     selector: 'app-race-overview',
@@ -19,7 +19,9 @@ import { IBase } from 'src/app/store/base.interface';
 export class RaceOverviewComponent extends ComponentBase implements OnInit {
     public races$: Observable<RaceViewModel[]>;
     public loadRacesBase$: Observable<IBase>;
+    public deleteRacesBase$: Observable<IBase>;
     public selectedRace: RaceViewModel;
+    public addEditType = AddEditType;
 
     constructor(
         private store: Store<IRacesState>,
@@ -28,6 +30,7 @@ export class RaceOverviewComponent extends ComponentBase implements OnInit {
         super(userService, router);
         this.races$ = this.store.pipe(select(racesSelector));
         this.loadRacesBase$ = this.store.pipe(select(loadRaceSelector));
+        this.deleteRacesBase$ = this.store.pipe(select(deleteRaceSelector));
     }
 
     ngOnInit(): void {
@@ -36,6 +39,17 @@ export class RaceOverviewComponent extends ComponentBase implements OnInit {
                 this.handleError(base.error);
             }
         });
+
+        this.deleteRacesBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+            if (base !== undefined && base.success) {
+                this.selectedRace = undefined;
+            }
+
+            if (base !== undefined && base.error !== undefined) {
+                this.handleError(base.error);
+            }
+        });
+
         this.getRaces();
     }
 

@@ -6,6 +6,9 @@ export function selectedRaceReducer(state: RaceDetailViewModel, action: racesAct
         case racesActions.RaceActions.LOAD_RACE_DETAILS_SUCCES: {
             return action.payload;
         }
+        case racesActions.RaceActions.EDIT_RACE_SUCCES: {
+            return action.payload;
+        }
         default: {
             return state;
         }

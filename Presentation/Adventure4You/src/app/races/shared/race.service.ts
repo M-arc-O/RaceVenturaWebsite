@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Headers, Http, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { RaceViewModel } from './';
+import { catchError, map } from 'rxjs/operators';
 import { ConfigurationService, UserService } from 'src/app/shared';
-import { AddRaceViewModel } from './models/add-race-view-model';
+import { RaceViewModel } from './';
 import { RaceDetailViewModel } from './models/race-detail-view-model';
-import { stringify } from '@angular/core/src/util';
 
 @Injectable()
 export class RaceService {
@@ -19,36 +17,40 @@ export class RaceService {
 
     public getRaces(): Observable<RaceViewModel[]> {
         return this.http.get(`${this.baseUrl}/getallraces`, this.getHttpOptions()).pipe(
-            map((res: Response) => {
-                return <RaceViewModel[]>res.json();
-            }),
-            catchError(error => {
-                return throwError(error);
-            }));
+            map((res: Response) => <RaceViewModel[]>res.json()),
+            catchError(error => throwError(error)));
     }
 
-    public addRace(viewModel: AddRaceViewModel): Observable<RaceViewModel> {
+    public addRace(viewModel: RaceDetailViewModel): Observable<RaceViewModel> {
         const body = JSON.stringify(viewModel);
 
         return this.http.post(`${this.baseUrl}/addrace`, body, this.getHttpOptions()).pipe(
-            map((res: Response) => {
-                return <RaceViewModel>res.json();
-            }),
-            catchError(error => {
-                return throwError(error);
-            }));
+            map((res: Response) => <RaceViewModel>res.json()),
+            catchError(error => throwError(error)));
+    }
+
+    public deleteRace(id: number): Observable<number> {
+        const body = JSON.stringify(id);
+
+        return this.http.post(`${this.baseUrl}/deleterace`, body, this.getHttpOptions()).pipe(
+            map((res: Response) => <number>res.json()),
+            catchError(error => throwError(error)));
     }
 
     public getRaceDetails(raceId: number): Observable<RaceDetailViewModel> {
         const idHeader = { key: 'raceId', value: raceId.toString() };
 
         return this.http.get(`${this.baseUrl}/getracedetails`, this.getHttpOptions(idHeader)).pipe(
-            map((res: Response) => {
-                return <RaceDetailViewModel>res.json();
-            }),
-            catchError(error => {
-                return throwError(error);
-            }));
+            map((res: Response) => <RaceDetailViewModel>res.json()),
+            catchError(error => throwError(error)));
+    }
+
+    public editRace(viewModel: RaceDetailViewModel): Observable<RaceDetailViewModel> {
+        const body = JSON.stringify(viewModel);
+
+        return this.http.post(`${this.baseUrl}/editrace`, body, this.getHttpOptions()).pipe(
+            map((res: Response) => <RaceDetailViewModel>res.json()),
+            catchError(error => throwError(error)));
     }
 
     private getHttpOptions(additionalHeader?: { key: string, value: string }): RequestOptions {

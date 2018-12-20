@@ -40,14 +40,14 @@ namespace Adventure4You.Controllers
 
         [HttpPost]
         [Route("addRace")]
-        public ActionResult<RaceViewModel> AddRace([FromBody]AddRaceViewModel viewModel)
+        public ActionResult<RaceViewModel> AddRace([FromBody]RaceDetailViewModel viewModel)
         {
-            var id = User.FindFirst("id")?.Value;
+            var id = GetUserId();
             var raceModel = viewModel.ToRaceModel();
 
             try
             {
-                if (!_Context.Races.Any(race => race.Name.Equals(raceModel.Name)))
+                if (!CheckIfRaceNameIsTaken(raceModel.Name))
                 {
                     _Context.Races.Add(raceModel);
                     _Context.SaveChanges();
@@ -73,13 +73,99 @@ namespace Adventure4You.Controllers
             return Ok(new RaceViewModel(raceModel));
         }
 
+        [HttpPost]
+        [Route("deleterace")]
+        public ActionResult<RaceDetailViewModel> DeleteRace([FromBody]int raceId)
+        {
+            var id = GetUserId();
+
+            var raceModel = new Race();
+            try
+            {
+                raceModel = GetRaceModel(raceId);
+
+                if (raceModel != null)
+                {
+                    var userLink = CheckIfUserHasAccessToRace(id, raceModel.Id);
+                    if (userLink == null)
+                    {
+                        return BadRequest(ErrorCodes.UserUnauthorized);
+                    }
+                    else
+                    {
+                        _Context.UserLinks.Remove(userLink);
+                    }
+
+                    _Context.Races.Remove(raceModel);
+
+                    _Context.SaveChanges();
+                }
+                else
+                {
+                    return BadRequest(ErrorCodes.UnknownRace);
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(raceId);
+        }
+
+        [HttpPost]
+        [Route("editrace")]
+        public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
+        {
+            var id = GetUserId();
+
+            var raceModel = new Race();
+            try
+            {
+                raceModel = GetRaceModel(viewModel.Id);
+
+                if (raceModel != null)
+                {
+                    if (CheckIfUserHasAccessToRace(id, raceModel.Id) == null)
+                    {
+                        return BadRequest(ErrorCodes.UserUnauthorized);
+                    }
+                    if (!CheckIfRaceNameIsTaken(viewModel.Name))
+                    {
+                        raceModel.Name = viewModel.Name;
+                        raceModel.CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled;
+                        raceModel.SpecialTasksAreStage = viewModel.SpecialTasksAreStage;
+                        raceModel.MaximumTeamSize = viewModel.MaximumTeamSize;
+                        raceModel.MinimumPointsToCompleteStage = viewModel.MinimumPointsToCompleteStage;
+                        raceModel.StartTime = viewModel.StartTime;
+                        raceModel.EndTime = viewModel.EndTime;
+                        _Context.SaveChanges();
+                    }
+                    else
+                    {
+                        return BadRequest(ErrorCodes.Duplicate);
+                    }
+                }
+                else
+                {
+                    return BadRequest(ErrorCodes.UnknownRace);
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(new RaceDetailViewModel(raceModel));
+        }
+
         [HttpGet()]
         [Route("getracedetails")]
         public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
         {
-            var id = User.FindFirst("id")?.Value;
+            var id = GetUserId();
 
-            if (_Context.UserLinks.FirstOrDefault(link => link.UserId.Equals(id) && link.RaceId == raceId) != null)
+            if (CheckIfUserHasAccessToRace(id, raceId) != null)
             {
                 var race = _Context.Races.First(model => model.Id == raceId);
 
@@ -87,6 +173,26 @@ namespace Adventure4You.Controllers
             }
 
             return NotFound();
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirst("id")?.Value;
+        }
+
+        private Race GetRaceModel(int raceId)
+        {
+            return _Context.Races.FirstOrDefault(race => race.Id == raceId);
+        }
+
+        private UserLink CheckIfUserHasAccessToRace(string userId, int raceId)
+        {
+            return _Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId);
+        }
+
+        private bool CheckIfRaceNameIsTaken(string name)
+        {
+            return _Context.Races.Any(race => race.Name.Equals(name));
         }
     }
 }

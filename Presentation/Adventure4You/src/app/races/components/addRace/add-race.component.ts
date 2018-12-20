@@ -1,26 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { AddRaceViewModel } from '../../shared/models/add-race-view-model';
+import { RaceDetailViewModel } from '../../shared';
+import { addRaceSelector, editSelectedRaceSelector, IRacesState } from '../../store';
 import * as racesActions from '../../store/actions/race.actions';
-import { addRaceSelector } from '../../store/races.interface';
-import { IRacesState } from '../../store/racesState.interface';
-import { RaceUtilities } from '../../shared';
+import { AddEditType } from './add-edit-type';
 
 @Component({
     selector: 'app-add-race',
     templateUrl: './add-race.component.html'
 })
-export class AddRaceComponent extends ComponentBase implements OnInit {
+export class AddRaceComponent extends ComponentBase implements OnInit, OnChanges {
+    @Input() public type: AddEditType;
+    @Input() public details: RaceDetailViewModel;
+
+    public addEditType = AddEditType;
+
     private addRaceNgForm: NgForm;
 
     public addRaceForm: FormGroup;
     public addBase$: Observable<IBase>;
+    public editBase$: Observable<IBase>;
 
     constructor(
         private store: Store<IRacesState>,
@@ -28,19 +33,70 @@ export class AddRaceComponent extends ComponentBase implements OnInit {
         router: Router) {
         super(userService, router);
         this.addBase$ = this.store.pipe(select(addRaceSelector));
+        this.editBase$ = this.store.pipe(select(editSelectedRaceSelector));
     }
 
     public ngOnInit(): void {
-        this.addRaceForm = RaceUtilities.setupForm();
         this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base.success) {
+            if (base !== undefined && base.success) {
                 this.resetForm();
             }
 
             if (base !== undefined && base.error !== undefined) {
-                console.log(base.error.json());
                 this.handleError(base.error);
             }
+        });
+
+        this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+            if (base !== undefined && base.success) {
+                this.store.dispatch(new racesActions.LoadRacesAction());
+            }
+
+            if (base !== undefined && base.error !== undefined) {
+                this.handleError(base.error);
+            }
+        });
+    }
+
+    public ngOnChanges(): void {
+        this.setupForm(this.details);
+    }
+
+    private setupForm(details?: RaceDetailViewModel): void {
+        const formBuilder = new FormBuilder();
+
+        let name = '';
+        let checkCoordinates = false;
+        let specialTasksAreStage = false;
+        let maximumTeamSize;
+        let minimumPointsToCompleteStage;
+        let startDate;
+        let startTime;
+        let endDate;
+        let endTime;
+
+        if (details !== undefined) {
+            name = details.name;
+            checkCoordinates = details.coordinatesCheckEnabled;
+            specialTasksAreStage = details.specialTasksAreStage;
+            maximumTeamSize = details.maximumTeamSize;
+            minimumPointsToCompleteStage = details.minimumPointsToCompleteStage;
+            startDate = undefined;
+            startTime = undefined;
+            endDate = undefined;
+            endTime = undefined;
+        }
+
+        this.addRaceForm = formBuilder.group({
+            name: [name, [Validators.required]],
+            checkCoordinates: [checkCoordinates],
+            specialTasksAreStage: [specialTasksAreStage],
+            maximumTeamSize: [maximumTeamSize, [Validators.required]],
+            minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
+            startDate: [startDate],
+            startTime: [startTime],
+            endDate: [endDate],
+            endTime: [endTime],
         });
     }
 
@@ -48,7 +104,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit {
         if (this.addRaceForm.valid) {
             this.addRaceNgForm = ngFrom;
 
-            const viewModel = new AddRaceViewModel();
+            const viewModel = new RaceDetailViewModel();
             viewModel.name = this.addRaceForm.get('name').value;
             viewModel.coordinatesCheckEnabled = this.addRaceForm.get('checkCoordinates').value;
             viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
@@ -57,14 +113,26 @@ export class AddRaceComponent extends ComponentBase implements OnInit {
             viewModel.startTime = undefined;
             viewModel.endTime = undefined;
 
-            this.store.dispatch(new racesActions.AddRaceAction(viewModel));
+            switch (this.type) {
+                case AddEditType.Add:
+                    console.log('Add race action dispatched');
+                    this.store.dispatch(new racesActions.AddRaceAction(viewModel));
+                    break;
+                case AddEditType.Edit:
+                    console.log('Edit race action dispatched');
+                    viewModel.id = this.details.id;
+                    this.store.dispatch(new racesActions.EditRaceAction(viewModel));
+                    break;
+            }
         } else {
             this.validateAllFormFields(this.addRaceForm);
         }
     }
 
     private resetForm(): void {
-        this.addRaceForm.reset();
-        this.addRaceNgForm.resetForm();
+        if (this.addRaceNgForm !== undefined) {
+            this.addRaceNgForm.resetForm();
+            this.addRaceForm.reset();
+        }
     }
 }

@@ -1,5 +1,6 @@
 <div class="row">
-    <app-add-race *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"></app-add-race>
+    <app-add-race *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"
+    [type]="addEditType.Add"></app-add-race>
 </div>
 
 <div class="row pt-2">
@@ -7,7 +8,7 @@
 </div>
 
 <div class="row pt-1">
-    <div class="col-md-6 race-list">
+    <div class="col-5 race-list">
         <div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
             <div *ngIf="(loadRacesBase$ | async).success" class="list-group">
                 <a *ngFor="let race of races$ | async" class="list-group-item list-group-item-action" href="javascript:void(0)"

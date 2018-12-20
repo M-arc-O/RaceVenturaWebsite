@@ -5,11 +5,10 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { RaceDetailViewModel, RaceUtilities } from '../../shared';
+import { RaceDetailViewModel } from '../../shared';
 import * as raceActions from '../../store/actions/race.actions';
-import { IRacesState } from '../../store/racesState.interface';
-import { loadSelectedRaceSelector, selectedRaceSelector } from '../../store/selectedRace.interface';
-import { FormGroup } from '@angular/forms';
+import { AddEditType } from '../addRace/add-edit-type';
+import { IRacesState, selectedRaceSelector, loadSelectedRaceSelector } from '../../store';
 
 @Component({
     selector: 'app-race-details',
@@ -21,7 +20,7 @@ export class RaceDetailsComponent extends ComponentBase implements OnInit, OnCha
     public raceDetails$: Observable<RaceDetailViewModel>;
     public raceDetailsLoad$: Observable<IBase>;
 
-    public editRaceForm: FormGroup;
+    public addEditType = AddEditType;
 
     constructor(private store: Store<IRacesState>,
         userService: UserService,
@@ -31,9 +30,7 @@ export class RaceDetailsComponent extends ComponentBase implements OnInit, OnCha
         this.raceDetailsLoad$ = this.store.pipe(select(loadSelectedRaceSelector));
     }
 
-    ngOnInit(): void {
-        this.raceDetails$.pipe(takeUntil(this.unsubscribe$)).subscribe(details => RaceUtilities.setupForm(details));
-
+    public ngOnInit(): void {
         this.raceDetailsLoad$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
@@ -41,7 +38,11 @@ export class RaceDetailsComponent extends ComponentBase implements OnInit, OnCha
         });
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         this.store.dispatch(new raceActions.LoadRaceDetailsAction(this.raceId));
+    }
+
+    public RemoveRaceClicked(): void {
+        this.store.dispatch(new raceActions.DeleteRaceAction(this.raceId));
     }
 }

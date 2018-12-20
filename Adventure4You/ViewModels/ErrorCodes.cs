@@ -8,5 +8,7 @@ namespace Adventure4You.ViewModels
     public enum ErrorCodes
     {
         Duplicate = 0,
+        UserUnauthorized = 1,
+        UnknownRace = 2,
     }
 }
