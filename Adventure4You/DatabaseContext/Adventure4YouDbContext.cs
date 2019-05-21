@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adventure4You.DatabaseContext
 {
-    public class Adventure4YouDbContext: IdentityDbContext<AppUser>
+    public class Adventure4YouDbContext : IdentityDbContext<AppUser>, IAdventure4YouDbContext
     {
-        public Adventure4YouDbContext(DbContextOptions<Adventure4YouDbContext> options) 
+        public Adventure4YouDbContext(DbContextOptions<Adventure4YouDbContext> options)
             : base(options)
         {
         }

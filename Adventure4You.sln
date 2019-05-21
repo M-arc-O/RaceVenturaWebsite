@@ -1,8 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2046
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4You", "Adventure4You\Adventure4You.csproj", "{7E7C7084-D773-4714-965F-3397657A2997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4You", "Adventure4You\Adventure4You.csproj", "{C6B34A5C-AA5A-4215-81AC-78CABF325070}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouAPI", "Adventure4YouAPI\Adventure4YouAPI.csproj", "{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,10 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7E7C7084-D773-4714-965F-3397657A2997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E7C7084-D773-4714-965F-3397657A2997}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E7C7084-D773-4714-965F-3397657A2997}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E7C7084-D773-4714-965F-3397657A2997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B34A5C-AA5A-4215-81AC-78CABF325070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B34A5C-AA5A-4215-81AC-78CABF325070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B34A5C-AA5A-4215-81AC-78CABF325070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B34A5C-AA5A-4215-81AC-78CABF325070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
