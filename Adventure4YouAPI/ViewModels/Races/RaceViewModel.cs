@@ -10,11 +10,5 @@ namespace Adventure4YouAPI.ViewModels.Races
         {
 
         }
-
-        public RaceViewModel(Race race)
-        {
-            Id = race.Id;
-            Name = race.Name;
-        }
     }
 }

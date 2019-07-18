@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Adventure4You.Helpers
+﻿namespace Adventure4YouAPI.Helpers
 {
     public static class Constants
     {

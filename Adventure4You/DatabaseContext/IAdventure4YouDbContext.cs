@@ -1,4 +1,7 @@
 ﻿using Adventure4You.Models;
+using Adventure4You.Models.Points;
+using Adventure4You.Models.Stages;
+using Adventure4You.Models.Teams;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adventure4You.DatabaseContext
@@ -15,5 +18,7 @@ namespace Adventure4You.DatabaseContext
         DbSet<Team> Teams { get; set; }
         DbSet<TeamStageFinished> TeamStagesFinished { get; set; }
         DbSet<UserLink> UserLinks { get; set; }
+
+        int SaveChanges();
     }
 }

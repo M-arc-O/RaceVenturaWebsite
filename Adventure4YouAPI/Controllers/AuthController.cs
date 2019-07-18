@@ -8,8 +8,9 @@ using Newtonsoft.Json;
 
 using Adventure4YouAPI.Auth;
 using Adventure4YouAPI.Helpers;
-using Adventure4YouAPI.Models.Identity;
 using Adventure4YouAPI.ViewModels.Identity;
+using Adventure4You.Models.Identity;
+using Adventure4You;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -17,13 +18,13 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
+        private readonly IAccountBL _AccountBL;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
         {
-            _userManager = userManager;
+            _AccountBL = accountBL;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
         }
@@ -52,12 +53,12 @@ namespace Adventure4YouAPI.Controllers
                 return await Task.FromResult<ClaimsIdentity>(null);
 
             // get the user to verifty
-            var userToVerify = await _userManager.FindByNameAsync(userName);
+            var userToVerify = await _AccountBL.FindByNameAsync(userName);
 
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
             // check the credentials
-            if (await _userManager.CheckPasswordAsync(userToVerify, password))
+            if (await _AccountBL.CheckPasswordAsync(userToVerify, password))
             {
                 return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
             }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouAPI.ViewModels;
 using Adventure4You;
+using Adventure4You.Models;
+using AutoMapper;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -16,10 +16,12 @@ namespace Adventure4YouAPI.Controllers
     public class RacesController : ControllerBase
     {
         private readonly IRaceBL _RaceBL;
+        private readonly IMapper _Mapper;
 
-        public RacesController(IRaceBL raceBL)
+        public RacesController(IRaceBL raceBL, IMapper mapper)
         {
             _RaceBL = raceBL;
+            _Mapper = mapper;
         }
 
         [HttpGet]
@@ -28,39 +30,11 @@ namespace Adventure4YouAPI.Controllers
         {
             var retVal = new List<RaceViewModel>();
 
-            foreach (var race in _RaceBL.GetAllRaces())
-            {
-                retVal.Add(new RaceViewModel(race));
-            }
-
-            return Ok(retVal);
-        }
-
-        [HttpPost]
-        [Route("addRace")]
-        public ActionResult<RaceViewModel> AddRace([FromBody]RaceDetailViewModel viewModel)
-        {
-            var id = GetUserId();
-            var raceModel = viewModel.ToRaceModel();
-
             try
             {
-                if (!CheckIfRaceNameIsTaken(raceModel.Name))
+                foreach (var race in _RaceBL.GetAllRaces())
                 {
-                    _Context.Races.Add(raceModel);
-                    _Context.SaveChanges();
-
-                    _Context.UserLinks.Add(new UserLink
-                    {
-                        RaceId = raceModel.Id,
-                        UserId = id
-                    });
-
-                    _Context.SaveChanges();
-                }
-                else
-                {
-                    return BadRequest(ErrorCodes.Duplicate);
+                    retVal.Add(_Mapper.Map<RaceViewModel>(race));
                 }
             }
             catch
@@ -68,39 +42,67 @@ namespace Adventure4YouAPI.Controllers
                 return StatusCode(500);
             }
 
-            return Ok(new RaceViewModel(raceModel));
+            return Ok(retVal);
+        }
+
+        [HttpGet()]
+        [Route("getracedetails")]
+        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
+        {
+            try
+            {
+                var id = GetUserId();
+                var raceModel = new Race();
+
+                var result = _RaceBL.GetRaceDetails(id, raceId, out raceModel);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("addRace")]
+        public ActionResult<RaceViewModel> AddRace([FromBody]RaceDetailViewModel viewModel)
+        {
+            try
+            {
+                var id = GetUserId();
+                var raceModel = _Mapper.Map<Race>(viewModel);
+
+                var result = _RaceBL.AddRace(id, raceModel);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                return Ok(_Mapper.Map<RaceViewModel>(raceModel));
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
         [Route("deleterace")]
         public ActionResult<RaceDetailViewModel> DeleteRace([FromBody]int raceId)
         {
-            var id = GetUserId();
-
-            var raceModel = new Race();
             try
             {
-                raceModel = GetRaceModel(raceId);
+                var id = GetUserId();
 
-                if (raceModel != null)
+                var result = _RaceBL.DeleteRace(id, raceId);
+                if (result != BLReturnCodes.Ok)
                 {
-                    var userLink = CheckIfUserHasAccessToRace(id, raceModel.Id);
-                    if (userLink == null)
-                    {
-                        return BadRequest(ErrorCodes.UserUnauthorized);
-                    }
-                    else
-                    {
-                        _Context.UserLinks.Remove(userLink);
-                    }
-
-                    _Context.Races.Remove(raceModel);
-
-                    _Context.SaveChanges();
-                }
-                else
-                {
-                    return BadRequest(ErrorCodes.UnknownRace);
+                    return BadRequest((ErrorCodes)result);
                 }
             }
             catch
@@ -115,82 +117,28 @@ namespace Adventure4YouAPI.Controllers
         [Route("editrace")]
         public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
         {
-            var id = GetUserId();
-
-            var raceModel = new Race();
             try
             {
-                raceModel = GetRaceModel(viewModel.Id);
+                var id = GetUserId();
+                var raceModel = _Mapper.Map<Race>(viewModel);
 
-                if (raceModel != null)
+                var result = _RaceBL.EditRace(id, raceModel);
+                if (result != BLReturnCodes.Ok)
                 {
-                    if (CheckIfUserHasAccessToRace(id, raceModel.Id) == null)
-                    {
-                        return BadRequest(ErrorCodes.UserUnauthorized);
-                    }
-                    if (!CheckIfRaceNameIsTaken(viewModel.Name))
-                    {
-                        raceModel.Name = viewModel.Name;
-                        raceModel.CoordinatesCheckEnabled = viewModel.CoordinatesCheckEnabled;
-                        raceModel.SpecialTasksAreStage = viewModel.SpecialTasksAreStage;
-                        raceModel.MaximumTeamSize = viewModel.MaximumTeamSize;
-                        raceModel.MinimumPointsToCompleteStage = viewModel.MinimumPointsToCompleteStage;
-                        raceModel.StartTime = viewModel.StartTime;
-                        raceModel.EndTime = viewModel.EndTime;
-                        _Context.SaveChanges();
-                    }
-                    else
-                    {
-                        return BadRequest(ErrorCodes.Duplicate);
-                    }
+                    return BadRequest((ErrorCodes)result);
                 }
-                else
-                {
-                    return BadRequest(ErrorCodes.UnknownRace);
-                }
+
+                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
             }
             catch
             {
                 return StatusCode(500);
             }
-
-            return Ok(new RaceDetailViewModel(raceModel));
-        }
-
-        [HttpGet()]
-        [Route("getracedetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
-        {
-            var id = GetUserId();
-
-            if (CheckIfUserHasAccessToRace(id, raceId) != null)
-            {
-                var race = _Context.Races.First(model => model.Id == raceId);
-
-                return Ok(new RaceDetailViewModel(race));
-            }
-
-            return NotFound();
         }
 
         private string GetUserId()
         {
             return User.FindFirst("id")?.Value;
-        }
-
-        private Race GetRaceModel(int raceId)
-        {
-            return _Context.Races.FirstOrDefault(race => race.Id == raceId);
-        }
-
-        private UserLink CheckIfUserHasAccessToRace(string userId, int raceId)
-        {
-            return _Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId);
-        }
-
-        private bool CheckIfRaceNameIsTaken(string name)
-        {
-            return _Context.Races.Any(race => race.Name.Equals(name));
         }
     }
 }

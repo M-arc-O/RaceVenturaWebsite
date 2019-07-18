@@ -16,30 +16,5 @@ namespace Adventure4YouAPI.ViewModels.Races
         {
 
         }
-
-        public RaceDetailViewModel(Race race) : base(race)
-        {
-            CoordinatesCheckEnabled = race.CoordinatesCheckEnabled;
-            SpecialTasksAreStage = race.SpecialTasksAreStage;
-            MaximumTeamSize = race.MaximumTeamSize;
-            MinimumPointsToCompleteStage = race.MinimumPointsToCompleteStage;
-            StartTime = race.StartTime;
-            EndTime = race.EndTime;
-        }
-
-        public virtual Race ToRaceModel()
-        {
-            return new Race
-            {
-                Id = this.Id,
-                Name = this.Name,
-                CoordinatesCheckEnabled = this.CoordinatesCheckEnabled,
-                SpecialTasksAreStage = this.SpecialTasksAreStage,
-                MaximumTeamSize = this.MaximumTeamSize,
-                MinimumPointsToCompleteStage = this.MinimumPointsToCompleteStage,
-                StartTime = this.StartTime,
-                EndTime = this.EndTime
-            };
-        }
     }
 }

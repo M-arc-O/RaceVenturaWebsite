@@ -1,5 +1,8 @@
 ﻿using Adventure4You.Models;
 using Adventure4You.Models.Identity;
+using Adventure4You.Models.Points;
+using Adventure4You.Models.Stages;
+using Adventure4You.Models.Teams;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

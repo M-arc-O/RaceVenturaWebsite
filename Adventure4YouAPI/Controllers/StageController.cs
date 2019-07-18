@@ -1,12 +1,14 @@
-﻿using Adventure4YouAPI.DatabaseContext;
-using Adventure4YouAPI.Models;
-using Adventure4YouAPI.ViewModels;
-using Adventure4YouAPI.ViewModels.Stages;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+
+using Adventure4You;
+using Adventure4You.Models;
+using Adventure4You.Models.Stages;
+using Adventure4YouAPI.ViewModels;
+using Adventure4YouAPI.ViewModels.Stages;
+using AutoMapper;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -14,11 +16,13 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class StageController : ControllerBase
     {
-        private readonly Adventure4YouDbContext _Context;
+        private readonly IStageBL _StageBL;
+        private readonly IMapper _Mapper;
 
-        public StageController(Adventure4YouDbContext context)
+        public StageController(IStageBL stageBL, IMapper mapper)
         {
-            _Context = context;
+            _StageBL = stageBL;
+            _Mapper = mapper;
         }
 
         [HttpGet]
@@ -26,15 +30,28 @@ namespace Adventure4YouAPI.Controllers
         public ActionResult<List<StageViewModel>> GetStages([FromQuery(Name = "raceId")]int raceId)
         {
             Thread.Sleep(1000);
-
-            var retVal = new List<StageViewModel>();
-            var stageLinks = _Context.StageLinks.Where(link => link.RaceId == raceId);
-            foreach (var stage in _Context.Stages.Where(stage => stageLinks.Any(link => link.StageId == stage.Id)))
+            try
             {
-                retVal.Add(new StageViewModel(stage));
-            }
+                var retVal = new List<StageViewModel>();
+                var stages = new List<Stage>();
+                    
+                var result = _StageBL.GetStages(raceId, out stages);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
 
-            return Ok(retVal);
+                foreach (var stage in stages)
+                {
+                    retVal.Add(_Mapper.Map<StageViewModel>(stage));
+                }
+
+                return Ok(retVal);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
@@ -43,22 +60,22 @@ namespace Adventure4YouAPI.Controllers
         {
             Thread.Sleep(1000);
 
-            var stage = new Stage
+            try
             {
-                Name = viewModel.Name
-            };
-            _Context.Stages.Add(stage);
-            _Context.SaveChanges();
+                var stageModel = _Mapper.Map<Stage>(viewModel);
 
-            var stageLink = new StageLink
+                var result = _StageBL.AddRace(stageModel, viewModel.RaceId);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                return Ok(_Mapper.Map<StageViewModel>(stageModel));
+            }
+            catch
             {
-                StageId = stage.Id,
-                RaceId = viewModel.RaceId
-            };
-            _Context.StageLinks.Add(stageLink);
-            _Context.SaveChanges();
-
-            return Ok(new StageViewModel(stage));
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]

@@ -1,8 +1,13 @@
-﻿
-namespace Adventure4YouAPI.ViewModels
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Adventure4You.Models
 {
-    public enum ErrorCodes
+
+    public enum BLReturnCodes
     {
+        Ok = 0,
         Duplicate = 1,
         UserUnauthorized = 2,
         UnknownRace = 3,

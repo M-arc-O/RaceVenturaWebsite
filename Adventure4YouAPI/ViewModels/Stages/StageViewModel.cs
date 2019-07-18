@@ -11,11 +11,5 @@ namespace Adventure4YouAPI.ViewModels.Stages
         public StageViewModel()
         {
         }
-
-        public StageViewModel(Stage stage)
-        {
-            Id = stage.Id;
-            Name = stage.Name;
-        }
     }
 }

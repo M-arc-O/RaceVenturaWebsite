@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 
 using AutoMapper;
 
 using Adventure4YouAPI.ViewModels.Identity;
 using Adventure4YouAPI.Helpers;
+using Adventure4You;
+using Adventure4You.Models.Identity;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -13,34 +14,40 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly Adventure4YouDbContext _context;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IMapper _mapper;
+        private readonly IAccountBL _AccountBL;
+        private readonly IMapper _Mapper;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, Adventure4YouDbContext context)
+        public AccountsController(IAccountBL accountBL, IMapper mapper)
         {
-            _userManager = userManager;
-            _mapper = mapper;
-            _context = context;
+            _Mapper = mapper;
+            _AccountBL = accountBL;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)
+        public async Task<IActionResult> Post([FromBody]RegistrationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userIdentity = _mapper.Map<AppUser>(model);
+            try
+            {
+                var userIdentity = _Mapper.Map<AppUser>(viewModel);
 
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+                var result = await _AccountBL.CreateUser(userIdentity, viewModel.Password);
 
-            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+                if (!result.Succeeded)
+                {
+                    return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+                }
 
-            await _context.SaveChangesAsync();
-
-            return new OkResult();
+                return new OkResult();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

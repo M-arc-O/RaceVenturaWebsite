@@ -64,11 +64,6 @@ namespace Adventure4You.Helpers
                 configureOptions.SaveToken = true;
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RaceUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-            });
-
             var builder = services.AddIdentityCore<AppUser>(o =>
             {
                 // configure identity options

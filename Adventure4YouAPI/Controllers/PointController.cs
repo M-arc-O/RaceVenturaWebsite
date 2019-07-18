@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Adventure4YouAPI.DatabaseContext;
-using Adventure4YouAPI.Models;
+using Adventure4You;
+using Adventure4You.Models;
+using Adventure4You.Models.Points;
+using Adventure4YouAPI.ViewModels;
 using Adventure4YouAPI.ViewModels.Points;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adventure4YouAPI.Controllers
@@ -13,11 +16,13 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class PointController : ControllerBase
     {
-        private readonly Adventure4YouDbContext _Context;
+        private readonly IPointBL _PointBL;
+        private readonly IMapper _Mapper;
 
-        public PointController(Adventure4YouDbContext context)
+        public PointController(IPointBL pointBL, IMapper mapper)
         {
-            _Context = context;
+            _PointBL = pointBL;
+            _Mapper = mapper;
         }
 
         [HttpGet]
@@ -26,14 +31,28 @@ namespace Adventure4YouAPI.Controllers
         {
             Thread.Sleep(1000);
 
-            var retVal = new List<PointViewModel>();
-            var pointLinks = _Context.PointLinks.Where(link => link.StageId == stageId);
-            foreach (var point in _Context.Points.Where(point => pointLinks.Any(link => link.StageId == point.Id)))
+            try
             {
-                retVal.Add(new PointViewModel(point));
-            }
+                var retVal = new List<PointViewModel>();
+                var points = new List<Point>();
 
-            return Ok(retVal);
+                var result = _PointBL.GetPoint(stageId, out points);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                foreach (var point in points)
+                {
+                    retVal.Add(_Mapper.Map<PointViewModel>(point));
+                }
+
+                return Ok(retVal);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
@@ -42,24 +61,23 @@ namespace Adventure4YouAPI.Controllers
         {
             Thread.Sleep(1000);
 
-            var point = new Point
+            try
             {
-                Name = viewModel.Name,
-                Value = viewModel.Value,
-                Coordinates = viewModel.Coordinates
-            };
-            _Context.Points.Add(point);
-            _Context.SaveChanges();
+                var point = _Mapper.Map<Point>(viewModel);
 
-            var pointLink = new PointLink
+                var result = _PointBL.AddPoint(point, viewModel.StageId);
+
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                return Ok(_Mapper.Map<PointViewModel>(point));
+            }
+            catch
             {
-                PointId = point.Id,
-                StageId = viewModel.StageId
-            };
-            _Context.PointLinks.Add(pointLink);
-            _Context.SaveChanges();
-
-            return Ok(new PointViewModel(point));
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]

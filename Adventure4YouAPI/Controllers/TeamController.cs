@@ -1,5 +1,6 @@
-﻿using Adventure4YouAPI.DatabaseContext;
+﻿using Adventure4You;
 using Adventure4YouAPI.ViewModels.Teams;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -9,11 +10,14 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        private readonly Adventure4YouDbContext _Context;
+        private readonly ITeamBL _TeamBL;
+        private readonly IMapper _Mapper;
 
-        public TeamController(Adventure4YouDbContext context)
+
+        public TeamController(ITeamBL teamBL, IMapper mapper)
         {
-            _Context = context;
+            _TeamBL = teamBL;
+            _Mapper = mapper;
         }
 
         [HttpPost]
