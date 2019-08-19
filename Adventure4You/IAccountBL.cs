@@ -8,6 +8,6 @@ namespace Adventure4You
     {
         Task<IdentityResult> CreateUser(AppUser userIdentity, string password);
         Task<AppUser> FindByNameAsync(string userName);
-        Task<bool> CheckPasswordAsync(object userToVerify, string password);
+        Task<bool> CheckPasswordAsync(AppUser userToVerify, string password);
     }
 }

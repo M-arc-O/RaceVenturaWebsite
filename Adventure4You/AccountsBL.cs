@@ -7,10 +7,10 @@ namespace Adventure4You
 {
     public class AccountsBL : IAccountBL
     {
-        private readonly Adventure4YouDbContext _Context;
+        private readonly IAdventure4YouDbContext _Context;
         private readonly UserManager<AppUser> _UserManager;
 
-        public AccountsBL(UserManager<AppUser> userManager, Adventure4YouDbContext context)
+        public AccountsBL(UserManager<AppUser> userManager, IAdventure4YouDbContext context)
         {
             _UserManager = userManager;
             _Context = context;
@@ -33,9 +33,9 @@ namespace Adventure4You
             return _UserManager.FindByNameAsync(userName);
         }
 
-        public Task<bool> CheckPasswordAsync(object userToVerify, string password)
+        public Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
         {
-            throw new System.NotImplementedException();
+            return _UserManager.CheckPasswordAsync(userToVerify, password);
         }
     }
 }

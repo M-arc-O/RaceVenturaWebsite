@@ -18,10 +18,12 @@ namespace Adventure4You.Helpers
 
         public static void AddDBContext(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<Adventure4YouDbContext>(options =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<Adventure4YouDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("Adventure4YouConnection"), b => b.MigrationsAssembly("Adventure4You"));
+                options.UseNpgsql(configuration.GetConnectionString("Adventure4YouConnection"), b => b.MigrationsAssembly("Adventure4YouAPI"));
             });
+
+            services.AddScoped<IAdventure4YouDbContext>(provider => provider.GetService<Adventure4YouDbContext>());
         }
 
         public static void AddAuthentication(IServiceCollection services, IConfiguration configuration)

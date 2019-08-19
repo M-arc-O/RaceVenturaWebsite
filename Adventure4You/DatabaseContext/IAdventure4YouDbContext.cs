@@ -3,6 +3,8 @@ using Adventure4You.Models.Points;
 using Adventure4You.Models.Stages;
 using Adventure4You.Models.Teams;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Adventure4You.DatabaseContext
 {
@@ -20,5 +22,7 @@ namespace Adventure4You.DatabaseContext
         DbSet<UserLink> UserLinks { get; set; }
 
         int SaveChanges();
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
