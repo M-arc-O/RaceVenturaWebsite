@@ -8,7 +8,8 @@ namespace Adventure4You.Models
     public class Race
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(255)]

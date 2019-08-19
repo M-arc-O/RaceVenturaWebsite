@@ -7,14 +7,15 @@ namespace Adventure4You.Models.Teams
     [Table("TeamStagesFinished")]
     public class TeamStageFinished
     {
-        [Required]
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         [Required]
-        public int StageId { get; set; }
+        public Guid StageId { get; set; }
 
         [Required]
-        public int TeamId { get; set; }
+        public Guid TeamId { get; set; }
 
         [Required]
         public DateTime StartTime { get; set; }

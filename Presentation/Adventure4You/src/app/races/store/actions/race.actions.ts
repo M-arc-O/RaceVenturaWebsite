@@ -52,12 +52,12 @@ export class AddRaceErrorAction implements BaseErrorAction {
 
 export class DeleteRaceAction {
     public readonly type = RaceActions.DELETE_RACE;
-    constructor(public readonly payload: number) { }
+    constructor(public readonly payload: string) { }
 }
 
 export class DeleteRaceSuccesAction {
     public readonly type = RaceActions.DELETE_RACE_SUCCES;
-    constructor(public readonly payload: number) { }
+    constructor(public readonly payload: string) { }
 }
 
 export class DeleteRaceErrorAction implements BaseErrorAction {
@@ -67,7 +67,7 @@ export class DeleteRaceErrorAction implements BaseErrorAction {
 
 export class LoadRaceDetailsAction {
     public readonly type = RaceActions.LOAD_RACE_DETAILS;
-    constructor(public readonly payload: number) { }
+    constructor(public readonly payload: string) { }
 }
 
 export class LoadRaceDetailsSuccesAction {

@@ -7,7 +7,7 @@ namespace Adventure4YouAPI.ViewModels.Teams
 {
     public class RegisterTeamViewModel
     {
-        public int RaceId { get; set; }
+        public Guid RaceId { get; set; }
         public string TeamName { get; set; }
     }
 }

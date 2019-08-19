@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Adventure4You.Models;
 
 namespace Adventure4You
@@ -7,12 +8,12 @@ namespace Adventure4You
     {
         List<Race> GetAllRaces();
 
-        BLReturnCodes GetRaceDetails(string id, int raceId, out Race raceModel);
+        BLReturnCodes GetRaceDetails(Guid id, Guid raceId, out Race raceModel);
 
-        BLReturnCodes AddRace(string userId, Race raceModel);
+        BLReturnCodes AddRace(Guid userId, Race raceModel);
 
-        BLReturnCodes EditRace(string id, Race raceModel);
+        BLReturnCodes EditRace(Guid id, Race raceModel);
 
-        BLReturnCodes DeleteRace(string id, int raceId);
+        BLReturnCodes DeleteRace(Guid id, Guid raceId);
     }
 }

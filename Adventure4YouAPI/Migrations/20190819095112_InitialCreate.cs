@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Adventure4YouAPI.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,10 +53,9 @@ namespace Adventure4YouAPI.Migrations
                 name: "PointLinks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    PointId = table.Column<int>(nullable: false),
-                    StageId = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    PointId = table.Column<Guid>(nullable: false),
+                    StageId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,8 +66,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "Points",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     Value = table.Column<int>(nullable: false),
@@ -83,8 +81,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "Races",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     CoordinatesCheckEnabled = table.Column<bool>(nullable: false),
                     SpecialTasksAreStage = table.Column<bool>(nullable: false),
@@ -102,10 +99,9 @@ namespace Adventure4YouAPI.Migrations
                 name: "StageLinks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    StageId = table.Column<int>(nullable: false),
-                    RaceId = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    StageId = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,8 +112,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "Stages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     MimimumPointsToCompleteStage = table.Column<int>(nullable: true)
                 },
@@ -130,10 +125,9 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamLinks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    TeamId = table.Column<int>(nullable: false),
-                    RaceId = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,10 +138,9 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamPointsVisited",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    PointId = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
+                    PointId = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: false),
                     Time = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -159,8 +152,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -172,10 +164,9 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamStagesFinished",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    StageId = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
+                    StageId = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     StopTime = table.Column<DateTime>(nullable: false)
                 },
@@ -188,11 +179,10 @@ namespace Adventure4YouAPI.Migrations
                 name: "UserLinks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UserId = table.Column<string>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false),
-                    RaceId = table.Column<int>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

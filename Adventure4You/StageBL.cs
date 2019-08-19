@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
@@ -15,7 +16,7 @@ namespace Adventure4You
             _Context = context;
         }
 
-        public BLReturnCodes GetStages(int raceId, out List<Stage> stages)
+        public BLReturnCodes GetStages(Guid raceId, out List<Stage> stages)
         {
             stages = null;
 
@@ -34,7 +35,7 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes AddRace(Stage stageModel, int raceId)
+        public BLReturnCodes AddRace(Stage stageModel, Guid raceId)
         {
             _Context.Stages.Add(stageModel);
             _Context.SaveChanges();

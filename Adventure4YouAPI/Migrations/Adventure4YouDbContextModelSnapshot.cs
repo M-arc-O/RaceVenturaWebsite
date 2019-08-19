@@ -77,7 +77,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Points.Point", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Coordinates")
@@ -98,12 +98,12 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Points.PointLink", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("PointId");
+                    b.Property<Guid>("PointId");
 
-                    b.Property<int>("StageId");
+                    b.Property<Guid>("StageId");
 
                     b.HasKey("Id");
 
@@ -112,7 +112,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Race", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("CoordinatesCheckEnabled");
@@ -138,7 +138,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Stages.Stage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("MimimumPointsToCompleteStage");
@@ -154,12 +154,12 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Stages.StageLink", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("RaceId");
+                    b.Property<Guid>("RaceId");
 
-                    b.Property<int>("StageId");
+                    b.Property<Guid>("StageId");
 
                     b.HasKey("Id");
 
@@ -168,7 +168,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.Team", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
@@ -182,12 +182,12 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamLink", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("RaceId");
+                    b.Property<Guid>("RaceId");
 
-                    b.Property<int>("TeamId");
+                    b.Property<Guid>("TeamId");
 
                     b.HasKey("Id");
 
@@ -196,12 +196,12 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamPointVisited", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("PointId");
+                    b.Property<Guid>("PointId");
 
-                    b.Property<int>("TeamId");
+                    b.Property<Guid>("TeamId");
 
                     b.Property<DateTime>("Time");
 
@@ -212,16 +212,16 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamStageFinished", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("StageId");
+                    b.Property<Guid>("StageId");
 
                     b.Property<DateTime>("StartTime");
 
                     b.Property<DateTime>("StopTime");
 
-                    b.Property<int>("TeamId");
+                    b.Property<Guid>("TeamId");
 
                     b.HasKey("Id");
 
@@ -230,15 +230,14 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.UserLink", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("RaceId");
+                    b.Property<Guid>("RaceId");
 
-                    b.Property<int>("TeamId");
+                    b.Property<Guid>("TeamId");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 

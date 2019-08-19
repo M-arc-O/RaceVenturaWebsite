@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Adventure4You.Models
@@ -7,14 +8,15 @@ namespace Adventure4You.Models
     public class UserLink
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         
         [Required]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public int TeamId { get; set; }
+        public Guid TeamId { get; set; }
         
-        public int RaceId { get; set; }
+        public Guid RaceId { get; set; }
 
         public UserLink()
         {

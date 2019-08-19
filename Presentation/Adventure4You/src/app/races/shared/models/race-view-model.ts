@@ -1,4 +1,4 @@
 export class RaceViewModel {
-    public id: number;
+    public id: string;
     public name: string;
 }

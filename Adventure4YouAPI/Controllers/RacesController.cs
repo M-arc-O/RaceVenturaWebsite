@@ -7,6 +7,7 @@ using Adventure4YouAPI.ViewModels;
 using Adventure4You;
 using Adventure4You.Models;
 using AutoMapper;
+using System;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -47,7 +48,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet()]
         [Route("getracedetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]int raceId)
+        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
@@ -93,7 +94,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("deleterace")]
-        public ActionResult<RaceDetailViewModel> DeleteRace([FromBody]int raceId)
+        public ActionResult<RaceDetailViewModel> DeleteRace([FromBody]Guid raceId)
         {
             try
             {
@@ -136,9 +137,9 @@ namespace Adventure4YouAPI.Controllers
             }
         }
 
-        private string GetUserId()
+        private Guid GetUserId()
         {
-            return User.FindFirst("id")?.Value;
+            return new Guid(User.FindFirst("id")?.Value);
         }
     }
 }

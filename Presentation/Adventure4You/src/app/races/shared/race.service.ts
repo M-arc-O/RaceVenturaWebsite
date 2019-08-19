@@ -29,15 +29,15 @@ export class RaceService {
             catchError(error => throwError(error)));
     }
 
-    public deleteRace(id: number): Observable<number> {
+    public deleteRace(id: string): Observable<string> {
         const body = JSON.stringify(id);
 
         return this.http.post(`${this.baseUrl}/deleterace`, body, this.getHttpOptions()).pipe(
-            map((res: Response) => <number>res.json()),
+            map((res: Response) => <string>res.json()),
             catchError(error => throwError(error)));
     }
 
-    public getRaceDetails(raceId: number): Observable<RaceDetailViewModel> {
+    public getRaceDetails(raceId: string): Observable<RaceDetailViewModel> {
         const idHeader = { key: 'raceId', value: raceId.toString() };
 
         return this.http.get(`${this.baseUrl}/getracedetails`, this.getHttpOptions(idHeader)).pipe(

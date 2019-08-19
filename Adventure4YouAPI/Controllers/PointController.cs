@@ -27,7 +27,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getpoints")]
-        public ActionResult<List<PointViewModel>> GetPoints([FromQuery(Name = "stageId")]int stageId)
+        public ActionResult<List<PointViewModel>> GetPoints([FromQuery(Name = "stageId")]Guid stageId)
         {
             Thread.Sleep(1000);
 

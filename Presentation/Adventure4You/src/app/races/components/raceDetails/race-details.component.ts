@@ -15,7 +15,7 @@ import { IRacesState, selectedRaceSelector, loadSelectedRaceSelector } from '../
     templateUrl: './race-details.component.html'
 })
 export class RaceDetailsComponent extends ComponentBase implements OnInit, OnChanges {
-    @Input() raceId: number;
+    @Input() raceId: string;
 
     public raceDetails$: Observable<RaceDetailViewModel>;
     public raceDetailsLoad$: Observable<IBase>;

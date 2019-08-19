@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Adventure4You.Models.Points
@@ -7,13 +8,14 @@ namespace Adventure4You.Models.Points
     public class PointLink
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         [Required]
-        public int PointId { get; set; }
+        public Guid PointId { get; set; }
 
         [Required]
-        public int StageId { get; set; }
+        public Guid StageId { get; set; }
 
         public PointLink()
         {

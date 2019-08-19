@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
@@ -15,7 +16,7 @@ namespace Adventure4You
             _Context = context;
         }
 
-        public BLReturnCodes GetPoint(int stageId, out List<Point> points)
+        public BLReturnCodes GetPoint(Guid stageId, out List<Point> points)
         {
             points = null;
 
@@ -36,7 +37,7 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes AddPoint(Point point, int stageId)
+        public BLReturnCodes AddPoint(Point point, Guid stageId)
         {
             _Context.Points.Add(point);
             _Context.SaveChanges();

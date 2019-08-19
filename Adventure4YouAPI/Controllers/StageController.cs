@@ -27,7 +27,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getstages")]
-        public ActionResult<List<StageViewModel>> GetStages([FromQuery(Name = "raceId")]int raceId)
+        public ActionResult<List<StageViewModel>> GetStages([FromQuery(Name = "raceId")]Guid raceId)
         {
             Thread.Sleep(1000);
             try

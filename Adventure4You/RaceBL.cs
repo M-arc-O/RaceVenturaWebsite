@@ -1,5 +1,6 @@
 ﻿using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace Adventure4You
             return _Context.Races.ToList();
         }
 
-        public BLReturnCodes GetRaceDetails(string id, int raceId, out Race raceModel)
+        public BLReturnCodes GetRaceDetails(Guid id, Guid raceId, out Race raceModel)
         {
             raceModel = null;
 
@@ -37,7 +38,7 @@ namespace Adventure4You
             return BLReturnCodes.Ok;            
         }
 
-        public BLReturnCodes AddRace(string userId, Race raceModel)
+        public BLReturnCodes AddRace(Guid userId, Race raceModel)
         {
             if (!CheckIfRaceNameIsTaken(raceModel.Name))
             {
@@ -60,7 +61,7 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes EditRace(string id, Race raceModelInput)
+        public BLReturnCodes EditRace(Guid id, Race raceModelInput)
         {
             var raceModel = GetRaceModel(raceModelInput.Id);
 
@@ -95,7 +96,7 @@ namespace Adventure4You
             }
         }
 
-        public BLReturnCodes DeleteRace(string id, int raceId)
+        public BLReturnCodes DeleteRace(Guid id, Guid raceId)
         {
             var raceModel = GetRaceModel(raceId);
 
@@ -123,7 +124,7 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        private Race GetRaceModel(int raceId)
+        private Race GetRaceModel(Guid raceId)
         {
             return _Context.Races.FirstOrDefault(race => race.Id == raceId);
         }
@@ -133,7 +134,7 @@ namespace Adventure4You
             return _Context.Races.Any(race => race.Name.Equals(name));
         }
 
-        private UserLink CheckIfUserHasAccessToRace(string userId, int raceId)
+        private UserLink CheckIfUserHasAccessToRace(Guid userId, Guid raceId)
         {
             return _Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId);
         }        

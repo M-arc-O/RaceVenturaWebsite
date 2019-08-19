@@ -1,10 +1,10 @@
-﻿using Adventure4You.Models;
+﻿using System;
 
 namespace Adventure4YouAPI.ViewModels.Stages
 {
     public class StageViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
