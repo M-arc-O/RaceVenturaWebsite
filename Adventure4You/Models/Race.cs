@@ -31,6 +31,9 @@ namespace Adventure4You.Models
 
         public DateTime EndTime { get; set; }
 
+        [Required]
+        public int PenaltyPerMinutLate { get; set; }
+
         public Race()
         {
         }

@@ -56,7 +56,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addstage")]
-        public ActionResult<StageViewModel> AddStage([FromBody]AddStageViewModel viewModel)
+        public ActionResult<StageViewModel> AddStage([FromBody]StageDetailViewModel viewModel)
         {
             Thread.Sleep(1000);
 

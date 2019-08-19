@@ -2,9 +2,10 @@
 
 namespace Adventure4YouAPI.ViewModels.Stages
 {
-    public class AddStageViewModel
+    public class StageDetailViewModel
     {
         public Guid RaceId { get; set; }
         public string Name { get; set; }
+        public int? MimimumPointsToCompleteStage { get; set; }
     }
 }

@@ -4,22 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Adventure4You.Models.Teams
 {
-    [Table("TeamStagesFinished")]
-    public class TeamStageFinished
+    [Table("TeamRacesFinished")]
+    public class TeamRaceFinished
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]
-        public Guid StageId { get; set; }
+        public Guid RaceId { get; set; }
 
         [Required]
         public Guid TeamId { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
-
         public DateTime StopTime { get; set; }
     }
 }

@@ -16,7 +16,8 @@
                         !addRaceForm.get('name').valid }">
             <label class="col-sm-6 col-form-label" for="raceName">Name</label>
             <div class="col">
-                <input class="form-control" id="raceName" type="text" placeholder="Name (required)" formControlName="name" />
+                <input class="form-control" id="raceName" type="text" placeholder="Name (required)"
+                    formControlName="name" />
             </div>
         </div>
         <div class="form-group row">
@@ -33,7 +34,8 @@
             <div class="col-sm-6"></div>
             <div class="col">
                 <div class="form-check">
-                    <input class="form-check-input" id="checkCoordinates" type="checkbox" formControlName="checkCoordinates">
+                    <input class="form-check-input" id="checkCoordinates" type="checkbox"
+                        formControlName="checkCoordinates">
                     <label class="form-check-label" for="checkCoordinates">
                         Check GPS coordinates
                     </label>
@@ -54,7 +56,8 @@
             <div class="col-sm-6"></div>
             <div class="col">
                 <div class="form-check">
-                    <input class="form-check-input" id="specialTasksAreStage" type="checkbox" formControlName="specialTasksAreStage">
+                    <input class="form-check-input" id="specialTasksAreStage" type="checkbox"
+                        formControlName="specialTasksAreStage">
                     <label class="form-check-label" for="specialTasksAreStage">
                         Special tasks are a stage
                     </label>
@@ -74,7 +77,8 @@
                         !addRaceForm.get('maximumTeamSize').valid }">
             <label class="col-sm-6 col-form-label" for="maximumTeamSize">Maximum team size</label>
             <div class="col">
-                <input class="form-control" id="maximumTeamSize" type="text" placeholder="1 (required)" formControlName="maximumTeamSize" />
+                <input class="form-control" id="maximumTeamSize" type="text" placeholder="1 (required)"
+                    formControlName="maximumTeamSize" />
             </div>
         </div>
         <div class="form-group row">
@@ -104,11 +108,29 @@
             </span>
         </div>
 
+        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
+        !addRaceForm.get('penaltyPerMinuteLate').valid }">
+            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate">Penalty per minute late</label>
+            <div class="col">
+                <input class="form-control" id="penaltyPerMinuteLate" type="text" placeholder="0 (required)"
+                    formControlName="penaltyPerMinuteLate" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <span class="help-block offset-sm-6" *ngIf="(addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) && 
+                addRaceForm.get('penaltyPerMinuteLate').errors">
+                <span *ngIf="addRaceForm.get('penaltyPerMinuteLate').errors.required">
+                    Please enter the penalty per minute late.
+                </span>
+            </span>
+        </div>
+
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
                         !addRaceForm.get('startDate').valid }">
             <label class="col-sm-6 col-form-label" for="startDate">Start date</label>
             <div class="col">
-                <input class="form-control" id="startDate" type="text" placeholder="dd-mm-yyyy" formControlName="startDate" />
+                <input class="form-control" id="startDate" type="text" placeholder="dd-mm-yyyy"
+                    formControlName="startDate" />
             </div>
         </div>
         <div class="form-group row">
@@ -122,7 +144,8 @@
                         !addRaceForm.get('startTime').valid }">
             <label class="col-sm-6 col-form-label" for="startTime">Start time</label>
             <div class="col">
-                <input class="form-control" id="startTime" type="text" placeholder="hh:mm" formControlName="startTime" />
+                <input class="form-control" id="startTime" type="text" placeholder="hh:mm"
+                    formControlName="startTime" />
             </div>
         </div>
         <div class="form-group row">
@@ -135,7 +158,8 @@
                         !addRaceForm.get('endDate').valid }">
             <label class="col-sm-6 col-form-label" for="endDate">End date</label>
             <div class="col">
-                <input class="form-control" id="endDate" type="text" placeholder="dd-mm-yyyy" formControlName="endDate" />
+                <input class="form-control" id="endDate" type="text" placeholder="dd-mm-yyyy"
+                    formControlName="endDate" />
             </div>
         </div>
         <div class="form-group row">

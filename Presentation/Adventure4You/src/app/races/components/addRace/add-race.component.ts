@@ -70,6 +70,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit, OnChanges
         let specialTasksAreStage = false;
         let maximumTeamSize;
         let minimumPointsToCompleteStage;
+        let penaltyPerMinuteLate;
         let startDate;
         let startTime;
         let endDate;
@@ -81,6 +82,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit, OnChanges
             specialTasksAreStage = details.specialTasksAreStage;
             maximumTeamSize = details.maximumTeamSize;
             minimumPointsToCompleteStage = details.minimumPointsToCompleteStage;
+            penaltyPerMinuteLate = details.penaltyPerMinuteLate;
             startDate = undefined;
             startTime = undefined;
             endDate = undefined;
@@ -93,6 +95,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit, OnChanges
             specialTasksAreStage: [specialTasksAreStage],
             maximumTeamSize: [maximumTeamSize, [Validators.required]],
             minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
+            penaltyPerMinuteLate: [penaltyPerMinuteLate, [Validators.required]],
             startDate: [startDate],
             startTime: [startTime],
             endDate: [endDate],
@@ -110,6 +113,7 @@ export class AddRaceComponent extends ComponentBase implements OnInit, OnChanges
             viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
             viewModel.maximumTeamSize = this.addRaceForm.get('maximumTeamSize').value;
             viewModel.minimumPointsToCompleteStage = this.addRaceForm.get('minimumPointsToCompleteStage').value;
+            viewModel.penaltyPerMinuteLate = this.addRaceForm.get('penaltyPerMinuteLate').value;
             viewModel.startTime = undefined;
             viewModel.endTime = undefined;
 

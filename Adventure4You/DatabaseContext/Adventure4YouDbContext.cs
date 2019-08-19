@@ -31,6 +31,8 @@ namespace Adventure4You.DatabaseContext
 
         public DbSet<TeamPointVisited> TeamPointsVisited { get; set; }
 
+        public DbSet<TeamRaceFinished> TeamRacesFinished { get; set; }
+
         public DbSet<TeamStageFinished> TeamStagesFinished { get; set; }
 
         public DbSet<UserLink> UserLinks { get; set; }

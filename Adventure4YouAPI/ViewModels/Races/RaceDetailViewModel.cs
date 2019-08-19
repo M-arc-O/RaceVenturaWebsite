@@ -9,6 +9,7 @@ namespace Adventure4YouAPI.ViewModels.Races
         public bool SpecialTasksAreStage { get; set; }
         public int MaximumTeamSize { get; set; }
         public int MinimumPointsToCompleteStage { get; set; }
+        public int PenaltyPerMinutLate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 

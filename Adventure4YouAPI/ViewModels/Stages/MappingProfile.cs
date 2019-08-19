@@ -14,8 +14,8 @@ namespace Adventure4YouAPI.ViewModels.Stages
             CreateMap<Stage, StageViewModel>();
             CreateMap<StageViewModel, Stage>();
             
-            CreateMap<Stage, AddStageViewModel>();
-            CreateMap<AddStageViewModel, Stage>();
+            CreateMap<Stage, StageDetailViewModel>();
+            CreateMap<StageDetailViewModel, Stage>();
         }
     }
 }
