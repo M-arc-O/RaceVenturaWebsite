@@ -1,0 +1,28 @@
+<div class="row">
+    <app-race-add *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"
+    [type]="addEditType.Add"></app-race-add>
+</div>
+
+<div class="row">
+    <h5>Races</h5>
+</div>
+
+<div class="row">
+    <div class="col-6 race-list">
+        <div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
+            <div *ngIf="(loadRacesBase$ | async).success" class="list-group">
+                <a *ngFor="let race of races$ | async" class="list-group-item list-group-item-action" href="javascript:void(0)"
+                    (click)="detailsClicked(race)" [ngClass]="{'active': race === selectedRace}">{{race.name}}</a>
+            </div>
+        </div>
+    </div>
+    <ng-template #racesLoading>
+        Table is loading.
+    </ng-template>
+</div>
+
+<div *ngIf="selectedRace" class="row">
+    <div class="col">
+        <app-race-details [raceId]="selectedRace.id"></app-race-details>
+    </div>
+</div>

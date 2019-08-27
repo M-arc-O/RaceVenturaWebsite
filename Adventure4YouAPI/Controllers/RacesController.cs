@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouAPI.ViewModels;
+using Adventure4YouAPI.Helpers;
 using Adventure4You;
 using Adventure4You.Models;
 using AutoMapper;
-using System;
 
 namespace Adventure4YouAPI.Controllers
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RacesController : ControllerBase
+    public class RacesController : Adventure4YouControllerBase
     {
         private readonly IRaceBL _RaceBL;
         private readonly IMapper _Mapper;
@@ -135,11 +136,6 @@ namespace Adventure4YouAPI.Controllers
             {
                 return StatusCode(500);
             }
-        }
-
-        private Guid GetUserId()
-        {
-            return new Guid(User.FindFirst("id")?.Value);
         }
     }
 }

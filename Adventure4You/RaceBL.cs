@@ -6,13 +6,10 @@ using System.Linq;
 
 namespace Adventure4You
 {
-    public class RaceBL : IRaceBL
+    public class RaceBL: BaseBL, IRaceBL
     {
-        private readonly IAdventure4YouDbContext _Context;
-
-        public RaceBL(IAdventure4YouDbContext context)
+        public RaceBL(IAdventure4YouDbContext context): base(context)
         {
-            _Context = context;
         }
 
         public List<Race> GetAllRaces()
@@ -132,11 +129,6 @@ namespace Adventure4You
         private bool CheckIfRaceNameIsTaken(string name)
         {
             return _Context.Races.Any(race => race.Name.Equals(name));
-        }
-
-        private UserLink CheckIfUserHasAccessToRace(Guid userId, Guid raceId)
-        {
-            return _Context.UserLinks.FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId);
-        }        
+        }       
     }
 }

@@ -8,8 +8,12 @@ namespace Adventure4You
 {
     public interface IStageBL
     {
-        BLReturnCodes GetStages(Guid raceId, out List<Stage> stages);
+        BLReturnCodes GetStages(Guid userId, Guid raceId, out List<Stage> stages);
 
-        BLReturnCodes AddRace(Stage stageModel, Guid raceId);
+        BLReturnCodes GetStageDetails(Guid userId, Guid stageId, Guid raceId, out Stage stageModel);
+
+        BLReturnCodes AddStage(Guid userId, Stage stageModel, Guid raceId);
+
+        BLReturnCodes EditStage(Guid id, Stage stageModel);
     }
 }

@@ -1,0 +1,26 @@
+<div class="row">
+    <app-stage-add *ngIf="!(loadStagesBase$ | async).isActive && !(loadStagesBase$ | async).error"
+    [type]="addEditType.Add" [raceId]="raceId"></app-stage-add>
+</div>
+
+<div class="row">
+    <h5>Stages</h5>
+</div>
+
+<div class="row">
+    <div class="col-6 stage-list">
+        <div *ngIf="!(loadStagesBase$ | async).isActive; else stagesLoading">
+            <div *ngIf="(loadStagesBase$ | async).success" class="list-group">
+                <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action" href="javascript:void(0)"
+                    (click)="detailsClicked(stage)" [ngClass]="{'active': stage === selectedStage}">{{stage.name}}</a>
+            </div>
+        </div>
+    </div>
+    <ng-template #stagesLoading>
+        Table is loading.
+    </ng-template>
+</div>
+
+<div *ngIf="selectedStage" class="row">
+    <app-stage-details [stageId]="selectedStage.id"></app-stage-details>
+</div>

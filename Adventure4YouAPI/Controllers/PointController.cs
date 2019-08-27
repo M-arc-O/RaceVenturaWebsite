@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using Adventure4You;
 using Adventure4You.Models;
 using Adventure4You.Models.Points;
 using Adventure4YouAPI.ViewModels;
 using Adventure4YouAPI.ViewModels.Points;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Adventure4YouAPI.Controllers
 {
+    [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class PointController : ControllerBase
