@@ -149,23 +149,11 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<Guid>("RaceId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Stages");
-                });
-
-            modelBuilder.Entity("Adventure4You.Models.Stages.StageLink", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("RaceId");
-
-                    b.Property<Guid>("StageId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StageLinks");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Teams.Team", b =>
@@ -177,23 +165,11 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<Guid>("RaceId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("Adventure4You.Models.Teams.TeamLink", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("RaceId");
-
-                    b.Property<Guid>("TeamId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TeamLinks");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamPointVisited", b =>
@@ -202,6 +178,8 @@ namespace Adventure4YouAPI.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("PointId");
+
+                    b.Property<Guid>("StageId");
 
                     b.Property<Guid>("TeamId");
 
@@ -216,8 +194,6 @@ namespace Adventure4YouAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("RaceId");
 
                     b.Property<DateTime>("StopTime");
 

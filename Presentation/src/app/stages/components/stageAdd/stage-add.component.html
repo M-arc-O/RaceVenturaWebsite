@@ -28,6 +28,17 @@
             </validation-message>
         </validation-message-for>
 
+        <div class="form-group row" [ngClass]="{'has-error': (addStageForm.get('minimumPointsToCompleteStage').touched || addStageForm.get('minimumPointsToCompleteStage').dirty) &&
+                        !addStageForm.get('minimumPointsToCompleteStage').valid }">
+            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage">Minimum points to complete stage</label>
+            <div class="col">
+                <input class="form-control" id="minimumPointsToCompleteStage" type="text" placeholder=""
+                    formControlName="minimumPointsToCompleteStage" />
+            </div>
+        </div>
+        <validation-message-for field="minimumPointsToCompleteStage">
+        </validation-message-for>
+
         <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
             <span *ngIf="type === addEditType.Add">
                 Add stage

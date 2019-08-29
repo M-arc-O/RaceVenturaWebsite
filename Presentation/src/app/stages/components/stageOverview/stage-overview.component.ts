@@ -44,13 +44,16 @@ export class StageOverviewComponent extends ComponentBase implements OnInit {
 
         this.deleteStageBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
-                this.selectedStage = undefined;
+                this.selectedStage.id = undefined;
             }
 
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
             }
         });
+
+        this.selectedStage = new StageViewModel();
+        this.selectedStage.raceId = this.raceId;
 
         this.getStages();
     }

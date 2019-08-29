@@ -5,17 +5,17 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { StageDetailViewModel } from '../../shared';
-import * as stageActions from '../../store/actions/stage.actions';
 import { AddEditType } from '../../../shared';
-import { IStagesState, selectedStageSelector, loadSelectedStageSelector } from '../../store';
+import { StageDetailViewModel, StageRequest, StageViewModel } from '../../shared';
+import { IStagesState, loadSelectedStageSelector, selectedStageSelector } from '../../store';
+import * as stageActions from '../../store/actions/stage.actions';
 
 @Component({
     selector: 'app-stage-details',
     templateUrl: './stage-details.component.html'
 })
 export class StageDetailsComponent extends ComponentBase implements OnInit, OnChanges {
-    @Input() stageId: string;
+    @Input() selectedStage: StageViewModel;
 
     public stageDetails$: Observable<StageDetailViewModel>;
     public stageDetailsLoad$: Observable<IBase>;
@@ -39,10 +39,18 @@ export class StageDetailsComponent extends ComponentBase implements OnInit, OnCh
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.store.dispatch(new stageActions.LoadStageDetailsAction(this.stageId));
+        this.store.dispatch(new stageActions.LoadStageDetailsAction(this.getStageRequest()));
     }
 
     public RemoveStageClicked(): void {
-        this.store.dispatch(new stageActions.DeleteStageAction(this.stageId));
+        this.store.dispatch(new stageActions.DeleteStageAction(this.selectedStage));
+    }
+
+    private getStageRequest(): StageRequest {
+        const request = new StageRequest();
+        request.stageId = this.selectedStage.id;
+        request.raceId = this.selectedStage.raceId;
+
+        return request;
     }
 }

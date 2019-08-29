@@ -15,5 +15,7 @@ namespace Adventure4You
         BLReturnCodes AddStage(Guid userId, Stage stageModel, Guid raceId);
 
         BLReturnCodes EditStage(Guid id, Stage stageModel);
+
+        BLReturnCodes DeleteStage(Guid id, Guid stageId, Guid raceId);
     }
 }

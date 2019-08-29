@@ -31,7 +31,6 @@ namespace Adventure4YouAPI.Controllers
         [Route("getracestages")]
         public ActionResult<List<StageViewModel>> GetRaceStages([FromQuery(Name = "raceId")]Guid raceId)
         {
-            Thread.Sleep(1000);
             try
             {
                 var retVal = new List<StageViewModel>();
@@ -47,6 +46,31 @@ namespace Adventure4YouAPI.Controllers
                 {
                     retVal.Add(_Mapper.Map<StageViewModel>(stage));
                 }
+
+                return Ok(retVal);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("getstagedetails")]
+        public ActionResult<StageViewModel> GetStageDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
+        {
+            try
+            {
+                var stageModel = new Stage();
+
+                var result = _StageBL.GetStageDetails(GetUserId(), stageId, raceId, out stageModel);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
+                retVal.RaceId = raceId;
 
                 return Ok(retVal);
             }
@@ -80,31 +104,29 @@ namespace Adventure4YouAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getstagedetails")]
-        public ActionResult<StageViewModel> GetStageDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name ="raceId")]Guid raceId)
+        [HttpPost]
+        [Route("deletestage")]
+        public ActionResult<StageDetailViewModel> DeleteStage([FromBody]StageViewModel viewModel)
         {
-            Thread.Sleep(1000);
-
             try
             {
-                var stageModel = new Stage();
+                var id = GetUserId();
 
-                var result = _StageBL.GetStageDetails(GetUserId(), stageId, raceId, out stageModel);
+                var result = _StageBL.DeleteStage(id, viewModel.Id, viewModel.RaceId);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
                 }
-
-                return Ok(_Mapper.Map<StageDetailViewModel>(stageModel));
             }
             catch
             {
                 return StatusCode(500);
             }
+
+            return Ok(viewModel.Id);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("editstage")]
         public ActionResult<StageDetailViewModel> EditStage([FromBody]StageDetailViewModel viewModel)
         {
@@ -119,7 +141,10 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                return Ok(_Mapper.Map<StageDetailViewModel>(stageModel));
+                var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
+                retVal.RaceId = viewModel.RaceId;
+
+                return Ok(retVal);
             }
             catch
             {
@@ -127,11 +152,5 @@ namespace Adventure4YouAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("closestage")]
-        public ActionResult<bool> CloseStage([FromBody]bool viewModel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

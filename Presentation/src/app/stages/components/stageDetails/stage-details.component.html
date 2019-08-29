@@ -5,11 +5,13 @@
             <thead class="thead-light">
                 <tr>
                     <th>Name</th>
+                    <th>Minimum points to complete stage</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{(stageDetails$ | async).name}}</td>
+                    <td>{{(stageDetails$ | async).mimimumPointsToCompleteStage}}</td>
                 </tr>
             </tbody>
         </table>

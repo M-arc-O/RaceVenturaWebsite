@@ -1,6 +1,5 @@
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
-import { StageViewModel } from '../../shared';
-import { StageDetailViewModel } from '../../shared';
+import { StageDetailViewModel, StageRequest, StageViewModel } from '../../shared';
 
 export enum StageActions {
     LOAD_STAGES = 'LOAD_STAGES',
@@ -52,7 +51,7 @@ export class AddStageErrorAction implements BaseErrorAction {
 
 export class DeleteStageAction {
     public readonly type = StageActions.DELETE_STAGE;
-    constructor(public readonly payload: string) { }
+    constructor(public readonly payload: StageViewModel) { }
 }
 
 export class DeleteStageSuccesAction {
@@ -67,7 +66,7 @@ export class DeleteStageErrorAction implements BaseErrorAction {
 
 export class LoadStageDetailsAction {
     public readonly type = StageActions.LOAD_STAGE_DETAILS;
-    constructor(public readonly payload: string) { }
+    constructor(public readonly payload: StageRequest) { }
 }
 
 export class LoadStageDetailsSuccesAction {

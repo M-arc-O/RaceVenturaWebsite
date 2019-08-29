@@ -18,6 +18,9 @@ namespace Adventure4You.Models.Teams
         public Guid TeamId { get; set; }
 
         [Required]
+        public Guid StageId { get; set; }
+
+        [Required]
         public DateTime Time { get; set; }
 
         public TeamPointVisited()

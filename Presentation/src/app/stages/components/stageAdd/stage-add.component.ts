@@ -18,7 +18,6 @@ import { AddEditType } from '../../../shared';
 export class StageAddComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() public type: AddEditType;
     @Input() public details: StageDetailViewModel;
-    @Input() public raceId: string;
 
     public addEditType = AddEditType;
 
@@ -67,13 +66,16 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         const formBuilder = new FormBuilder();
 
         let name = '';
+        let minimumPointsToCompleteStage;
 
         if (details !== undefined) {
             name = details.name;
+            minimumPointsToCompleteStage = details.mimimumPointsToCompleteStage;
         }
 
         this.addStageForm = formBuilder.group({
-            name: [name, [Validators.required]]
+            name: [name, [Validators.required]],
+            minimumPointsToCompleteStage: [minimumPointsToCompleteStage, []]
         });
     }
 
@@ -83,7 +85,8 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
 
             const viewModel = new StageDetailViewModel();
             viewModel.name = this.addStageForm.get('name').value;
-            viewModel.raceId = this.raceId;
+            viewModel.mimimumPointsToCompleteStage = this.addStageForm.get('minimumPointsToCompleteStage').value;
+            viewModel.raceId = this.details.raceId;
 
             switch (this.type) {
                 case AddEditType.Add:

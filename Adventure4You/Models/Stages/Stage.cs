@@ -12,6 +12,9 @@ namespace Adventure4You.Models.Stages
         public Guid Id { get; set; }
 
         [Required]
+        public Guid RaceId { get; set; }
+
+        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 

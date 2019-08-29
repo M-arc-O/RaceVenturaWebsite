@@ -29,8 +29,7 @@ namespace Adventure4You
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            var stageLinks = _Context.StageLinks.Where(link => link.RaceId == raceId);
-            stages = _Context.Stages.Where(stage => stageLinks.Any(link => link.StageId == stage.Id)).ToList();
+            stages = _Context.Stages.Where(stage => stage.RaceId == raceId).ToList();
             if (stages == null)
             {
                 return BLReturnCodes.NoStagesFound;
@@ -67,29 +66,39 @@ namespace Adventure4You
             _Context.Stages.Add(stageModel);
             _Context.SaveChanges();
 
-            var stageLink = new StageLink
-            {
-                StageId = stageModel.Id,
-                RaceId = raceId
-            };
-            _Context.StageLinks.Add(stageLink);
-            _Context.SaveChanges();
-
             return BLReturnCodes.Ok;
+        }
+
+        public BLReturnCodes DeleteStage(Guid userId, Guid stageId, Guid raceId)
+        {
+            var userLink = CheckIfUserHasAccessToRace(userId, raceId);
+            if (userLink != null)
+            {
+                var stageModel = _Context.Stages.FirstOrDefault(stage => stage.Id == stageId);
+                if (stageModel == null)
+                {
+                    return BLReturnCodes.UnknownStage;
+                }
+
+                _Context.Stages.Remove(stageModel);
+                _Context.SaveChanges();
+
+                return BLReturnCodes.Ok;
+            }
+            
+            return BLReturnCodes.UserUnauthorized;
         }
 
         public BLReturnCodes EditStage(Guid userId, Stage stageModel)
         {
-            var stageLink = _Context.StageLinks.FirstOrDefault(link => link.StageId == stageModel.Id);
-
-            if (stageLink != null)
+            if (CheckIfUserHasAccessToRace(userId, stageModel.RaceId) == null)
             {
-                if (CheckIfUserHasAccessToRace(userId, stageLink.RaceId) == null)
-                {
-                    return BLReturnCodes.UserUnauthorized;
-                }
+                return BLReturnCodes.UserUnauthorized;
+            }
 
-                var stage = _Context.Stages.First(s => s.Id == stageModel.Id);
+            var stage = _Context.Stages.First(s => s.Id == stageModel.Id);
+            if (stage != null)
+            {
                 stage.Name = stageModel.Name;
                 stage.MimimumPointsToCompleteStage = stageModel.MimimumPointsToCompleteStage;
                 _Context.SaveChanges();
