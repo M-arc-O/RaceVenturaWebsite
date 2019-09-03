@@ -69,7 +69,7 @@ namespace Adventure4You
                     return BLReturnCodes.UserUnauthorized;
                 }
 
-                if (!CheckIfRaceNameIsTaken(raceModelInput.Name))
+                if (raceModel.Name.Equals(raceModelInput.Name) || !CheckIfRaceNameIsTaken(raceModelInput.Name))
                 {
                     raceModel.Name = raceModelInput.Name;
                     raceModel.CoordinatesCheckEnabled = raceModelInput.CoordinatesCheckEnabled;
@@ -110,6 +110,7 @@ namespace Adventure4You
                 }
 
                 _Context.Races.Remove(raceModel);
+                _Context.Stages.RemoveRange(_Context.Stages.Where(stage => stage.RaceId == raceId));
 
                 _Context.SaveChanges();
             }

@@ -1,13 +1,13 @@
-<div class="row">
+<div class="row border">
     <app-stage-add *ngIf="!(loadStagesBase$ | async).isActive && !(loadStagesBase$ | async).error"
     [type]="addEditType.Add" [details]="selectedStage"></app-stage-add>
 </div>
 
-<div class="row">
+<div class="row border">
     <h5>Stages</h5>
 </div>
 
-<div class="row">
+<div class="row border">
     <div class="col-6 stage-list">
         <div *ngIf="!(loadStagesBase$ | async).isActive; else stagesLoading">
             <div *ngIf="(loadStagesBase$ | async).success" class="list-group">
@@ -21,6 +21,6 @@
     </ng-template>
 </div>
 
-<div *ngIf="selectedStage.id" class="row">
+<div *ngIf="selectedStage.id" class="row border">
     <app-stage-details [selectedStage]="selectedStage"></app-stage-details>
 </div>

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Adventure4YouAPI.Migrations
 {
     [DbContext(typeof(Adventure4YouDbContext))]
-    [Migration("20190829094819_InitialCreate")]
+    [Migration("20190903123340_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,7 +129,7 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int>("PenaltyPerMinutLate");
+                    b.Property<int>("PenaltyPerMinuteLate");
 
                     b.Property<bool>("SpecialTasksAreStage");
 

@@ -90,11 +90,9 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
 
             switch (this.type) {
                 case AddEditType.Add:
-                    console.log('Add stage action dispatched');
                     this.store.dispatch(new stageActions.AddStageAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    console.log('Edit stage action dispatched');
                     viewModel.id = this.details.id;
                     this.store.dispatch(new stageActions.EditStageAction(viewModel));
                     break;

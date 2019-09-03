@@ -119,11 +119,9 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
 
             switch (this.type) {
                 case AddEditType.Add:
-                    console.log('Add race action dispatched');
                     this.store.dispatch(new racesActions.AddRaceAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    console.log('Edit race action dispatched');
                     viewModel.id = this.details.id;
                     this.store.dispatch(new racesActions.EditRaceAction(viewModel));
                     break;

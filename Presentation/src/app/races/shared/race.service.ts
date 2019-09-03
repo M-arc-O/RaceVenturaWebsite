@@ -30,9 +30,7 @@ export class RaceService {
     }
 
     public deleteRace(id: string): Observable<string> {
-        const body = JSON.stringify(id);
-
-        return this.http.post(`${this.baseUrl}/deleterace`, body, this.getHttpOptions()).pipe(
+        return this.http.delete(`${this.baseUrl}/${id}/remove`, this.getHttpOptions()).pipe(
             map((res: Response) => <string>res.json()),
             catchError(error => throwError(error)));
     }
@@ -48,7 +46,7 @@ export class RaceService {
     public editRace(viewModel: RaceDetailViewModel): Observable<RaceDetailViewModel> {
         const body = JSON.stringify(viewModel);
 
-        return this.http.post(`${this.baseUrl}/editrace`, body, this.getHttpOptions()).pipe(
+        return this.http.put(`${this.baseUrl}/editrace`, body, this.getHttpOptions()).pipe(
             map((res: Response) => <RaceDetailViewModel>res.json()),
             catchError(error => throwError(error)));
     }

@@ -1,13 +1,13 @@
-<div class="row">
+<div class="row border">
     <app-race-add *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"
     [type]="addEditType.Add"></app-race-add>
 </div>
 
-<div class="row">
+<div class="row border">
     <h5>Races</h5>
 </div>
 
-<div class="row">
+<div class="row border">
     <div class="col-6 race-list">
         <div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
             <div *ngIf="(loadRacesBase$ | async).success" class="list-group">
@@ -21,7 +21,7 @@
     </ng-template>
 </div>
 
-<div *ngIf="selectedRace" class="row">
+<div *ngIf="selectedRace" class="row border">
     <div class="col">
         <app-race-details [raceId]="selectedRace.id"></app-race-details>
     </div>

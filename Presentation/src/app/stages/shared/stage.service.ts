@@ -39,9 +39,8 @@ export class StageService {
     }
 
     public deleteStage(viewModel: StageViewModel): Observable<string> {
-        const body = JSON.stringify(viewModel);
 
-        return this.http.post(`${this.baseUrl}/deletestage`, body, this.getHttpOptions()).pipe(
+        return this.http.delete(`${this.baseUrl}/${viewModel.id}/${viewModel.raceId}/remove`, this.getHttpOptions()).pipe(
             map((res: Response) => <string>res.json()),
             catchError(error => throwError(error)));
     }

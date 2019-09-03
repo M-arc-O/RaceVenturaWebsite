@@ -1,164 +1,168 @@
-<p>
-    <a class="btn btn-secondary" data-toggle="collapse" href="#openForm{{type}}" role="button" aria-expanded="false"
-        attr.aria-controls="openForm{{type}}">
-        <span *ngIf="type === addEditType.Add">
-            Add race
-        </span>
-        <span *ngIf="type === addEditType.Edit">
-            Edit race
-        </span>
-    </a>
-</p>
-<div class="collapse" id="openForm{{type}}">
-    <form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick(addRaceNgForm)" #addRaceNgForm="ngForm"
-        role="form">
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
-                        !addRaceForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="raceName">Name</label>
-            <div class="col">
-                <input class="form-control" id="raceName" type="text" placeholder="Name (required)"
-                    formControlName="name" />
-            </div>
-        </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) &&
-                    !addRaceForm.get('checkCoordinates').valid }">
-            <div class="col-sm-6"></div>
-            <div class="col">
-                <div class="form-check">
-                    <input class="form-check-input" id="checkCoordinates" type="checkbox"
-                        formControlName="checkCoordinates">
-                    <label class="form-check-label" for="checkCoordinates">
-                        Check GPS coordinates
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('specialTasksAreStage').touched || addRaceForm.get('specialTasksAreStage').dirty) &&
-                    !addRaceForm.get('specialTasksAreStage').valid }">
-            <div class="col-sm-6"></div>
-            <div class="col">
-                <div class="form-check">
-                    <input class="form-check-input" id="specialTasksAreStage" type="checkbox"
-                        formControlName="specialTasksAreStage">
-                    <label class="form-check-label" for="specialTasksAreStage">
-                        Special tasks are a stage
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('maximumTeamSize').touched || addRaceForm.get('maximumTeamSize').dirty) &&
-                        !addRaceForm.get('maximumTeamSize').valid }">
-            <label class="col-sm-6 col-form-label" for="maximumTeamSize">Maximum team size</label>
-            <div class="col">
-                <input class="form-control" id="maximumTeamSize" type="text" placeholder="1 (required)"
-                    formControlName="maximumTeamSize" />
-            </div>
-        </div>
-        <validation-message-for field="maximumTeamSize">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the maximum team size.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('minimumPointsToCompleteStage').touched || addRaceForm.get('minimumPointsToCompleteStage').dirty) &&
-                        !addRaceForm.get('minimumPointsToCompleteStage').valid }">
-            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage">Minimum points to complete a
-                stage</label>
-            <div class="col">
-                <input class="form-control" id="minimumPointsToCompleteStage" type="text" placeholder="1 (required)"
-                    formControlName="minimumPointsToCompleteStage" />
-            </div>
-        </div>
-        <validation-message-for field="minimumPointsToCompleteStage">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the minimum points needed to complete a stage.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
-        !addRaceForm.get('penaltyPerMinuteLate').valid }">
-            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate">Penalty per minute late</label>
-            <div class="col">
-                <input class="form-control" id="penaltyPerMinuteLate" type="text" placeholder="0 (required)"
-                    formControlName="penaltyPerMinuteLate" />
-            </div>
-        </div>
-        <validation-message-for field="penaltyPerMinuteLate">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the penalty per minute late.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
-                        !addRaceForm.get('startDate').valid }">
-            <label class="col-sm-6 col-form-label" for="startDate">Start date</label>
-            <div class="col">
-                <input class="form-control" id="startDate" type="text" placeholder="dd-mm-yyyy"
-                    formControlName="startDate" />
-            </div>
-        </div>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
-                        !addRaceForm.get('startTime').valid }">
-            <label class="col-sm-6 col-form-label" for="startTime">Start time</label>
-            <div class="col">
-                <input class="form-control" id="startTime" type="text" placeholder="hh:mm"
-                    formControlName="startTime" />
-            </div>
-        </div>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
-                        !addRaceForm.get('endDate').valid }">
-            <label class="col-sm-6 col-form-label" for="endDate">End date</label>
-            <div class="col">
-                <input class="form-control" id="endDate" type="text" placeholder="dd-mm-yyyy"
-                    formControlName="endDate" />
-            </div>
-        </div>
-
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
-                        !addRaceForm.get('endTime').valid }">
-            <label class="col-sm-6 col-form-label" for="endTime">End time</label>
-            <div class="col">
-                <input class="form-control" id="endTime" type="text" placeholder="hh:mm" formControlName="endTime" />
-            </div>
-        </div>
-
-        <div *ngIf="(addBase$ | async).error">
-            <div *ngIf="(addBase$ | async).error.json() === 0">
-                A race with name '{{this.addRaceForm.get('name').value}}' already exists
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
+<div class="border">
+    <p>
+        <a class="btn btn-secondary" data-toggle="collapse" href="#openForm{{type}}" role="button" aria-expanded="false"
+            attr.aria-controls="openForm{{type}}">
             <span *ngIf="type === addEditType.Add">
                 Add race
             </span>
             <span *ngIf="type === addEditType.Edit">
                 Edit race
             </span>
-        </button>
-    </form>
-    <div *ngIf="(addBase$ | async).isActive">
-        Adding race
-    </div>
-    <div *ngIf="(editBase$ | async).isActive">
-        Editing race
+        </a>
+    </p>
+    <div class="collapse" id="openForm{{type}}">
+        <form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick(addRaceNgForm)"
+            #addRaceNgForm="ngForm" role="form">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
+                    !addRaceForm.get('name').valid }">
+                <label class="col-sm-6 col-form-label" for="raceName">Name</label>
+                <div class="col">
+                    <input class="form-control" id="raceName" type="text" placeholder="Name (required)"
+                        formControlName="name" />
+                </div>
+            </div>
+            <validation-message-for field="name">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a name.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) &&
+                !addRaceForm.get('checkCoordinates').valid }">
+                <div class="col-sm-6"></div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" id="checkCoordinates" type="checkbox"
+                            formControlName="checkCoordinates">
+                        <label class="form-check-label" for="checkCoordinates">
+                            Check GPS coordinates
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('specialTasksAreStage').touched || addRaceForm.get('specialTasksAreStage').dirty) &&
+                !addRaceForm.get('specialTasksAreStage').valid }">
+                <div class="col-sm-6"></div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" id="specialTasksAreStage" type="checkbox"
+                            formControlName="specialTasksAreStage">
+                        <label class="form-check-label" for="specialTasksAreStage">
+                            Special tasks are a stage
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('maximumTeamSize').touched || addRaceForm.get('maximumTeamSize').dirty) &&
+                    !addRaceForm.get('maximumTeamSize').valid }">
+                <label class="col-sm-6 col-form-label" for="maximumTeamSize">Maximum team size</label>
+                <div class="col">
+                    <input class="form-control" id="maximumTeamSize" type="text" placeholder="1 (required)"
+                        formControlName="maximumTeamSize" />
+                </div>
+            </div>
+            <validation-message-for field="maximumTeamSize">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the maximum team size.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('minimumPointsToCompleteStage').touched || addRaceForm.get('minimumPointsToCompleteStage').dirty) &&
+                    !addRaceForm.get('minimumPointsToCompleteStage').valid }">
+                <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage">Minimum points to complete a
+                    stage</label>
+                <div class="col">
+                    <input class="form-control" id="minimumPointsToCompleteStage" type="text" placeholder="1 (required)"
+                        formControlName="minimumPointsToCompleteStage" />
+                </div>
+            </div>
+            <validation-message-for field="minimumPointsToCompleteStage">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the minimum points needed to complete a
+                            stage.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
+    !addRaceForm.get('penaltyPerMinuteLate').valid }">
+                <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate">Penalty per minute late</label>
+                <div class="col">
+                    <input class="form-control" id="penaltyPerMinuteLate" type="text" placeholder="0 (required)"
+                        formControlName="penaltyPerMinuteLate" />
+                </div>
+            </div>
+            <validation-message-for field="penaltyPerMinuteLate">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the penalty per minute late.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
+                    !addRaceForm.get('startDate').valid }">
+                <label class="col-sm-6 col-form-label" for="startDate">Start date</label>
+                <div class="col">
+                    <input class="form-control" id="startDate" type="text" placeholder="dd-mm-yyyy"
+                        formControlName="startDate" />
+                </div>
+            </div>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
+                    !addRaceForm.get('startTime').valid }">
+                <label class="col-sm-6 col-form-label" for="startTime">Start time</label>
+                <div class="col">
+                    <input class="form-control" id="startTime" type="text" placeholder="hh:mm"
+                        formControlName="startTime" />
+                </div>
+            </div>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
+                    !addRaceForm.get('endDate').valid }">
+                <label class="col-sm-6 col-form-label" for="endDate">End date</label>
+                <div class="col">
+                    <input class="form-control" id="endDate" type="text" placeholder="dd-mm-yyyy"
+                        formControlName="endDate" />
+                </div>
+            </div>
+
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
+                    !addRaceForm.get('endTime').valid }">
+                <label class="col-sm-6 col-form-label" for="endTime">End time</label>
+                <div class="col">
+                    <input class="form-control" id="endTime" type="text" placeholder="hh:mm"
+                        formControlName="endTime" />
+                </div>
+            </div>
+
+            <div *ngIf="(addBase$ | async).error">
+                <div *ngIf="(addBase$ | async).error.json() === 0">
+                    A race with name '{{this.addRaceForm.get('name').value}}' already exists
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
+                <span *ngIf="type === addEditType.Add">
+                    Add race
+                </span>
+                <span *ngIf="type === addEditType.Edit">
+                    Edit race
+                </span>
+            </button>
+        </form>
+        <div *ngIf="(addBase$ | async).isActive">
+            Adding race
+        </div>
+        <div *ngIf="(editBase$ | async).isActive">
+            Editing race
+        </div>
     </div>
 </div>

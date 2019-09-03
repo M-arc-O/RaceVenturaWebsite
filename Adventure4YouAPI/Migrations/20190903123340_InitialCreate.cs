@@ -87,9 +87,9 @@ namespace Adventure4YouAPI.Migrations
                     SpecialTasksAreStage = table.Column<bool>(nullable: false),
                     MaximumTeamSize = table.Column<int>(nullable: false),
                     MinimumPointsToCompleteStage = table.Column<int>(nullable: false),
+                    PenaltyPerMinuteLate = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false),
-                    PenaltyPerMinutLate = table.Column<int>(nullable: false)
+                    EndTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

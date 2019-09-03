@@ -93,9 +93,9 @@ namespace Adventure4YouAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("deleterace")]
-        public ActionResult<RaceDetailViewModel> DeleteRace([FromBody]Guid raceId)
+        [HttpDelete]
+        [Route("{raceId}/remove")]
+        public ActionResult<Guid> DeleteRace(Guid raceId)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Adventure4YouAPI.Controllers
             return Ok(raceId);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("editrace")]
         public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
         {

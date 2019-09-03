@@ -27,12 +27,12 @@ namespace Adventure4You.Models
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
+        [Required]
+        public int PenaltyPerMinuteLate { get; set; }
+
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
-
-        [Required]
-        public int PenaltyPerMinutLate { get; set; }
 
         public Race()
         {

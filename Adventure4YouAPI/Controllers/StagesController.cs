@@ -104,15 +104,15 @@ namespace Adventure4YouAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("deletestage")]
-        public ActionResult<StageDetailViewModel> DeleteStage([FromBody]StageViewModel viewModel)
+        [HttpDelete]
+        [Route("{stageId}/{raceId}/remove")]
+        public ActionResult<Guid> DeleteStage(Guid stageId, Guid raceId)
         {
             try
             {
                 var id = GetUserId();
 
-                var result = _StageBL.DeleteStage(id, viewModel.Id, viewModel.RaceId);
+                var result = _StageBL.DeleteStage(id, stageId, raceId);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -123,7 +123,7 @@ namespace Adventure4YouAPI.Controllers
                 return StatusCode(500);
             }
 
-            return Ok(viewModel.Id);
+            return Ok(stageId);
         }
 
         [HttpPut]

@@ -127,7 +127,7 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int>("PenaltyPerMinutLate");
+                    b.Property<int>("PenaltyPerMinuteLate");
 
                     b.Property<bool>("SpecialTasksAreStage");
 
