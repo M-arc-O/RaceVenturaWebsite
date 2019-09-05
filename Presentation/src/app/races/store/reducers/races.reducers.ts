@@ -19,11 +19,11 @@ export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISe
     selectedRace: selectedRaceReducer,
     load: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
         RaceActions.LOAD_RACE_DETAILS_ERROR),
-    edit: createBaseReducer(RaceActions.EDIT_RACE, RaceActions.EDIT_RACE_SUCCES, RaceActions.EDIT_RACE_ERROR, RaceActions.LOAD_RACES)
+    edit: createBaseReducer(RaceActions.EDIT_RACE, RaceActions.EDIT_RACE_SUCCES, RaceActions.EDIT_RACE_ERROR, RaceActions.LOAD_RACES),
+    stagesState: stagesReducers
 });
 
 export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{
     races: racesCombinedReducers,
     selectedRace: selectedRaceCombinedReducer,
-    selectedRaceStagesState: stagesReducers
 });

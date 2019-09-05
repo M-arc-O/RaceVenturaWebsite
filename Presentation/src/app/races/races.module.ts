@@ -16,6 +16,7 @@ import { RacesRoutingModule } from './race-routing.module';
 import { RaceService } from './shared/race.service';
 import { RacesEffects } from './store/effects/races.effects';
 import { racesReducers } from './store/reducers';
+import { stagesReducers } from '../stages/store/reducers';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { racesReducers } from './store/reducers';
     ReactiveFormsModule,
     RacesRoutingModule,
     StoreModule.forFeature('racesFeature', racesReducers),
+    StoreModule.forFeature('stagesFeature', stagesReducers),
     EffectsModule.forFeature([RacesEffects, StagesEffects]),
     ValidationModule
   ],
