@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RaceOverviewComponent } from './components/raceOverview/race-overview.component';
+import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 
 const racesRoutes: Routes = [
-    { path: 'races', component: RaceOverviewComponent },
+    { path: 'races', component: RacesOverviewComponent },
     { path: 'raceDetails/:id', component: RaceDetailsComponent }
 ];
 

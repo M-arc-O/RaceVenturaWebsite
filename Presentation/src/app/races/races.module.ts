@@ -6,12 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import { ValidationModule } from '../shared/components/validation/validation.module';
 import { StageAddComponent } from '../stages/components/stageAdd/stage-add.component';
 import { StageDetailsComponent } from '../stages/components/stageDetails/stage-details.component';
-import { StageOverviewComponent } from '../stages/components/stageOverview/stage-overview.component';
+import { StagesOverviewComponent } from '../stages/components/stagesOverview/stages-overview.component';
 import { StagesService } from '../stages/shared';
 import { StagesEffects } from '../stages/store/effects/stages.effects';
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
-import { RaceOverviewComponent } from './components/raceOverview/race-overview.component';
+import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
 import { RacesService } from './shared';
 import { RacesEffects } from './store/effects/races.effects';
@@ -20,10 +20,10 @@ import { stagesReducers } from '../stages/store/reducers';
 
 @NgModule({
   declarations: [
-    RaceOverviewComponent,
+    RacesOverviewComponent,
     RaceDetailsComponent,
     RaceAddComponent,
-    StageOverviewComponent,
+    StagesOverviewComponent,
     StageDetailsComponent,
     StageAddComponent
   ],

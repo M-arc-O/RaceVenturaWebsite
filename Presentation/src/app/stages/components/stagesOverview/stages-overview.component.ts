@@ -5,18 +5,18 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { StageViewModel } from '../../shared/';
+import { StageViewModel } from '../../shared';
 import { deleteStageSelector, IStagesState, loadStagesSelector, stagesListSelector } from '../../store';
 import * as stagesActions from '../../store/actions/stage.actions';
 import { AddEditType } from '../../../shared';
 
 @Component({
-    selector: 'app-stage-overview',
-    templateUrl: './stage-overview.component.html',
-    styleUrls: ['./stage-overview.component.css'],
+    selector: 'app-stages-overview',
+    templateUrl: './stages-overview.component.html',
+    styleUrls: ['./stages-overview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StageOverviewComponent extends ComponentBase implements OnInit {
+export class StagesOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
     public stages$: Observable<StageViewModel[]>;

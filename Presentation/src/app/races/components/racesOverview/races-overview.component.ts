@@ -12,11 +12,11 @@ import { AddEditType } from '../../../shared';
 
 @Component({
     selector: 'app-race-overview',
-    templateUrl: './race-overview.component.html',
-    styleUrls: ['./race-overview.component.css'],
+    templateUrl: './races-overview.component.html',
+    styleUrls: ['./races-overview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceOverviewComponent extends ComponentBase implements OnInit {
+export class RacesOverviewComponent extends ComponentBase implements OnInit {
     public races$: Observable<RaceViewModel[]>;
     public loadRacesBase$: Observable<IBase>;
     public deleteRaceBase$: Observable<IBase>;
