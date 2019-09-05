@@ -1,26 +1,33 @@
-<div class="row border">
-    <app-stage-add *ngIf="!(loadStagesBase$ | async).isActive && !(loadStagesBase$ | async).error"
-    [type]="addEditType.Add" [details]="selectedStage"></app-stage-add>
+<div class="row">
+    <div class="col">
+        <app-stage-add *ngIf="!(loadStagesBase$ | async).isActive && !(loadStagesBase$ | async).error"
+            [type]="addEditType.Add" [details]="selectedStage"></app-stage-add>
+    </div>
 </div>
 
-<div class="row border">
-    <h5>Stages</h5>
-</div>
-
-<div class="row border">
-    <div class="col-6 stage-list">
-        <div *ngIf="!(loadStagesBase$ | async).isActive; else stagesLoading">
-            <div *ngIf="(loadStagesBase$ | async).success" class="list-group">
-                <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action" href="javascript:void(0)"
-                    (click)="detailsClicked(stage)" [ngClass]="{'active': stage === selectedStage}">{{stage.name}}</a>
-            </div>
+<div *ngIf="!(loadStagesBase$ | async).isActive; else stagesLoading" class="border">
+    <div class="row">
+        <div class="col">
+            <h5>Stages</h5>
         </div>
     </div>
-    <ng-template #stagesLoading>
-        Table is loading.
-    </ng-template>
-</div>
+    <div class="row">
+        <div class="col-2">
+            <div *ngIf="(loadStagesBase$ | async).success" class="list-group stage-list">
+                <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action"
+                    href="javascript:void(0)" (click)="detailsClicked(stage)"
+                    [ngClass]="{'active': stage === selectedStage}">{{stage.name}}</a>
+            </div>
+            <div *ngIf="(loadStagesBase$ | async).success && (stages$ | async).length === 0">
+                No stages found.
+            </div>
+            <ng-template #stagesLoading>
+                Table is loading.
+            </ng-template>
+        </div>
 
-<div *ngIf="selectedStage.id" class="row border">
-    <app-stage-details [selectedStage]="selectedStage"></app-stage-details>
+        <div *ngIf="selectedStage.id" class="col">
+            <app-stage-details [selectedStage]="selectedStage"></app-stage-details>
+        </div>
+    </div>
 </div>
