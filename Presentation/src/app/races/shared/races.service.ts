@@ -3,11 +3,11 @@ import { Headers, Http, RequestOptions, Response, URLSearchParams } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigurationService, UserService } from 'src/app/shared';
-import { RaceViewModel } from './';
+import { RaceViewModel } from '.';
 import { RaceDetailViewModel } from './models/race-detail-view-model';
 
 @Injectable()
-export class RaceService {
+export class RacesService {
     readonly baseUrl: string;
 
     constructor(private http: Http,

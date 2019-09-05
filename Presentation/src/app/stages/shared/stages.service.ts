@@ -3,10 +3,10 @@ import { Headers, Http, RequestOptions, Response, URLSearchParams } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigurationService, UserService } from 'src/app/shared';
-import { StageDetailViewModel, StageRequest, StageViewModel } from './';
+import { StageDetailViewModel, StageRequest, StageViewModel } from '.';
 
 @Injectable()
-export class StageService {
+export class StagesService {
     readonly baseUrl: string;
 
     constructor(private http: Http,
