@@ -16,9 +16,7 @@ namespace Adventure4You.DatabaseContext
         }
 
         public DbSet<Point> Points { get; set; }
-
-        public DbSet<PointLink> PointLinks { get; set; }
-
+        
         public DbSet<Race> Races { get; set; }
 
         public DbSet<Stage> Stages { get; set; }

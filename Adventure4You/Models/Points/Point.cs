@@ -12,6 +12,9 @@ namespace Adventure4You.Models.Points
         public Guid Id { get; set; }
 
         [Required]
+        public Guid StageId { get; set; }
+
+        [Required]
         public PointType Type { get; set; }
 
         [Required]

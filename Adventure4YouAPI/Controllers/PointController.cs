@@ -15,7 +15,7 @@ namespace Adventure4YouAPI.Controllers
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PointController : ControllerBase
+    public class PointController : Adventure4YouControllerBase
     {
         private readonly IPointBL _PointBL;
         private readonly IMapper _Mapper;
@@ -37,7 +37,7 @@ namespace Adventure4YouAPI.Controllers
                 var retVal = new List<PointViewModel>();
                 var points = new List<Point>();
 
-                var result = _PointBL.GetPoint(stageId, out points);
+                var result = _PointBL.GetPoint(GetUserId(), stageId, out points);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -66,7 +66,7 @@ namespace Adventure4YouAPI.Controllers
             {
                 var point = _Mapper.Map<Point>(viewModel);
 
-                var result = _PointBL.AddPoint(point, viewModel.StageId);
+                var result = _PointBL.AddPoint(GetUserId(), point);
 
                 if (result != BLReturnCodes.Ok)
                 {

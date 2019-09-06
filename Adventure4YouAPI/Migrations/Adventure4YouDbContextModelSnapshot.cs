@@ -87,6 +87,8 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<Guid>("StageId");
+
                     b.Property<int>("Type");
 
                     b.Property<int>("Value");
@@ -94,20 +96,6 @@ namespace Adventure4YouAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Points");
-                });
-
-            modelBuilder.Entity("Adventure4You.Models.Points.PointLink", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("PointId");
-
-                    b.Property<Guid>("StageId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PointLinks");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Race", b =>

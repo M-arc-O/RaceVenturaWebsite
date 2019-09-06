@@ -7,27 +7,29 @@ using Adventure4You.Models.Points;
 
 namespace Adventure4You
 {
-    public class PointBL : IPointBL
+    public class PointBL : BaseBL, IPointBL
     {
-        private readonly IAdventure4YouDbContext _Context;
-
-        public PointBL(IAdventure4YouDbContext context)
+        public PointBL(IAdventure4YouDbContext context) : base(context)
         {
-            _Context = context;
+
         }
 
-        public BLReturnCodes GetPoint(Guid stageId, out List<Point> points)
+        public BLReturnCodes GetPoint(Guid userId, Guid stageId, out List<Point> points)
         {
             points = null;
+            var stage = _Context.Stages.FirstOrDefault(s => s.Id == stageId);
 
-            var pointLinks = _Context.PointLinks.Where(link => link.StageId == stageId);
-
-            if (pointLinks == null || pointLinks.Count() == 0)
+            if (stage == null)
             {
                 return BLReturnCodes.UnknownStage;
+            }            
+
+            if (CheckIfUserHasAccessToRace(userId, stage.RaceId) == null)
+            {
+                return BLReturnCodes.UserUnauthorized;
             }
 
-            points = _Context.Points.Where(point => pointLinks.Any(link => link.StageId == point.Id)).ToList();
+            points = _Context.Points.Where(point => point.StageId == stageId).ToList();
 
             if (points == null)
             {
@@ -37,17 +39,16 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes AddPoint(Point point, Guid stageId)
+        public BLReturnCodes AddPoint(Guid userId, Point point)
         {
-            _Context.Points.Add(point);
-            _Context.SaveChanges();
+            var stage = _Context.Stages.FirstOrDefault(s => s.Id == point.StageId);
 
-            var pointLink = new PointLink
+            if (CheckIfUserHasAccessToRace(userId, stage.RaceId) == null)
             {
-                PointId = point.Id,
-                StageId = stageId
-            };
-            _Context.PointLinks.Add(pointLink);
+                return BLReturnCodes.UserUnauthorized;
+            }
+
+            _Context.Points.Add(point);
             _Context.SaveChanges();
 
             return BLReturnCodes.Ok;

@@ -50,23 +50,11 @@ namespace Adventure4YouAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PointLinks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    PointId = table.Column<Guid>(nullable: false),
-                    StageId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PointLinks", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Points",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    StageId = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     Value = table.Column<int>(nullable: false),
@@ -339,9 +327,6 @@ namespace Adventure4YouAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "PointLinks");
 
             migrationBuilder.DropTable(
                 name: "Points");

@@ -11,7 +11,6 @@ namespace Adventure4You.DatabaseContext
     public interface IAdventure4YouDbContext
     {
         DbSet<Point> Points { get; set; }
-        DbSet<PointLink> PointLinks { get; set; }
         DbSet<Race> Races { get; set; }
         DbSet<Stage> Stages { get; set; }
         DbSet<Team> Teams { get; set; }
