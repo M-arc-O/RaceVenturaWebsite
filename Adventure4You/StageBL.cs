@@ -29,7 +29,7 @@ namespace Adventure4You
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            stages = _Context.Stages.Where(stage => stage.RaceId == raceId).ToList();
+            stages = _Context.Stages.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Name).ToList();
             if (stages == null)
             {
                 return BLReturnCodes.NoStagesFound;
@@ -61,6 +61,11 @@ namespace Adventure4You
             if (CheckIfUserHasAccessToRace(userId, raceId) == null)
             {
                 return BLReturnCodes.UserUnauthorized;
+            }
+
+            if (_Context.Stages.Any(stage => stage.Name.Equals(stageModel.Name)))
+            {
+                return BLReturnCodes.Duplicate;
             }
 
             _Context.Stages.Add(stageModel);
@@ -97,16 +102,21 @@ namespace Adventure4You
             }
 
             var stage = _Context.Stages.First(s => s.Id == stageModel.Id);
-            if (stage != null)
+            if (stage == null)
             {
-                stage.Name = stageModel.Name;
-                stage.MimimumPointsToCompleteStage = stageModel.MimimumPointsToCompleteStage;
-                _Context.SaveChanges();
-
-                return BLReturnCodes.Ok;
+                return BLReturnCodes.UnknownStage;
             }
 
-            return BLReturnCodes.UnknownStage;
+            if (_Context.Stages.Any(s => s.Name.Equals(stageModel.Name)))
+            {
+                return BLReturnCodes.Duplicate;
+            }
+
+            stage.Name = stageModel.Name;
+            stage.MimimumPointsToCompleteStage = stageModel.MimimumPointsToCompleteStage;
+            _Context.SaveChanges();
+
+            return BLReturnCodes.Ok;
         }
     }
 }

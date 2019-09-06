@@ -50,9 +50,18 @@
         </button>
     </form>
     <div *ngIf="(addBase$ | async).isActive">
-        Adding stage
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Adding stage...</strong>
+        </div>
+    </div>
+    <div *ngIf="(addBase$ | async).error">
+        {{getErrorText((addBase$ | async).error.text()) }}
     </div>
     <div *ngIf="(editBase$ | async).isActive">
-        Editing stage
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Editing stage...</strong>
+        </div>
     </div>
 </div>

@@ -157,9 +157,15 @@
         </button>
     </form>
     <div *ngIf="(addBase$ | async).isActive">
-        Adding race
+            <div class="align-items-center m-2">
+                <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+                <strong>Adding race...</strong>
+            </div>
     </div>
     <div *ngIf="(editBase$ | async).isActive">
-        Editing race
+            <div class="align-items-center m-2">
+                <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+                <strong>Editing race...</strong>
+            </div>
     </div>
 </div>

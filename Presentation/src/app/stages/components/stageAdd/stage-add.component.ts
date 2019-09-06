@@ -43,7 +43,9 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
             }
 
             if (base !== undefined && base.error !== undefined) {
-                this.handleError(base.error);
+                if (base.error.status !== 400) {
+                    this.handleError(base.error);
+                }
             }
         });
 
@@ -53,7 +55,9 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
             }
 
             if (base !== undefined && base.error !== undefined) {
-                this.handleError(base.error);
+                if (base.error.status !== 400) {
+                    this.handleError(base.error);
+                }
             }
         });
     }
@@ -101,6 +105,16 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
             this.validateAllFormFields(this.addStageForm);
         }
     }
+
+    public getErrorText(errorText: string): string {
+        switch (errorText) {
+            case '1':
+                return 'A stage with this name already exists in this race.';
+            default:
+                return 'Default error!';
+        }
+    }
+
 
     private resetForm(): void {
         if (this.addStageNgForm !== undefined) {

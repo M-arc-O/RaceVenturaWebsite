@@ -22,13 +22,14 @@
             <app-stage-add [details]="stageDetails$ | async" [type]="addEditType.Edit"></app-stage-add>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeStageModal">
+            <button type="button" class="btn btn-danger float-right" data-toggle="modal"
+                data-target="#removeStageModal">
                 Remove stage
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="removeStageModal" tabindex="-1" role="dialog" aria-labelledby="removeStageModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="removeStageModal" tabindex="-1" role="dialog"
+                aria-labelledby="removeStageModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -42,14 +43,15 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" (click)="RemoveStageClicked()" data-dismiss="modal">Remove</button>
+                            <button type="button" class="btn btn-danger" (click)="RemoveStageClicked()"
+                                data-dismiss="modal">Remove</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col">
             <app-points-overview></app-points-overview>
@@ -63,6 +65,9 @@
 
 <ng-template #stageLoading>
     <div *ngIf="(stageDetailsLoad$ | async).isActive">
-        Loading stage details.
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Loading stage details...</strong>
+        </div>
     </div>
 </ng-template>

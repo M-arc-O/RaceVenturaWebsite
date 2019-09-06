@@ -12,9 +12,11 @@ namespace Adventure4You
         {
         }
 
-        public List<Race> GetAllRaces()
+        public List<Race> GetAllRaces(Guid userId)
         {
-            return _Context.Races.ToList();
+            var links = _Context.UserLinks.Where(link => link.UserId == userId);
+
+            return _Context.Races.Where(race => links.Any(link => link.RaceId == race.Id)).OrderBy(race => race.Name).ToList();
         }
 
         public BLReturnCodes GetRaceDetails(Guid id, Guid raceId, out Race raceModel)

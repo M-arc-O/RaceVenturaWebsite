@@ -6,7 +6,7 @@ namespace Adventure4You
 {
     public interface IRaceBL
     {
-        List<Race> GetAllRaces();
+        List<Race> GetAllRaces(Guid userId);
 
         BLReturnCodes GetRaceDetails(Guid id, Guid raceId, out Race raceModel);
 

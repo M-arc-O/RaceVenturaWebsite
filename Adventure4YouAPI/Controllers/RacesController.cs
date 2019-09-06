@@ -34,7 +34,7 @@ namespace Adventure4YouAPI.Controllers
 
             try
             {
-                foreach (var race in _RaceBL.GetAllRaces())
+                foreach (var race in _RaceBL.GetAllRaces(GetUserId()))
                 {
                     retVal.Add(_Mapper.Map<RaceViewModel>(race));
                 }
