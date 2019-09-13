@@ -6,47 +6,57 @@ using System.Linq;
 
 namespace Adventure4You
 {
-    public class RaceBL: BaseBL, IRaceBL
+    public class RaceBL : BaseBL, IRaceBL
     {
-        public RaceBL(IAdventure4YouDbContext context): base(context)
+        private readonly IStageBL _StageBL;
+
+        public RaceBL(IAdventure4YouDbContext context, IStageBL stageBL) : base(context)
         {
+            _StageBL = stageBL;
         }
 
-        public List<Race> GetAllRaces(Guid userId)
+        public BLReturnCodes GetAllRaces(Guid userId, out List<Race> races)
         {
+            races = null;
             var links = _Context.UserLinks.Where(link => link.UserId == userId);
 
-            return _Context.Races.Where(race => links.Any(link => link.RaceId == race.Id)).OrderBy(race => race.Name).ToList();
+            races = _Context.Races.Where(race => links.Any(link => link.RaceId == race.Id)).OrderBy(race => race.Name).ToList();
+            if (races == null)
+            {
+                return BLReturnCodes.NoRacesFound;
+            }
+
+            return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes GetRaceDetails(Guid id, Guid raceId, out Race raceModel)
+        public BLReturnCodes GetRaceDetails(Guid userId, Guid raceId, out Race race)
         {
-            raceModel = null;
+            race = null;
 
-            if (CheckIfUserHasAccessToRace(id, raceId) == null)
+            if (CheckIfUserHasAccessToRace(userId, raceId) == null)
             {
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            raceModel = _Context.Races.FirstOrDefault(model => model.Id == raceId);
-            if (raceModel == null)
+            race = GetRace(raceId);
+            if (race == null)
             {
                 return BLReturnCodes.UnknownRace;
             }
 
-            return BLReturnCodes.Ok;            
+            return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes AddRace(Guid userId, Race raceModel)
+        public BLReturnCodes AddRace(Guid userId, Race race)
         {
-            if (!CheckIfRaceNameIsTaken(raceModel.Name))
+            if (!CheckIfRaceNameExists(race.Name))
             {
-                _Context.Races.Add(raceModel);
+                _Context.Races.Add(race);
                 _Context.SaveChanges();
 
                 _Context.UserLinks.Add(new UserLink
                 {
-                    RaceId = raceModel.Id,
+                    RaceId = race.Id,
                     UserId = userId
                 });
 
@@ -60,60 +70,22 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        public BLReturnCodes EditRace(Guid id, Race raceModelInput)
+        public BLReturnCodes DeleteRace(Guid userId, Guid raceId)
         {
-            var raceModel = GetRaceModel(raceModelInput.Id);
-
-            if (raceModel != null)
+            var userLink = CheckIfUserHasAccessToRace(userId, raceId);
+            if (userLink == null)
             {
-                if (CheckIfUserHasAccessToRace(id, raceModel.Id) == null)
-                {
-                    return BLReturnCodes.UserUnauthorized;
-                }
-
-                if (raceModel.Name.Equals(raceModelInput.Name) || !CheckIfRaceNameIsTaken(raceModelInput.Name))
-                {
-                    raceModel.Name = raceModelInput.Name;
-                    raceModel.CoordinatesCheckEnabled = raceModelInput.CoordinatesCheckEnabled;
-                    raceModel.SpecialTasksAreStage = raceModelInput.SpecialTasksAreStage;
-                    raceModel.MaximumTeamSize = raceModelInput.MaximumTeamSize;
-                    raceModel.MinimumPointsToCompleteStage = raceModelInput.MinimumPointsToCompleteStage;
-                    raceModel.StartTime = raceModelInput.StartTime;
-                    raceModel.EndTime = raceModelInput.EndTime;
-                    _Context.SaveChanges();
-
-                    return BLReturnCodes.Ok;
-                }
-                else
-                {
-                    return BLReturnCodes.Duplicate;
-                }
+                return BLReturnCodes.UserUnauthorized;
             }
-            else
+
+            var race = GetRace(raceId);
+            if (race != null)
             {
-                return BLReturnCodes.UnknownRace;
-            }
-        }
+                _StageBL.RemoveStages(userId, raceId);
 
-        public BLReturnCodes DeleteRace(Guid id, Guid raceId)
-        {
-            var raceModel = GetRaceModel(raceId);
-
-            if (raceModel != null)
-            {
-                var userLink = CheckIfUserHasAccessToRace(id, raceModel.Id);
-                if (userLink == null)
-                {
-                    return BLReturnCodes.UserUnauthorized;
-                }
-                else
-                {
-                    _Context.UserLinks.Remove(userLink);
-                }
-
-                _Context.Races.Remove(raceModel);
-                _Context.Stages.RemoveRange(_Context.Stages.Where(stage => stage.RaceId == raceId));
-
+                _Context.UserLinks.Remove(userLink);
+                _Context.Races.Remove(race);
+                
                 _Context.SaveChanges();
             }
             else
@@ -124,14 +96,46 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        private Race GetRaceModel(Guid raceId)
+        public BLReturnCodes EditRace(Guid userId, Race raceNew)
+        {
+            if (CheckIfUserHasAccessToRace(userId, raceNew.Id) == null)
+            {
+                return BLReturnCodes.UserUnauthorized;
+            }
+
+            var race = GetRace(raceNew.Id);
+            if (race == null)
+            {
+                return BLReturnCodes.UnknownRace;
+            }
+
+            if (race.Name.ToUpper().Equals(raceNew.Name.ToUpper()) || !CheckIfRaceNameExists(raceNew.Name))
+            {
+                race.Name = raceNew.Name;
+                race.CoordinatesCheckEnabled = raceNew.CoordinatesCheckEnabled;
+                race.SpecialTasksAreStage = raceNew.SpecialTasksAreStage;
+                race.MaximumTeamSize = raceNew.MaximumTeamSize;
+                race.MinimumPointsToCompleteStage = raceNew.MinimumPointsToCompleteStage;
+                race.StartTime = raceNew.StartTime;
+                race.EndTime = raceNew.EndTime;
+                _Context.SaveChanges();
+
+                return BLReturnCodes.Ok;
+            }
+            else
+            {
+                return BLReturnCodes.Duplicate;
+            }
+        }
+
+        private Race GetRace(Guid raceId)
         {
             return _Context.Races.FirstOrDefault(race => race.Id == raceId);
         }
 
-        private bool CheckIfRaceNameIsTaken(string name)
+        private bool CheckIfRaceNameExists(string name)
         {
-            return _Context.Races.Any(race => race.Name.Equals(name));
-        }       
+            return _Context.Races.Any(race => race.Name.ToUpper().Equals(name.ToUpper()));
+        }
     }
 }

@@ -115,7 +115,6 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         }
     }
 
-
     private resetForm(): void {
         if (this.addStageNgForm !== undefined) {
             this.addStageNgForm.resetForm();

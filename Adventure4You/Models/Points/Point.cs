@@ -27,6 +27,10 @@ namespace Adventure4You.Models.Points
         [MaxLength(255)]
         public string Coordinates { get; set; }
 
+        public string Answer { get; set; }
+
+        public string Message { get; set; }
+
         public Point()
         {
         }

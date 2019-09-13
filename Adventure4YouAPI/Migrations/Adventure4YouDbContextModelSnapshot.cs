@@ -80,8 +80,12 @@ namespace Adventure4YouAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Answer");
+
                     b.Property<string>("Coordinates")
                         .HasMaxLength(255);
+
+                    b.Property<string>("Message");
 
                     b.Property<string>("Name")
                         .IsRequired()

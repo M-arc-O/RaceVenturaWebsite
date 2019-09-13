@@ -1,0 +1,75 @@
+<div *ngIf="(pointDetailsLoad$ | async).success; else pointLoading">
+    <h5>{{(pointDetails$ | async).name}} details</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Coordinates</th>
+                    <th>Answer</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{(pointDetails$ | async).name}}</td>
+                    <td>{{pointTypeToString((pointDetails$ | async).type)}}</td>
+                    <td>{{(pointDetails$ | async).value}}</td>
+                    <td>{{(pointDetails$ | async).coordinates}}</td>
+                    <td>{{(pointDetails$ | async).answer}}</td>
+                    <td>{{(pointDetails$ | async).message}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <app-point-add [details]="pointDetails$ | async" [type]="addEditType.Edit"></app-point-add>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger float-right" data-toggle="modal"
+                data-target="#removePointModal">
+                Remove point
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="removePointModal" tabindex="-1" role="dialog"
+                aria-labelledby="removePointModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removePointModalLabel">Are you sure?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to remove {{(pointDetails$ | async).name}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" (click)="RemovePointClicked()"
+                                data-dismiss="modal">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="(pointDetailsLoad$ | async).error">
+    Error while loading point details.
+</div>
+
+<ng-template #pointLoading>
+    <div *ngIf="(pointDetailsLoad$ | async).isActive">
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Loading point details...</strong>
+        </div>
+    </div>
+</ng-template>

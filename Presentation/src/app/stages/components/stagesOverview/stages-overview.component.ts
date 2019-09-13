@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ComponentBase, UserService } from 'src/app/shared';
+import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { StageViewModel } from '../../shared';
 import { deleteStageSelector, IStagesState, loadStagesSelector, stagesListSelector } from '../../store';
 import * as stagesActions from '../../store/actions/stage.actions';
-import { AddEditType } from '../../../shared';
 
 @Component({
     selector: 'app-stages-overview',

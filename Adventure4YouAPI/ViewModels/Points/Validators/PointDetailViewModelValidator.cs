@@ -2,9 +2,9 @@
 
 namespace Adventure4YouAPI.ViewModels.Points.Validations
 {
-    public class AddPointViewModelValidator : AbstractValidator<AddPointViewModel>
+    public class PointDetailViewModelValidator : AbstractValidator<PointDetailViewModel>
     {
-        public AddPointViewModelValidator()
+        public PointDetailViewModelValidator()
         {
             RuleFor(vm => vm.Name).NotEmpty().WithMessage("Name cannot be empty");
             RuleFor(vm => vm.Value).NotEmpty().WithMessage("Value cannot be empty");

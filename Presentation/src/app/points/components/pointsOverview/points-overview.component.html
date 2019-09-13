@@ -1,1 +1,38 @@
-Hier komen de punten
+<div class="border">
+    <div class="row">
+        <div class="col">
+            <app-point-add *ngIf="!(loadPointsBase$ | async).isActive && !(loadPointsBase$ | async).error"
+                [type]="addEditType.Add" [details]="selectedPoint"></app-point-add>
+        </div>
+    </div>
+
+    <div *ngIf="!(loadPointsBase$ | async).isActive; else pointsLoading">
+        <div class="row">
+            <div class="col">
+                <h5>Points</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <div *ngIf="(loadPointsBase$ | async).success" class="list-group point-list">
+                    <a *ngFor="let point of points$ | async" class="list-group-item list-group-item-action"
+                        href="javascript:void(0)" (click)="detailsClicked(point)"
+                        [ngClass]="{'active': point === selectedPoint}">{{point.name}}</a>
+                </div>
+                <div *ngIf="(loadPointsBase$ | async).success && (points$ | async).length === 0">
+                    No points found.
+                </div>
+            </div>
+
+            <div *ngIf="selectedPoint.id" class="col">
+                <app-point-details [selectedPoint]="selectedPoint"></app-point-details>
+            </div>
+        </div>
+    </div>
+    <ng-template #pointsLoading>
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Loading points...</strong>
+        </div>
+    </ng-template>
+</div>

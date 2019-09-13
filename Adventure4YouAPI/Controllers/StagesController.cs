@@ -57,7 +57,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getstagedetails")]
-        public ActionResult<StageViewModel> GetStageDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<StageDetailViewModel> GetStageDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
@@ -70,7 +70,6 @@ namespace Adventure4YouAPI.Controllers
                 }
 
                 var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
-                retVal.RaceId = raceId;
 
                 return Ok(retVal);
             }
@@ -110,9 +109,7 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
-
-                var result = _StageBL.DeleteStage(id, stageId, raceId);
+                var result = _StageBL.DeleteStage(GetUserId(), stageId, raceId);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -132,17 +129,15 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
                 var stageModel = _Mapper.Map<Stage>(viewModel);
 
-                var result = _StageBL.EditStage(id, stageModel);
+                var result = _StageBL.EditStage(GetUserId(), stageModel);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
                 }
 
                 var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
-                retVal.RaceId = viewModel.RaceId;
 
                 return Ok(retVal);
             }

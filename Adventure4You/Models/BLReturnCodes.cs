@@ -10,9 +10,11 @@ namespace Adventure4You.Models
         Ok = 0,
         Duplicate = 1,
         UserUnauthorized = 2,
-        UnknownRace = 3,
-        NoStagesFound = 4,
-        UnknownStage = 5,
-        NoPointsFound = 6,
+        NoRacesFound = 3,
+        UnknownRace = 4,
+        NoStagesFound = 5,
+        UnknownStage = 6,
+        NoPointsFound = 7,
+        UnknownPoint = 8,
     }
 }

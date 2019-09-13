@@ -10,8 +10,8 @@ namespace Adventure4YouAPI.ViewModels.Points
             CreateMap<Point, PointViewModel>();
             CreateMap<PointViewModel, Point>();
 
-            CreateMap<AddPointViewModel, Point>();
-            CreateMap<Point, AddPointViewModel>();
+            CreateMap<PointDetailViewModel, Point>();
+            CreateMap<Point, PointDetailViewModel>();
         }
     }
 }

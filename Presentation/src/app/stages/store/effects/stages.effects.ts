@@ -24,7 +24,7 @@ export class StagesEffects {
     @Effect() addStage$ = this.actions$.pipe(
         ofType(StageActions.ADD_STAGE),
         switchMap(action => this.stagesService.addStage((action as stagesActions.AddStageAction).payload).pipe(
-            map(race => new stagesActions.AddStageSuccesAction(race)),
+            map(stage => new stagesActions.AddStageSuccesAction(stage)),
             catchError((error: Response) => of(new stagesActions.AddStageErrorAction({ error: error }))))));
 
     @Effect() deleteStage$ = this.actions$.pipe(

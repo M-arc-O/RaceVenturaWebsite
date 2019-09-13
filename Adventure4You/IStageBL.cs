@@ -9,13 +9,10 @@ namespace Adventure4You
     public interface IStageBL
     {
         BLReturnCodes GetStages(Guid userId, Guid raceId, out List<Stage> stages);
-
-        BLReturnCodes GetStageDetails(Guid userId, Guid stageId, Guid raceId, out Stage stageModel);
-
-        BLReturnCodes AddStage(Guid userId, Stage stageModel, Guid raceId);
-
-        BLReturnCodes EditStage(Guid id, Stage stageModel);
-
-        BLReturnCodes DeleteStage(Guid id, Guid stageId, Guid raceId);
+        BLReturnCodes GetStageDetails(Guid userId, Guid stageId, Guid raceId, out Stage stage);
+        BLReturnCodes AddStage(Guid userId, Stage stage, Guid raceId);
+        BLReturnCodes DeleteStage(Guid userId, Guid stageId, Guid raceId);
+        BLReturnCodes EditStage(Guid userId, Stage stageNew);
+        BLReturnCodes RemoveStages(Guid userId, Guid raceId);
     }
 }

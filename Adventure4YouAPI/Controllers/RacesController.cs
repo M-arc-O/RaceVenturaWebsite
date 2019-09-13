@@ -30,21 +30,29 @@ namespace Adventure4YouAPI.Controllers
         [Route("getallraces")]
         public ActionResult<List<RaceViewModel>> GetAllRaces()
         {
-            var retVal = new List<RaceViewModel>();
-
             try
             {
-                foreach (var race in _RaceBL.GetAllRaces(GetUserId()))
+                List<Race> races;
+                var result = _RaceBL.GetAllRaces(GetUserId(), out races);
+
+                if (result == BLReturnCodes.Ok)
                 {
-                    retVal.Add(_Mapper.Map<RaceViewModel>(race));
+                    var retVal = new List<RaceViewModel>();
+
+                    foreach (var race in races)
+                    {
+                        retVal.Add(_Mapper.Map<RaceViewModel>(race));
+                    }
+
+                    return Ok(retVal);
                 }
+
+                return BadRequest((ErrorCodes)result);
             }
             catch
             {
                 return StatusCode(500);
             }
-
-            return Ok(retVal);
         }
 
         [HttpGet()]
@@ -53,10 +61,9 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
                 var raceModel = new Race();
 
-                var result = _RaceBL.GetRaceDetails(id, raceId, out raceModel);
+                var result = _RaceBL.GetRaceDetails(GetUserId(), raceId, out raceModel);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -76,10 +83,9 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
                 var raceModel = _Mapper.Map<Race>(viewModel);
 
-                var result = _RaceBL.AddRace(id, raceModel);
+                var result = _RaceBL.AddRace(GetUserId(), raceModel);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -99,9 +105,7 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
-
-                var result = _RaceBL.DeleteRace(id, raceId);
+                var result = _RaceBL.DeleteRace(GetUserId(), raceId);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
@@ -121,10 +125,9 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var id = GetUserId();
                 var raceModel = _Mapper.Map<Race>(viewModel);
 
-                var result = _RaceBL.EditRace(id, raceModel);
+                var result = _RaceBL.EditRace(GetUserId(), raceModel);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);

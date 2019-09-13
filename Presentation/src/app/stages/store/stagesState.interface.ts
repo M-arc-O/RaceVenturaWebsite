@@ -1,7 +1,7 @@
-import { createSelector, MemoizedSelector, createFeatureSelector } from '@ngrx/store';
-import { IStages } from './stages.interface';
-import { ISelectedStage } from './selectedStage.interface';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { stagesStateSelectedRaceSelector } from 'src/app/races/store';
+import { ISelectedStage } from './selectedStage.interface';
+import { IStages } from './stages.interface';
 
 export interface IStagesState {
     stages: IStages;

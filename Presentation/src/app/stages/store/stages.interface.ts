@@ -1,6 +1,6 @@
-import { StageViewModel } from '../shared';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { IBase } from 'src/app/store/base.interface';
-import { MemoizedSelector, createSelector } from '@ngrx/store';
+import { StageViewModel } from '../shared';
 import { stagesSelector } from './stagesState.interface';
 
 export interface IStages {

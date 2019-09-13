@@ -1,7 +1,7 @@
 import { StageViewModel } from '../../shared';
 import * as stagesActions from './../actions/stage.actions';
 
-export function racesReducer(state: StageViewModel[], action: stagesActions.StageActionsUnion) {
+export function stagesReducer(state: StageViewModel[], action: stagesActions.StageActionsUnion) {
     switch (action.type) {
         case stagesActions.StageActions.LOAD_STAGES_SUCCES: {
             return action.payload;

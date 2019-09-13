@@ -23,7 +23,7 @@ export class StagesService {
 
     public getStageDetails(request: StageRequest): Observable<StageDetailViewModel> {
         const idHeader = [{ key: 'stageId', value: request.stageId.toString() },
-            {key: 'raceId', value: request.raceId.toString()}];
+        { key: 'raceId', value: request.raceId.toString() }];
 
         return this.http.get(`${this.baseUrl}/getstagedetails`, this.getHttpOptions(idHeader)).pipe(
             map((res: Response) => <StageDetailViewModel>res.json()),
