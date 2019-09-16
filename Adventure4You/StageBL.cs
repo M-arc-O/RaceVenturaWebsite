@@ -72,15 +72,15 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var stageModel = GetStage(stageId);
-                if (stageModel == null)
+                var stage = GetStage(stageId);
+                if (stage == null)
                 {
                     return BLReturnCodes.Unknown;
                 }
 
                 _PointBL.RemovePoints(userId, stageId);
 
-                _Context.Stages.Remove(stageModel);
+                _Context.Stages.Remove(stage);
                 _Context.SaveChanges();
 
                 return BLReturnCodes.Ok;
