@@ -18,6 +18,8 @@ namespace Adventure4You.Models.Teams
         [MaxLength(255)]
         public string Name { get; set; }
 
+        public string RegisteredPhoneIds { get; set; }
+
         public Team()
         {
         }

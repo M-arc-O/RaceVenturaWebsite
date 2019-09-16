@@ -12,14 +12,15 @@ namespace Adventure4You.Models.Teams
         public Guid Id { get; set; }
 
         [Required]
+        public Guid RaceId { get; set; }
+
+        [Required]
         public Guid StageId { get; set; }
 
         [Required]
         public Guid TeamId { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
-
         public DateTime StopTime { get; set; }
     }
 }

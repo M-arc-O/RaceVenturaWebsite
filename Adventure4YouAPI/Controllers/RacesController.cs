@@ -78,7 +78,7 @@ namespace Adventure4YouAPI.Controllers
         }
 
         [HttpPost]
-        [Route("addRace")]
+        [Route("addrace")]
         public ActionResult<RaceViewModel> AddRace([FromBody]RaceDetailViewModel viewModel)
         {
             try

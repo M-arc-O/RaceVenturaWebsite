@@ -148,6 +148,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
+            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add race
             </span>
@@ -156,16 +158,4 @@
             </span>
         </button>
     </form>
-    <div *ngIf="(addBase$ | async).isActive">
-            <div class="align-items-center m-2">
-                <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
-                <strong>Adding race...</strong>
-            </div>
-    </div>
-    <div *ngIf="(editBase$ | async).isActive">
-            <div class="align-items-center m-2">
-                <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
-                <strong>Editing race...</strong>
-            </div>
-    </div>
 </div>

@@ -77,7 +77,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         let name = '';
         let type = PointType.CheckPoint;
         let value: number;
-        let coordinates = '';
+        let latitude: number;
+        let longitude: number;
         let answer = '';
         let message = '';
 
@@ -85,7 +86,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             name = details.name;
             type = details.type;
             value = details.value;
-            coordinates = details.coordinates;
+            latitude = details.latitude;
+            longitude = details.longitude;
             answer = details.answer;
             message = details.message;
         }
@@ -94,7 +96,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             name: [name, [Validators.required]],
             type: [type, [Validators.required]],
             value: [value, [Validators.required]],
-            coordinates: [coordinates, [Validators.required]],
+            latitude: [latitude, [Validators.required]],
+            longitude: [longitude, [Validators.required]],
             answer: [answer, []],
             message: [message, []]
         });
@@ -109,7 +112,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             viewModel.name = this.addPointForm.get('name').value;
             viewModel.type = this.addPointForm.get('type').value;
             viewModel.value = this.addPointForm.get('value').value;
-            viewModel.coordinates = this.addPointForm.get('coordinates').value;
+            viewModel.latitude = this.addPointForm.get('latitude').value;
+            viewModel.longitude = this.addPointForm.get('longitude').value;
             viewModel.answer = this.addPointForm.get('answer').value;
             viewModel.message = this.addPointForm.get('message').value;
 

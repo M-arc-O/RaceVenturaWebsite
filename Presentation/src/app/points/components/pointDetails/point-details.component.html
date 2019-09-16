@@ -7,7 +7,8 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Value</th>
-                    <th>Coordinates</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                     <th>Answer</th>
                     <th>Message</th>
                 </tr>
@@ -17,7 +18,8 @@
                     <td>{{(pointDetails$ | async).name}}</td>
                     <td>{{pointTypeToString((pointDetails$ | async).type)}}</td>
                     <td>{{(pointDetails$ | async).value}}</td>
-                    <td>{{(pointDetails$ | async).coordinates}}</td>
+                    <td>{{(pointDetails$ | async).latitude}}</td>
+                    <td>{{(pointDetails$ | async).longitude}}</td>
                     <td>{{(pointDetails$ | async).answer}}</td>
                     <td>{{(pointDetails$ | async).message}}</td>
                 </tr>

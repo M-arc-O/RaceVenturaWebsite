@@ -61,15 +61,15 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var stageModel = new Stage();
+                var stage = new Stage();
 
-                var result = _StageBL.GetStageDetails(GetUserId(), stageId, raceId, out stageModel);
+                var result = _StageBL.GetStageDetails(GetUserId(), stageId, raceId, out stage);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
                 }
 
-                var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
+                var retVal = _Mapper.Map<StageDetailViewModel>(stage);
 
                 return Ok(retVal);
             }
@@ -87,15 +87,15 @@ namespace Adventure4YouAPI.Controllers
 
             try
             {
-                var stageModel = _Mapper.Map<Stage>(viewModel);
+                var stage = _Mapper.Map<Stage>(viewModel);
 
-                var result = _StageBL.AddStage(GetUserId(), stageModel, viewModel.RaceId);
+                var result = _StageBL.AddStage(GetUserId(), stage, viewModel.RaceId);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
                 }
 
-                return Ok(_Mapper.Map<StageViewModel>(stageModel));
+                return Ok(_Mapper.Map<StageViewModel>(stage));
             }
             catch
             {
@@ -129,15 +129,15 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var stageModel = _Mapper.Map<Stage>(viewModel);
+                var stage = _Mapper.Map<Stage>(viewModel);
 
-                var result = _StageBL.EditStage(GetUserId(), stageModel);
+                var result = _StageBL.EditStage(GetUserId(), stage);
                 if (result != BLReturnCodes.Ok)
                 {
                     return BadRequest((ErrorCodes)result);
                 }
 
-                var retVal = _Mapper.Map<StageDetailViewModel>(stageModel);
+                var retVal = _Mapper.Map<StageDetailViewModel>(stage);
 
                 return Ok(retVal);
             }
@@ -146,6 +146,5 @@ namespace Adventure4YouAPI.Controllers
                 return StatusCode(500);
             }
         }
-
     }
 }

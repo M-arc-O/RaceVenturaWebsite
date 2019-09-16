@@ -25,7 +25,7 @@ namespace Adventure4You
 
                 if (points == null)
                 {
-                    return BLReturnCodes.NoPointsFound;
+                    return BLReturnCodes.NotFound;
                 }
             }
 
@@ -43,7 +43,7 @@ namespace Adventure4You
 
                 if (point == null)
                 {
-                    return BLReturnCodes.UnknownPoint;
+                    return BLReturnCodes.Unknown;
                 }
             }
 
@@ -75,7 +75,7 @@ namespace Adventure4You
                 var point = _Context.Points.FirstOrDefault(p => p.Id == pointId);
                 if (point == null)
                 {
-                    return BLReturnCodes.UnknownPoint;
+                    return BLReturnCodes.Unknown;
                 }
 
                 _Context.Points.Remove(point);
@@ -93,7 +93,7 @@ namespace Adventure4You
                 var point = _Context.Points.FirstOrDefault(p => p.Id == pointNew.Id);
                 if (point == null)
                 {
-                    return BLReturnCodes.UnknownPoint;
+                    return BLReturnCodes.Unknown;
                 }
 
                 if (!point.Name.ToUpper().Equals(pointNew.Name.ToUpper()) && CheckIfPointNameExists(pointNew))
@@ -104,7 +104,8 @@ namespace Adventure4You
                 point.Name = pointNew.Name;
                 point.Type = pointNew.Type;
                 point.Value = pointNew.Value;
-                point.Coordinates = pointNew.Coordinates;
+                point.Latitude = pointNew.Latitude;
+                point.Longitude = pointNew.Longitude;
                 point.Answer = pointNew.Answer;
                 point.Message = pointNew.Message;
 
@@ -133,7 +134,7 @@ namespace Adventure4You
 
             if (stage == null)
             {
-                return BLReturnCodes.UnknownStage;
+                return BLReturnCodes.Unknown;
             }
 
             if (base.CheckIfUserHasAccessToRace(userId, stage.RaceId) == null)

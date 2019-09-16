@@ -58,7 +58,10 @@ namespace Adventure4YouAPI.Migrations
                     Type = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     Value = table.Column<int>(nullable: false),
-                    Coordinates = table.Column<string>(maxLength: 255, nullable: true)
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false),
+                    Answer = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -103,9 +106,10 @@ namespace Adventure4YouAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false),
+                    StageId = table.Column<Guid>(nullable: false),
                     PointId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
-                    StageId = table.Column<Guid>(nullable: false),
                     Time = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -118,6 +122,7 @@ namespace Adventure4YouAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
                     StopTime = table.Column<DateTime>(nullable: false)
                 },
@@ -132,7 +137,8 @@ namespace Adventure4YouAPI.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    RegisteredPhoneIds = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,9 +150,9 @@ namespace Adventure4YouAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    RaceId = table.Column<Guid>(nullable: false),
                     StageId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
-                    StartTime = table.Column<DateTime>(nullable: false),
                     StopTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

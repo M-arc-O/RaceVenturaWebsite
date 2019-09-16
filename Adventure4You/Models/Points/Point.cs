@@ -24,8 +24,9 @@ namespace Adventure4You.Models.Points
         [Required]
         public int Value { get; set; }
 
-        [MaxLength(255)]
-        public string Coordinates { get; set; }
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
 
         public string Answer { get; set; }
 

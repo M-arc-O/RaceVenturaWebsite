@@ -12,6 +12,9 @@ namespace Adventure4You.Models.Teams
         public Guid Id { get; set; }
 
         [Required]
+        public Guid RaceId { get; set; }
+
+        [Required]
         public Guid TeamId { get; set; }
 
         [Required]

@@ -26,7 +26,7 @@ namespace Adventure4You
                 stages = _Context.Stages.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Name).ToList();
                 if (stages == null)
                 {
-                    return BLReturnCodes.NoStagesFound;
+                    return BLReturnCodes.NotFound;
                 }
             }
 
@@ -43,7 +43,7 @@ namespace Adventure4You
                 stage = GetStage(stageId);
                 if (stage == null)
                 {
-                    return BLReturnCodes.UnknownStage;
+                    return BLReturnCodes.Unknown;
                 }
             }
 
@@ -75,7 +75,7 @@ namespace Adventure4You
                 var stageModel = GetStage(stageId);
                 if (stageModel == null)
                 {
-                    return BLReturnCodes.UnknownStage;
+                    return BLReturnCodes.Unknown;
                 }
 
                 _PointBL.RemovePoints(userId, stageId);
@@ -97,7 +97,7 @@ namespace Adventure4You
                 var stage = GetStage(stageNew.Id);
                 if (stage == null)
                 {
-                    return BLReturnCodes.UnknownStage;
+                    return BLReturnCodes.Unknown;
                 }
 
                 if (!stage.Name.ToUpper().Equals(stageNew.Name.ToUpper()) && CheckIfStageNameExists(stageNew))
@@ -138,7 +138,7 @@ namespace Adventure4You
             var race = _Context.Races.Where(r => r.Id == raceId);
             if (race == null || race.Count() == 0)
             {
-                return BLReturnCodes.UnknownRace;
+                return BLReturnCodes.Unknown;
             }
 
             if (CheckIfUserHasAccessToRace(userId, raceId) == null)

@@ -32,7 +32,8 @@
             <label class="col-sm-6 col-form-label" for="type">Type</label>
             <div class="col">
                 <select class="form-control" id="type" formControlName="type">
-                    <option *ngFor="let type of pointTypes | enumToArray" [value]="type.index">{{pointTypeToString(type.index)}}</option>
+                    <option *ngFor="let type of pointTypes | enumToArray" [value]="type.index">
+                        {{pointTypeToString(type.index)}}</option>
                 </select>
             </div>
         </div>
@@ -41,7 +42,8 @@
                         !addPointForm.get('value').valid }">
             <label class="col-sm-6 col-form-label" for="value">Value</label>
             <div class="col">
-                <input class="form-control" id="value" type="text" placeholder="Value (required)" formControlName="value" />
+                <input class="form-control" id="value" type="text" placeholder="Value (required)"
+                    formControlName="value" />
             </div>
         </div>
         <validation-message-for field="value">
@@ -52,17 +54,34 @@
             </validation-message>
         </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('coordinates').touched || addPointForm.get('coordinates').dirty) &&
-                        !addPointForm.get('coordinates').valid }">
-            <label class="col-sm-6 col-form-label" for="coordinates">Coordinates</label>
+        <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('latitude').touched || addPointForm.get('latitude').dirty) &&
+                        !addPointForm.get('latitude').valid }">
+            <label class="col-sm-6 col-form-label" for="latitude">Latitude</label>
             <div class="col">
-                <input class="form-control" id="coordinates" type="text" placeholder="Coordinates (required)" formControlName="coordinates" />
+                <input class="form-control" id="latitude" type="text" placeholder="xx.xxx (required)"
+                    formControlName="latitude" />
             </div>
         </div>
-        <validation-message-for field="coordinates">
+        <validation-message-for field="latitude">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the coordinates.</span>
+                    <span class="help-block offset-sm-6">Please enter the latitude.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+
+        <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('longitude').touched || addPointForm.get('longitude').dirty) &&
+                        !addPointForm.get('longitude').valid }">
+            <label class="col-sm-6 col-form-label" for="longitude">Longitude</label>
+            <div class="col">
+                <input class="form-control" id="longitude" type="text" placeholder="xx.xxx (required)"
+                    formControlName="longitude" />
+            </div>
+        </div>
+        <validation-message-for field="longitude">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter the longitude.</span>
                 </div>
             </validation-message>
         </validation-message-for>
@@ -71,7 +90,8 @@
                         !addPointForm.get('answer').valid }">
             <label class="col-sm-6 col-form-label" for="answer">Answer</label>
             <div class="col">
-                <input class="form-control" id="answer" type="text" placeholder="Answer (Optional)" formControlName="answer" />
+                <input class="form-control" id="answer" type="text" placeholder="Answer (Optional)"
+                    formControlName="answer" />
             </div>
         </div>
         <validation-message-for field="answer">
@@ -81,13 +101,16 @@
                         !addPointForm.get('message').valid }">
             <label class="col-sm-6 col-form-label" for="message">Message</label>
             <div class="col">
-                <input class="form-control" id="message" type="text" placeholder="Message (Optional)" formControlName="message" />
+                <input class="form-control" id="message" type="text" placeholder="Message (Optional)"
+                    formControlName="message" />
             </div>
         </div>
         <validation-message-for field="message">
         </validation-message-for>
 
         <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
+            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add point
             </span>
@@ -96,19 +119,7 @@
             </span>
         </button>
     </form>
-    <div *ngIf="(addBase$ | async).isActive">
-        <div class="align-items-center m-2">
-            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
-            <strong>Adding point...</strong>
-        </div>
-    </div>
     <div *ngIf="(addBase$ | async).error">
         {{getErrorText((addBase$ | async).error.text()) }}
-    </div>
-    <div *ngIf="(editBase$ | async).isActive">
-        <div class="align-items-center m-2">
-            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
-            <strong>Editing point...</strong>
-        </div>
     </div>
 </div>

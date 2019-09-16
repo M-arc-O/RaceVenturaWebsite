@@ -57,6 +57,7 @@ namespace Adventure4YouAPI
                 mc.AddProfile(new ViewModels.Points.MappingProfile());
                 mc.AddProfile(new ViewModels.Stages.MappingProfile());
                 mc.AddProfile(new ViewModels.Races.MappingProfile());
+                mc.AddProfile(new ViewModels.Teams.MappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

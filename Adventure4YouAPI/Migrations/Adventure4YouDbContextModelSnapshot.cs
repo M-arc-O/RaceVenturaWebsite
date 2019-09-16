@@ -82,8 +82,9 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<string>("Answer");
 
-                    b.Property<string>("Coordinates")
-                        .HasMaxLength(255);
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
 
                     b.Property<string>("Message");
 
@@ -159,6 +160,8 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("RaceId");
 
+                    b.Property<string>("RegisteredPhoneIds");
+
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
@@ -170,6 +173,8 @@ namespace Adventure4YouAPI.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("PointId");
+
+                    b.Property<Guid>("RaceId");
 
                     b.Property<Guid>("StageId");
 
@@ -187,6 +192,8 @@ namespace Adventure4YouAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("RaceId");
+
                     b.Property<DateTime>("StopTime");
 
                     b.Property<Guid>("TeamId");
@@ -201,9 +208,9 @@ namespace Adventure4YouAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("StageId");
+                    b.Property<Guid>("RaceId");
 
-                    b.Property<DateTime>("StartTime");
+                    b.Property<Guid>("StageId");
 
                     b.Property<DateTime>("StopTime");
 

@@ -23,7 +23,7 @@ namespace Adventure4You
             races = _Context.Races.Where(race => links.Any(link => link.RaceId == race.Id)).OrderBy(race => race.Name).ToList();
             if (races == null)
             {
-                return BLReturnCodes.NoRacesFound;
+                return BLReturnCodes.NotFound;
             }
 
             return BLReturnCodes.Ok;
@@ -41,7 +41,7 @@ namespace Adventure4You
             race = GetRace(raceId);
             if (race == null)
             {
-                return BLReturnCodes.UnknownRace;
+                return BLReturnCodes.Unknown;
             }
 
             return BLReturnCodes.Ok;
@@ -90,7 +90,7 @@ namespace Adventure4You
             }
             else
             {
-                return BLReturnCodes.UnknownRace;
+                return BLReturnCodes.Unknown;
             }
 
             return BLReturnCodes.Ok;
@@ -106,7 +106,7 @@ namespace Adventure4You
             var race = GetRace(raceNew.Id);
             if (race == null)
             {
-                return BLReturnCodes.UnknownRace;
+                return BLReturnCodes.Unknown;
             }
 
             if (race.Name.ToUpper().Equals(raceNew.Name.ToUpper()) || !CheckIfRaceNameExists(raceNew.Name))

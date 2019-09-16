@@ -13,6 +13,7 @@ namespace Adventure4You.Helpers
             services.AddScoped<IPointBL, PointBL>();
             services.AddScoped<IRaceBL, RaceBL>();
             services.AddScoped<IStageBL, StageBL>();
+            services.AddScoped<ITeamBL, TeamBL>();
         }
     }
 }
