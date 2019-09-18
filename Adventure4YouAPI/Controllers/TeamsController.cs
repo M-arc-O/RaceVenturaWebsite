@@ -13,13 +13,13 @@ namespace Adventure4YouAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamController : Adventure4YouControllerBase
+    public class TeamsController : Adventure4YouControllerBase
     {
         private readonly ITeamBL _TeamBL;
         private readonly IMapper _Mapper;
 
 
-        public TeamController(ITeamBL teamBL, IMapper mapper)
+        public TeamsController(ITeamBL teamBL, IMapper mapper)
         {
             _TeamBL = teamBL;
             _Mapper = mapper;
@@ -55,7 +55,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getteamdetails")]
-        public ActionResult<List<TeamViewModel>> GetTeamDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<TeamDetailViewModel> GetTeamDetails([FromQuery(Name = "teamId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                var retVal = _Mapper.Map<TeamViewModel>(team);
+                var retVal = _Mapper.Map<TeamDetailViewModel>(team);
 
                 return Ok(retVal);
             }
@@ -79,7 +79,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addteam")]
-        public ActionResult<TeamViewModel> AddTeam([FromBody]TeamViewModel viewModel)
+        public ActionResult<TeamViewModel> AddTeam([FromBody]TeamDetailViewModel viewModel)
         {
             Thread.Sleep(1000);
 

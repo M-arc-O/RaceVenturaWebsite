@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col">
+        <app-team-add *ngIf="!(loadTeamsBase$ | async).isActive && !(loadTeamsBase$ | async).error"
+            [type]="addEditType.Add" [details]="selectedTeam"></app-team-add>
+    </div>
+</div>
+
+<div *ngIf="!(loadTeamsBase$ | async).isActive; else teamsLoading">
+    <div class="row">
+        <div class="col">
+            <h5>Teams</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div *ngIf="(loadTeamsBase$ | async).success" class="list-group team-list">
+                <a *ngFor="let team of teams$ | async" class="list-group-item list-group-item-action"
+                    href="javascript:void(0)" (click)="detailsClicked(team)"
+                    [ngClass]="{'active': team === selectedTeam}">{{team.name}}</a>
+            </div>
+            <div *ngIf="(loadTeamsBase$ | async).success && (teams$ | async).length === 0">
+                No teams found.
+            </div>
+        </div>
+
+        <div *ngIf="selectedTeam.id" class="col">
+            <app-team-details [selectedTeam]="selectedTeam"></app-team-details>
+        </div>
+    </div>
+</div>
+<ng-template #teamsLoading>
+    <div class="align-items-center m-2">
+        <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+        <strong>Loading teams...</strong>
+    </div>
+</ng-template>

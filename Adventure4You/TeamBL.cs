@@ -53,7 +53,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                if (CheckIfTeamNameAndNumberExists(team))
+                if (CheckIfTeamNameExists(team) || CheckIfTeamNumberExists(team))
                 {
                     return BLReturnCodes.Duplicate;
                 }
@@ -96,7 +96,8 @@ namespace Adventure4You
                     return BLReturnCodes.Unknown;
                 }
 
-                if ((!teamNew.Name.ToUpper().Equals(teamNew.Name.ToUpper()) || teamNew.Number != team.Number) && CheckIfTeamNameAndNumberExists(teamNew))
+                if ((!teamNew.Name.ToUpper().Equals(teamNew.Name.ToUpper()) && CheckIfTeamNameExists(teamNew)) ||
+                    (teamNew.Number != team.Number && CheckIfTeamNumberExists(teamNew)))
                 {
                     return BLReturnCodes.Duplicate;
                 }
@@ -130,10 +131,13 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        private bool CheckIfTeamNameAndNumberExists(Team team)
+        private bool CheckIfTeamNameExists(Team team)
         {
-            return _Context.Teams.Where(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper())) ||
-                _Context.Teams.Where(t=>t.RaceId == team.RaceId).Any(t=>t.Number == team.Number);
+            return _Context.Teams.Where(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper()));
+        }
+        private bool CheckIfTeamNumberExists(Team team)
+        {
+            return _Context.Teams.Where(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number);
         }
     }
 }

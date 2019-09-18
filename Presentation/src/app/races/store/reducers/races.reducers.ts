@@ -7,6 +7,7 @@ import { ISelectedRace } from '../selectedRace.interface';
 import { createBaseReducer } from 'src/app/store/base.reducer';
 import { RaceActions } from '../actions/race.actions';
 import { stagesReducers } from 'src/app/stages/store/reducers';
+import { teamsReducers } from 'src/app/teams/store/reducers';
 
 export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>>{
     races: racesReducer,
@@ -20,7 +21,8 @@ export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISe
     load: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
         RaceActions.LOAD_RACE_DETAILS_ERROR),
     edit: createBaseReducer(RaceActions.EDIT_RACE, RaceActions.EDIT_RACE_SUCCES, RaceActions.EDIT_RACE_ERROR, RaceActions.LOAD_RACES),
-    stagesState: stagesReducers
+    stagesState: stagesReducers,
+    teamsState: teamsReducers
 });
 
 export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{

@@ -17,6 +17,12 @@ import { StagesOverviewComponent } from '../stages/components/stagesOverview/sta
 import { StagesService } from '../stages/shared';
 import { StagesEffects } from '../stages/store/effects/stages.effects';
 import { stagesReducers } from '../stages/store/reducers';
+import { TeamAddComponent } from '../teams/components/teamAdd/team-add.component';
+import { TeamDetailsComponent } from '../teams/components/teamDetails/team-details.component';
+import { TeamsOverviewComponent } from '../teams/components/teamsOverview/teams-overview.component';
+import { TeamsService } from '../teams/shared';
+import { TeamsEffects } from '../teams/store/effects/teams.effects';
+import { teamsReducers } from '../teams/store/reducers';
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
@@ -35,7 +41,10 @@ import { racesReducers } from './store/reducers';
     StageAddComponent,
     PointsOverviewComponent,
     PointDetailsComponent,
-    PointAddComponent
+    PointAddComponent,
+    TeamsOverviewComponent,
+    TeamDetailsComponent,
+    TeamAddComponent
   ],
   imports: [
     CommonModule,
@@ -44,10 +53,11 @@ import { racesReducers } from './store/reducers';
     StoreModule.forFeature('racesFeature', racesReducers),
     StoreModule.forFeature('stagesFeature', stagesReducers),
     StoreModule.forFeature('pointsFeature', pointsReducers),
-    EffectsModule.forFeature([RacesEffects, StagesEffects, PointsEffects]),
+    StoreModule.forFeature('teamsFeature', teamsReducers),
+    EffectsModule.forFeature([RacesEffects, StagesEffects, PointsEffects, TeamsEffects]),
     ValidationModule,
     PipesModule
   ],
-  providers: [RacesService, StagesService, PointsService],
+  providers: [RacesService, StagesService, PointsService, TeamsService],
 })
 export class RacesModule { }
