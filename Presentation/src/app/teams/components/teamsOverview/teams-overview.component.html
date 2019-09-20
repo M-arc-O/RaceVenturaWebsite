@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col">
-        <app-team-add *ngIf="!(loadTeamsBase$ | async).isActive && !(loadTeamsBase$ | async).error"
-            [type]="addEditType.Add" [details]="selectedTeam"></app-team-add>
+        <app-team-add [type]="addEditType.Add" [details]="selectedTeam"></app-team-add>
     </div>
 </div>
 
@@ -16,14 +15,14 @@
             <div *ngIf="(loadTeamsBase$ | async).success" class="list-group team-list">
                 <a *ngFor="let team of teams$ | async" class="list-group-item list-group-item-action"
                     href="javascript:void(0)" (click)="detailsClicked(team)"
-                    [ngClass]="{'active': team === selectedTeam}">{{team.name}}</a>
+                    [ngClass]="{'active': team.teamId === selectedTeam.teamId}">{{team.number}} - {{team.name}}</a>
             </div>
-            <div *ngIf="(loadTeamsBase$ | async).success && (teams$ | async).length === 0">
+            <div *ngIf="(loadTeamsBase$ | async).success && (!(teams$ | async) || (teams$ | async).length === 0)">
                 No teams found.
             </div>
         </div>
 
-        <div *ngIf="selectedTeam.id" class="col">
+        <div *ngIf="selectedTeam.teamId" class="col">
             <app-team-details [selectedTeam]="selectedTeam"></app-team-details>
         </div>
     </div>

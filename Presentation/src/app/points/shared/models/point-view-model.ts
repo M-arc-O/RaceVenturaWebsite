@@ -1,5 +1,5 @@
 export class PointViewModel {
-    public id: string;
+    public pointId: string;
     public stageId: string;
     public name: string;
 }

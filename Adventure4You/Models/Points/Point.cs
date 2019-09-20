@@ -9,7 +9,7 @@ namespace Adventure4You.Models.Points
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid PointId { get; set; }
 
         [Required]
         public Guid StageId { get; set; }

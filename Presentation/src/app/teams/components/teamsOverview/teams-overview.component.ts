@@ -35,6 +35,8 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
+        this.resetSelectedTeam();
+
         this.loadTeamsBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
@@ -43,7 +45,7 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
 
         this.deleteTeamBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
-                this.selectedTeam.id = undefined;
+                this.resetSelectedTeam();
             }
 
             if (base !== undefined && base.error !== undefined) {
@@ -51,10 +53,13 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
             }
         });
 
+        this.getTeams();
+    }
+
+    private resetSelectedTeam() {
         this.selectedTeam = new TeamViewModel();
         this.selectedTeam.raceId = this.raceId;
-
-        this.getTeams();
+        this.selectedTeam.teamId = undefined;
     }
 
     getTeams(): void {

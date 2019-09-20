@@ -10,6 +10,7 @@ import { AddEditType } from '../../../shared';
 import { TeamDetailViewModel } from '../../shared';
 import { addTeamSelector, editSelectedTeamSelector, ITeamsState } from '../../store';
 import * as teamActions from '../../store/actions/team.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-team-add',
@@ -50,10 +51,6 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
         });
 
         this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.store.dispatch(new teamActions.LoadTeamsAction(this.details.raceId));
-            }
-
             if (base !== undefined && base.error !== undefined) {
                 if (base.error.status !== 400) {
                     this.handleError(base.error);
@@ -97,7 +94,7 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
                     this.store.dispatch(new teamActions.AddTeamAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    viewModel.id = this.details.id;
+                    viewModel.teamId = this.details.teamId;
                     this.store.dispatch(new teamActions.EditTeamAction(viewModel));
                     break;
             }
@@ -106,8 +103,8 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
         }
     }
 
-    public getErrorText(errorText: string): string {
-        switch (errorText) {
+    public getErrorText(error: HttpErrorResponse): string {
+        switch (error.error.toString()) {
             case '1':
                 return 'A team with this name or number already exists in this race.';
             default:

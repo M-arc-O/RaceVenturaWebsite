@@ -4,6 +4,7 @@ using Adventure4You.Models.Teams;
 using Adventure4YouAPI.ViewModels;
 using Adventure4YouAPI.ViewModels.Teams;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading;
 
 namespace Adventure4YouAPI.Controllers
 {
+    [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : Adventure4YouControllerBase

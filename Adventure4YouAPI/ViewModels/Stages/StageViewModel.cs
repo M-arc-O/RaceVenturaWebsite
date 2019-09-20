@@ -4,7 +4,7 @@ namespace Adventure4YouAPI.ViewModels.Stages
 {
     public class StageViewModel
     {
-        public Guid Id { get; set; }
+        public Guid StageId { get; set; }
 
         public Guid RaceId { get; set; }
 

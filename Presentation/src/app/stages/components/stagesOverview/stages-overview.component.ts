@@ -35,6 +35,7 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
+        this.resetSelectedStage();
         this.loadStagesBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
@@ -43,7 +44,7 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
 
         this.deleteStageBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
-                this.selectedStage.id = undefined;
+                this.resetSelectedStage();
             }
 
             if (base !== undefined && base.error !== undefined) {
@@ -51,10 +52,13 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
             }
         });
 
+        this.getStages();
+    }
+
+    resetSelectedStage() {
         this.selectedStage = new StageViewModel();
         this.selectedStage.raceId = this.raceId;
-
-        this.getStages();
+        this.selectedStage.stageId = undefined;
     }
 
     getStages(): void {

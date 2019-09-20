@@ -10,6 +10,7 @@ import { RaceDetailViewModel } from '../../shared';
 import { addRaceSelector, editSelectedRaceSelector, IRacesState } from '../../store';
 import * as racesActions from '../../store/actions/race.actions';
 import { AddEditType } from '../../../shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-race-add',
@@ -48,10 +49,6 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
         });
 
         this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.store.dispatch(new racesActions.LoadRacesAction());
-            }
-
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
             }
@@ -122,7 +119,7 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
                     this.store.dispatch(new racesActions.AddRaceAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    viewModel.id = this.details.id;
+                    viewModel.raceId = this.details.raceId;
                     this.store.dispatch(new racesActions.EditRaceAction(viewModel));
                     break;
             }
@@ -135,6 +132,15 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
         if (this.addRaceNgForm !== undefined) {
             this.addRaceNgForm.resetForm();
             this.addRaceForm.reset();
+        }
+    }
+
+    public getErrorText(error: HttpErrorResponse): string {
+        switch (error.error.toString()) {
+            case '1':
+                return 'A race with this name already exists in this race.';
+            default:
+                return 'Default error!';
         }
     }
 }

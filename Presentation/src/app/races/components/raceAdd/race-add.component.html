@@ -141,12 +141,6 @@
             </div>
         </div>
 
-        <div *ngIf="(addBase$ | async).error">
-            <div *ngIf="(addBase$ | async).error.json() === 0">
-                A race with name '{{this.addRaceForm.get('name').value}}' already exists
-            </div>
-        </div>
-
         <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
             <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
                 class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -157,5 +151,12 @@
                 Edit race
             </span>
         </button>
+
+        <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+            {{getErrorText((addBase$ | async).error) }}
+        </div>
+        <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+            {{getErrorText((editBase$ | async).error) }}
+        </div>
     </form>
 </div>

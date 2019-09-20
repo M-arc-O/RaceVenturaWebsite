@@ -9,11 +9,8 @@ namespace Adventure4You
 {
     public class StageBL : BaseBL, IStageBL
     {
-        private readonly IPointBL _PointBL;
-
-        public StageBL(IAdventure4YouDbContext context, IPointBL pointBL) : base(context)
+        public StageBL(IAdventure4YouDbContext context) : base(context)
         {
-            _PointBL = pointBL;
         }
 
         public BLReturnCodes GetStages(Guid userId, Guid raceId, out List<Stage> stages)
@@ -23,7 +20,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                stages = _Context.Stages.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Name).ToList();
+                stages = GetRaceById(raceId)?.Stages?.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Name).ToList();
                 if (stages == null)
                 {
                     return BLReturnCodes.NotFound;
@@ -60,7 +57,13 @@ namespace Adventure4You
                     return BLReturnCodes.Duplicate;
                 }
 
-                _Context.Stages.Add(stage);
+                var stages = GetRaceById(raceId)?.Stages;
+                if (stages == null)
+                {
+                    stages = new List<Stage>();
+                }
+
+                stages.Add(stage);
                 _Context.SaveChanges();
             }
 
@@ -78,14 +81,12 @@ namespace Adventure4You
                     return BLReturnCodes.Unknown;
                 }
 
-                _PointBL.RemovePoints(userId, stageId);
-
-                _Context.Stages.Remove(stage);
+                GetRaceById(stage.RaceId)?.Stages.Remove(stage);
                 _Context.SaveChanges();
 
                 return BLReturnCodes.Ok;
             }
-            
+
             return retVal;
         }
 
@@ -94,7 +95,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, stageNew.RaceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var stage = GetStage(stageNew.Id);
+                var stage = GetStage(stageNew.StageId);
                 if (stage == null)
                 {
                     return BLReturnCodes.Unknown;
@@ -113,29 +114,14 @@ namespace Adventure4You
             return retVal;
         }
 
-        public BLReturnCodes RemoveStages(Guid userId, Guid raceId)
-        {
-            var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
-            if (retVal == BLReturnCodes.Ok)
-            {
-                var stages = _Context.Stages.Where(stage => stage.RaceId == raceId);
-                stages.ToList().ForEach(s => _PointBL.RemovePoints(userId, s.Id));
-
-                _Context.Stages.RemoveRange(stages);
-                _Context.SaveChanges();
-            }
-
-            return retVal;
-        }
-
         private Stage GetStage(Guid stageId)
         {
-            return _Context.Stages.FirstOrDefault(s => s.Id == stageId);
+            return GetRaceByStageId(stageId)?.Stages.FirstOrDefault(s => s.StageId == stageId);
         }
 
         private BLReturnCodes CheckIfUserHasAccessToRaceAndRaceExists(Guid userId, Guid raceId)
         {
-            var race = _Context.Races.Where(r => r.Id == raceId);
+            var race = _Context.Races.Where(r => r.RaceId == raceId);
             if (race == null || race.Count() == 0)
             {
                 return BLReturnCodes.Unknown;
@@ -151,7 +137,8 @@ namespace Adventure4You
 
         private bool CheckIfStageNameExists(Stage stage)
         {
-            return _Context.Stages.Where(s => s.RaceId == stage.RaceId).Any(s => s.Name.ToUpper().Equals(stage.Name.ToUpper()));
+            var race = GetRaceById(stage.RaceId);
+            return race == null || race.Stages == null ? false : race.Stages.Any(s => s.Name.ToUpper().Equals(stage.Name.ToUpper()));
         }
     }
 }

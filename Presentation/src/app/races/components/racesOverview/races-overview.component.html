@@ -1,7 +1,6 @@
 <div class="m-2">
     <div class="row">
-        <app-race-add *ngIf="!(loadRacesBase$ | async).isActive && !(loadRacesBase$ | async).error"
-            [type]="addEditType.Add"></app-race-add>
+        <app-race-add [type]="addEditType.Add"></app-race-add>
     </div>
 
     <div class="row">
@@ -16,7 +15,7 @@
                         <div *ngIf="(loadRacesBase$ | async).success" class="race-list list-group">
                             <a *ngFor="let race of races$ | async" class="list-group-item list-group-item-action"
                                 href="javascript:void(0)" (click)="detailsClicked(race)"
-                                [ngClass]="{'active': race === selectedRace}">{{race.name}}</a>
+                                [ngClass]="{'active': race.raceId === selectedRace.raceId}">{{race.name}}</a>
                         </div>
                     </div>
                     <div *ngIf="(loadRacesBase$ | async).success && (races$ | async).length === 0">
@@ -30,8 +29,8 @@
                     </ng-template>
                 </div>
 
-                <div *ngIf="selectedRace" class="col ml-1 p-0">
-                    <app-race-details [raceId]="selectedRace.id"></app-race-details>
+                <div *ngIf="selectedRace.raceId" class="col ml-1 p-0">
+                    <app-race-details [raceId]="selectedRace.raceId"></app-race-details>
                 </div>
             </div>
         </div>

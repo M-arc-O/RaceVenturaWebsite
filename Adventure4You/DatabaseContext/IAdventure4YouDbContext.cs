@@ -10,13 +10,8 @@ namespace Adventure4You.DatabaseContext
 {
     public interface IAdventure4YouDbContext
     {
-        DbSet<Point> Points { get; set; }
         DbSet<Race> Races { get; set; }
-        DbSet<Stage> Stages { get; set; }
-        DbSet<Team> Teams { get; set; }
-        DbSet<TeamPointVisited> TeamPointsVisited { get; set; }
-        DbSet<TeamRaceFinished> TeamRacesFinished { get; set; }
-        DbSet<TeamStageFinished> TeamStagesFinished { get; set; }
+
         DbSet<UserLink> UserLinks { get; set; }
 
         int SaveChanges();

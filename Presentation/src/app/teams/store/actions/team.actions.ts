@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
 import { TeamDetailViewModel, TeamRequest, TeamViewModel } from '../../shared';
 
@@ -31,7 +32,7 @@ export class LoadTeamsSuccesAction {
 
 export class LoadTeamsErrorAction implements BaseErrorAction {
     public readonly type = TeamActions.LOAD_TEAMS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class AddTeamAction {
@@ -46,7 +47,7 @@ export class AddTeamSuccesAction {
 
 export class AddTeamErrorAction implements BaseErrorAction {
     public readonly type = TeamActions.ADD_TEAM_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class DeleteTeamAction {
@@ -61,7 +62,7 @@ export class DeleteTeamSuccesAction {
 
 export class DeleteTeamErrorAction implements BaseErrorAction {
     public readonly type = TeamActions.DELETE_TEAM_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class LoadTeamDetailsAction {
@@ -76,7 +77,7 @@ export class LoadTeamDetailsSuccesAction {
 
 export class LoadTeamDetailsErrorAction implements BaseErrorAction {
     public readonly type = TeamActions.LOAD_TEAM_DETAILS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class EditTeamAction {
@@ -91,7 +92,7 @@ export class EditTeamSuccesAction {
 
 export class EditTeamErrorAction implements BaseErrorAction {
     public readonly type = TeamActions.EDIT_TEAM_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export type TeamActionsUnion

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Adventure4You.Models.Stages;
+using Adventure4You.Models.Teams;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +12,7 @@ namespace Adventure4You.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid RaceId { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -30,9 +33,15 @@ namespace Adventure4You.Models
         [Required]
         public int PenaltyPerMinuteLate { get; set; }
 
+        [Required]
         public DateTime StartTime { get; set; }
 
+        [Required]
         public DateTime EndTime { get; set; }
+
+        public List<Stage> Stages { get; set; }
+
+        public List<Team> Teams { get; set; }
 
         public Race()
         {

@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col">
-        <app-stage-add *ngIf="!(loadStagesBase$ | async).isActive && !(loadStagesBase$ | async).error"
-            [type]="addEditType.Add" [details]="selectedStage"></app-stage-add>
+        <app-stage-add [type]="addEditType.Add" [details]="selectedStage"></app-stage-add>
     </div>
 </div>
 
@@ -16,14 +15,14 @@
             <div *ngIf="(loadStagesBase$ | async).success" class="list-group stage-list">
                 <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action"
                     href="javascript:void(0)" (click)="detailsClicked(stage)"
-                    [ngClass]="{'active': stage === selectedStage}">{{stage.name}}</a>
+                    [ngClass]="{'active': stage.stageId === selectedStage.stageId}">{{stage.name}}</a>
             </div>
             <div *ngIf="(loadStagesBase$ | async).success && (stages$ | async).length === 0">
                 No stages found.
             </div>
         </div>
 
-        <div *ngIf="selectedStage.id" class="col">
+        <div *ngIf="selectedStage.stageId" class="col">
             <app-stage-details [selectedStage]="selectedStage"></app-stage-details>
         </div>
     </div>

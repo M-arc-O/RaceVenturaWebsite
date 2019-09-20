@@ -48,7 +48,7 @@ export class PointDetailsComponent extends PointComponentBase implements OnInit,
 
     private getPointRequest(): PointRequest {
         const request = new PointRequest();
-        request.pointId = this.selectedPoint.id;
+        request.pointId = this.selectedPoint.pointId;
         request.stageId = this.selectedPoint.stageId;
 
         return request;

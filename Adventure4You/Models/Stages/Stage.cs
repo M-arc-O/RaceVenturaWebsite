@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Adventure4You.Models.Points;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +11,7 @@ namespace Adventure4You.Models.Stages
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid StageId { get; set; }
 
         [Required]
         public Guid RaceId { get; set; }
@@ -19,6 +21,8 @@ namespace Adventure4You.Models.Stages
         public string Name { get; set; }
 
         public int? MimimumPointsToCompleteStage { get; set; }
+
+        public List<Point> Points { get; set; }
 
         public Stage()
         {

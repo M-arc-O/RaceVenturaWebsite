@@ -29,7 +29,7 @@ namespace Adventure4YouAPI
         {
             DBContextHelper.AddDBContext(services, Configuration);
             DBContextHelper.AddAuthentication(services, Configuration);
-
+            
             BLHelper.AddBLs(services);
 
             AddAutoMapper(services);
@@ -46,7 +46,8 @@ namespace Adventure4YouAPI
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(a => a.SerializerSettings.Converters.Add(new TrimmingJsonConverter()));
         }
 
         private void AddAutoMapper(IServiceCollection services)

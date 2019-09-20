@@ -1,5 +1,5 @@
 export class StageViewModel {
-    public id: string;
+    public stageId: string;
     public raceId: string;
     public name: string;
 }

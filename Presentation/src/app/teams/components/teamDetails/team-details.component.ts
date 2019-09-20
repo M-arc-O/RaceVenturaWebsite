@@ -47,7 +47,7 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit, OnCha
 
     private getTeamRequest(): TeamRequest {
         const request = new TeamRequest();
-        request.teamId = this.selectedTeam.id;
+        request.teamId = this.selectedTeam.teamId;
         request.raceId = this.selectedTeam.raceId;
 
         return request;

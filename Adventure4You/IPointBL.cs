@@ -12,6 +12,5 @@ namespace Adventure4You
         BLReturnCodes AddPoint(Guid userId, Point point);
         BLReturnCodes DeletePoint(Guid userId, Guid pointId, Guid stageId);
         BLReturnCodes EditPoint(Guid userId, Point pointNew);
-        BLReturnCodes RemovePoints(Guid userId, Guid stageId);
     }
 }

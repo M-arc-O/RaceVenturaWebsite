@@ -10,6 +10,7 @@ import { PointDetailViewModel, PointType } from '../../shared';
 import { PointComponentBase } from '../../shared/point-component-base.component';
 import { addPointSelector, editSelectedPointSelector, IPointsState } from '../../store';
 import * as pointActions from '../../store/actions/point.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-point-add',
@@ -51,10 +52,6 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         });
 
         this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.store.dispatch(new pointActions.LoadPointsAction(this.details.stageId));
-            }
-
             if (base !== undefined && base.error !== undefined) {
                 if (base.error.status !== 400) {
                     this.handleError(base.error);
@@ -68,7 +65,9 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     }
 
     public ngAfterViewInit(): void {
-        this.addPointForm.controls['type'].setValue(PointType.CheckPoint);
+        if (this.details.stageId === undefined) {
+            this.addPointForm.controls['type'].setValue(PointType.CheckPoint);
+        }
     }
 
     private setupForm(details?: PointDetailViewModel): void {
@@ -122,7 +121,7 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
                     this.store.dispatch(new pointActions.AddPointAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    viewModel.id = this.details.id;
+                    viewModel.pointId = this.details.pointId;
                     this.store.dispatch(new pointActions.EditPointAction(viewModel));
                     break;
             }
@@ -131,8 +130,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         }
     }
 
-    public getErrorText(errorText: string): string {
-        switch (errorText) {
+    public getErrorText(error: HttpErrorResponse): string {
+        switch (error.error.toString()) {
             case '1':
                 return 'A point with this name already exists in this race.';
             default:
@@ -143,7 +142,11 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     private resetForm(): void {
         if (this.addPointNgForm !== undefined) {
             this.addPointNgForm.resetForm();
+        }
+
+        if (this.addPointForm !== undefined) {
             this.addPointForm.reset();
+            this.addPointForm.controls['type'].setValue(PointType.CheckPoint);
         }
     }
 }

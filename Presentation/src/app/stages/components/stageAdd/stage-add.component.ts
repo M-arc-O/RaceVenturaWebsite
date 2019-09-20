@@ -10,6 +10,7 @@ import { StageDetailViewModel } from '../../shared';
 import { addStageSelector, editSelectedStageSelector, IStagesState } from '../../store';
 import * as stageActions from '../../store/actions/stage.actions';
 import { AddEditType } from '../../../shared';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-stage-add',
@@ -50,10 +51,6 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         });
 
         this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.store.dispatch(new stageActions.LoadStagesAction(this.details.raceId));
-            }
-
             if (base !== undefined && base.error !== undefined) {
                 if (base.error.status !== 400) {
                     this.handleError(base.error);
@@ -97,7 +94,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
                     this.store.dispatch(new stageActions.AddStageAction(viewModel));
                     break;
                 case AddEditType.Edit:
-                    viewModel.id = this.details.id;
+                    viewModel.stageId = this.details.stageId;
                     this.store.dispatch(new stageActions.EditStageAction(viewModel));
                     break;
             }
@@ -106,8 +103,8 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         }
     }
 
-    public getErrorText(errorText: string): string {
-        switch (errorText) {
+    public getErrorText(error: HttpErrorResponse): string {
+        switch (error.error.toString()) {
             case '1':
                 return 'A stage with this name already exists in this race.';
             default:

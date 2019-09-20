@@ -35,6 +35,8 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
+        this.resetSelectedPoint();
+
         this.loadPointsBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
@@ -43,7 +45,7 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit {
 
         this.deletePointBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
-                this.selectedPoint.id = undefined;
+                this.resetSelectedPoint();
             }
 
             if (base !== undefined && base.error !== undefined) {
@@ -51,10 +53,13 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit {
             }
         });
 
+        this.getPoints();
+    }
+
+    private resetSelectedPoint() {
         this.selectedPoint = new PointViewModel();
         this.selectedPoint.stageId = this.stageId;
-
-        this.getPoints();
+        this.selectedPoint.pointId = undefined;
     }
 
     getPoints(): void {

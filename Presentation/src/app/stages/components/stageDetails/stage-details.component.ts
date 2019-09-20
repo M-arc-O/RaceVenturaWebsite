@@ -47,7 +47,7 @@ export class StageDetailsComponent extends ComponentBase implements OnInit, OnCh
 
     private getStageRequest(): StageRequest {
         const request = new StageRequest();
-        request.stageId = this.selectedStage.id;
+        request.stageId = this.selectedStage.stageId;
         request.raceId = this.selectedStage.raceId;
 
         return request;

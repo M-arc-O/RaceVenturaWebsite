@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
 import { RaceViewModel } from '../../shared';
 import { RaceDetailViewModel } from '../../shared/models/race-detail-view-model';
@@ -32,7 +33,7 @@ export class LoadRacesSuccesAction {
 
 export class LoadRacesErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.LOAD_RACES_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class AddRaceAction {
@@ -47,7 +48,7 @@ export class AddRaceSuccesAction {
 
 export class AddRaceErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.ADD_RACE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class DeleteRaceAction {
@@ -62,7 +63,7 @@ export class DeleteRaceSuccesAction {
 
 export class DeleteRaceErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.DELETE_RACE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class LoadRaceDetailsAction {
@@ -77,7 +78,7 @@ export class LoadRaceDetailsSuccesAction {
 
 export class LoadRaceDetailsErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.LOAD_RACE_DETAILS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class EditRaceAction {
@@ -92,7 +93,7 @@ export class EditRaceSuccesAction {
 
 export class EditRaceErrorAction implements BaseErrorAction {
     public readonly type = RaceActions.EDIT_RACE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export type RaceActionsUnion

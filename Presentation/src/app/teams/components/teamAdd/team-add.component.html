@@ -12,21 +12,6 @@
 <div class="collapse" id="openTeamForm{{type}}">
     <form *ngIf="addTeamForm" [formGroup]="addTeamForm" (submit)="addTeamClick(addTeamNgForm)" #addTeamNgForm="ngForm"
         role="form">
-        <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('name').touched || addTeamForm.get('name').dirty) &&
-                        !addTeamForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="teamName">Name</label>
-            <div class="col">
-                <input class="form-control" id="teamName" type="text" placeholder="Name (required)"
-                    formControlName="name" />
-            </div>
-        </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('number').touched || addTeamForm.get('number').dirty) &&
         !addTeamForm.get('number').valid }">
@@ -54,6 +39,22 @@
             </validation-message>
         </validation-message-for>
 
+        <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('name').touched || addTeamForm.get('name').dirty) &&
+                        !addTeamForm.get('name').valid }">
+            <label class="col-sm-6 col-form-label" for="teamName">Name</label>
+            <div class="col">
+                <input class="form-control" id="teamName" type="text" placeholder="Name (required)"
+                    formControlName="name" />
+            </div>
+        </div>
+        <validation-message-for field="name">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a name.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+
         <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
             <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
                 class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -65,10 +66,10 @@
             </span>
         </button>
     </form>
-    <div *ngIf="(addBase$ | async).error">
-        {{getErrorText((addBase$ | async).error.text()) }}
+    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+        {{getErrorText((addBase$ | async).error) }}
     </div>
-    <div *ngIf="(editBase$ | async).error">
-        {{getErrorText((editBase$ | async).error.text()) }}
+    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+        {{getErrorText((editBase$ | async).error) }}
     </div>
 </div>

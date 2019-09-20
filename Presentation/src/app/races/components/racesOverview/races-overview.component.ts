@@ -34,6 +34,7 @@ export class RacesOverviewComponent extends ComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
+        this.resetSelectedRace();
         this.loadRacesBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
@@ -42,7 +43,7 @@ export class RacesOverviewComponent extends ComponentBase implements OnInit {
 
         this.deleteRaceBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
-                this.selectedRace = undefined;
+                this.resetSelectedRace();
             }
 
             if (base !== undefined && base.error !== undefined) {
@@ -53,7 +54,12 @@ export class RacesOverviewComponent extends ComponentBase implements OnInit {
         this.getRaces();
     }
 
-    getRaces(): void {
+    private resetSelectedRace(): void {
+        this.selectedRace = new RaceViewModel();
+        this.selectedRace.raceId = undefined;
+    }
+
+    private getRaces(): void {
         this.store.dispatch(new racesActions.LoadRacesAction());
     }
 

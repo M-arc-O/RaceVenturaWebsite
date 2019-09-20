@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ConfigurationService } from './configuration-service';
+import { JwtViewModel } from './models/jwt-view-model';
 
 @Injectable()
 export class UserService {
@@ -17,34 +17,21 @@ export class UserService {
         return token;
     }
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.baseUrl = ConfigurationService.ApiRoot;
     }
 
     register(email: string, password: string, firstName: string, lastName: string): Observable<boolean> {
         const body = JSON.stringify({ email, password, firstName, lastName });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-
-        return this.http.post(`${this.baseUrl}/api/accounts`, body, options).pipe(
-            map(res => {
-                return <boolean>res.json();
-            }),
-            catchError(error => {
-                return throwError(error);
-            }));
+        return this.http.post<boolean>(`${this.baseUrl}/api/accounts`, body);
     }
 
     login(email: string, password: string): void {
         this.logout();
 
         const body = JSON.stringify({ email, password });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-
-        this.http.post(`${this.baseUrl}/api/auth/login`, body, options).subscribe(res => {
-            const json = res.json();
-            localStorage.setItem(this.tokenKey, json.auth_token);
+        this.http.post<JwtViewModel>(`${this.baseUrl}/api/auth/login`, body).subscribe(res => {
+            localStorage.setItem(this.tokenKey, res.auth_token);
         });
     }
 

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
 import { StageDetailViewModel, StageRequest, StageViewModel } from '../../shared';
 
@@ -31,7 +32,7 @@ export class LoadStagesSuccesAction {
 
 export class LoadStagesErrorAction implements BaseErrorAction {
     public readonly type = StageActions.LOAD_STAGES_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class AddStageAction {
@@ -46,7 +47,7 @@ export class AddStageSuccesAction {
 
 export class AddStageErrorAction implements BaseErrorAction {
     public readonly type = StageActions.ADD_STAGE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class DeleteStageAction {
@@ -61,7 +62,7 @@ export class DeleteStageSuccesAction {
 
 export class DeleteStageErrorAction implements BaseErrorAction {
     public readonly type = StageActions.DELETE_STAGE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class LoadStageDetailsAction {
@@ -76,7 +77,7 @@ export class LoadStageDetailsSuccesAction {
 
 export class LoadStageDetailsErrorAction implements BaseErrorAction {
     public readonly type = StageActions.LOAD_STAGE_DETAILS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class EditStageAction {
@@ -91,7 +92,7 @@ export class EditStageSuccesAction {
 
 export class EditStageErrorAction implements BaseErrorAction {
     public readonly type = StageActions.EDIT_STAGE_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export type StageActionsUnion

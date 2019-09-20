@@ -1,8 +1,7 @@
 <div class="border">
     <div class="row">
         <div class="col">
-            <app-point-add *ngIf="!(loadPointsBase$ | async).isActive && !(loadPointsBase$ | async).error"
-                [type]="addEditType.Add" [details]="selectedPoint"></app-point-add>
+            <app-point-add [type]="addEditType.Add" [details]="selectedPoint"></app-point-add>
         </div>
     </div>
 
@@ -17,14 +16,14 @@
                 <div *ngIf="(loadPointsBase$ | async).success" class="list-group point-list">
                     <a *ngFor="let point of points$ | async" class="list-group-item list-group-item-action"
                         href="javascript:void(0)" (click)="detailsClicked(point)"
-                        [ngClass]="{'active': point === selectedPoint}">{{point.name}}</a>
+                        [ngClass]="{'active': point.pointId === selectedPoint.pointId}">{{point.name}}</a>
                 </div>
                 <div *ngIf="(loadPointsBase$ | async).success && (points$ | async).length === 0">
                     No points found.
                 </div>
             </div>
 
-            <div *ngIf="selectedPoint.id" class="col">
+            <div *ngIf="selectedPoint.pointId" class="col">
                 <app-point-details [selectedPoint]="selectedPoint"></app-point-details>
             </div>
         </div>

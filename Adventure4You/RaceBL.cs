@@ -8,11 +8,8 @@ namespace Adventure4You
 {
     public class RaceBL : BaseBL, IRaceBL
     {
-        private readonly IStageBL _StageBL;
-
-        public RaceBL(IAdventure4YouDbContext context, IStageBL stageBL) : base(context)
+        public RaceBL(IAdventure4YouDbContext context) : base(context)
         {
-            _StageBL = stageBL;
         }
 
         public BLReturnCodes GetAllRaces(Guid userId, out List<Race> races)
@@ -20,7 +17,7 @@ namespace Adventure4You
             races = null;
             var links = _Context.UserLinks.Where(link => link.UserId == userId);
 
-            races = _Context.Races.Where(race => links.Any(link => link.RaceId == race.Id)).OrderBy(race => race.Name).ToList();
+            races = _Context.Races.Where(race => links.Any(link => link.RaceId == race.RaceId)).OrderBy(race => race.Name).ToList();
             if (races == null)
             {
                 return BLReturnCodes.NotFound;
@@ -56,7 +53,7 @@ namespace Adventure4You
 
                 _Context.UserLinks.Add(new UserLink
                 {
-                    RaceId = race.Id,
+                    RaceId = race.RaceId,
                     UserId = userId
                 });
 
@@ -81,8 +78,6 @@ namespace Adventure4You
             var race = GetRace(raceId);
             if (race != null)
             {
-                _StageBL.RemoveStages(userId, raceId);
-
                 _Context.UserLinks.Remove(userLink);
                 _Context.Races.Remove(race);
                 
@@ -98,12 +93,12 @@ namespace Adventure4You
 
         public BLReturnCodes EditRace(Guid userId, Race raceNew)
         {
-            if (CheckIfUserHasAccessToRace(userId, raceNew.Id) == null)
+            if (CheckIfUserHasAccessToRace(userId, raceNew.RaceId) == null)
             {
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            var race = GetRace(raceNew.Id);
+            var race = GetRace(raceNew.RaceId);
             if (race == null)
             {
                 return BLReturnCodes.Unknown;
@@ -130,7 +125,7 @@ namespace Adventure4You
 
         private Race GetRace(Guid raceId)
         {
-            return _Context.Races.FirstOrDefault(race => race.Id == raceId);
+            return _Context.Races.FirstOrDefault(race => race.RaceId == raceId);
         }
 
         private bool CheckIfRaceNameExists(string name)

@@ -1,5 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
-import { PointDetailViewModel, PointViewModel, PointRequest } from '../../shared';
+import { PointDetailViewModel, PointRequest, PointViewModel } from '../../shared';
 
 export enum PointActions {
     LOAD_POINTS = 'LOAD_POINTS',
@@ -31,7 +32,7 @@ export class LoadPointsSuccesAction {
 
 export class LoadPointsErrorAction implements BaseErrorAction {
     public readonly type = PointActions.LOAD_POINTS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class AddPointAction {
@@ -46,7 +47,7 @@ export class AddPointSuccesAction {
 
 export class AddPointErrorAction implements BaseErrorAction {
     public readonly type = PointActions.ADD_POINT_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class DeletePointAction {
@@ -61,7 +62,7 @@ export class DeletePointSuccesAction {
 
 export class DeletePointErrorAction implements BaseErrorAction {
     public readonly type = PointActions.DELETE_POINT_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class LoadPointDetailsAction {
@@ -76,7 +77,7 @@ export class LoadPointDetailsSuccesAction {
 
 export class LoadPointDetailsErrorAction implements BaseErrorAction {
     public readonly type = PointActions.LOAD_POINT_DETAILS_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export class EditPointAction {
@@ -91,7 +92,7 @@ export class EditPointSuccesAction {
 
 export class EditPointErrorAction implements BaseErrorAction {
     public readonly type = PointActions.EDIT_POINT_ERROR;
-    constructor(public readonly payload: { error: Response; }) { }
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
 export type PointActionsUnion

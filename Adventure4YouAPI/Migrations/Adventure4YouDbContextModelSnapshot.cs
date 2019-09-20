@@ -77,7 +77,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Points.Point", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("PointId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Answer");
@@ -98,14 +98,16 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<int>("Value");
 
-                    b.HasKey("Id");
+                    b.HasKey("PointId");
+
+                    b.HasIndex("StageId");
 
                     b.ToTable("Points");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Race", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RaceId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("CoordinatesCheckEnabled");
@@ -126,14 +128,14 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<DateTime>("StartTime");
 
-                    b.HasKey("Id");
+                    b.HasKey("RaceId");
 
                     b.ToTable("Races");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Stages.Stage", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("StageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("MimimumPointsToCompleteStage");
@@ -144,14 +146,16 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("RaceId");
 
-                    b.HasKey("Id");
+                    b.HasKey("StageId");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("Stages");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Teams.Team", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("TeamId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
@@ -164,7 +168,9 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<string>("RegisteredPhoneIds");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeamId");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("Teams");
                 });
@@ -186,6 +192,8 @@ namespace Adventure4YouAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TeamId");
+
                     b.ToTable("TeamPointsVisited");
                 });
 
@@ -201,6 +209,9 @@ namespace Adventure4YouAPI.Migrations
                     b.Property<Guid>("TeamId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TeamId")
+                        .IsUnique();
 
                     b.ToTable("TeamRacesFinished");
                 });
@@ -219,6 +230,8 @@ namespace Adventure4YouAPI.Migrations
                     b.Property<Guid>("TeamId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("TeamStagesFinished");
                 });
@@ -342,6 +355,54 @@ namespace Adventure4YouAPI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Points.Point", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Stages.Stage")
+                        .WithMany("Points")
+                        .HasForeignKey("StageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Stages.Stage", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Race")
+                        .WithMany("Stages")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.Team", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Race")
+                        .WithMany("Teams")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.TeamPointVisited", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Teams.Team")
+                        .WithMany("PointsVisited")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.TeamRaceFinished", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Teams.Team")
+                        .WithOne("RaceFinished")
+                        .HasForeignKey("Adventure4You.Models.Teams.TeamRaceFinished", "TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.TeamStageFinished", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Teams.Team")
+                        .WithMany("StagesFinished")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

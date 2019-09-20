@@ -119,7 +119,11 @@
             </span>
         </button>
     </form>
-    <div *ngIf="(addBase$ | async).error">
-        {{getErrorText((addBase$ | async).error.text()) }}
+
+    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+        {{getErrorText((addBase$ | async).error) }}
+    </div>
+    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+        {{getErrorText((editBase$ | async).error) }}
     </div>
 </div>

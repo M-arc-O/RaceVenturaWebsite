@@ -11,7 +11,12 @@ export function pointsReducer(state: PointViewModel[], action: pointsActions.Poi
             return Object.assign([], state);
         }
         case pointsActions.PointActions.DELETE_POINT_SUCCES: {
-            state.splice(state.findIndex(item => item.id === action.payload));
+            state.splice(state.findIndex(item => item.pointId === action.payload), 1);
+            return Object.assign([], state);
+        }
+        case pointsActions.PointActions.EDIT_POINT_SUCCES: {
+            const index = state.findIndex(s => s.pointId === action.payload.pointId);
+            state[index] = action.payload;
             return Object.assign([], state);
         }
         default: {

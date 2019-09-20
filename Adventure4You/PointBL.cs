@@ -21,7 +21,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndStage(userId, stageId);
             if (retVal == BLReturnCodes.Ok)
             {
-                points = _Context.Points.Where(p => p.StageId == stageId).OrderBy(p => p.Name).ToList();
+                points = GetStageById(stageId)?.Points.Where(p => p.StageId == stageId).OrderBy(p => p.Name).ToList();
 
                 if (points == null)
                 {
@@ -39,7 +39,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndStage(userId, stageId);
             if (retVal == BLReturnCodes.Ok)
             {
-                point = _Context.Points.FirstOrDefault(p => p.Id == pointId);
+                point = GetStageById(stageId)?.Points.FirstOrDefault(p => p.PointId == pointId);
 
                 if (point == null)
                 {
@@ -60,7 +60,7 @@ namespace Adventure4You
                     return BLReturnCodes.Duplicate;
                 }
 
-                _Context.Points.Add(point);
+                GetStageById(point.StageId)?.Points.Add(point);
                 _Context.SaveChanges();
             }
 
@@ -72,13 +72,13 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndStage(userId, stageId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var point = _Context.Points.FirstOrDefault(p => p.Id == pointId);
+                var point = GetPointById(stageId, pointId);
                 if (point == null)
                 {
                     return BLReturnCodes.Unknown;
                 }
 
-                _Context.Points.Remove(point);
+                GetStageById(stageId)?.Points.Remove(point);
                 _Context.SaveChanges();
             }
 
@@ -90,7 +90,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndStage(userId, pointNew.StageId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var point = _Context.Points.FirstOrDefault(p => p.Id == pointNew.Id);
+                var point = GetPointById(pointNew.StageId, pointNew.PointId);
                 if (point == null)
                 {
                     return BLReturnCodes.Unknown;
@@ -115,29 +115,28 @@ namespace Adventure4You
             return retVal;
         }
 
-        public BLReturnCodes RemovePoints(Guid userId, Guid stageId)
+        protected Point GetPointById(Guid stageId, Guid pointId)
         {
-            var retVal = CheckIfUserHasAccessToRaceAndStage(userId, stageId);
-            if (retVal == BLReturnCodes.Ok)
+            var stage = GetStageById(stageId);
+
+            if (stage == null)
             {
-                var points = _Context.Points.Where(point => point.StageId == stageId);
-                _Context.Points.RemoveRange(points);
-                _Context.SaveChanges();
+                return null;
             }
 
-            return retVal;
+            return stage.Points.FirstOrDefault(p => p.PointId == pointId);
         }
 
         private BLReturnCodes CheckIfUserHasAccessToRaceAndStage(Guid userId, Guid stageId)
         {
-            var stage = _Context.Stages.FirstOrDefault(s => s.Id == stageId);
+            var race = GetRaceByStageId(stageId);
 
-            if (stage == null)
+            if (race == null)
             {
                 return BLReturnCodes.Unknown;
             }
 
-            if (base.CheckIfUserHasAccessToRace(userId, stage.RaceId) == null)
+            if (base.CheckIfUserHasAccessToRace(userId, race.RaceId) == null)
             {
                 return BLReturnCodes.UserUnauthorized;
             }
@@ -147,7 +146,8 @@ namespace Adventure4You
 
         private bool CheckIfPointNameExists(Point point)
         {
-            return _Context.Points.Where(p => p.StageId == point.StageId).Any(p=>p.Name.ToUpper().Equals(point.Name.ToUpper()));
+            var stage = GetStageById(point.StageId);
+            return stage == null ? false : stage.Points.Where(p => p.StageId == point.StageId).Any(p => p.Name.ToUpper().Equals(point.Name.ToUpper()));
         }
     }
 }

@@ -1,5 +1,5 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { NotFoundComponent } from './components/notFound/not-found.component';
 import { RacesModule } from './races/races.module';
 import { metaReducers, reducers } from './reducers';
 import { UserService } from './shared';
-
+import { HeadersInterceptor } from './shared/interceptors/headers.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { UserService } from './shared';
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     AccountModule,
     RacesModule,
     AppRoutingModule,
@@ -35,7 +35,14 @@ import { UserService } from './shared';
     }),
     StoreModule.forRoot(reducers, { metaReducers })
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeadersInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

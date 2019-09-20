@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from '.';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export abstract class ComponentBase implements OnDestroy {
     protected unsubscribe$: Subject<void>;
@@ -28,7 +29,7 @@ export abstract class ComponentBase implements OnDestroy {
         });
     }
 
-    handleError(error: Response) {
+    handleError(error: HttpErrorResponse) {
         if (error.status === 401) {
             this.userService.logout();
             this.router.navigateByUrl('home');

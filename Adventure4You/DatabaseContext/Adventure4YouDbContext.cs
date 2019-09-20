@@ -13,21 +13,9 @@ namespace Adventure4You.DatabaseContext
         public Adventure4YouDbContext(DbContextOptions<Adventure4YouDbContext> options)
             : base(options)
         {
-        }
-
-        public DbSet<Point> Points { get; set; }
+        }        
         
         public DbSet<Race> Races { get; set; }
-
-        public DbSet<Stage> Stages { get; set; }
-
-        public DbSet<Team> Teams { get; set; }
-
-        public DbSet<TeamPointVisited> TeamPointsVisited { get; set; }
-
-        public DbSet<TeamRaceFinished> TeamRacesFinished { get; set; }
-
-        public DbSet<TeamStageFinished> TeamStagesFinished { get; set; }
 
         public DbSet<UserLink> UserLinks { get; set; }
     }

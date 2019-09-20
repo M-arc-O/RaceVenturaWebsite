@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Adventure4You
 {
-    public class TeamBL: BaseBL, ITeamBL
+    public class TeamBL : BaseBL, ITeamBL
     {
         public TeamBL(IAdventure4YouDbContext context) : base(context)
         {
@@ -21,7 +21,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                teams = _Context.Teams.Where(team => team.RaceId == raceId).OrderBy(team => team.Number).ToList();
+                teams = GetRaceById(raceId)?.Teams?.Where(team => team.RaceId == raceId)?.OrderBy(team => team.Number)?.ToList();
                 if (teams == null)
                 {
                     return BLReturnCodes.NotFound;
@@ -38,7 +38,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                team = GetTeam(teamId);
+                team = GetTeamById(teamId);
                 if (team == null)
                 {
                     return BLReturnCodes.Unknown;
@@ -58,7 +58,7 @@ namespace Adventure4You
                     return BLReturnCodes.Duplicate;
                 }
 
-                _Context.Teams.Add(team);
+                GetRaceById(raceId)?.Teams.Add(team);
                 _Context.SaveChanges();
             }
 
@@ -70,13 +70,13 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var team = GetTeam(teamId);
+                var team = GetTeamById(teamId);
                 if (team == null)
                 {
                     return BLReturnCodes.Unknown;
                 }
-                
-                _Context.Teams.Remove(team);
+
+                GetRaceByTeamId(teamId)?.Teams.Remove(team);
                 _Context.SaveChanges();
 
                 return BLReturnCodes.Ok;
@@ -90,13 +90,13 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, teamNew.RaceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                var team = GetTeam(teamNew.Id);
+                var team = GetTeamById(teamNew.TeamId);
                 if (team == null)
                 {
                     return BLReturnCodes.Unknown;
                 }
 
-                if ((!teamNew.Name.ToUpper().Equals(teamNew.Name.ToUpper()) && CheckIfTeamNameExists(teamNew)) ||
+                if ((!teamNew.Name.ToUpper().Equals(team.Name.ToUpper()) && CheckIfTeamNameExists(teamNew)) ||
                     (teamNew.Number != team.Number && CheckIfTeamNumberExists(teamNew)))
                 {
                     return BLReturnCodes.Duplicate;
@@ -110,14 +110,9 @@ namespace Adventure4You
             return retVal;
         }
 
-        private Team GetTeam(Guid teamId)
-        {
-            return _Context.Teams.FirstOrDefault(t => t.Id == teamId);
-        }
-
         private BLReturnCodes CheckIfUserHasAccessToRaceAndRaceExists(Guid userId, Guid raceId)
         {
-            var race = _Context.Races.Where(r => r.Id == raceId);
+            var race = _Context.Races.Where(r => r.RaceId == raceId);
             if (race == null || race.Count() == 0)
             {
                 return BLReturnCodes.Unknown;
@@ -133,11 +128,14 @@ namespace Adventure4You
 
         private bool CheckIfTeamNameExists(Team team)
         {
-            return _Context.Teams.Where(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper()));
+            var race = GetRaceById(team.RaceId);
+            return race == null ? false : race.Teams.Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper()));
         }
+
         private bool CheckIfTeamNumberExists(Team team)
         {
-            return _Context.Teams.Where(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number);
+            var race = GetRaceById(team.RaceId);
+            return race == null ? false : race.Teams.Any(t => t.Number == team.Number);
         }
     }
 }
