@@ -22,6 +22,7 @@ namespace Adventure4You.Models.Points
         public string Name { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Value { get; set; }
 
         public double Latitude { get; set; }

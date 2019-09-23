@@ -20,9 +20,10 @@ namespace Adventure4You.Models.Teams
         public string Name { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Number { get; set; }
 
-        public string RegisteredPhoneIds { get; set; }
+        public List<TeamPhone> RegisteredPhoneIds { get; set; }
 
         public List<TeamPointVisited> PointsVisited { get; set; }
 

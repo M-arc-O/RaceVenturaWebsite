@@ -20,6 +20,11 @@ namespace Adventure4You.Models.Stages
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int number { get; set; }
+
+        [Range(1, int.MaxValue)]
         public int? MimimumPointsToCompleteStage { get; set; }
 
         public List<Point> Points { get; set; }

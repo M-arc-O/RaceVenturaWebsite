@@ -194,6 +194,7 @@ namespace Adventure4YouAPI.Migrations
                     StageId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
+                    number = table.Column<int>(nullable: false),
                     MimimumPointsToCompleteStage = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -214,8 +215,7 @@ namespace Adventure4YouAPI.Migrations
                     TeamId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    RegisteredPhoneIds = table.Column<string>(nullable: true)
+                    Number = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,6 +250,25 @@ namespace Adventure4YouAPI.Migrations
                         column: x => x.StageId,
                         principalTable: "Stages",
                         principalColumn: "StageId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeamPhones",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TeamId = table.Column<Guid>(nullable: false),
+                    PhoneId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeamPhones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeamPhones_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "TeamId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -364,6 +383,11 @@ namespace Adventure4YouAPI.Migrations
                 column: "RaceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeamPhones_TeamId",
+                table: "TeamPhones",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeamPointsVisited_TeamId",
                 table: "TeamPointsVisited",
                 column: "TeamId");
@@ -404,6 +428,9 @@ namespace Adventure4YouAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Points");
+
+            migrationBuilder.DropTable(
+                name: "TeamPhones");
 
             migrationBuilder.DropTable(
                 name: "TeamPointsVisited");

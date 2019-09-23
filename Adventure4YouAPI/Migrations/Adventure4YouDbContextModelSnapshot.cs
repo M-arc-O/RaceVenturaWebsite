@@ -146,6 +146,8 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("RaceId");
 
+                    b.Property<int>("number");
+
                     b.HasKey("StageId");
 
                     b.HasIndex("RaceId");
@@ -166,13 +168,27 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("RaceId");
 
-                    b.Property<string>("RegisteredPhoneIds");
-
                     b.HasKey("TeamId");
 
                     b.HasIndex("RaceId");
 
                     b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.TeamPhone", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("PhoneId");
+
+                    b.Property<Guid>("TeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TeamPhones");
                 });
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamPointVisited", b =>
@@ -378,6 +394,14 @@ namespace Adventure4YouAPI.Migrations
                     b.HasOne("Adventure4You.Models.Race")
                         .WithMany("Teams")
                         .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4You.Models.Teams.TeamPhone", b =>
+                {
+                    b.HasOne("Adventure4You.Models.Teams.Team")
+                        .WithMany("RegisteredPhoneIds")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

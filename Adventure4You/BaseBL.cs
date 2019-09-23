@@ -5,6 +5,7 @@ using Adventure4You.Models.Stages;
 using Adventure4You.Models.Teams;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Adventure4You
@@ -18,26 +19,34 @@ namespace Adventure4You
             _Context = context;
         }
 
-        protected Race GetRaceById(Guid raceId)
+        protected List<Race> GetRaces()
         {
             return _Context.Races
                 .Include(r => r.Teams)
+                .ThenInclude(t => t.PointsVisited)
+                .Include(r => r.Teams)
+                .ThenInclude(t => t.StagesFinished)
+                .Include(r => r.Teams)
+                .ThenInclude(t => t.RaceFinished)
+                .Include(r => r.Teams)
+                .ThenInclude(t => t.RegisteredPhoneIds)
                 .Include(r => r.Stages)
-                .ThenInclude(t => t.Points)
-                .FirstOrDefault(r => r.RaceId == raceId);
+                .ThenInclude(s => s.Points).ToList();
+        }
+
+        protected Race GetRaceById(Guid raceId)
+        {
+            return GetRaces().FirstOrDefault(r => r.RaceId == raceId);
         }
 
         protected Race GetRaceByStageId(Guid stageId)
         {
-            return _Context.Races.Include(r => r.Stages)
-                .ThenInclude(t => t.Points)
-                .FirstOrDefault(r => r.Stages.Any(s => s.StageId == stageId));
+            return GetRaces().FirstOrDefault(r => r.Stages.Any(s => s.StageId == stageId));
         }
 
         protected Race GetRaceByTeamId(Guid teamId)
         {
-            return _Context.Races.Include(r => r.Teams)
-                .FirstOrDefault(r => r.Teams.Any(t => t.TeamId == teamId));
+            return GetRaces().FirstOrDefault(r => r.Teams.Any(t => t.TeamId == teamId));
         }
 
         protected Stage GetStageById(Guid stageId)
