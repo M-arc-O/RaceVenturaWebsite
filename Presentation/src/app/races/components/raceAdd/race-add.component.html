@@ -14,9 +14,9 @@
         role="form">
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('name').touched || addRaceForm.get('name').dirty) &&
                     !addRaceForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="raceName">Name</label>
+            <label class="col-sm-6 col-form-label" for="raceName{{type}}">Name</label>
             <div class="col">
-                <input class="form-control" id="raceName" type="text" placeholder="Name (required)"
+                <input class="form-control" id="raceName{{type}}" type="text" placeholder="Name (required)"
                     formControlName="name" />
             </div>
         </div>
@@ -33,9 +33,9 @@
             <div class="col-sm-6"></div>
             <div class="col">
                 <div class="form-check">
-                    <input class="form-check-input" id="checkCoordinates" type="checkbox"
+                    <input class="form-check-input" id="checkCoordinates{{type}}" type="checkbox"
                         formControlName="checkCoordinates">
-                    <label class="form-check-label" for="checkCoordinates">
+                    <label class="form-check-label" for="checkCoordinates{{type}}">
                         Check GPS coordinates
                     </label>
                 </div>
@@ -47,9 +47,9 @@
             <div class="col-sm-6"></div>
             <div class="col">
                 <div class="form-check">
-                    <input class="form-check-input" id="specialTasksAreStage" type="checkbox"
+                    <input class="form-check-input" id="specialTasksAreStage{{type}}" type="checkbox"
                         formControlName="specialTasksAreStage">
-                    <label class="form-check-label" for="specialTasksAreStage">
+                    <label class="form-check-label" for="specialTasksAreStage{{type}}">
                         Special tasks are a stage
                     </label>
                 </div>
@@ -58,9 +58,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('maximumTeamSize').touched || addRaceForm.get('maximumTeamSize').dirty) &&
                     !addRaceForm.get('maximumTeamSize').valid }">
-            <label class="col-sm-6 col-form-label" for="maximumTeamSize">Maximum team size</label>
+            <label class="col-sm-6 col-form-label" for="maximumTeamSize{{type}}">Maximum team size</label>
             <div class="col">
-                <input class="form-control" id="maximumTeamSize" type="text" placeholder="1 (required)"
+                <input class="form-control" id="maximumTeamSize{{type}}" type="text" placeholder="1 (required)"
                     formControlName="maximumTeamSize" />
             </div>
         </div>
@@ -74,11 +74,12 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('minimumPointsToCompleteStage').touched || addRaceForm.get('minimumPointsToCompleteStage').dirty) &&
                     !addRaceForm.get('minimumPointsToCompleteStage').valid }">
-            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage">Minimum points to complete a
+            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
+                a
                 stage</label>
             <div class="col">
-                <input class="form-control" id="minimumPointsToCompleteStage" type="text" placeholder="1 (required)"
-                    formControlName="minimumPointsToCompleteStage" />
+                <input class="form-control" id="minimumPointsToCompleteStage{{type}}" type="text"
+                    placeholder="1 (required)" formControlName="minimumPointsToCompleteStage" />
             </div>
         </div>
         <validation-message-for field="minimumPointsToCompleteStage">
@@ -92,9 +93,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
     !addRaceForm.get('penaltyPerMinuteLate').valid }">
-            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate">Penalty per minute late</label>
+            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute late</label>
             <div class="col">
-                <input class="form-control" id="penaltyPerMinuteLate" type="text" placeholder="0 (required)"
+                <input class="form-control" id="penaltyPerMinuteLate{{type}}" type="text" placeholder="0 (required)"
                     formControlName="penaltyPerMinuteLate" />
             </div>
         </div>
@@ -108,42 +109,45 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
                     !addRaceForm.get('startDate').valid }">
-            <label class="col-sm-6 col-form-label" for="startDate">Start date</label>
+            <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
             <div class="col">
-                <input class="form-control" id="startDate" type="text" placeholder="dd-mm-yyyy"
+                <input class="form-control" id="startDate{{type}}" type="text" placeholder="dd-mm-yyyy"
                     formControlName="startDate" />
             </div>
         </div>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
                     !addRaceForm.get('startTime').valid }">
-            <label class="col-sm-6 col-form-label" for="startTime">Start time</label>
+            <label class="col-sm-6 col-form-label" for="startTime{{type}}">Start time</label>
             <div class="col">
-                <input class="form-control" id="startTime" type="text" placeholder="hh:mm"
+                <input class="form-control" id="startTime{{type}}" type="text" placeholder="hh:mm"
                     formControlName="startTime" />
             </div>
         </div>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
                     !addRaceForm.get('endDate').valid }">
-            <label class="col-sm-6 col-form-label" for="endDate">End date</label>
+            <label class="col-sm-6 col-form-label" for="endDate{{type}}">End date</label>
             <div class="col">
-                <input class="form-control" id="endDate" type="text" placeholder="dd-mm-yyyy"
+                <input class="form-control" id="endDate{{type}}" type="text" placeholder="dd-mm-yyyy"
                     formControlName="endDate" />
             </div>
         </div>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
                     !addRaceForm.get('endTime').valid }">
-            <label class="col-sm-6 col-form-label" for="endTime">End time</label>
+            <label class="col-sm-6 col-form-label" for="endTime{{type}}">End time</label>
             <div class="col">
-                <input class="form-control" id="endTime" type="text" placeholder="hh:mm" formControlName="endTime" />
+                <input class="form-control" id="endTime{{type}}" type="text" placeholder="hh:mm"
+                    formControlName="endTime" />
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
-            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
-                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+        (type === addEditType.Edit && (editBase$ | async).isActive)">
+            <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
+            (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add race
             </span>

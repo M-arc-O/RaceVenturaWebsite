@@ -14,9 +14,9 @@
         #addPointNgForm="ngForm" role="form">
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('name').touched || addPointForm.get('name').dirty) &&
                         !addPointForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="pointName">Name</label>
+            <label class="col-sm-6 col-form-label" for="pointName{{type}}">Name</label>
             <div class="col">
-                <input class="form-control" id="pointName" type="text" placeholder="Name (required)"
+                <input class="form-control" id="pointName{{type}}" type="text" placeholder="Name (required)"
                     formControlName="name" />
             </div>
         </div>
@@ -29,9 +29,9 @@
         </validation-message-for>
 
         <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="type">Type</label>
+            <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
             <div class="col">
-                <select class="form-control" id="type" formControlName="type">
+                <select class="form-control" id="type{{type}}" formControlName="type">
                     <option *ngFor="let type of pointTypes | enumToArray" [value]="type.index">
                         {{pointTypeToString(type.index)}}</option>
                 </select>
@@ -40,9 +40,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('value').touched || addPointForm.get('value').dirty) &&
                         !addPointForm.get('value').valid }">
-            <label class="col-sm-6 col-form-label" for="value">Value</label>
+            <label class="col-sm-6 col-form-label" for="value{{type}}">Value</label>
             <div class="col">
-                <input class="form-control" id="value" type="text" placeholder="Value (required)"
+                <input class="form-control" id="value{{type}}" type="text" placeholder="Value (required)"
                     formControlName="value" />
             </div>
         </div>
@@ -56,9 +56,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('latitude').touched || addPointForm.get('latitude').dirty) &&
                         !addPointForm.get('latitude').valid }">
-            <label class="col-sm-6 col-form-label" for="latitude">Latitude</label>
+            <label class="col-sm-6 col-form-label" for="latitude{{type}}">Latitude</label>
             <div class="col">
-                <input class="form-control" id="latitude" type="text" placeholder="xx.xxx (required)"
+                <input class="form-control" id="latitude{{type}}" type="text" placeholder="xx.xxx (required)"
                     formControlName="latitude" />
             </div>
         </div>
@@ -72,9 +72,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('longitude').touched || addPointForm.get('longitude').dirty) &&
                         !addPointForm.get('longitude').valid }">
-            <label class="col-sm-6 col-form-label" for="longitude">Longitude</label>
+            <label class="col-sm-6 col-form-label" for="longitude{{type}}">Longitude</label>
             <div class="col">
-                <input class="form-control" id="longitude" type="text" placeholder="xx.xxx (required)"
+                <input class="form-control" id="longitude{{type}}" type="text" placeholder="xx.xxx (required)"
                     formControlName="longitude" />
             </div>
         </div>
@@ -88,9 +88,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('answer').touched || addPointForm.get('answer').dirty) &&
                         !addPointForm.get('answer').valid }">
-            <label class="col-sm-6 col-form-label" for="answer">Answer</label>
+            <label class="col-sm-6 col-form-label" for="answer{{type}}">Answer</label>
             <div class="col">
-                <input class="form-control" id="answer" type="text" placeholder="Answer (Optional)"
+                <input class="form-control" id="answer{{type}}" type="text" placeholder="Answer (Optional)"
                     formControlName="answer" />
             </div>
         </div>
@@ -99,18 +99,20 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addPointForm.get('message').touched || addPointForm.get('message').dirty) &&
                         !addPointForm.get('message').valid }">
-            <label class="col-sm-6 col-form-label" for="message">Message</label>
+            <label class="col-sm-6 col-form-label" for="message{{type}}">Message</label>
             <div class="col">
-                <input class="form-control" id="message" type="text" placeholder="Message (Optional)"
+                <input class="form-control" id="message{{type}}" type="text" placeholder="Message (Optional)"
                     formControlName="message" />
             </div>
         </div>
         <validation-message-for field="message">
         </validation-message-for>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
-            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
-                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+            (type === addEditType.Edit && (editBase$ | async).isActive)">
+            <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
+            (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add point
             </span>

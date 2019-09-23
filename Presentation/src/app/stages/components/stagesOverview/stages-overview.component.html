@@ -15,7 +15,7 @@
             <div *ngIf="(loadStagesBase$ | async).success" class="list-group stage-list">
                 <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action"
                     href="javascript:void(0)" (click)="detailsClicked(stage)"
-                    [ngClass]="{'active': stage.stageId === selectedStage.stageId}">{{stage.name}}</a>
+                    [ngClass]="{'active': stage.stageId === selectedStage.stageId}">{{stage.number}} - {{stage.name}}</a>
             </div>
             <div *ngIf="(loadStagesBase$ | async).success && (stages$ | async).length === 0">
                 No stages found.

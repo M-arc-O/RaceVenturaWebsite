@@ -16,12 +16,12 @@ namespace Adventure4You.Models.Teams
         public Guid RaceId { get; set; }
 
         [Required]
-        [MaxLength(255)]
-        public string Name { get; set; }
-
-        [Required]
         [Range(1, int.MaxValue)]
         public int Number { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string Name { get; set; }
 
         public List<TeamPhone> RegisteredPhoneIds { get; set; }
 

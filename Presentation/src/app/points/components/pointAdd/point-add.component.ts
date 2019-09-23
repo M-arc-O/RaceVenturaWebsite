@@ -39,33 +39,41 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     }
 
     public ngOnInit(): void {
-        this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.resetForm();
-            }
+        this.setupForm(this.details);
 
-            if (base !== undefined && base.error !== undefined) {
-                if (base.error.status !== 400) {
-                    this.handleError(base.error);
+        if (this.type === AddEditType.Add) {
+            this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+                if (base !== undefined && base.success) {
+                    this.resetForm();
                 }
-            }
-        });
 
-        this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.error !== undefined) {
-                if (base.error.status !== 400) {
-                    this.handleError(base.error);
+                if (base !== undefined && base.error !== undefined) {
+                    if (base.error.status !== 400) {
+                        this.handleError(base.error);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (this.type === AddEditType.Edit) {
+            this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+                if (base !== undefined && base.error !== undefined) {
+                    if (base.error.status !== 400) {
+                        this.handleError(base.error);
+                    }
+                }
+            });
+        }
     }
 
     public ngOnChanges(): void {
-        this.setupForm(this.details);
+        if (this.type === AddEditType.Edit) {
+            this.setupForm(this.details);
+        }
     }
 
     public ngAfterViewInit(): void {
-        if (this.details.stageId === undefined) {
+        if (this.details.pointId === undefined) {
             this.addPointForm.controls['type'].setValue(PointType.CheckPoint);
         }
     }

@@ -12,11 +12,27 @@
 <div class="collapse" id="openStageForm{{type}}">
     <form *ngIf="addStageForm" [formGroup]="addStageForm" (submit)="addStageClick(addStageNgForm)"
         #addStageNgForm="ngForm" role="form">
+        <div class="form-group row" [ngClass]="{'has-error': (addStageForm.get('number').touched || addStageForm.get('number').dirty) &&
+                        !addStageForm.get('number').valid }">
+            <label class="col-sm-6 col-form-label" for="stageNumber{{type}}">Number</label>
+            <div class="col">
+                <input class="form-control" id="stageNumber{{type}}" type="text" placeholder="Number (required)"
+                    formControlName="number" />
+            </div>
+        </div>
+        <validation-message-for field="name">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a name.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+
         <div class="form-group row" [ngClass]="{'has-error': (addStageForm.get('name').touched || addStageForm.get('name').dirty) &&
                         !addStageForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="stageName">Name</label>
+            <label class="col-sm-6 col-form-label" for="stageName{{type}}">Name</label>
             <div class="col">
-                <input class="form-control" id="stageName" type="text" placeholder="Name (required)"
+                <input class="form-control" id="stageName{{type}}" type="text" placeholder="Name (required)"
                     formControlName="name" />
             </div>
         </div>
@@ -30,19 +46,21 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addStageForm.get('minimumPointsToCompleteStage').touched || addStageForm.get('minimumPointsToCompleteStage').dirty) &&
                         !addStageForm.get('minimumPointsToCompleteStage').valid }">
-            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage">Minimum points to complete
+            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
                 stage</label>
             <div class="col">
-                <input class="form-control" id="minimumPointsToCompleteStage" type="text" placeholder=""
+                <input class="form-control" id="minimumPointsToCompleteStage{{type}}" type="text" placeholder=""
                     formControlName="minimumPointsToCompleteStage" />
             </div>
         </div>
         <validation-message-for field="minimumPointsToCompleteStage">
         </validation-message-for>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
-            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
-                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+        (type === addEditType.Edit && (editBase$ | async).isActive)">
+            <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
+            (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add stage
             </span>

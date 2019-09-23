@@ -15,9 +15,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('number').touched || addTeamForm.get('number').dirty) &&
         !addTeamForm.get('number').valid }">
-            <label class="col-sm-6 col-form-label" for="teamNumber">Number</label>
+            <label class="col-sm-6 col-form-label" for="teamNumber{{type}}">Number</label>
             <div class="col">
-                <input class="form-control" id="teamNumber" type="text" placeholder="Number (required)"
+                <input class="form-control" id="teamNumber{{type}}" type="text" placeholder="Number (required)"
                     formControlName="number" />
             </div>
         </div>
@@ -41,9 +41,9 @@
 
         <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('name').touched || addTeamForm.get('name').dirty) &&
                         !addTeamForm.get('name').valid }">
-            <label class="col-sm-6 col-form-label" for="teamName">Name</label>
+            <label class="col-sm-6 col-form-label" for="teamName{{type}}">Name</label>
             <div class="col">
-                <input class="form-control" id="teamName" type="text" placeholder="Name (required)"
+                <input class="form-control" id="teamName{{type}}" type="text" placeholder="Name (required)"
                     formControlName="name" />
             </div>
         </div>
@@ -55,9 +55,11 @@
             </validation-message>
         </validation-message-for>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
-            <span *ngIf="(addBase$ | async).isActive || (editBase$ | async).isActive"
-                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+        (type === addEditType.Edit && (editBase$ | async).isActive)">
+            <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
+            (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"></span>
             <span *ngIf="type === addEditType.Add">
                 Add team
             </span>

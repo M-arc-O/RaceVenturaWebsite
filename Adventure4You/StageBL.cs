@@ -20,7 +20,7 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                stages = GetRaceById(raceId)?.Stages?.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Name).ToList();
+                stages = GetRaceById(raceId)?.Stages?.Where(stage => stage.RaceId == raceId).OrderBy(stage => stage.Number).ToList();
                 if (stages == null)
                 {
                     return BLReturnCodes.NotFound;
@@ -52,18 +52,12 @@ namespace Adventure4You
             var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
             if (retVal == BLReturnCodes.Ok)
             {
-                if (CheckIfStageNameExists(stage))
+                if (CheckIfStageNumberExists(stage))
                 {
                     return BLReturnCodes.Duplicate;
                 }
 
-                var stages = GetRaceById(raceId)?.Stages;
-                if (stages == null)
-                {
-                    stages = new List<Stage>();
-                }
-
-                stages.Add(stage);
+                GetRaceById(raceId)?.Stages.Add(stage);
                 _Context.SaveChanges();
             }
 
@@ -101,12 +95,13 @@ namespace Adventure4You
                     return BLReturnCodes.Unknown;
                 }
 
-                if (!stage.Name.ToUpper().Equals(stageNew.Name.ToUpper()) && CheckIfStageNameExists(stageNew))
+                if (stageNew.Number != stage.Number && CheckIfStageNumberExists(stageNew))
                 {
                     return BLReturnCodes.Duplicate;
                 }
 
                 stage.Name = stageNew.Name;
+                stage.Number = stageNew.Number;
                 stage.MimimumPointsToCompleteStage = stageNew.MimimumPointsToCompleteStage;
                 _Context.SaveChanges();
             }
@@ -135,10 +130,10 @@ namespace Adventure4You
             return BLReturnCodes.Ok;
         }
 
-        private bool CheckIfStageNameExists(Stage stage)
+        private bool CheckIfStageNumberExists(Stage stage)
         {
             var race = GetRaceById(stage.RaceId);
-            return race == null || race.Stages == null ? false : race.Stages.Any(s => s.Name.ToUpper().Equals(stage.Name.ToUpper()));
+            return race == null ? false : race.Stages.Any(s => s.Number == stage.Number);
         }
     }
 }

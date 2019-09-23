@@ -8,6 +8,8 @@ namespace Adventure4YouAPI.ViewModels.Stages
 
         public Guid RaceId { get; set; }
 
+        public int Number { get; set; }
+
         public string Name { get; set; }
 
         public StageViewModel()

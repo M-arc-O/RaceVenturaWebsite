@@ -17,12 +17,12 @@ namespace Adventure4You.Models.Stages
         public Guid RaceId { get; set; }
 
         [Required]
-        [MaxLength(255)]
-        public string Name { get; set; }
+        [Range(1, int.MaxValue)]
+        public int Number { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]
-        public int number { get; set; }
+        [MaxLength(255)]
+        public string Name { get; set; }
 
         [Range(1, int.MaxValue)]
         public int? MimimumPointsToCompleteStage { get; set; }

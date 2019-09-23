@@ -50,7 +50,7 @@ namespace Adventure4YouAPI.Controllers
                 return Ok(retVal);
             }
             catch
-            {
+            { 
                 return StatusCode(500);
             }
         }

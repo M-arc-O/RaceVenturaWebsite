@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,11 +7,10 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
+import { AddEditType } from '../../../shared';
 import { StageDetailViewModel } from '../../shared';
 import { addStageSelector, editSelectedStageSelector, IStagesState } from '../../store';
 import * as stageActions from '../../store/actions/stage.actions';
-import { AddEditType } from '../../../shared';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-stage-add',
@@ -38,44 +38,55 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
     }
 
     public ngOnInit(): void {
-        this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.success) {
-                this.resetForm();
-            }
+        this.setupForm(this.details);
 
-            if (base !== undefined && base.error !== undefined) {
-                if (base.error.status !== 400) {
-                    this.handleError(base.error);
+        if (this.type === AddEditType.Add) {
+            this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+                if (base !== undefined && base.success) {
+                    this.resetForm();
                 }
-            }
-        });
 
-        this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.error !== undefined) {
-                if (base.error.status !== 400) {
-                    this.handleError(base.error);
+                if (base !== undefined && base.error !== undefined) {
+                    if (base.error.status !== 400) {
+                        this.handleError(base.error);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        if (this.type === AddEditType.Edit) {
+            this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+                if (base !== undefined && base.error !== undefined) {
+                    if (base.error.status !== 400) {
+                        this.handleError(base.error);
+                    }
+                }
+            });
+        }
     }
 
     public ngOnChanges(): void {
-        this.setupForm(this.details);
+        if (this.type === AddEditType.Edit) {
+            this.setupForm(this.details);
+        }
     }
 
     private setupForm(details?: StageDetailViewModel): void {
         const formBuilder = new FormBuilder();
 
         let name = '';
+        let number: number;
         let minimumPointsToCompleteStage;
 
         if (details !== undefined) {
             name = details.name;
+            number = details.number;
             minimumPointsToCompleteStage = details.mimimumPointsToCompleteStage;
         }
 
         this.addStageForm = formBuilder.group({
             name: [name, [Validators.required]],
+            number: [number, [Validators.required]],
             minimumPointsToCompleteStage: [minimumPointsToCompleteStage, []]
         });
     }
@@ -86,6 +97,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
 
             const viewModel = new StageDetailViewModel();
             viewModel.name = this.addStageForm.get('name').value;
+            viewModel.number = this.addStageForm.get('number').value;
             viewModel.mimimumPointsToCompleteStage = this.addStageForm.get('minimumPointsToCompleteStage').value;
             viewModel.raceId = this.details.raceId;
 
@@ -106,7 +118,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
     public getErrorText(error: HttpErrorResponse): string {
         switch (error.error.toString()) {
             case '1':
-                return 'A stage with this name already exists in this race.';
+                return 'A stage with this number already exists in this race.';
             default:
                 return 'Default error!';
         }

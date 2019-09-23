@@ -144,9 +144,9 @@ namespace Adventure4YouAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<Guid>("RaceId");
+                    b.Property<int>("Number");
 
-                    b.Property<int>("number");
+                    b.Property<Guid>("RaceId");
 
                     b.HasKey("StageId");
 

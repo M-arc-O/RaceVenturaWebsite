@@ -22,6 +22,8 @@ namespace Adventure4You
         protected List<Race> GetRaces()
         {
             return _Context.Races
+                .Include(r => r.Stages)
+                .ThenInclude(s => s.Points)
                 .Include(r => r.Teams)
                 .ThenInclude(t => t.PointsVisited)
                 .Include(r => r.Teams)
@@ -29,9 +31,7 @@ namespace Adventure4You
                 .Include(r => r.Teams)
                 .ThenInclude(t => t.RaceFinished)
                 .Include(r => r.Teams)
-                .ThenInclude(t => t.RegisteredPhoneIds)
-                .Include(r => r.Stages)
-                .ThenInclude(s => s.Points).ToList();
+                .ThenInclude(t => t.RegisteredPhoneIds).ToList();
         }
 
         protected Race GetRaceById(Guid raceId)

@@ -193,8 +193,8 @@ namespace Adventure4YouAPI.Migrations
                 {
                     StageId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
+                    Number = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
-                    number = table.Column<int>(nullable: false),
                     MimimumPointsToCompleteStage = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -214,8 +214,8 @@ namespace Adventure4YouAPI.Migrations
                 {
                     TeamId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    Number = table.Column<int>(nullable: false)
+                    Number = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
