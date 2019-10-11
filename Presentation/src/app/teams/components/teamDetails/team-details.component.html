@@ -1,5 +1,4 @@
 <div *ngIf="(teamDetailsLoad$ | async).success; else teamLoading">
-    <h5>{{(teamDetails$ | async).name}} details</h5>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-light">

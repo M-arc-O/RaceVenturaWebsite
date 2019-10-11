@@ -1,7 +1,6 @@
 <div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
     <div class="row">
         <div class="col">
-            <h5>{{(raceDetails$ | async).name}} details</h5>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">

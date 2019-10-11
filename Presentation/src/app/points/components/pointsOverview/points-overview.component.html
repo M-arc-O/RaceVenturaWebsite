@@ -7,8 +7,12 @@
 
     <div *ngIf="!(loadPointsBase$ | async).isActive; else pointsLoading">
         <div class="row">
-            <div class="col">
+            <div class="col-2">
                 <h5>Points</h5>
+            </div>
+
+            <div *ngIf="selectedPoint.pointId" class="col p-0 ml-1">
+                <h5>{{selectedPoint.name}} details</h5>
             </div>
         </div>
         <div class="row">
@@ -23,7 +27,7 @@
                 </div>
             </div>
 
-            <div *ngIf="selectedPoint.pointId" class="col">
+            <div *ngIf="selectedPoint.pointId" class="col p-0">
                 <app-point-details [selectedPoint]="selectedPoint"></app-point-details>
             </div>
         </div>

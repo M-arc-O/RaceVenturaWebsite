@@ -6,8 +6,12 @@
 
 <div *ngIf="!(loadStagesBase$ | async).isActive; else stagesLoading">
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <h5>Stages</h5>
+        </div>
+
+        <div *ngIf="selectedStage.stageId" class="col p-0 ml-1">
+            <h5>{{selectedStage.name}} details</h5>
         </div>
     </div>
     <div class="row">
@@ -15,14 +19,15 @@
             <div *ngIf="(loadStagesBase$ | async).success" class="list-group stage-list">
                 <a *ngFor="let stage of stages$ | async" class="list-group-item list-group-item-action"
                     href="javascript:void(0)" (click)="detailsClicked(stage)"
-                    [ngClass]="{'active': stage.stageId === selectedStage.stageId}">{{stage.number}} - {{stage.name}}</a>
+                    [ngClass]="{'active': stage.stageId === selectedStage.stageId}">{{stage.number}} -
+                    {{stage.name}}</a>
             </div>
             <div *ngIf="(loadStagesBase$ | async).success && (stages$ | async).length === 0">
                 No stages found.
             </div>
         </div>
 
-        <div *ngIf="selectedStage.stageId" class="col">
+        <div *ngIf="selectedStage.stageId" class="col p-0">
             <app-stage-details [selectedStage]="selectedStage"></app-stage-details>
         </div>
     </div>
