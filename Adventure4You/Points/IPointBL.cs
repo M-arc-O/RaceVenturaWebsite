@@ -3,7 +3,7 @@ using Adventure4You.Models.Points;
 using System;
 using System.Collections.Generic;
 
-namespace Adventure4You
+namespace Adventure4You.Points
 {
     public interface IPointBL
     {

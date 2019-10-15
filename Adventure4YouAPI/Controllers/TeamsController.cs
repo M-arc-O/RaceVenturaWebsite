@@ -1,4 +1,4 @@
-﻿using Adventure4You;
+﻿using Adventure4You.Teams;
 using Adventure4You.Models;
 using Adventure4You.Models.Teams;
 using Adventure4YouAPI.ViewModels;
@@ -20,13 +20,12 @@ namespace Adventure4YouAPI.Controllers
         private readonly ITeamBL _TeamBL;
         private readonly IMapper _Mapper;
 
-
         public TeamsController(ITeamBL teamBL, IMapper mapper)
         {
             _TeamBL = teamBL;
             _Mapper = mapper;
         }
-
+        
         [HttpGet]
         [Route("getraceteams")]
         public ActionResult<List<TeamViewModel>> GetRaceTeams([FromQuery(Name = "raceId")]Guid raceId)
@@ -102,8 +101,7 @@ namespace Adventure4YouAPI.Controllers
                 return StatusCode(500);
             }
         }
-
-
+        
         [HttpDelete]
         [Route("{teamId}/{raceId}/remove")]
         public ActionResult<Guid> DeleteTeam(Guid teamId, Guid raceId)

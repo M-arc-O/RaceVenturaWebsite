@@ -5,7 +5,7 @@ using Adventure4You.DatabaseContext;
 using Adventure4You.Models;
 using Adventure4You.Models.Stages;
 
-namespace Adventure4You
+namespace Adventure4You.Stages
 {
     public class StageBL : BaseBL, IStageBL
     {

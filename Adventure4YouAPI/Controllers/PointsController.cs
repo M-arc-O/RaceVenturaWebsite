@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Adventure4You;
+using Adventure4You.Points;
 using Adventure4You.Models;
 using Adventure4You.Models.Points;
 using Adventure4YouAPI.ViewModels;

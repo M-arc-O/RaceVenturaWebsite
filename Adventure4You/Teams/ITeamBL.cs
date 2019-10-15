@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Adventure4You.Models;
 using Adventure4You.Models.Teams;
 
-namespace Adventure4You
+namespace Adventure4You.Teams
+
 {
     public interface ITeamBL
     {

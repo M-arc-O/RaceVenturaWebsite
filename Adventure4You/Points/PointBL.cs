@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Adventure4You
+namespace Adventure4You.Points
 {
     public class PointBL : BaseBL, IPointBL
     {

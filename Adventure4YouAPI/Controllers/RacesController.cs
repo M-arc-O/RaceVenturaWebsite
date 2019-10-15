@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouAPI.ViewModels;
-using Adventure4YouAPI.Helpers;
-using Adventure4You;
+using Adventure4You.Races;
 using Adventure4You.Models;
 using AutoMapper;
 

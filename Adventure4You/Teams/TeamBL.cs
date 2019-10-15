@@ -4,9 +4,8 @@ using Adventure4You.Models.Teams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Adventure4You
+namespace Adventure4You.Teams
 {
     public class TeamBL : BaseBL, ITeamBL
     {

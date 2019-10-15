@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
-using Adventure4You;
+using Adventure4You.Stages;
 using Adventure4You.Models;
 using Adventure4You.Models.Stages;
 using Adventure4YouAPI.ViewModels;

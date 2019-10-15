@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Adventure4You.Models;
 
-namespace Adventure4You
+namespace Adventure4You.Races
 {
     public interface IRaceBL
     {
