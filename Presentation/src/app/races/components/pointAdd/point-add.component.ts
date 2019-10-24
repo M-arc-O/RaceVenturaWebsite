@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, AfterViewInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -6,11 +7,10 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { PointDetailViewModel, PointType } from '../../shared';
-import { PointComponentBase } from '../../shared/point-component-base.component';
-import { addPointSelector, editSelectedPointSelector, IPointsState } from '../../store';
+import { PointDetailViewModel, PointType } from '../../shared/models';
+import { addPointSelector, editPointSelector, IPoints } from '../../store';
 import * as pointActions from '../../store/actions/point.actions';
-import { HttpErrorResponse } from '@angular/common/http';
+import { PointComponentBase } from '../point-component-base.component';
 
 @Component({
     selector: 'app-point-add',
@@ -30,12 +30,12 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     public editBase$: Observable<IBase>;
 
     constructor(
-        private store: Store<IPointsState>,
+        private store: Store<IPoints>,
         userService: UserService,
         router: Router) {
         super(userService, router);
         this.addBase$ = this.store.pipe(select(addPointSelector));
-        this.editBase$ = this.store.pipe(select(editSelectedPointSelector));
+        this.editBase$ = this.store.pipe(select(editPointSelector));
     }
 
     public ngOnInit(): void {

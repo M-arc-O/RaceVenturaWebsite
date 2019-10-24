@@ -3,3 +3,4 @@ export * from './racesState.interface';
 export * from './selectedRace.interface';
 export * from './teams.interface';
 export * from './stages.interface';
+export * from './points.interface';

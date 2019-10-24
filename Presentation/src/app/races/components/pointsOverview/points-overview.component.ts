@@ -1,13 +1,12 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { PointViewModel } from '../../shared';
-import { deletePointSelector, IPointsState, loadPointsSelector, pointsListSelector } from '../../store';
-import * as pointActions from '../../store/actions/point.actions';
+import { PointDetailViewModel } from '../../shared/models';
+import { deletePointSelector, IPoints, pointsSelector } from '../../store';
 
 @Component({
     selector: 'app-points-overview',
@@ -18,30 +17,22 @@ import * as pointActions from '../../store/actions/point.actions';
 export class PointsOverviewComponent extends ComponentBase implements OnInit {
     @Input() stageId: string;
 
-    public points$: Observable<PointViewModel[]>;
-    public loadPointsBase$: Observable<IBase>;
+    public points$: Observable<PointDetailViewModel[]>;
     public deletePointBase$: Observable<IBase>;
-    public selectedPoint: PointViewModel;
+    public selectedPoint: PointDetailViewModel;
     public addEditType = AddEditType;
 
     constructor(
-        private store: Store<IPointsState>,
+        private store: Store<IPoints>,
         userService: UserService,
         router: Router) {
         super(userService, router);
-        this.points$ = this.store.pipe(select(pointsListSelector));
-        this.loadPointsBase$ = this.store.pipe(select(loadPointsSelector));
+        this.points$ = this.store.pipe(select(pointsSelector));
         this.deletePointBase$ = this.store.pipe(select(deletePointSelector));
     }
 
     ngOnInit(): void {
         this.resetSelectedPoint();
-
-        this.loadPointsBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.error !== undefined) {
-                this.handleError(base.error);
-            }
-        });
 
         this.deletePointBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
@@ -52,21 +43,19 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit {
                 this.handleError(base.error);
             }
         });
+    }
 
-        this.getPoints();
+    public getPoints(points: Array<PointDetailViewModel>): Array<PointDetailViewModel> {
+        return points.filter(point => point.stageId === this.stageId);
     }
 
     private resetSelectedPoint() {
-        this.selectedPoint = new PointViewModel();
+        this.selectedPoint = new PointDetailViewModel();
         this.selectedPoint.stageId = this.stageId;
         this.selectedPoint.pointId = undefined;
     }
 
-    getPoints(): void {
-        this.store.dispatch(new pointActions.LoadPointsAction(this.stageId));
-    }
-
-    detailsClicked(point: PointViewModel): void {
+    detailsClicked(point: PointDetailViewModel): void {
         this.selectedPoint = point;
     }
 }

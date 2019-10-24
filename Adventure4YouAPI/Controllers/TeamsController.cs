@@ -28,11 +28,11 @@ namespace Adventure4YouAPI.Controllers
         
         [HttpGet]
         [Route("getraceteams")]
-        public ActionResult<List<TeamViewModel>> GetRaceTeams([FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<List<TeamDetailViewModel>> GetRaceTeams([FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
-                var retVal = new List<TeamViewModel>();
+                var retVal = new List<TeamDetailViewModel>();
                 var teams = new List<Team>();
 
                 var result = _TeamBL.GetTeams(GetUserId(), raceId, out teams);
@@ -43,7 +43,7 @@ namespace Adventure4YouAPI.Controllers
 
                 foreach (var team in teams)
                 {
-                    retVal.Add(_Mapper.Map<TeamViewModel>(team));
+                    retVal.Add(_Mapper.Map<TeamDetailViewModel>(team));
                 }
 
                 return Ok(retVal);
@@ -80,7 +80,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addteam")]
-        public ActionResult<TeamViewModel> AddTeam([FromBody]TeamDetailViewModel viewModel)
+        public ActionResult<TeamDetailViewModel> AddTeam([FromBody]TeamDetailViewModel viewModel)
         {
             Thread.Sleep(1000);
 
@@ -94,7 +94,7 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                return Ok(_Mapper.Map<TeamViewModel>(team));
+                return Ok(_Mapper.Map<TeamDetailViewModel>(team));
             }
             catch
             {

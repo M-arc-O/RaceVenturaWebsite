@@ -1,7 +1,6 @@
-export class StageDetailViewModel {
-    public stageId: string;
-    public raceId: string;
-    public number: number;
-    public name: string;
-    public mimimumPointsToCompleteStage: number;
+import { StageStoreModel } from './stage-store-model';
+import { PointDetailViewModel } from './point-detail-view-model';
+
+export class StageDetailViewModel extends StageStoreModel {
+    public points: Array<PointDetailViewModel>;
 }

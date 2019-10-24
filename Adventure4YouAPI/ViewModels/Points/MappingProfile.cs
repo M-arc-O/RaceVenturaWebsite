@@ -7,9 +7,6 @@ namespace Adventure4YouAPI.ViewModels.Points
     {
         public MappingProfile()
         {
-            CreateMap<Point, PointViewModel>();
-            CreateMap<PointViewModel, Point>();
-
             CreateMap<PointDetailViewModel, Point>();
             CreateMap<Point, PointDetailViewModel>();
         }

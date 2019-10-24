@@ -18,12 +18,12 @@ export class TeamsService extends ServiceBase {
         return this.http.post<TeamDetailViewModel>(`${this.baseUrl}/addteam`, body);
     }
 
-    public deleteTeam(viewModel: TeamDetailViewModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/${viewModel.raceId}/remove`);
-    }
-
     public editTeam(viewModel: TeamDetailViewModel): Observable<TeamDetailViewModel> {
         const body = JSON.stringify(viewModel);
         return this.http.put<TeamDetailViewModel>(`${this.baseUrl}/editteam`, body);
+    }
+
+    public deleteTeam(viewModel: TeamDetailViewModel): Observable<string> {
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/${viewModel.raceId}/remove`);
     }
 }

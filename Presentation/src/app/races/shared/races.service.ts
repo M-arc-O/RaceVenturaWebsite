@@ -27,12 +27,12 @@ export class RacesService extends ServiceBase {
         return this.http.post<RaceViewModel>(`${this.baseUrl}/addrace`, body);
     }
 
-    public deleteRace(id: string): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${id}/remove`);
-    }
-
     public editRace(viewModel: RaceStoreModel): Observable<RaceStoreModel> {
         const body = JSON.stringify(viewModel);
         return this.http.put<RaceStoreModel>(`${this.baseUrl}/editrace`, body);
+    }
+
+    public deleteRace(id: string): Observable<string> {
+        return this.http.delete<string>(`${this.baseUrl}/${id}/remove`);
     }
 }

@@ -11,9 +11,6 @@ namespace Adventure4YouAPI.ViewModels.Stages
     {
         public MappingProfile()
         {
-            CreateMap<Stage, StageViewModel>();
-            CreateMap<StageViewModel, Stage>();
-            
             CreateMap<Stage, StageDetailViewModel>();
             CreateMap<StageDetailViewModel, Stage>();
         }

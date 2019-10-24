@@ -7,9 +7,6 @@ namespace Adventure4YouAPI.ViewModels.Teams
     {
         public MappingProfile()
         {
-            CreateMap<Team, TeamViewModel>();
-            CreateMap<TeamViewModel, Team>();
-
             CreateMap<Team, TeamDetailViewModel>();
             CreateMap<TeamDetailViewModel, Team>();
         }

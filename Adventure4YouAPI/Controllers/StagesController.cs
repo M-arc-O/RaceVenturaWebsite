@@ -28,11 +28,11 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getracestages")]
-        public ActionResult<List<StageViewModel>> GetRaceStages([FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<List<StageDetailViewModel>> GetRaceStages([FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
-                var retVal = new List<StageViewModel>();
+                var retVal = new List<StageDetailViewModel>();
                 var stages = new List<Stage>();
                     
                 var result = _StageBL.GetStages(GetUserId(), raceId, out stages);
@@ -43,7 +43,7 @@ namespace Adventure4YouAPI.Controllers
 
                 foreach (var stage in stages)
                 {
-                    retVal.Add(_Mapper.Map<StageViewModel>(stage));
+                    retVal.Add(_Mapper.Map<StageDetailViewModel>(stage));
                 }
 
                 return Ok(retVal);
@@ -80,7 +80,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addstage")]
-        public ActionResult<StageViewModel> AddStage([FromBody]StageDetailViewModel viewModel)
+        public ActionResult<StageDetailViewModel> AddStage([FromBody]StageDetailViewModel viewModel)
         {
             Thread.Sleep(1000);
 
@@ -94,7 +94,7 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                return Ok(_Mapper.Map<StageViewModel>(stage));
+                return Ok(_Mapper.Map<StageDetailViewModel>(stage));
             }
             catch
             {

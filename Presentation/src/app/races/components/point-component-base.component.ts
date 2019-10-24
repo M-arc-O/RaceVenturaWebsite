@@ -1,5 +1,5 @@
 import { ComponentBase } from 'src/app/shared';
-import { PointType } from './models/point-type';
+import { PointType } from '../shared/models';
 
 export abstract class PointComponentBase extends ComponentBase {
     public pointTypeToString(type: PointType): string {

@@ -2,7 +2,7 @@
 
 namespace Adventure4YouAPI.ViewModels.Stages.Validations
 {
-    public class StageViewModelValidator : AbstractValidator<StageViewModel>
+    public class StageViewModelValidator : AbstractValidator<StageDetailViewModel>
     {
         public StageViewModelValidator()
         {

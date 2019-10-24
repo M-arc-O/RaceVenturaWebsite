@@ -4,6 +4,7 @@ import { RaceStoreModel } from '../shared/models';
 import { selectedRaceStateSelector } from './racesState.interface';
 import { IStages } from './stages.interface';
 import { ITeams } from './teams.interface';
+import { IPoints } from './points.interface';
 
 export interface ISelectedRace {
     selectedRace: RaceStoreModel;
@@ -11,6 +12,7 @@ export interface ISelectedRace {
     edit: IBase;
     teams: ITeams;
     stages: IStages;
+    points: IPoints;
 }
 
 export const selectedRaceSelector: MemoizedSelector<object, RaceStoreModel> = createSelector(selectedRaceStateSelector,
@@ -19,3 +21,4 @@ export const loadSelectedRaceSelector: MemoizedSelector<object, IBase> = createS
 export const editSelectedRaceSelector: MemoizedSelector<object, IBase> = createSelector(selectedRaceStateSelector, s => s.edit);
 export const teamsStateSelector: MemoizedSelector<object, ITeams> = createSelector(selectedRaceStateSelector, s => s.teams);
 export const stagesStateSelector: MemoizedSelector<object, IStages> = createSelector(selectedRaceStateSelector, s => s.stages);
+export const pointsStateSelector: MemoizedSelector<object, IPoints> = createSelector(selectedRaceStateSelector, s => s.points);

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store/BaseErrorAction';
-import { StageDetailViewModel } from '../../shared/models';
+import { StageStoreModel } from '../../shared/models';
 
 export enum StageActions {
     ADD_STAGE = 'ADD_STAGE',
@@ -16,12 +16,12 @@ export enum StageActions {
 
 export class AddStageAction {
     public readonly type = StageActions.ADD_STAGE;
-    constructor(public readonly payload: StageDetailViewModel) { }
+    constructor(public readonly payload: StageStoreModel) { }
 }
 
 export class AddStageSuccesAction {
     public readonly type = StageActions.ADD_STAGE_SUCCES;
-    constructor(public readonly payload: StageDetailViewModel) { }
+    constructor(public readonly payload: StageStoreModel) { }
 }
 
 export class AddStageErrorAction implements BaseErrorAction {
@@ -31,12 +31,12 @@ export class AddStageErrorAction implements BaseErrorAction {
 
 export class EditStageAction {
     public readonly type = StageActions.EDIT_STAGE;
-    constructor(public readonly payload: StageDetailViewModel) { }
+    constructor(public readonly payload: StageStoreModel) { }
 }
 
 export class EditStageSuccesAction {
     public readonly type = StageActions.EDIT_STAGE_SUCCES;
-    constructor(public readonly payload: StageDetailViewModel) { }
+    constructor(public readonly payload: StageStoreModel) { }
 }
 
 export class EditStageErrorAction implements BaseErrorAction {
@@ -46,7 +46,7 @@ export class EditStageErrorAction implements BaseErrorAction {
 
 export class DeleteStageAction {
     public readonly type = StageActions.DELETE_STAGE;
-    constructor(public readonly payload: StageDetailViewModel) { }
+    constructor(public readonly payload: StageStoreModel) { }
 }
 
 export class DeleteStageSuccesAction {

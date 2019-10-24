@@ -2,7 +2,7 @@ import { TeamDetailViewModel } from 'src/app/races/shared/models';
 import * as teamsActions from '../../actions';
 import { RaceActions } from '../../actions';
 
-export function teamsReducer(state: TeamDetailViewModel[], action: teamsActions.TeamActionsUnion | teamsActions.RaceActionsUnion) {
+export function teamsReducer(state: TeamDetailViewModel[] = [], action: teamsActions.TeamActionsUnion | teamsActions.RaceActionsUnion) {
     switch (action.type) {
         case RaceActions.LOAD_RACE_DETAILS_SUCCES: {
             state = action.payload.teams;

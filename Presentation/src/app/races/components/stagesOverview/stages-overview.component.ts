@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import * as stagesActions from '../../store/actions/stage.actions';
-import { StageDetailViewModel } from '../../shared/models';
-import { IStages, stagesSelector, deleteStageSelector } from '../../store';
+import { StageDetailViewModel, StageStoreModel } from '../../shared/models';
+import { deleteStageSelector, IStages, stagesSelector } from '../../store';
 
 @Component({
     selector: 'app-stages-overview',
@@ -18,9 +17,9 @@ import { IStages, stagesSelector, deleteStageSelector } from '../../store';
 export class StagesOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
-    public stages$: Observable<StageDetailViewModel[]>;
+    public stages$: Observable<StageStoreModel[]>;
     public deleteStageBase$: Observable<IBase>;
-    public selectedStage: StageDetailViewModel;
+    public selectedStage: StageStoreModel;
     public addEditType = AddEditType;
 
     constructor(
@@ -47,12 +46,12 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
     }
 
     resetSelectedStage() {
-        this.selectedStage = new StageDetailViewModel();
+        this.selectedStage = new StageStoreModel();
         this.selectedStage.raceId = this.raceId;
         this.selectedStage.stageId = undefined;
     }
 
-    detailsClicked(stage: StageDetailViewModel): void {
+    detailsClicked(stage: StageStoreModel): void {
         this.selectedStage = stage;
     }
 }

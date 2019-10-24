@@ -1,11 +1,10 @@
-import { StageDetailViewModel } from 'src/app/races/shared/models';
+import { StageStoreModel } from 'src/app/races/shared/models';
 import * as stagesActions from '../../actions';
-import { RaceActions } from '../../actions';
 
-export function stagesReducer(state: StageDetailViewModel[] = [],
+export function stagesReducer(state: StageStoreModel[] = [],
     action: stagesActions.StageActionsUnion | stagesActions.RaceActionsUnion) {
     switch (action.type) {
-        case RaceActions.LOAD_RACE_DETAILS_SUCCES: {
+        case stagesActions.RaceActions.LOAD_RACE_DETAILS_SUCCES: {
             state = action.payload.stages;
             return Object.assign([], state);
         }

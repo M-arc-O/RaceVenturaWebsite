@@ -1,5 +1,4 @@
-import { StageDetailViewModel } from 'src/app/stages/shared';
-import { TeamDetailViewModel } from '.';
+import { TeamDetailViewModel, StageDetailViewModel } from '.';
 import { RaceStoreModel } from './race-store-model';
 
 export class RaceDetailViewModel extends RaceStoreModel {

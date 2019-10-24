@@ -28,13 +28,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getstagepoints")]
-        public ActionResult<List<PointViewModel>> GetStagePoints([FromQuery(Name = "stageId")]Guid stageId)
+        public ActionResult<List<PointDetailViewModel>> GetStagePoints([FromQuery(Name = "stageId")]Guid stageId)
         {
             Thread.Sleep(1000);
 
             try
             {
-                var retVal = new List<PointViewModel>();
+                var retVal = new List<PointDetailViewModel>();
                 var points = new List<Point>();
 
                 var result = _PointBL.GetPoints(GetUserId(), stageId, out points);
@@ -45,7 +45,7 @@ namespace Adventure4YouAPI.Controllers
 
                 foreach (var point in points)
                 {
-                    retVal.Add(_Mapper.Map<PointViewModel>(point));
+                    retVal.Add(_Mapper.Map<PointDetailViewModel>(point));
                 }
 
                 return Ok(retVal);
@@ -82,7 +82,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addpoint")]
-        public ActionResult<PointViewModel> AddPoint([FromBody]PointDetailViewModel viewModel)
+        public ActionResult<PointDetailViewModel> AddPoint([FromBody]PointDetailViewModel viewModel)
         {
             Thread.Sleep(1000);
 
@@ -97,7 +97,7 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                return Ok(_Mapper.Map<PointViewModel>(point));
+                return Ok(_Mapper.Map<PointDetailViewModel>(point));
             }
             catch
             {

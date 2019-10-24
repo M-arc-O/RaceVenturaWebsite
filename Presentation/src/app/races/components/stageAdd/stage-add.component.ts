@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
-import { StageDetailViewModel } from '../../shared/models';
+import { StageStoreModel } from '../../shared/models';
 import { addStageSelector, editStageSelector, IStages } from '../../store';
 import * as stageActions from '../../store/actions/stage.actions';
 
@@ -18,7 +18,7 @@ import * as stageActions from '../../store/actions/stage.actions';
 })
 export class StageAddComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() public type: AddEditType;
-    @Input() public details: StageDetailViewModel;
+    @Input() public details: StageStoreModel;
 
     public addEditType = AddEditType;
 
@@ -71,7 +71,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         }
     }
 
-    private setupForm(details?: StageDetailViewModel): void {
+    private setupForm(details?: StageStoreModel): void {
         const formBuilder = new FormBuilder();
 
         let name = '';
@@ -95,7 +95,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
         if (this.addStageForm.valid) {
             this.addStageNgForm = ngFrom;
 
-            const viewModel = new StageDetailViewModel();
+            const viewModel = new StageStoreModel();
             viewModel.name = this.addStageForm.get('name').value;
             viewModel.number = this.addStageForm.get('number').value;
             viewModel.mimimumPointsToCompleteStage = this.addStageForm.get('minimumPointsToCompleteStage').value;

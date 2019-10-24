@@ -1,7 +1,9 @@
-import { PointViewModel } from './point-view-model';
 import { PointType } from './point-type';
 
-export class PointDetailViewModel extends PointViewModel {
+export class PointDetailViewModel {
+    public pointId: string;
+    public stageId: string;
+    public name: string;
     public type: PointType;
     public value: number;
     public latitude: number;
