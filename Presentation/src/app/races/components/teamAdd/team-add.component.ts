@@ -10,7 +10,7 @@ import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
 import { TeamDetailViewModel } from '../../shared/models';
 import { addTeamSelector, editTeamSelector, ITeams } from '../../store';
-import * as teamActions from '../../store/actions';
+import * as teamActions from '../../store/actions/teams.actions';
 
 @Component({
     selector: 'app-team-add',

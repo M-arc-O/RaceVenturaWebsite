@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { TeamDetailViewModel } from '../../shared/models';
 import { ISelectedRace, teamsSelector } from '../../store';
-import * as teamActions from '../../store/actions';
+import * as teamActions from '../../store/actions/teams.actions';
 
 @Component({
     selector: 'app-team-details',
@@ -14,15 +14,12 @@ import * as teamActions from '../../store/actions';
 export class TeamDetailsComponent extends ComponentBase {
     @Input() selectedTeam: TeamDetailViewModel;
 
-    public teams$: Observable<TeamDetailViewModel[]>;
-
     public addEditType = AddEditType;
 
     constructor(private store: Store<ISelectedRace>,
         userService: UserService,
         router: Router) {
         super(userService, router);
-        this.teams$ = this.store.pipe(select(teamsSelector));
     }
 
     public RemoveTeamClicked(): void {
