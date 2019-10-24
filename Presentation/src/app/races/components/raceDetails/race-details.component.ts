@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { RaceDetailViewModel } from '../../shared';
-import * as raceActions from '../../store/actions/race.actions';
 import { AddEditType } from '../../../shared';
-import { IRacesState, selectedRaceSelector, loadSelectedRaceSelector } from '../../store';
+import { RaceStoreModel } from '../../shared/models';
+import { IRacesState, loadSelectedRaceSelector, selectedRaceSelector } from '../../store';
+import * as raceActions from '../../store/actions/race.actions';
 
 @Component({
     selector: 'app-race-details',
@@ -17,7 +17,7 @@ import { IRacesState, selectedRaceSelector, loadSelectedRaceSelector } from '../
 export class RaceDetailsComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() raceId: string;
 
-    public raceDetails$: Observable<RaceDetailViewModel>;
+    public raceDetails$: Observable<RaceStoreModel>;
     public raceDetailsLoad$: Observable<IBase>;
 
     public addEditType = AddEditType;

@@ -17,19 +17,17 @@ import { StagesOverviewComponent } from '../stages/components/stagesOverview/sta
 import { StagesService } from '../stages/shared';
 import { StagesEffects } from '../stages/store/effects/stages.effects';
 import { stagesReducers } from '../stages/store/reducers';
-import { TeamAddComponent } from '../teams/components/teamAdd/team-add.component';
-import { TeamDetailsComponent } from '../teams/components/teamDetails/team-details.component';
-import { TeamsOverviewComponent } from '../teams/components/teamsOverview/teams-overview.component';
-import { TeamsService } from '../teams/shared';
-import { TeamsEffects } from '../teams/store/effects/teams.effects';
-import { teamsReducers } from '../teams/store/reducers';
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
+import { TeamAddComponent } from './components/teamAdd/team-add.component';
+import { TeamDetailsComponent } from './components/teamDetails/team-details.component';
+import { TeamsOverviewComponent } from './components/teamsOverview/teams-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
-import { RacesService } from './shared';
-import { RacesEffects } from './store/effects/races.effects';
-import { racesReducers } from './store/reducers';
+import { RacesService, TeamsService } from './shared';
+import { RacesEffects, TeamsEffects } from './store/effects';
+import { racesReducers } from './store/reducers/races';
+import { teamsReducers } from './store/reducers/teams';
 
 @NgModule({
   declarations: [

@@ -1,5 +1,5 @@
-import { RaceViewModel } from '../shared';
-import { IBase } from 'src/app/store/base.interface';
+import { RaceViewModel } from '../shared/models';
+import { IBase } from 'src/app/store';
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import { racesStateSelector } from './racesState.interface';
 

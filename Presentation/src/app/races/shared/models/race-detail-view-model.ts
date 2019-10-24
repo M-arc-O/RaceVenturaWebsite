@@ -1,11 +1,8 @@
-import { RaceViewModel } from './race-view-model';
+import { StageDetailViewModel } from 'src/app/stages/shared';
+import { TeamDetailViewModel } from '.';
+import { RaceStoreModel } from './race-store-model';
 
-export class RaceDetailViewModel extends RaceViewModel {
-    public coordinatesCheckEnabled: boolean;
-    public specialTasksAreStage: boolean;
-    public maximumTeamSize: number;
-    public minimumPointsToCompleteStage: number;
-    public penaltyPerMinuteLate: number;
-    public startTime: Date;
-    public endTime: Date;
+export class RaceDetailViewModel extends RaceStoreModel {
+    public teams: Array<TeamDetailViewModel>;
+    public stages: Array<StageDetailViewModel>;
 }

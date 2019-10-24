@@ -1,0 +1,50 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{selectedTeam.name}}</td>
+                <td>{{selectedTeam.number}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col">
+        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit"></app-team-add>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeTeamModal">
+            Remove team
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="removeTeamModal" tabindex="-1" role="dialog" aria-labelledby="removeTeamModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeTeamModalLabel">Are you sure?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to remove {{selectedTeam.name}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" (click)="RemoveTeamClicked()"
+                            data-dismiss="modal">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -30,8 +30,7 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                List<Race> races;
-                var result = _RaceBL.GetAllRaces(GetUserId(), out races);
+                var result = _RaceBL.GetAllRaces(GetUserId(), out List<Race> races);
 
                 if (result == BLReturnCodes.Ok)
                 {
@@ -66,6 +65,8 @@ namespace Adventure4YouAPI.Controllers
                 {
                     return BadRequest((ErrorCodes)result);
                 }
+
+                var retVal = _Mapper.Map<RaceDetailViewModel>(raceModel);
 
                 return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
             }

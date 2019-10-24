@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,10 +8,9 @@ import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
-import { TeamDetailViewModel } from '../../shared';
-import { addTeamSelector, editSelectedTeamSelector, ITeamsState } from '../../store';
-import * as teamActions from '../../store/actions/team.actions';
-import { HttpErrorResponse } from '@angular/common/http';
+import { TeamDetailViewModel } from '../../shared/models';
+import { addTeamSelector, editTeamSelector, ITeams } from '../../store';
+import * as teamActions from '../../store/actions';
 
 @Component({
     selector: 'app-team-add',
@@ -29,12 +29,12 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
     public editBase$: Observable<IBase>;
 
     constructor(
-        private store: Store<ITeamsState>,
+        private store: Store<ITeams>,
         userService: UserService,
         router: Router) {
         super(userService, router);
         this.addBase$ = this.store.pipe(select(addTeamSelector));
-        this.editBase$ = this.store.pipe(select(editSelectedTeamSelector));
+        this.editBase$ = this.store.pipe(select(editTeamSelector));
     }
 
     public ngOnInit(): void {

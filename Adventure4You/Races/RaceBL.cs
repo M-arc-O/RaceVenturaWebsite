@@ -35,7 +35,7 @@ namespace Adventure4You.Races
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            race = GetRace(raceId);
+            race = GetRaceById(raceId);
             if (race == null)
             {
                 return BLReturnCodes.Unknown;
@@ -75,7 +75,7 @@ namespace Adventure4You.Races
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            var race = GetRace(raceId);
+            var race = GetRaceById(raceId);
             if (race != null)
             {
                 _Context.UserLinks.Remove(userLink);
@@ -98,7 +98,7 @@ namespace Adventure4You.Races
                 return BLReturnCodes.UserUnauthorized;
             }
 
-            var race = GetRace(raceNew.RaceId);
+            var race = GetRaceById(raceNew.RaceId);
             if (race == null)
             {
                 return BLReturnCodes.Unknown;
@@ -121,11 +121,6 @@ namespace Adventure4You.Races
             {
                 return BLReturnCodes.Duplicate;
             }
-        }
-
-        private Race GetRace(Guid raceId)
-        {
-            return _Context.Races.FirstOrDefault(race => race.RaceId == raceId);
         }
 
         private bool CheckIfRaceNameExists(string name)

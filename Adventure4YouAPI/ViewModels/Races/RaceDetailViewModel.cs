@@ -1,5 +1,7 @@
-﻿using Adventure4You.Models;
+﻿using Adventure4YouAPI.ViewModels.Stages;
+using Adventure4YouAPI.ViewModels.Teams;
 using System;
+using System.Collections.Generic;
 
 namespace Adventure4YouAPI.ViewModels.Races
 {
@@ -12,6 +14,8 @@ namespace Adventure4YouAPI.ViewModels.Races
         public int PenaltyPerMinuteLate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public List<TeamDetailViewModel> Teams { get; set; }
+        public List<StageDetailViewModel> Stages { get; set; }
 
         public RaceDetailViewModel()
         {

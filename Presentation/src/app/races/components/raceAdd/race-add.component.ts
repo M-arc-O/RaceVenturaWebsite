@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { RaceDetailViewModel } from '../../shared';
+import { RaceDetailViewModel } from '../../shared/models';
 import { addRaceSelector, editSelectedRaceSelector, IRacesState } from '../../store';
 import * as racesActions from '../../store/actions/race.actions';
 import { AddEditType } from '../../../shared';

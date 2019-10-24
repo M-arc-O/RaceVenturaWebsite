@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
-import { IRaces } from './races.interface';
-import { ISelectedRace } from './selectedRace.interface';
+import { IRaces } from '.';
+import { ISelectedRace } from '.';
 
 export interface IRacesState {
     races: IRaces;

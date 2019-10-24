@@ -1,13 +1,12 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { TeamViewModel } from '../../shared';
-import { deleteTeamSelector, ITeamsState, loadTeamsSelector, teamsListSelector } from '../../store';
-import * as teamsActions from '../../store/actions/team.actions';
+import { TeamDetailViewModel } from '../../shared/models';
+import { deleteTeamSelector, ISelectedRace, teamsSelector } from '../../store';
 
 @Component({
     selector: 'app-teams-overview',
@@ -18,30 +17,22 @@ import * as teamsActions from '../../store/actions/team.actions';
 export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
-    public teams$: Observable<TeamViewModel[]>;
-    public loadTeamsBase$: Observable<IBase>;
+    public teams$: Observable<TeamDetailViewModel[]>;
     public deleteTeamBase$: Observable<IBase>;
-    public selectedTeam: TeamViewModel;
+    public selectedTeam: TeamDetailViewModel;
     public addEditType = AddEditType;
 
     constructor(
-        private store: Store<ITeamsState>,
+        private store: Store<ISelectedRace>,
         userService: UserService,
         router: Router) {
         super(userService, router);
-        this.teams$ = this.store.pipe(select(teamsListSelector));
-        this.loadTeamsBase$ = this.store.pipe(select(loadTeamsSelector));
+        this.teams$ = this.store.pipe(select(teamsSelector));
         this.deleteTeamBase$ = this.store.pipe(select(deleteTeamSelector));
     }
 
     ngOnInit(): void {
         this.resetSelectedTeam();
-
-        this.loadTeamsBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.error !== undefined) {
-                this.handleError(base.error);
-            }
-        });
 
         this.deleteTeamBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
@@ -52,21 +43,15 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
                 this.handleError(base.error);
             }
         });
-
-        this.getTeams();
     }
 
     private resetSelectedTeam() {
-        this.selectedTeam = new TeamViewModel();
+        this.selectedTeam = new TeamDetailViewModel();
         this.selectedTeam.raceId = this.raceId;
         this.selectedTeam.teamId = undefined;
     }
 
-    getTeams(): void {
-        this.store.dispatch(new teamsActions.LoadTeamsAction(this.raceId));
-    }
-
-    detailsClicked(team: TeamViewModel): void {
+    detailsClicked(team: TeamDetailViewModel): void {
         this.selectedTeam = team;
     }
 }

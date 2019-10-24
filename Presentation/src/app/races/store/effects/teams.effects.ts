@@ -4,9 +4,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TeamsService } from '../../shared';
-import * as teamsActions from './../actions/team.actions';
-import { TeamActions } from './../actions/team.actions';
-
+import * as teamsActions from '../actions/teams.actions';
+import { TeamActions } from '../actions/teams.actions';
 
 @Injectable()
 export class TeamsEffects {
@@ -15,12 +14,6 @@ export class TeamsEffects {
         private teamsService: TeamsService,
         private actions$: Actions
     ) { }
-
-    @Effect() loadTeams$ = this.actions$.pipe(
-        ofType(TeamActions.LOAD_TEAMS),
-        switchMap(action => this.teamsService.getTeams((action as teamsActions.LoadTeamsAction).payload).pipe(
-            map(teams => new teamsActions.LoadTeamsSuccesAction(teams)),
-            catchError((error: HttpErrorResponse) => of(new teamsActions.LoadTeamsErrorAction({ error: error }))))));
 
     @Effect() addTeam$ = this.actions$.pipe(
         ofType(TeamActions.ADD_TEAM),
@@ -33,12 +26,6 @@ export class TeamsEffects {
         switchMap(action => this.teamsService.deleteTeam((action as teamsActions.DeleteTeamAction).payload).pipe(
             map(id => new teamsActions.DeleteTeamSuccesAction(id)),
             catchError((error: HttpErrorResponse) => of(new teamsActions.DeleteTeamErrorAction({ error: error }))))));
-
-    @Effect() loadTeamDetails$ = this.actions$.pipe(
-        ofType(TeamActions.LOAD_TEAM_DETAILS),
-        switchMap(action => this.teamsService.getTeamDetails((action as teamsActions.LoadTeamDetailsAction).payload).pipe(
-            map(teamDetails => new teamsActions.LoadTeamDetailsSuccesAction(teamDetails)),
-            catchError((error: HttpErrorResponse) => of(new teamsActions.LoadTeamDetailsErrorAction({ error: error }))))));
 
     @Effect() editTeam$ = this.actions$.pipe(
         ofType(TeamActions.EDIT_TEAM),
