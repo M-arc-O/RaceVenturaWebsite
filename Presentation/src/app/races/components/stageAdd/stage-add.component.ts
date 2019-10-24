@@ -8,8 +8,8 @@ import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
-import { StageDetailViewModel } from '../../shared';
-import { addStageSelector, editSelectedStageSelector, IStagesState } from '../../store';
+import { StageDetailViewModel } from '../../shared/models';
+import { addStageSelector, editStageSelector, IStages } from '../../store';
 import * as stageActions from '../../store/actions/stage.actions';
 
 @Component({
@@ -29,12 +29,12 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
     public editBase$: Observable<IBase>;
 
     constructor(
-        private store: Store<IStagesState>,
+        private store: Store<IStages>,
         userService: UserService,
         router: Router) {
         super(userService, router);
         this.addBase$ = this.store.pipe(select(addStageSelector));
-        this.editBase$ = this.store.pipe(select(editSelectedStageSelector));
+        this.editBase$ = this.store.pipe(select(editStageSelector));
     }
 
     public ngOnInit(): void {

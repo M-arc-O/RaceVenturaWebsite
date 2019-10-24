@@ -4,7 +4,6 @@ import { teamsReducer } from './teams.reducer';
 import { TeamActions } from '../../actions';
 import { createBaseReducer } from 'src/app/store';
 
-
 export const teamsReducers = combineReducers(<ActionReducerMap<ITeams>>{
     teams: teamsReducer,
     add: createBaseReducer(TeamActions.ADD_TEAM, TeamActions.ADD_TEAM_SUCCES, TeamActions.ADD_TEAM_ERROR),

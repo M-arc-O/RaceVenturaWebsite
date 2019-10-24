@@ -1,13 +1,13 @@
-import { combineReducers, ActionReducerMap } from '@ngrx/store';
-import { IRacesState } from '../../racesState.interface';
-import { racesReducer } from './races.reducer';
-import { selectedRaceReducer } from './selectedRace.reducer';
-import { IRaces } from '../../races.interface';
-import { ISelectedRace } from '../../selectedRace.interface';
+import { ActionReducerMap, combineReducers } from '@ngrx/store';
 import { createBaseReducer } from 'src/app/store/base.reducer';
 import { RaceActions } from '../../actions/race.actions';
-import { stagesReducers } from 'src/app/stages/store/reducers';
+import { IRaces } from '../../races.interface';
+import { IRacesState } from '../../racesState.interface';
+import { ISelectedRace } from '../../selectedRace.interface';
+import { stagesReducers } from '../stages';
 import { teamsReducers } from '../teams';
+import { racesReducer } from './races.reducer';
+import { selectedRaceReducer } from './selectedRace.reducer';
 
 export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>>{
     races: racesReducer,
@@ -21,8 +21,8 @@ export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISe
     load: createBaseReducer(RaceActions.LOAD_RACE_DETAILS, RaceActions.LOAD_RACE_DETAILS_SUCCES,
         RaceActions.LOAD_RACE_DETAILS_ERROR),
     edit: createBaseReducer(RaceActions.EDIT_RACE, RaceActions.EDIT_RACE_SUCCES, RaceActions.EDIT_RACE_ERROR, RaceActions.LOAD_RACES),
-    stagesState: stagesReducers,
-    teams: teamsReducers
+    teams: teamsReducers,
+    stages: stagesReducers
 });
 
 export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{

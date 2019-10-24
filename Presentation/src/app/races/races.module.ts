@@ -11,22 +11,20 @@ import { PointsEffects } from '../points/store/effects/points.effects';
 import { pointsReducers } from '../points/store/reducers/points.reducers';
 import { ValidationModule } from '../shared/components/validation/validation.module';
 import { PipesModule } from '../shared/pipes/pipes.module';
-import { StageAddComponent } from '../stages/components/stageAdd/stage-add.component';
-import { StageDetailsComponent } from '../stages/components/stageDetails/stage-details.component';
-import { StagesOverviewComponent } from '../stages/components/stagesOverview/stages-overview.component';
-import { StagesService } from '../stages/shared';
-import { StagesEffects } from '../stages/store/effects/stages.effects';
-import { stagesReducers } from '../stages/store/reducers';
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
+import { StageAddComponent } from './components/stageAdd/stage-add.component';
+import { StageDetailsComponent } from './components/stageDetails/stage-details.component';
+import { StagesOverviewComponent } from './components/stagesOverview/stages-overview.component';
 import { TeamAddComponent } from './components/teamAdd/team-add.component';
 import { TeamDetailsComponent } from './components/teamDetails/team-details.component';
 import { TeamsOverviewComponent } from './components/teamsOverview/teams-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
-import { RacesService, TeamsService } from './shared';
-import { RacesEffects, TeamsEffects } from './store/effects';
+import { RacesService, StagesService, TeamsService } from './shared';
+import { RaceEffects, StageEffects, TeamEffects } from './store/effects';
 import { racesReducers } from './store/reducers/races';
+import { stagesReducers } from './store/reducers/stages';
 import { teamsReducers } from './store/reducers/teams';
 
 @NgModule({
@@ -52,7 +50,7 @@ import { teamsReducers } from './store/reducers/teams';
     StoreModule.forFeature('stagesFeature', stagesReducers),
     StoreModule.forFeature('pointsFeature', pointsReducers),
     StoreModule.forFeature('teamsFeature', teamsReducers),
-    EffectsModule.forFeature([RacesEffects, StagesEffects, PointsEffects, TeamsEffects]),
+    EffectsModule.forFeature([RaceEffects, StageEffects, PointsEffects, TeamEffects]),
     ValidationModule,
     PipesModule
   ],

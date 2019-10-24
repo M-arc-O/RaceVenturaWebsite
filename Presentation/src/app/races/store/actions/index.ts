@@ -1,2 +1,3 @@
 export * from './race.actions';
-export * from './teams.actions';
+export * from './team.actions';
+export * from './stage.actions';

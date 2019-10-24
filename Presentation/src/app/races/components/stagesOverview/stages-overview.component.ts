@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { StageViewModel } from '../../shared';
-import { deleteStageSelector, IStagesState, loadStagesSelector, stagesListSelector } from '../../store';
 import * as stagesActions from '../../store/actions/stage.actions';
+import { StageDetailViewModel } from '../../shared/models';
+import { IStages, stagesSelector, deleteStageSelector } from '../../store';
 
 @Component({
     selector: 'app-stages-overview',
@@ -18,29 +18,22 @@ import * as stagesActions from '../../store/actions/stage.actions';
 export class StagesOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
-    public stages$: Observable<StageViewModel[]>;
-    public loadStagesBase$: Observable<IBase>;
+    public stages$: Observable<StageDetailViewModel[]>;
     public deleteStageBase$: Observable<IBase>;
-    public selectedStage: StageViewModel;
+    public selectedStage: StageDetailViewModel;
     public addEditType = AddEditType;
 
     constructor(
-        private store: Store<IStagesState>,
+        private store: Store<IStages>,
         userService: UserService,
         router: Router) {
         super(userService, router);
-        this.stages$ = this.store.pipe(select(stagesListSelector));
-        this.loadStagesBase$ = this.store.pipe(select(loadStagesSelector));
+        this.stages$ = this.store.pipe(select(stagesSelector));
         this.deleteStageBase$ = this.store.pipe(select(deleteStageSelector));
     }
 
     ngOnInit(): void {
         this.resetSelectedStage();
-        this.loadStagesBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
-            if (base !== undefined && base.error !== undefined) {
-                this.handleError(base.error);
-            }
-        });
 
         this.deleteStageBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.success) {
@@ -51,21 +44,15 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
                 this.handleError(base.error);
             }
         });
-
-        this.getStages();
     }
 
     resetSelectedStage() {
-        this.selectedStage = new StageViewModel();
+        this.selectedStage = new StageDetailViewModel();
         this.selectedStage.raceId = this.raceId;
         this.selectedStage.stageId = undefined;
     }
 
-    getStages(): void {
-        this.store.dispatch(new stagesActions.LoadStagesAction(this.raceId));
-    }
-
-    detailsClicked(stage: StageViewModel): void {
+    detailsClicked(stage: StageDetailViewModel): void {
         this.selectedStage = stage;
     }
 }
