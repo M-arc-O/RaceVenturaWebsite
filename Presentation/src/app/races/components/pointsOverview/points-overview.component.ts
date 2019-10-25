@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { deletePointSelector, IPoints, pointsSelector } from '../../store';
     styleUrls: ['./points-overview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PointsOverviewComponent extends ComponentBase implements OnInit {
+export class PointsOverviewComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() stageId: string;
 
     public points$: Observable<PointDetailViewModel[]>;
@@ -43,6 +43,10 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit {
                 this.handleError(base.error);
             }
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.resetSelectedPoint();
     }
 
     public getPoints(points: Array<PointDetailViewModel>): Array<PointDetailViewModel> {
