@@ -66,8 +66,6 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                var retVal = _Mapper.Map<RaceDetailViewModel>(raceModel);
-
                 return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
             }
             catch

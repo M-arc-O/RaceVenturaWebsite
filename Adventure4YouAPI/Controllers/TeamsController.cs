@@ -103,7 +103,7 @@ namespace Adventure4YouAPI.Controllers
         }
         
         [HttpDelete]
-        [Route("{teamId}/{raceId}/remove")]
+        [Route("{teamId}/{raceId}/removeteam")]
         public ActionResult<Guid> DeleteTeam(Guid teamId, Guid raceId)
         {
             try
@@ -136,14 +136,54 @@ namespace Adventure4YouAPI.Controllers
                     return BadRequest((ErrorCodes)result);
                 }
 
-                var retVal = _Mapper.Map<TeamDetailViewModel>(team);
-
-                return Ok(retVal);
+                return Ok(_Mapper.Map<TeamDetailViewModel>(team));
             }
             catch
             {
                 return StatusCode(500);
             }
+        }
+
+        [HttpPost]
+        [Route("addpointvisited")]
+        public ActionResult<TeamPointVisitedViewModel> AddPointVisited(TeamPointVisitedViewModel viewModel)
+        {
+            try
+            {
+                var model = _Mapper.Map<TeamPointVisited>(viewModel);
+
+                var result = _TeamBL.PointVisited(GetUserId(), model);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+
+                return Ok(model);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{teamPointVisitedId}/{teamId}/{raceId}/removepointvisited")]
+        public ActionResult<Guid> DeletePointVisited(Guid teamPointVisitedId, Guid teamId, Guid raceId)
+        {
+            try
+            {
+                var result = _TeamBL.DeleteTeamPointVisited(GetUserId(), teamId, teamPointVisitedId, raceId);
+                if (result != BLReturnCodes.Ok)
+                {
+                    return BadRequest((ErrorCodes)result);
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(teamPointVisitedId);
         }
     }
 }

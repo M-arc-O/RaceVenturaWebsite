@@ -1,0 +1,26 @@
+<div *ngIf="form">
+    <form [formGroup]="form" role="form">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th *ngFor="let point of getPoints(points$ | async); let i = index">
+                            <label for="point{{i}}">{{point.name}} ({{pointTypeToString(point.type)}})</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td formArrayName="points" *ngFor="let point of form.controls.points.controls; let i = index">
+                            <span *ngIf="(addBase$ | async).isActive || (deleteBase$ | async).isActive; else showInput"
+                                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <ng-template #showInput>
+                                <input id="point{{i}}" type="checkbox" value="test" [formControlName]="i" />
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>

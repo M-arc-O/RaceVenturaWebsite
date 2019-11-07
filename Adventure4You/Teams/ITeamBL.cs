@@ -13,5 +13,7 @@ namespace Adventure4You.Teams
         BLReturnCodes AddTeam(Guid userId, Team team, Guid raceId);
         BLReturnCodes DeleteTeam(Guid userId, Guid teamId, Guid raceId);
         BLReturnCodes EditTeam(Guid userId, Team team);
+        BLReturnCodes PointVisited(Guid userId, TeamPointVisited model);
+        BLReturnCodes DeleteTeamPointVisited(Guid userId, Guid teamId, Guid teamPointVisitedId, Guid raceId);
     }
 }

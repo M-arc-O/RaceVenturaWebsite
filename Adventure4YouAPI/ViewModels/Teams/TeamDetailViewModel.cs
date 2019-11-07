@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace Adventure4YouAPI.ViewModels.Teams
 {
@@ -9,5 +10,7 @@ namespace Adventure4YouAPI.ViewModels.Teams
         public Guid RaceId { get; set; }
         public int Number { get; set; }
         public string Name { get; set; }
+        public List<TeamPointVisitedViewModel> PointsVisited { get; set; }
+        public TeamRaceFinishedViewModel RaceFinished { get; set; }
     }
 }

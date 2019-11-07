@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store';
-import { TeamDetailViewModel } from '../../shared/models';
+import { TeamStoreModel } from '../../shared/models';
 
 export enum TeamActions {
     ADD_TEAM = 'ADD_TEAM',
@@ -16,12 +16,12 @@ export enum TeamActions {
 
 export class AddTeamAction {
     public readonly type = TeamActions.ADD_TEAM;
-    constructor(public readonly payload: TeamDetailViewModel) { }
+    constructor(public readonly payload: TeamStoreModel) { }
 }
 
 export class AddTeamSuccesAction {
     public readonly type = TeamActions.ADD_TEAM_SUCCES;
-    constructor(public readonly payload: TeamDetailViewModel) { }
+    constructor(public readonly payload: TeamStoreModel) { }
 }
 
 export class AddTeamErrorAction implements BaseErrorAction {
@@ -31,12 +31,12 @@ export class AddTeamErrorAction implements BaseErrorAction {
 
 export class EditTeamAction {
     public readonly type = TeamActions.EDIT_TEAM;
-    constructor(public readonly payload: TeamDetailViewModel) { }
+    constructor(public readonly payload: TeamStoreModel) { }
 }
 
 export class EditTeamSuccesAction {
     public readonly type = TeamActions.EDIT_TEAM_SUCCES;
-    constructor(public readonly payload: TeamDetailViewModel) { }
+    constructor(public readonly payload: TeamStoreModel) { }
 }
 
 export class EditTeamErrorAction implements BaseErrorAction {
@@ -46,7 +46,7 @@ export class EditTeamErrorAction implements BaseErrorAction {
 
 export class DeleteTeamAction {
     public readonly type = TeamActions.DELETE_TEAM;
-    constructor(public readonly payload: TeamDetailViewModel) { }
+    constructor(public readonly payload: TeamStoreModel) { }
 }
 
 export class DeleteTeamSuccesAction {

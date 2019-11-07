@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Adventure4YouAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -276,7 +276,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamPointsVisited",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    TeamPointVisitedId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     StageId = table.Column<Guid>(nullable: false),
                     PointId = table.Column<Guid>(nullable: false),
@@ -285,7 +285,7 @@ namespace Adventure4YouAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamPointsVisited", x => x.Id);
+                    table.PrimaryKey("PK_TeamPointsVisited", x => x.TeamPointVisitedId);
                     table.ForeignKey(
                         name: "FK_TeamPointsVisited_Teams_TeamId",
                         column: x => x.TeamId,
@@ -298,14 +298,14 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamRacesFinished",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    TeamRaceFinishedId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
                     StopTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamRacesFinished", x => x.Id);
+                    table.PrimaryKey("PK_TeamRacesFinished", x => x.TeamRaceFinishedId);
                     table.ForeignKey(
                         name: "FK_TeamRacesFinished_Teams_TeamId",
                         column: x => x.TeamId,
@@ -318,7 +318,7 @@ namespace Adventure4YouAPI.Migrations
                 name: "TeamStagesFinished",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    StageFinishedId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     StageId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
@@ -326,7 +326,7 @@ namespace Adventure4YouAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamStagesFinished", x => x.Id);
+                    table.PrimaryKey("PK_TeamStagesFinished", x => x.StageFinishedId);
                     table.ForeignKey(
                         name: "FK_TeamStagesFinished_Teams_TeamId",
                         column: x => x.TeamId,

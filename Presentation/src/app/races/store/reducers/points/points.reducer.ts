@@ -5,6 +5,7 @@ export function pointsReducer(state: PointDetailViewModel[] = [],
     action: pointsActions.PointActionsUnion | pointsActions.RaceActionsUnion) {
     switch (action.type) {
         case pointsActions.RaceActions.LOAD_RACE_DETAILS_SUCCES: {
+            state = new Array();
             action.payload.stages.forEach(stage => {
                 state = state.concat(stage.points);
             });

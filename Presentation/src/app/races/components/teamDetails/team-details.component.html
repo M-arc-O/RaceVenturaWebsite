@@ -48,3 +48,23 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col">
+        <div class="accordion" id="teamStagesAccordion">
+            <div *ngFor="let stage of (stages$ | async); let i = index" class="card">
+                <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                    [attr.data-target]="'#stageCollapse-' + i" [attr.id]="'stageHeading-' + i">
+                    {{stage.number}} - {{stage.name}}
+                </button>
+                <div [attr.id]="'stageCollapse-' + i" class="collapse" [attr.aria-labelledby]="'stageHeading-' + i"
+                    data-parent="#teamStagesAccordion">
+                    <div class="card-body">
+                        <app-team-points [raceId]="selectedTeam.raceId" [stageId]="stage.stageId"
+                            [teamId]="selectedTeam.teamId"></app-team-points>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

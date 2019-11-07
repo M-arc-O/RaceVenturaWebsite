@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { TeamDetailViewModel } from '../../shared/models';
+import { TeamStoreModel } from '../../shared/models';
 import { deleteTeamSelector, ISelectedRace, teamsSelector } from '../../store';
 
 @Component({
@@ -17,9 +17,9 @@ import { deleteTeamSelector, ISelectedRace, teamsSelector } from '../../store';
 export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
-    public teams$: Observable<TeamDetailViewModel[]>;
+    public teams$: Observable<TeamStoreModel[]>;
     public deleteTeamBase$: Observable<IBase>;
-    public selectedTeam: TeamDetailViewModel;
+    public selectedTeam: TeamStoreModel;
     public addEditType = AddEditType;
 
     constructor(
@@ -46,12 +46,12 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     }
 
     private resetSelectedTeam() {
-        this.selectedTeam = new TeamDetailViewModel();
+        this.selectedTeam = new TeamStoreModel();
         this.selectedTeam.raceId = this.raceId;
         this.selectedTeam.teamId = undefined;
     }
 
-    detailsClicked(team: TeamDetailViewModel): void {
+    detailsClicked(team: TeamStoreModel): void {
         this.selectedTeam = team;
     }
 }

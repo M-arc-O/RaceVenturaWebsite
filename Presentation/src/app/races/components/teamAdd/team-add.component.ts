@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
-import { TeamDetailViewModel } from '../../shared/models';
+import { TeamStoreModel } from '../../shared/models';
 import { addTeamSelector, editTeamSelector, ITeams } from '../../store';
 import * as teamActions from '../../store/actions/team.actions';
 
@@ -18,7 +18,7 @@ import * as teamActions from '../../store/actions/team.actions';
 })
 export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() public type: AddEditType;
-    @Input() public details: TeamDetailViewModel;
+    @Input() public details: TeamStoreModel;
 
     public addEditType = AddEditType;
 
@@ -71,7 +71,7 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
         }
     }
 
-    private setupForm(details?: TeamDetailViewModel): void {
+    private setupForm(details?: TeamStoreModel): void {
         const formBuilder = new FormBuilder();
 
         let name = '';
@@ -92,7 +92,7 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
         if (this.addTeamForm.valid) {
             this.addTeamNgForm = ngFrom;
 
-            const viewModel = new TeamDetailViewModel();
+            const viewModel = new TeamStoreModel();
             viewModel.name = this.addTeamForm.get('name').value;
             viewModel.number = this.addTeamForm.get('number').value;
             viewModel.raceId = this.details.raceId;

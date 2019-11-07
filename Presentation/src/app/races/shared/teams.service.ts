@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigurationService, ServiceBase } from 'src/app/shared';
-import { TeamDetailViewModel } from './models';
+import { TeamDetailViewModel, TeamStoreModel, TeamPointVisitedViewModel } from './models';
 
 @Injectable()
 export class TeamsService extends ServiceBase {
@@ -13,17 +13,26 @@ export class TeamsService extends ServiceBase {
         this.baseUrl = ConfigurationService.ApiRoot + '/api/teams';
     }
 
-    public addTeam(viewModel: TeamDetailViewModel): Observable<TeamDetailViewModel> {
+    public addTeam(viewModel: TeamStoreModel): Observable<TeamDetailViewModel> {
         const body = JSON.stringify(viewModel);
         return this.http.post<TeamDetailViewModel>(`${this.baseUrl}/addteam`, body);
     }
 
-    public editTeam(viewModel: TeamDetailViewModel): Observable<TeamDetailViewModel> {
+    public editTeam(viewModel: TeamStoreModel): Observable<TeamDetailViewModel> {
         const body = JSON.stringify(viewModel);
         return this.http.put<TeamDetailViewModel>(`${this.baseUrl}/editteam`, body);
     }
 
-    public deleteTeam(viewModel: TeamDetailViewModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/${viewModel.raceId}/remove`);
+    public deleteTeam(viewModel: TeamStoreModel): Observable<string> {
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/${viewModel.raceId}/removeteam`);
+    }
+
+    public addTeamPointVisited(viewModel: TeamPointVisitedViewModel): Observable<TeamPointVisitedViewModel> {
+        const body = JSON.stringify(viewModel);
+        return this.http.post<TeamPointVisitedViewModel>(`${this.baseUrl}/addpointvisited`, body);
+    }
+
+    public deleteTeamPointVisited(viewModel: TeamPointVisitedViewModel): Observable<string> {
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamPointVisitedId}/${viewModel.teamId}/${viewModel.raceId}/removepointvisited`);
     }
 }

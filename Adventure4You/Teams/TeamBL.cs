@@ -109,6 +109,56 @@ namespace Adventure4You.Teams
             return retVal;
         }
 
+        public BLReturnCodes PointVisited(Guid userId, TeamPointVisited model)
+        {
+            var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, model.RaceId);
+            if (retVal == BLReturnCodes.Ok)
+            {
+                var team = GetTeamById(model.TeamId);
+                if (team == null)
+                {
+                    return BLReturnCodes.Unknown;
+                }
+
+                if (team.PointsVisited.Any(point => point.PointId == model.PointId))
+                {
+                    return BLReturnCodes.Duplicate;
+                }
+
+                team.PointsVisited.Add(model);
+
+                _Context.SaveChanges();
+            }
+
+            return retVal;
+        }
+
+        public BLReturnCodes DeleteTeamPointVisited(Guid userId, Guid teamId, Guid teamPointVisitedId, Guid raceId)
+        {
+            var retVal = CheckIfUserHasAccessToRaceAndRaceExists(userId, raceId);
+            if (retVal == BLReturnCodes.Ok)
+            {
+                var team = GetTeamById(teamId);
+                if (team == null)
+                {
+                    return BLReturnCodes.Unknown;
+                }
+
+                var pointVisited = team.PointsVisited.FirstOrDefault(point => point.TeamPointVisitedId == teamPointVisitedId);
+                if (pointVisited == null)
+                {
+                    return BLReturnCodes.Unknown;
+                }
+
+                team.PointsVisited.Remove(pointVisited);
+                _Context.SaveChanges();
+
+                return BLReturnCodes.Ok;
+            }
+
+            return retVal;
+        }
+
         private BLReturnCodes CheckIfUserHasAccessToRaceAndRaceExists(Guid userId, Guid raceId)
         {
             var race = _Context.Races.Where(r => r.RaceId == raceId);

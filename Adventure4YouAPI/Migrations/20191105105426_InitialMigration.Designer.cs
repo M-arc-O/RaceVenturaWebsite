@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Adventure4YouAPI.Migrations
 {
     [DbContext(typeof(Adventure4YouDbContext))]
-    [Migration("20190923130606_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20191105105426_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -195,7 +195,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamPointVisited", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("TeamPointVisitedId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("PointId");
@@ -208,7 +208,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<DateTime>("Time");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeamPointVisitedId");
 
                     b.HasIndex("TeamId");
 
@@ -217,7 +217,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamRaceFinished", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("TeamRaceFinishedId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("RaceId");
@@ -226,7 +226,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("TeamId");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeamRaceFinishedId");
 
                     b.HasIndex("TeamId")
                         .IsUnique();
@@ -236,7 +236,7 @@ namespace Adventure4YouAPI.Migrations
 
             modelBuilder.Entity("Adventure4You.Models.Teams.TeamStageFinished", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("StageFinishedId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("RaceId");
@@ -247,7 +247,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<Guid>("TeamId");
 
-                    b.HasKey("Id");
+                    b.HasKey("StageFinishedId");
 
                     b.HasIndex("TeamId");
 

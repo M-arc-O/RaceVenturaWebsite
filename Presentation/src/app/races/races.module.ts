@@ -16,13 +16,16 @@ import { StageDetailsComponent } from './components/stageDetails/stage-details.c
 import { StagesOverviewComponent } from './components/stagesOverview/stages-overview.component';
 import { TeamAddComponent } from './components/teamAdd/team-add.component';
 import { TeamDetailsComponent } from './components/teamDetails/team-details.component';
+import { TeamPointsComponent } from './components/teamPoints/team-points.component';
 import { TeamsOverviewComponent } from './components/teamsOverview/teams-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
 import { PointsService, RacesService, StagesService, TeamsService } from './shared';
 import { PointEffects, RaceEffects, StageEffects, TeamEffects } from './store/effects';
+import { TeamPointVisitedEffects } from './store/effects/team-point-visited';
 import { pointsReducers } from './store/reducers/points';
 import { racesReducers } from './store/reducers/races';
 import { stagesReducers } from './store/reducers/stages';
+import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
 import { teamsReducers } from './store/reducers/teams';
 
 @NgModule({
@@ -38,7 +41,8 @@ import { teamsReducers } from './store/reducers/teams';
     PointAddComponent,
     TeamsOverviewComponent,
     TeamDetailsComponent,
-    TeamAddComponent
+    TeamAddComponent,
+    TeamPointsComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +52,8 @@ import { teamsReducers } from './store/reducers/teams';
     StoreModule.forFeature('stagesFeature', stagesReducers),
     StoreModule.forFeature('pointsFeature', pointsReducers),
     StoreModule.forFeature('teamsFeature', teamsReducers),
-    EffectsModule.forFeature([RaceEffects, StageEffects, PointEffects, TeamEffects]),
+    StoreModule.forFeature('teamPointVisitedFeature', teamPointVisitedReducers),
+    EffectsModule.forFeature([RaceEffects, StageEffects, PointEffects, TeamEffects, TeamPointVisitedEffects]),
     ValidationModule,
     PipesModule
   ],

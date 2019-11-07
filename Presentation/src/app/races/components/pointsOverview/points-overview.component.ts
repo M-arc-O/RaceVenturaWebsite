@@ -7,6 +7,7 @@ import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { PointDetailViewModel } from '../../shared/models';
 import { deletePointSelector, IPoints, pointsSelector } from '../../store';
+import { PointComponentBase } from '../point-component-base.component';
 
 @Component({
     selector: 'app-points-overview',
@@ -14,9 +15,7 @@ import { deletePointSelector, IPoints, pointsSelector } from '../../store';
     styleUrls: ['./points-overview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PointsOverviewComponent extends ComponentBase implements OnInit, OnChanges {
-    @Input() stageId: string;
-
+export class PointsOverviewComponent extends PointComponentBase implements OnInit, OnChanges {
     public points$: Observable<PointDetailViewModel[]>;
     public deletePointBase$: Observable<IBase>;
     public selectedPoint: PointDetailViewModel;
@@ -47,10 +46,6 @@ export class PointsOverviewComponent extends ComponentBase implements OnInit, On
 
     ngOnChanges(changes: SimpleChanges): void {
         this.resetSelectedPoint();
-    }
-
-    public getPoints(points: Array<PointDetailViewModel>): Array<PointDetailViewModel> {
-        return points.filter(point => point.stageId === this.stageId);
     }
 
     private resetSelectedPoint() {

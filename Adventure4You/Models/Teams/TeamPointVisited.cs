@@ -9,7 +9,7 @@ namespace Adventure4You.Models.Teams
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid TeamPointVisitedId { get; set; }
 
         [Required]
         public Guid RaceId { get; set; }
