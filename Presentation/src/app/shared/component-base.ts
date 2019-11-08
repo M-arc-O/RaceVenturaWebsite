@@ -29,6 +29,41 @@ export abstract class ComponentBase implements OnDestroy {
         });
     }
 
+    protected getDate(date: string, time: string): Date {
+        const [day, month, year] = date.split('-');
+        const [hours, minutes] = time.split(':');
+        return new Date(+year, +month - 1, +day, +hours, +minutes);
+    }
+
+    public getDateString(input: Date): string {
+        if (input !== undefined) {
+            const date = new Date(input);
+            const yy = date.getFullYear();
+            const mm = date.getMonth() + 1;
+            const mmStr = mm < 10 ? `0${mm}` : mm;
+            const dd = date.getDate();
+            const ddStr = dd < 10 ? `0${dd}` : dd;
+
+            return `${ddStr}-${mmStr}-${yy}`;
+        }
+
+        return '';
+    }
+
+    public getTimeString(input: Date): string {
+        if (input !== undefined) {
+            const time = new Date(input);
+            const hours = time.getHours();
+            const hoursStr = hours < 10 ? `0${hours}` : hours;
+            const minutes = time.getMinutes();
+            const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+
+            return `${hoursStr}:${minutesStr}`;
+        }
+
+        return '';
+    }
+
     handleError(error: HttpErrorResponse) {
         if (error.status === 401) {
             this.userService.logout();

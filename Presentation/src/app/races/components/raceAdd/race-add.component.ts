@@ -88,10 +88,10 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             maximumTeamSize = details.maximumTeamSize;
             minimumPointsToCompleteStage = details.minimumPointsToCompleteStage;
             penaltyPerMinuteLate = details.penaltyPerMinuteLate;
-            startDate = undefined;
-            startTime = undefined;
-            endDate = undefined;
-            endTime = undefined;
+            startDate = this.getDateString(details.startTime);
+            startTime = this.getTimeString(details.startTime);
+            endDate = this.getDateString(details.endTime);
+            endTime = this.getTimeString(details.endTime);
         }
 
         this.addRaceForm = formBuilder.group({
@@ -119,8 +119,8 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             viewModel.maximumTeamSize = this.addRaceForm.get('maximumTeamSize').value;
             viewModel.minimumPointsToCompleteStage = this.addRaceForm.get('minimumPointsToCompleteStage').value;
             viewModel.penaltyPerMinuteLate = this.addRaceForm.get('penaltyPerMinuteLate').value;
-            viewModel.startTime = undefined;
-            viewModel.endTime = undefined;
+            viewModel.startTime = this.getDate(this.addRaceForm.get('startDate').value, this.addRaceForm.get('startTime').value);
+            viewModel.endTime = this.getDate(this.addRaceForm.get('endDate').value, this.addRaceForm.get('endTime').value);
 
             switch (this.type) {
                 case AddEditType.Add:

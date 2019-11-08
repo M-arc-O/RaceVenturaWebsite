@@ -12,9 +12,6 @@ namespace Adventure4YouAPI.ViewModels.Teams
 
             CreateMap<TeamPointVisited, TeamPointVisitedViewModel>();
             CreateMap<TeamPointVisitedViewModel, TeamPointVisited>();
-
-            CreateMap<TeamRaceFinished, TeamRaceFinishedViewModel>();
-            CreateMap<TeamRaceFinishedViewModel, TeamRaceFinished>();
         }
     }
 }

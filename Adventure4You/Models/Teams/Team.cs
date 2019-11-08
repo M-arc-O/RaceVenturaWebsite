@@ -23,13 +23,11 @@ namespace Adventure4You.Models.Teams
         [MaxLength(255)]
         public string Name { get; set; }
 
-        public List<TeamPhone> RegisteredPhoneIds { get; set; }
-
         public List<TeamPointVisited> PointsVisited { get; set; }
 
         public List<TeamStageFinished> StagesFinished { get; set; }
 
-        public TeamRaceFinished RaceFinished { get; set; }
+        public DateTime RaceFinished { get; set; }
 
         public Team()
         {

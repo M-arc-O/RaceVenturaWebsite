@@ -25,10 +25,10 @@
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
                             <td>{{(raceDetails$ | async).penaltyPerMinuteLate}}</td>
-                            <td>21-22-2000</td>
-                            <td>11:11</td>
-                            <td>21-22-2000</td>
-                            <td>11:11</td>
+                            <td>{{getDateString((raceDetails$ | async).startTime)}}</td>
+                            <td>{{getTimeString((raceDetails$ | async).startTime)}}</td>
+                            <td>{{getDateString((raceDetails$ | async).endTime)}}</td>
+                            <td>{{getTimeString((raceDetails$ | async).endTime)}}</td>
                         </tr>
                     </tbody>
                 </table>

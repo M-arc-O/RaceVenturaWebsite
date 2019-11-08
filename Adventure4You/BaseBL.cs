@@ -27,11 +27,7 @@ namespace Adventure4You
                 .Include(r => r.Teams)
                 .ThenInclude(t => t.PointsVisited)
                 .Include(r => r.Teams)
-                .ThenInclude(t => t.StagesFinished)
-                .Include(r => r.Teams)
-                .ThenInclude(t => t.RaceFinished)
-                .Include(r => r.Teams)
-                .ThenInclude(t => t.RegisteredPhoneIds).ToList();
+                .ThenInclude(t => t.StagesFinished).ToList();
         }
 
         protected Race GetRaceById(Guid raceId)
