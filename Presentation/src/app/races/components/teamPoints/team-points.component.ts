@@ -8,7 +8,7 @@ import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
 import { PointDetailViewModel, TeamPointVisitedViewModel } from '../../shared/models';
 import { addPointVisitedSelector, deletePointVisitedSelector, IPoints, pointsSelector, pointsVisitedSelector } from '../../store';
-import * as teamPointActions from '../../store/actions/team-point-visited';
+import * as teamPointActions from '../../store/actions/team-point-visited.actions';
 import { PointComponentBase } from '../point-component-base.component';
 
 
@@ -79,7 +79,6 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
     }
 
     private checkboxValueChanged(val: any): void {
-        console.log('Checkbox value changed ' + this.stageId);
         for (let i = 0; i < val.length; i++) {
             const visitedPoint = this.visitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
 

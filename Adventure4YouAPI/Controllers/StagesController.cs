@@ -82,8 +82,6 @@ namespace Adventure4YouAPI.Controllers
         [Route("addstage")]
         public ActionResult<StageDetailViewModel> AddStage([FromBody]StageDetailViewModel viewModel)
         {
-            Thread.Sleep(1000);
-
             try
             {
                 var stage = _Mapper.Map<Stage>(viewModel);

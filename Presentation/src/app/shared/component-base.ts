@@ -31,8 +31,8 @@ export abstract class ComponentBase implements OnDestroy {
 
     protected getDate(date: string, time: string): Date {
         const [day, month, year] = date.split('-');
-        const [hours, minutes] = time.split(':');
-        return new Date(+year, +month - 1, +day, +hours, +minutes);
+        const [hours, minutes, seconds] = time.split(':');
+        return new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
     }
 
     public getDateString(input: Date): string {
@@ -52,13 +52,15 @@ export abstract class ComponentBase implements OnDestroy {
 
     public getTimeString(input: Date): string {
         if (input !== undefined) {
-            const time = new Date(input);
+            const time = new Date(input.toString().replace(/\Z+$/g, '') + 'Z');
             const hours = time.getHours();
             const hoursStr = hours < 10 ? `0${hours}` : hours;
             const minutes = time.getMinutes();
             const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+            const seconds = time.getSeconds();
+            const secondsStr = seconds < 10 ? `0${seconds}` : seconds;
 
-            return `${hoursStr}:${minutesStr}`;
+            return `${hoursStr}:${minutesStr}:${secondsStr}`;
         }
 
         return '';
@@ -69,6 +71,5 @@ export abstract class ComponentBase implements OnDestroy {
             this.userService.logout();
             this.router.navigateByUrl('home');
         }
-        console.log(error);
     }
 }

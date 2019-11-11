@@ -11,6 +11,7 @@ import * as stageActions from '../../store/actions/stage.actions';
     templateUrl: './stage-details.component.html'
 })
 export class StageDetailsComponent extends ComponentBase {
+    @Input() raceId: string;
     @Input() selectedStage: StageStoreModel;
 
     public addEditType = AddEditType;

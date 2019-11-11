@@ -103,6 +103,7 @@ namespace Adventure4You.Teams
 
                 team.Name = teamNew.Name;
                 team.Number = teamNew.Number;
+                team.RaceFinished = teamNew.RaceFinished;
                 _Context.SaveChanges();
             }
 

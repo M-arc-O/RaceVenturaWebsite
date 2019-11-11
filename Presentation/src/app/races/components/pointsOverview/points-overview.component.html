@@ -1,7 +1,8 @@
 <div class="border">
     <div class="row">
         <div class="col">
-            <app-point-add [type]="addEditType.Add" [details]="selectedPoint"></app-point-add>
+            <app-point-add [type]="addEditType.Add" [details]="getPoint(points$ | async)" [stageId]="stageId">
+            </app-point-add>
         </div>
     </div>
 
@@ -10,25 +11,24 @@
             <h5>Points</h5>
         </div>
 
-        <div *ngIf="selectedPoint.pointId" class="col p-0 ml-1">
-            <h5>{{selectedPoint.name}} details</h5>
+        <div *ngIf="selectedPointId" class="col p-0 ml-1">
+            <h5>{{getPoint(points$ | async).name}} details</h5>
         </div>
     </div>
     <div class="row">
         <div class="col-2">
             <div *ngIf="(points$ | async) && getPoints(points$ | async)" class="list-group point-list">
-                <a *ngFor="let point of getPoints(points$ | async)"
-                    class="list-group-item list-group-item-action" href="javascript:void(0)"
-                    (click)="detailsClicked(point)"
-                    [ngClass]="{'active': point.pointId === selectedPoint.pointId}">{{point.name}}</a>
+                <a *ngFor="let point of getPoints(points$ | async)" class="list-group-item list-group-item-action"
+                    href="javascript:void(0)" (click)="detailsClicked(point.pointId)"
+                    [ngClass]="{'active': point.pointId === selectedPointId}">{{point.name}}</a>
             </div>
             <div *ngIf="!(points$ | async) || !getPoints(points$ | async) || getPoints(points$ | async).length === 0">
                 No points found.
             </div>
         </div>
 
-        <div *ngIf="selectedPoint.pointId" class="col pl-0">
-            <app-point-details [selectedPoint]="selectedPoint"></app-point-details>
+        <div *ngIf="selectedPointId" class="col pl-0">
+            <app-point-details [selectedPoint]="getPoint(points$ | async)" [stageId]="stageId"></app-point-details>
         </div>
     </div>
 </div>

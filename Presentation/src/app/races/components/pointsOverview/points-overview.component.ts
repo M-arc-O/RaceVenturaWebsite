@@ -18,7 +18,7 @@ import { PointComponentBase } from '../point-component-base.component';
 export class PointsOverviewComponent extends PointComponentBase implements OnInit, OnChanges {
     public points$: Observable<PointDetailViewModel[]>;
     public deletePointBase$: Observable<IBase>;
-    public selectedPoint: PointDetailViewModel;
+    public selectedPointId: string;
     public addEditType = AddEditType;
 
     constructor(
@@ -48,13 +48,15 @@ export class PointsOverviewComponent extends PointComponentBase implements OnIni
         this.resetSelectedPoint();
     }
 
-    private resetSelectedPoint() {
-        this.selectedPoint = new PointDetailViewModel();
-        this.selectedPoint.stageId = this.stageId;
-        this.selectedPoint.pointId = undefined;
+    public detailsClicked(pointId: string): void {
+        this.selectedPointId = pointId;
     }
 
-    detailsClicked(point: PointDetailViewModel): void {
-        this.selectedPoint = point;
+    public getPoint(points: PointDetailViewModel[]): PointDetailViewModel {
+        return points.find(point => point.pointId === this.selectedPointId);
+    }
+
+    private resetSelectedPoint() {
+        this.selectedPointId = undefined;
     }
 }

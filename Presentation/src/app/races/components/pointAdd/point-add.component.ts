@@ -73,7 +73,7 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     }
 
     public ngAfterViewInit(): void {
-        if (this.details.pointId === undefined) {
+        if (this.details === undefined) {
             this.addPointForm.controls['type'].setValue(PointType.CheckPoint);
         }
     }
@@ -115,7 +115,7 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             this.addPointNgForm = ngFrom;
 
             const viewModel = new PointDetailViewModel();
-            viewModel.stageId = this.details.stageId;
+            viewModel.stageId = this.stageId;
             viewModel.name = this.addPointForm.get('name').value;
             viewModel.type = this.addPointForm.get('type').value;
             viewModel.value = this.addPointForm.get('value').value;

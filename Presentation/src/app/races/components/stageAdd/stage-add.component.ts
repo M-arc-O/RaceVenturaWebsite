@@ -19,6 +19,7 @@ import * as stageActions from '../../store/actions/stage.actions';
 export class StageAddComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() public type: AddEditType;
     @Input() public details: StageStoreModel;
+    @Input() public raceId: string;
 
     public addEditType = AddEditType;
 
@@ -99,7 +100,7 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
             viewModel.name = this.addStageForm.get('name').value;
             viewModel.number = this.addStageForm.get('number').value;
             viewModel.mimimumPointsToCompleteStage = this.addStageForm.get('minimumPointsToCompleteStage').value;
-            viewModel.raceId = this.details.raceId;
+            viewModel.raceId = this.raceId;
 
             switch (this.type) {
                 case AddEditType.Add:

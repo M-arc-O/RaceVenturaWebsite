@@ -19,7 +19,7 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
 
     public teams$: Observable<TeamStoreModel[]>;
     public deleteTeamBase$: Observable<IBase>;
-    public selectedTeam: TeamStoreModel;
+    public selectedTeamId: string;
     public addEditType = AddEditType;
 
     constructor(
@@ -45,13 +45,15 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
         });
     }
 
-    private resetSelectedTeam() {
-        this.selectedTeam = new TeamStoreModel();
-        this.selectedTeam.raceId = this.raceId;
-        this.selectedTeam.teamId = undefined;
+    public getSelectedTeam(teams: TeamStoreModel[]): TeamStoreModel {
+        return teams.find(team => team.teamId === this.selectedTeamId);
     }
 
-    detailsClicked(team: TeamStoreModel): void {
-        this.selectedTeam = team;
+    private resetSelectedTeam() {
+        this.selectedTeamId = undefined;
+    }
+
+    detailsClicked(teamId: string): void {
+        this.selectedTeamId = teamId;
     }
 }

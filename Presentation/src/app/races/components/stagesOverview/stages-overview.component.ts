@@ -19,7 +19,7 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
 
     public stages$: Observable<StageStoreModel[]>;
     public deleteStageBase$: Observable<IBase>;
-    public selectedStage: StageStoreModel;
+    public selectedStageId: string;
     public addEditType = AddEditType;
 
     constructor(
@@ -45,13 +45,15 @@ export class StagesOverviewComponent extends ComponentBase implements OnInit {
         });
     }
 
-    resetSelectedStage() {
-        this.selectedStage = new StageStoreModel();
-        this.selectedStage.raceId = this.raceId;
-        this.selectedStage.stageId = undefined;
+    public getStage(stages: StageStoreModel[]): StageStoreModel {
+        return stages.find(stage => stage.stageId === this.selectedStageId);
     }
 
-    detailsClicked(stage: StageStoreModel): void {
-        this.selectedStage = stage;
+    public detailsClicked(stageId: string): void {
+        this.selectedStageId = stageId;
+    }
+
+    private resetSelectedStage() {
+        this.selectedStageId = undefined;
     }
 }

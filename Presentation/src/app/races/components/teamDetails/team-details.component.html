@@ -4,12 +4,16 @@
             <tr>
                 <th>Name</th>
                 <th>Number</th>
+                <th>Finish date</th>
+                <th>Finish time</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>{{selectedTeam.name}}</td>
                 <td>{{selectedTeam.number}}</td>
+                <td>{{getDateString(selectedTeam.raceFinished)}}</td>
+                <td>{{getTimeString(selectedTeam.raceFinished)}}</td>
             </tr>
         </tbody>
     </table>
@@ -51,7 +55,43 @@
 
 <div class="row">
     <div class="col">
-        
+        <form *ngIf="setFinishTimeForm" [formGroup]="setFinishTimeForm" (submit)="setFinishTimeClick()" role="form">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="finishDate{{selectedTeam.teamId}}">Finish date</label>
+                <div class="col">
+                    <input class="form-control" id="finishDate{{selectedTeam.teamId}}" type="text"
+                        placeholder="dd-mm-yyyy" formControlName="finishDate" />
+                </div>
+            </div>
+            <validation-message-for field="finishDate">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the finish date.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="finishTime{{selectedTeam.teamId}}">Finish time</label>
+                <div class="col">
+                    <input class="form-control" id="finishTime{{selectedTeam.teamId}}" type="text"
+                        placeholder="hh:mm:ss" formControlName="finishTime" />
+                </div>
+            </div>
+            <validation-message-for field="finishTime">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the finish time.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <button type="submit" class="btn btn-primary" [disabled]="(editBase$ | async).isActive">
+                <span *ngIf="(editBase$ | async).isActive" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                Set finish time
+            </button>
+        </form>
     </div>
 </div>
 

@@ -82,8 +82,6 @@ namespace Adventure4YouAPI.Controllers
         [Route("addteam")]
         public ActionResult<TeamDetailViewModel> AddTeam([FromBody]TeamDetailViewModel viewModel)
         {
-            Thread.Sleep(1000);
-
             try
             {
                 var team = _Mapper.Map<Team>(viewModel);

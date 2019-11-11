@@ -30,8 +30,6 @@ namespace Adventure4YouAPI.Controllers
         [Route("getstagepoints")]
         public ActionResult<List<PointDetailViewModel>> GetStagePoints([FromQuery(Name = "stageId")]Guid stageId)
         {
-            Thread.Sleep(1000);
-
             try
             {
                 var retVal = new List<PointDetailViewModel>();
@@ -84,8 +82,6 @@ namespace Adventure4YouAPI.Controllers
         [Route("addpoint")]
         public ActionResult<PointDetailViewModel> AddPoint([FromBody]PointDetailViewModel viewModel)
         {
-            Thread.Sleep(1000);
-
             try
             {
                 var point = _Mapper.Map<Point>(viewModel);
