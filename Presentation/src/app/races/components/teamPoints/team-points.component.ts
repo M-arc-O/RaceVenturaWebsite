@@ -11,7 +11,6 @@ import { addPointVisitedSelector, deletePointVisitedSelector, IPoints, pointsSel
 import * as teamPointActions from '../../store/actions/team-point-visited.actions';
 import { PointComponentBase } from '../point-component-base.component';
 
-
 @Component({
     selector: 'app-team-points',
     templateUrl: './team-points.component.html',
@@ -46,6 +45,23 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
     ngOnInit(): void {
         this.points$.pipe(takeUntil(this.unsubscribe$)).subscribe(points => this.setupForm(points));
         this.pointsVisited$.pipe(takeUntil(this.unsubscribe$)).subscribe(pointsVisited => this.updateForm(pointsVisited));
+
+        this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+            if (base !== undefined && base.error !== undefined) {
+                if (base.error.status !== 400) {
+                    this.handleError(base.error);
+                }
+            }
+        });
+
+        this.deleteBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+            if (base !== undefined && base.error !== undefined) {
+                if (base.error.status !== 400) {
+                    this.handleError(base.error);
+                }
+            }
+        });
+
     }
 
     private setupForm(points: Array<PointDetailViewModel>): void {

@@ -32,7 +32,7 @@ export abstract class ComponentBase implements OnDestroy {
     protected getDate(date: string, time: string): Date {
         const [day, month, year] = date.split('-');
         const [hours, minutes, seconds] = time.split(':');
-        return new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
+        return new Date(+year, +month - 1, +day, +hours, +minutes, seconds === undefined ? 0 : +seconds);
     }
 
     public getDateString(input: Date): string {

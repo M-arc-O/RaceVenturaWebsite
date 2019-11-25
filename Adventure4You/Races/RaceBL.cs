@@ -41,6 +41,10 @@ namespace Adventure4You.Races
                 return BLReturnCodes.Unknown;
             }
 
+            race.Teams = race.Teams.OrderBy(team => team.Number).ToList();
+            race.Stages = race.Stages.OrderBy(stage => stage.Number).ToList();
+            race.Stages.ForEach(stage => stage.Points = stage.Points.OrderBy(point => point.Name).ToList());
+
             return BLReturnCodes.Ok;
         }
 

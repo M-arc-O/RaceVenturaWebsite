@@ -8,6 +8,7 @@ import { IBase } from 'src/app/store';
 import { StageStoreModel, TeamStoreModel } from '../../shared/models';
 import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';
 import * as teamActions from '../../store/actions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-team-details',
@@ -32,6 +33,14 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.setupForm();
+
+        this.editBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
+            if (base !== undefined && base.error !== undefined) {
+                if (base.error.status !== 400) {
+                    this.handleError(base.error);
+                }
+            }
+        });
     }
 
     private setupForm(): void {

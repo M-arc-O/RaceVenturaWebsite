@@ -101,10 +101,10 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             maximumTeamSize: [maximumTeamSize, [Validators.required]],
             minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
             penaltyPerMinuteLate: [penaltyPerMinuteLate, [Validators.required]],
-            startDate: [startDate],
-            startTime: [startTime],
-            endDate: [endDate],
-            endTime: [endTime],
+            startDate: [startDate, [Validators.required]],
+            startTime: [startTime, [Validators.required]],
+            endDate: [endDate, [Validators.required]],
+            endTime: [endTime, [Validators.required]],
         });
     }
 

@@ -33,7 +33,6 @@ namespace Adventure4You
         protected Race GetRaceById(Guid raceId)
         {
             var race = GetRaces().FirstOrDefault(r => r.RaceId == raceId);
-            race.Stages = race.Stages.OrderBy(stage => stage.Number).ToList();
             return race;
         }
 
