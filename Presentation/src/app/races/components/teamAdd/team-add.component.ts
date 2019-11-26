@@ -18,6 +18,7 @@ import * as teamActions from '../../store/actions/team.actions';
 })
 export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges {
     @Input() public type: AddEditType;
+    @Input() public raceId: string;
     @Input() public details: TeamStoreModel;
 
     public addEditType = AddEditType;
@@ -95,7 +96,7 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
             const viewModel = new TeamStoreModel();
             viewModel.name = this.addTeamForm.get('name').value;
             viewModel.number = this.addTeamForm.get('number').value;
-            viewModel.raceId = this.details.raceId;
+            viewModel.raceId = this.raceId;
 
             switch (this.type) {
                 case AddEditType.Add:

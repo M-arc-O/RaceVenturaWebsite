@@ -21,7 +21,7 @@
 
 <div class="row">
     <div class="col">
-        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit"></app-team-add>
+        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit" [raceId]="selectedTeam.raceId"></app-team-add>
     </div>
     <div class="col">
         <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeTeamModal">
