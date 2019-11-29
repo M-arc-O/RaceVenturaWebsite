@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { IBase } from 'src/app/store/base.interface';
 import { PointDetailViewModel } from '../shared/models';
-import { pointsStateSelector } from './selectedRace.interface';
+import { pointsStateSelector } from './selected-race.interface';
 
 export interface IPoints {
     points: PointDetailViewModel[];

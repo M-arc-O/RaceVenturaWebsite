@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { IBase } from 'src/app/store/base.interface';
 import { StageStoreModel } from '../shared/models';
-import { stagesStateSelector } from './selectedRace.interface';
+import { stagesStateSelector } from './selected-race.interface';
 
 export interface IStages {
     stages: StageStoreModel[];

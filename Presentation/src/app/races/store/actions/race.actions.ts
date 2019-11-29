@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseErrorAction } from 'src/app/store';
-import { RaceViewModel, RaceStoreModel, RaceDetailViewModel } from '../../shared/models';
+import { RaceViewModel, RaceStoreModel, RaceDetailViewModel, TeamResultViewModel } from '../../shared/models';
 
 export enum RaceActions {
     LOAD_RACES = 'LOAD_RACES',
@@ -18,6 +18,9 @@ export enum RaceActions {
     LOAD_RACE_DETAILS = 'LOAD_RACE_DETAILS',
     LOAD_RACE_DETAILS_SUCCES = 'LOAD_RACE_DETAILS_SUCCES',
     LOAD_RACE_DETAILS_ERROR = 'LOAD_RACE_DETAILS_ERROR',
+    GET_RACE_RESULT = 'GET_RACE_RESULT',
+    GET_RACE_RESULT_SUCCES = 'GET_RACE_RESULT_SUCCES',
+    GET_RACE_RESULT_ERROR = 'GET_RACE_RESULT_ERROR',
 }
 
 export class LoadRacesAction {
@@ -95,6 +98,21 @@ export class LoadRaceDetailsErrorAction implements BaseErrorAction {
     constructor(public readonly payload: { error: HttpErrorResponse; }) { }
 }
 
+export class GetRaceResultAction {
+    public readonly type = RaceActions.GET_RACE_RESULT;
+    constructor(public readonly payload: string) { }
+}
+
+export class GetRaceResultSuccesAction {
+    public readonly type = RaceActions.GET_RACE_RESULT_SUCCES;
+    constructor(public readonly payload: TeamResultViewModel[]) { }
+}
+
+export class GetRaceResultErrorAction implements BaseErrorAction {
+    public readonly type = RaceActions.GET_RACE_RESULT_ERROR;
+    constructor(public readonly payload: { error: HttpErrorResponse; }) { }
+}
+
 export type RaceActionsUnion
     = LoadRacesAction
     | LoadRacesSuccesAction
@@ -110,4 +128,7 @@ export type RaceActionsUnion
     | DeleteRaceErrorAction
     | LoadRaceDetailsAction
     | LoadRaceDetailsSuccesAction
-    | LoadRaceDetailsErrorAction;
+    | LoadRaceDetailsErrorAction
+    | GetRaceResultAction
+    | GetRaceResultSuccesAction
+    | GetRaceResultErrorAction;

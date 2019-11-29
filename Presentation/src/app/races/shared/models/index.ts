@@ -8,3 +8,6 @@ export * from './team-point-visited-view-model';
 export * from './team-detail-view-model';
 export * from './point-detail-view-model';
 export * from './point-type';
+export * from './team-result-view-model';
+export * from './stage-result-view-model';
+export * from './point-result-view-model';

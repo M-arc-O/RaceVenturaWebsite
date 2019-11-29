@@ -12,6 +12,7 @@ using AutoMapper;
 using Adventure4YouAPI.Auth;
 using Adventure4You.Helpers;
 using Adventure4YouAPI.Helpers;
+using Adventure4YouAPI.ViewModels;
 
 namespace Adventure4YouAPI
 {
@@ -32,7 +33,7 @@ namespace Adventure4YouAPI
             
             BLHelper.AddBLs(services);
 
-            AddAutoMapper(services);
+            AddMappers.AddAutoMapper(services);
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
@@ -48,21 +49,6 @@ namespace Adventure4YouAPI
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(a => a.SerializerSettings.Converters.Add(new TrimmingJsonConverter()));
-        }
-
-        private void AddAutoMapper(IServiceCollection services)
-        {   // Auto Mapper Configurations
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new ViewModels.Identity.Mappings.ViewModelToEntityMappingProfile());
-                mc.AddProfile(new ViewModels.Points.MappingProfile());
-                mc.AddProfile(new ViewModels.Stages.MappingProfile());
-                mc.AddProfile(new ViewModels.Races.MappingProfile());
-                mc.AddProfile(new ViewModels.Teams.MappingProfile());
-            });
-
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigurationService, ServiceBase } from 'src/app/shared';
-import { RaceViewModel, RaceStoreModel, RaceDetailViewModel } from './models';
+import { RaceViewModel, RaceStoreModel, RaceDetailViewModel, TeamResultViewModel } from './models';
 
 @Injectable()
 export class RacesService extends ServiceBase {
@@ -32,7 +32,12 @@ export class RacesService extends ServiceBase {
         return this.http.put<RaceStoreModel>(`${this.baseUrl}/editrace`, body);
     }
 
-    public deleteRace(id: string): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${id}/remove`);
+    public deleteRace(raceId: string): Observable<string> {
+        return this.http.delete<string>(`${this.baseUrl}/${raceId}/remove`);
+    }
+
+    public getRaceResult(raceId: string): Observable<TeamResultViewModel[]> {
+        const idHeader = [{ key: 'raceId', value: raceId }];
+        return this.http.get<TeamResultViewModel[]>(`${this.baseUrl}/getraceresults`, this.getHttpOptions(idHeader));
     }
 }

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
 import { PointDetailViewModel, TeamPointVisitedViewModel } from '../../shared/models';
 import { addPointVisitedSelector, deletePointVisitedSelector, IPoints, pointsSelector, pointsVisitedSelector } from '../../store';
-import * as teamPointActions from '../../store/actions/team-point-visited.actions';
+import * as teamPointActions from '../../store/actions';
 import { PointComponentBase } from '../point-component-base.component';
 
 @Component({

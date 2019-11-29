@@ -1,6 +1,6 @@
 import { IBase } from 'src/app/store';
 import { TeamStoreModel } from '../shared/models';
-import { teamsStateSelector } from './selectedRace.interface';
+import { teamsStateSelector } from './selected-race.interface';
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
 export interface ITeams {

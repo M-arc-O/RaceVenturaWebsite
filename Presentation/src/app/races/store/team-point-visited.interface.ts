@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { IBase } from 'src/app/store';
 import { TeamPointVisitedViewModel } from '../shared/models';
-import { pointVisitedStateSelector } from './selectedRace.interface';
+import { pointVisitedStateSelector } from './selected-race.interface';
 
 export interface ITeamPointVisited {
     pointsVisited: TeamPointVisitedViewModel[];

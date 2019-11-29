@@ -2,14 +2,15 @@ import { ActionReducerMap, combineReducers } from '@ngrx/store';
 import { createBaseReducer } from 'src/app/store/base.reducer';
 import { RaceActions } from '../../actions/race.actions';
 import { IRaces } from '../../races.interface';
-import { IRacesState } from '../../racesState.interface';
-import { ISelectedRace } from '../../selectedRace.interface';
+import { IRacesState } from '../../races-state.interface';
+import { ISelectedRace } from '../../selected-race.interface';
+import { pointsReducers } from '../points';
 import { stagesReducers } from '../stages';
+import { teamPointVisitedReducers } from '../teamPointVisited';
 import { teamsReducers } from '../teams';
 import { racesReducer } from './races.reducer';
-import { selectedRaceReducer } from './selectedRace.reducer';
-import { pointsReducers } from '../points';
-import { teamPointVisitedReducers } from '../teamPointVisited';
+import { selectedRaceReducer } from './selected-race.reducer';
+import { teamResultsReducer } from './team-results.reducer';
 
 export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>>{
     races: racesReducer,
@@ -26,7 +27,8 @@ export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISe
     teams: teamsReducers,
     teamPointVisited: teamPointVisitedReducers,
     stages: stagesReducers,
-    points: pointsReducers
+    points: pointsReducers,
+    teamResults: teamResultsReducer
 });
 
 export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{

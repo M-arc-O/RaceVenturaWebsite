@@ -1,3 +1,4 @@
 export * from './races.reducer';
 export * from './races.reducers';
-export * from './selectedRace.reducer';
+export * from './selected-race.reducer';
+export * from './team-results.reducer';

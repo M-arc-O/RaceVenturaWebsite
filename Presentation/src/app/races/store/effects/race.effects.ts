@@ -45,4 +45,10 @@ export class RaceEffects {
         switchMap(action => this.racesService.deleteRace((action as racesActions.DeleteRaceAction).payload).pipe(
             map(id => new racesActions.DeleteRaceSuccesAction(id)),
             catchError((error: HttpErrorResponse) => of(new racesActions.DeleteRaceErrorAction({ error: error }))))));
+
+    @Effect() GetRaceResult$ = this.actions$.pipe(
+        ofType(RaceActions.GET_RACE_RESULT),
+        switchMap(action => this.racesService.getRaceResult((action as racesActions.LoadRaceDetailsAction).payload).pipe(
+            map(raceResults => new racesActions.GetRaceResultSuccesAction(raceResults)),
+            catchError((error: HttpErrorResponse) => of(new racesActions.LoadRaceDetailsErrorAction({ error: error }))))));
 }

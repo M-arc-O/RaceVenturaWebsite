@@ -7,6 +7,9 @@ using Adventure4YouAPI.ViewModels;
 using Adventure4You.Races;
 using Adventure4You.Models;
 using AutoMapper;
+using Adventure4You.Results;
+using Adventure4You.Models.Results;
+using Adventure4YouAPI.ViewModels.Results;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -16,11 +19,13 @@ namespace Adventure4YouAPI.Controllers
     public class RacesController : Adventure4YouControllerBase
     {
         private readonly IRaceBL _RaceBL;
+        private readonly IResultsBL _ResultsBL;
         private readonly IMapper _Mapper;
 
-        public RacesController(IRaceBL raceBL, IMapper mapper)
+        public RacesController(IRaceBL raceBL, IResultsBL resultsBL, IMapper mapper)
         {
             _RaceBL = raceBL;
+            _ResultsBL = resultsBL;
             _Mapper = mapper;
         }
 
@@ -131,6 +136,34 @@ namespace Adventure4YouAPI.Controllers
                 }
 
                 return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("getraceresults")]
+        public ActionResult<List<TeamResultViewModel>> GetRaceResults([FromQuery(Name = "raceId")]Guid raceId)
+        {
+            try
+            {
+                var result = _ResultsBL.GetRaceResults(GetUserId(), raceId, out List<TeamResult> teamResults);
+
+                if (result == BLReturnCodes.Ok)
+                {
+                    var retVal = new List<TeamResultViewModel>();
+
+                    foreach (var teamResult in teamResults)
+                    {
+                        retVal.Add(_Mapper.Map<TeamResultViewModel>(teamResult));
+                    }
+
+                    return Ok(retVal);
+                }
+
+                return BadRequest((ErrorCodes)result);
             }
             catch
             {
