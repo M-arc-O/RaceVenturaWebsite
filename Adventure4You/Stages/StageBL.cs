@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Adventure4You.DatabaseContext;
-using Adventure4You.Models;
-using Adventure4You.Models.Stages;
+using Adventure4YouData.DatabaseContext;
+using Adventure4YouData.Models;
+using Adventure4YouData.Models.Stages;
 
 namespace Adventure4You.Stages
 {

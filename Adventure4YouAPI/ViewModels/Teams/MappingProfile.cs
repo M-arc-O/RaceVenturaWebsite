@@ -1,4 +1,4 @@
-﻿using Adventure4You.Models.Teams;
+﻿using Adventure4YouData.Models.Teams;
 using AutoMapper;
 
 namespace Adventure4YouAPI.ViewModels.Teams

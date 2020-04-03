@@ -1,4 +1,4 @@
-﻿using Adventure4You.Models.Points;
+﻿using Adventure4YouData.Models.Points;
 using AutoMapper;
 
 namespace Adventure4YouAPI.ViewModels.Points

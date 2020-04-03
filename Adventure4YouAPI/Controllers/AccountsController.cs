@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -6,7 +7,7 @@ using AutoMapper;
 using Adventure4YouAPI.ViewModels.Identity;
 using Adventure4YouAPI.Helpers;
 using Adventure4You;
-using Adventure4You.Models.Identity;
+using Adventure4YouData.Models.Identity;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -19,8 +20,8 @@ namespace Adventure4YouAPI.Controllers
 
         public AccountsController(IAccountBL accountBL, IMapper mapper)
         {
-            _Mapper = mapper;
-            _AccountBL = accountBL;
+            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _AccountBL = accountBL ?? throw new ArgumentNullException(nameof(accountBL));
         }
 
         [HttpPost]

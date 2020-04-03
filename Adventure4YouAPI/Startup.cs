@@ -30,7 +30,8 @@ namespace Adventure4YouAPI
         {
             DBContextHelper.AddDBContext(services, Configuration);
             DBContextHelper.AddAuthentication(services, Configuration);
-            
+            JwtHelper.AddJwt(services, Configuration);
+
             BLHelper.AddBLs(services);
 
             AddMappers.AddAutoMapper(services);

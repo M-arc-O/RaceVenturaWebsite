@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Adventure4You.Models.Identity;
+using Adventure4YouData.Models.Identity;
 
 namespace Adventure4YouAPI.ViewModels.Identity.Mappings
 {

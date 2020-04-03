@@ -1,5 +1,5 @@
-﻿using Adventure4You.Models;
-using Adventure4You.Models.Points;
+﻿using Adventure4YouData.Models;
+using Adventure4YouData.Models.Points;
 using System;
 using System.Collections.Generic;
 

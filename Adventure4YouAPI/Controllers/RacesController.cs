@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouAPI.ViewModels;
 using Adventure4You.Races;
-using Adventure4You.Models;
+using Adventure4YouData.Models;
 using AutoMapper;
 using Adventure4You.Results;
-using Adventure4You.Models.Results;
+using Adventure4YouData.Models.Results;
 using Adventure4YouAPI.ViewModels.Results;
 
 namespace Adventure4YouAPI.Controllers

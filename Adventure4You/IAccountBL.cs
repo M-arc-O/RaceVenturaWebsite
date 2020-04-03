@@ -1,4 +1,4 @@
-﻿using Adventure4You.Models.Identity;
+﻿using Adventure4YouData.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 

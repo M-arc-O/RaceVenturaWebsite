@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Adventure4You.Models;
+using Adventure4YouData.Models;
 
 namespace Adventure4You.Races
 {

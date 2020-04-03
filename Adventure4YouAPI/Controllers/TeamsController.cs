@@ -1,6 +1,6 @@
 ﻿using Adventure4You.Teams;
-using Adventure4You.Models;
-using Adventure4You.Models.Teams;
+using Adventure4YouData.Models;
+using Adventure4YouData.Models.Teams;
 using Adventure4YouAPI.ViewModels;
 using Adventure4YouAPI.ViewModels.Teams;
 using AutoMapper;

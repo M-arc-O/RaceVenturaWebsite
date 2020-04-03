@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Security.Principal;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
-using Adventure4You.Models.Identity;
 
 namespace Adventure4YouAPI.Auth
 {

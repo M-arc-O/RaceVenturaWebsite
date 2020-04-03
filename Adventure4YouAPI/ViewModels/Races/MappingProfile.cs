@@ -1,4 +1,4 @@
-﻿using Adventure4You.Models;
+﻿using Adventure4YouData.Models;
 using AutoMapper;
 
 namespace Adventure4YouAPI.ViewModels.Races

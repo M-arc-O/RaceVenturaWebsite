@@ -1,8 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using Adventure4You.Models;
-using Adventure4You.Models.Results;
+using Adventure4YouData.Models;
+using Adventure4YouData.Models.Results;
 
 namespace Adventure4You.Results
 {

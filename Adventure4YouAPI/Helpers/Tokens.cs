@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using Adventure4YouAPI.Auth;
-using Adventure4You.Models.Identity;
+using Adventure4YouData.Models.Identity;
 
 namespace Adventure4YouAPI.Helpers
 {

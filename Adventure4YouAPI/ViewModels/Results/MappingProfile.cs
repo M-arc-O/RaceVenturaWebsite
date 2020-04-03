@@ -1,4 +1,4 @@
-﻿using Adventure4You.Models.Results;
+﻿using Adventure4YouData.Models.Results;
 using AutoMapper;
 
 namespace Adventure4YouAPI.ViewModels.Results

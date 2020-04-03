@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -9,7 +8,7 @@ using Newtonsoft.Json;
 using Adventure4YouAPI.Auth;
 using Adventure4YouAPI.Helpers;
 using Adventure4YouAPI.ViewModels.Identity;
-using Adventure4You.Models.Identity;
+using Adventure4YouData.Models.Identity;
 using Adventure4You;
 
 namespace Adventure4YouAPI.Controllers

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Adventure4You.Models;
-using Adventure4You.Models.Teams;
+using Adventure4YouData.Models;
+using Adventure4YouData.Models.Teams;
 
 namespace Adventure4You.Teams
 

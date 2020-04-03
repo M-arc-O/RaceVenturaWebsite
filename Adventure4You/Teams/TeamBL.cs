@@ -1,6 +1,6 @@
-﻿using Adventure4You.DatabaseContext;
-using Adventure4You.Models;
-using Adventure4You.Models.Teams;
+﻿using Adventure4YouData.DatabaseContext;
+using Adventure4YouData.Models;
+using Adventure4YouData.Models.Teams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
