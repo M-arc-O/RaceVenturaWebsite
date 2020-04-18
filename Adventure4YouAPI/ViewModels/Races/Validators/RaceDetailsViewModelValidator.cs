@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Adventure4YouAPI.ViewModels.Races.Validations
+namespace Adventure4YouAPI.ViewModels.Races.Validators
 {
     public class RaceDetailsViewModelValidator : AbstractValidator<RaceDetailViewModel>
     {

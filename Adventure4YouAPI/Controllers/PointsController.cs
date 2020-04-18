@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Adventure4You.Points;
-using Adventure4YouData.Models;
-using Adventure4YouData.Models.Points;
 using Adventure4YouAPI.ViewModels;
-using Adventure4YouAPI.ViewModels.Points;
+using Adventure4You;
+using Adventure4You.Races;
+using Adventure4YouData.Models.Races;
+using Microsoft.Extensions.Logging;
+using Adventure4YouAPI.ViewModels.Races;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -16,130 +16,80 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class PointsController : Adventure4YouControllerBase
     {
-        private readonly IPointBL _PointBL;
+        private readonly IGenericBL<Point> _PointBL;
         private readonly IMapper _Mapper;
+        private readonly ILogger _Logger;
 
-        public PointsController(IPointBL pointBL, IMapper mapper)
+        public PointsController(IGenericBL<Point> pointBL, IMapper mapper, ILogger logger)
         {
-            _PointBL = pointBL;
-            _Mapper = mapper;
-        }
-
-        [HttpGet]
-        [Route("getstagepoints")]
-        public ActionResult<List<PointDetailViewModel>> GetStagePoints([FromQuery(Name = "stageId")]Guid stageId)
-        {
-            try
-            {
-                var retVal = new List<PointDetailViewModel>();
-                var points = new List<Point>();
-
-                var result = _PointBL.GetPoints(GetUserId(), stageId, out points);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                foreach (var point in points)
-                {
-                    retVal.Add(_Mapper.Map<PointDetailViewModel>(point));
-                }
-
-                return Ok(retVal);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-        }
-
-        [HttpGet]
-        [Route("getpointdetails")]
-        public ActionResult<PointDetailViewModel> GetPointDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "pointId")]Guid pointId)
-        {
-            try
-            {
-                var point = new Point();
-
-                var result = _PointBL.GetPointDetails(GetUserId(), stageId, pointId, out point);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                var retVal = _Mapper.Map<PointDetailViewModel>(point);
-
-                return Ok(retVal);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            _PointBL = pointBL ?? throw new ArgumentNullException(nameof(pointBL));
+            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpPost]
         [Route("addpoint")]
-        public ActionResult<PointDetailViewModel> AddPoint([FromBody]PointDetailViewModel viewModel)
+        public ActionResult<PointViewModel> AddPoint([FromBody]PointViewModel viewModel)
         {
             try
             {
                 var point = _Mapper.Map<Point>(viewModel);
 
-                var result = _PointBL.AddPoint(GetUserId(), point);
+                _PointBL.Add(GetUserId(), point);
 
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                return Ok(_Mapper.Map<PointDetailViewModel>(point));
+                return Ok(_Mapper.Map<PointViewModel>(point));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
                 return StatusCode(500);
             }
-        }
-
-        [HttpDelete]
-        [Route("{pointId}/{stageId}/remove")]
-        public ActionResult<Guid> DeletePoint(Guid pointId, Guid stageId)
-        {
-            try
-            {
-                var result = _PointBL.DeletePoint(GetUserId(), pointId, stageId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-
-            return Ok(pointId);
         }
 
         [HttpPut]
         [Route("editpoint")]
-        public ActionResult<PointDetailViewModel> EditPoint([FromBody]PointDetailViewModel viewModel)
+        public ActionResult<PointViewModel> EditPoint([FromBody]PointViewModel viewModel)
         {
             try
             {
                 var pointModel = _Mapper.Map<Point>(viewModel);
 
-                var result = _PointBL.EditPoint(GetUserId(), pointModel);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _PointBL.Edit(GetUserId(), pointModel);
 
-                var retVal = _Mapper.Map<PointDetailViewModel>(pointModel);
-
-                return Ok(retVal);
+                return Ok(_Mapper.Map<PointViewModel>(pointModel));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{pointId}/remove")]
+        public ActionResult<Guid> DeletePoint(Guid pointId)
+        {
+            try
+            {
+                _PointBL.Delete(GetUserId(), pointId);
+
+                return Ok(pointId);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

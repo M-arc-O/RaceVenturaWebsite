@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using Adventure4You.Stages;
-using Adventure4YouData.Models;
-using Adventure4YouData.Models.Stages;
 using Adventure4YouAPI.ViewModels;
-using Adventure4YouAPI.ViewModels.Stages;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Adventure4You;
+using Adventure4You.Races;
+using Adventure4YouData.Models.Races;
+using Microsoft.Extensions.Logging;
+using Adventure4YouAPI.ViewModels.Races;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -16,129 +16,82 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class StagesController : Adventure4YouControllerBase
     {
-        private readonly IStageBL _StageBL;
+        private readonly IGenericBL<Stage> _StageBL;
         private readonly IMapper _Mapper;
+        private readonly ILogger _Logger;
 
-        public StagesController(IStageBL stageBL, IMapper mapper)
+        public StagesController(IGenericBL<Stage> stageBL, IMapper mapper, ILogger logger)
         {
-            _StageBL = stageBL;
-            _Mapper = mapper;
-        }
-
-        [HttpGet]
-        [Route("getracestages")]
-        public ActionResult<List<StageDetailViewModel>> GetRaceStages([FromQuery(Name = "raceId")]Guid raceId)
-        {
-            try
-            {
-                var retVal = new List<StageDetailViewModel>();
-                var stages = new List<Stage>();
-                    
-                var result = _StageBL.GetStages(GetUserId(), raceId, out stages);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                foreach (var stage in stages)
-                {
-                    retVal.Add(_Mapper.Map<StageDetailViewModel>(stage));
-                }
-
-                return Ok(retVal);
-            }
-            catch
-            { 
-                return StatusCode(500);
-            }
-        }
-
-        [HttpGet]
-        [Route("getstagedetails")]
-        public ActionResult<StageDetailViewModel> GetStageDetails([FromQuery(Name = "stageId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
-        {
-            try
-            {
-                var stage = new Stage();
-
-                var result = _StageBL.GetStageDetails(GetUserId(), stageId, raceId, out stage);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                var retVal = _Mapper.Map<StageDetailViewModel>(stage);
-
-                return Ok(retVal);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            _StageBL = stageBL ?? throw new ArgumentNullException(nameof(stageBL));
+            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpPost]
         [Route("addstage")]
-        public ActionResult<StageDetailViewModel> AddStage([FromBody]StageDetailViewModel viewModel)
+        public ActionResult<StageViewModel> AddStage([FromBody]StageViewModel viewModel)
         {
             try
             {
                 var stage = _Mapper.Map<Stage>(viewModel);
 
-                var result = _StageBL.AddStage(GetUserId(), stage, viewModel.RaceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _StageBL.Add(GetUserId(), stage);
 
-                return Ok(_Mapper.Map<StageDetailViewModel>(stage));
+                return Ok(_Mapper.Map<StageViewModel>(stage));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut]
+        [Route("editstage")]
+        public ActionResult<StageViewModel> EditStage([FromBody]StageViewModel viewModel)
+        {
+            try
+            {
+                var stage = _Mapper.Map<Stage>(viewModel);
+
+                _StageBL.Edit(GetUserId(), stage);
+
+                var retVal = _Mapper.Map<StageViewModel>(stage);
+
+                return Ok(retVal);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
 
         [HttpDelete]
-        [Route("{stageId}/{raceId}/remove")]
-        public ActionResult<Guid> DeleteStage(Guid stageId, Guid raceId)
+        [Route("{stageId}/remove")]
+        public ActionResult<Guid> DeleteStage(Guid stageId)
         {
             try
             {
-                var result = _StageBL.DeleteStage(GetUserId(), stageId, raceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _StageBL.Delete(GetUserId(), stageId);
+
+                return Ok(stageId);
             }
-            catch
+            catch (BusinessException ex)
             {
-                return StatusCode(500);
+                return BadRequest((ErrorCodes)ex.ErrorCode);
             }
-
-            return Ok(stageId);
-        }
-
-        [HttpPut]
-        [Route("editstage")]
-        public ActionResult<StageDetailViewModel> EditStage([FromBody]StageDetailViewModel viewModel)
-        {
-            try
+            catch (Exception ex)
             {
-                var stage = _Mapper.Map<Stage>(viewModel);
-
-                var result = _StageBL.EditStage(GetUserId(), stage);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                var retVal = _Mapper.Map<StageDetailViewModel>(stage);
-
-                return Ok(retVal);
-            }
-            catch
-            {
+                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

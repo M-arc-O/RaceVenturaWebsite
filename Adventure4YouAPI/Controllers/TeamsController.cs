@@ -1,14 +1,13 @@
-﻿using Adventure4You.Teams;
-using Adventure4YouData.Models;
-using Adventure4YouData.Models.Teams;
-using Adventure4YouAPI.ViewModels;
-using Adventure4YouAPI.ViewModels.Teams;
+﻿using Adventure4YouAPI.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Threading;
+using Adventure4You;
+using Adventure4YouData.Models.Races;
+using Adventure4You.Races;
+using Microsoft.Extensions.Logging;
+using Adventure4YouAPI.ViewModels.Races;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -17,149 +16,106 @@ namespace Adventure4YouAPI.Controllers
     [ApiController]
     public class TeamsController : Adventure4YouControllerBase
     {
-        private readonly ITeamBL _TeamBL;
+        private readonly IGenericBL<Team> _TeamBL;
+        private readonly IGenericBL<VisitedPoint> _VisitedPointBL;
         private readonly IMapper _Mapper;
+        private readonly ILogger _Logger;
 
-        public TeamsController(ITeamBL teamBL, IMapper mapper)
+        public TeamsController(IGenericBL<Team> teamBL, IGenericBL<VisitedPoint> visitedPointBL, IMapper mapper, ILogger logger)
         {
-            _TeamBL = teamBL;
-            _Mapper = mapper;
+            _TeamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
+            _VisitedPointBL = visitedPointBL ?? throw new ArgumentNullException(nameof(visitedPointBL));
+            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         
-        [HttpGet]
-        [Route("getraceteams")]
-        public ActionResult<List<TeamDetailViewModel>> GetRaceTeams([FromQuery(Name = "raceId")]Guid raceId)
-        {
-            try
-            {
-                var retVal = new List<TeamDetailViewModel>();
-                var teams = new List<Team>();
-
-                var result = _TeamBL.GetTeams(GetUserId(), raceId, out teams);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                foreach (var team in teams)
-                {
-                    retVal.Add(_Mapper.Map<TeamDetailViewModel>(team));
-                }
-
-                return Ok(retVal);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-        }
-
-        [HttpGet]
-        [Route("getteamdetails")]
-        public ActionResult<TeamDetailViewModel> GetTeamDetails([FromQuery(Name = "teamId")]Guid stageId, [FromQuery(Name = "raceId")]Guid raceId)
-        {
-            try
-            {
-                var team = new Team();
-
-                var result = _TeamBL.GetTeamDetails(GetUserId(), stageId, raceId, out team);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                var retVal = _Mapper.Map<TeamDetailViewModel>(team);
-
-                return Ok(retVal);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-        }
-
         [HttpPost]
         [Route("addteam")]
-        public ActionResult<TeamDetailViewModel> AddTeam([FromBody]TeamDetailViewModel viewModel)
+        public ActionResult<TeamViewModel> AddTeam([FromBody]TeamViewModel viewModel)
         {
             try
             {
                 var team = _Mapper.Map<Team>(viewModel);
 
-                var result = _TeamBL.AddTeam(GetUserId(), team, viewModel.RaceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _TeamBL.Add(GetUserId(), team);
 
-                return Ok(_Mapper.Map<TeamDetailViewModel>(team));
+                return Ok(_Mapper.Map<TeamViewModel>(team));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
-        
-        [HttpDelete]
-        [Route("{teamId}/{raceId}/removeteam")]
-        public ActionResult<Guid> DeleteTeam(Guid teamId, Guid raceId)
+
+
+        [HttpPut]
+        [Route("editteam")]
+        public ActionResult<TeamViewModel> EditTeam([FromBody]TeamViewModel viewModel)
         {
             try
             {
-                var result = _TeamBL.DeleteTeam(GetUserId(), teamId, raceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                var team = _Mapper.Map<Team>(viewModel);
+
+                _TeamBL.Edit(GetUserId(), team);
+
+                return Ok(_Mapper.Map<TeamViewModel>(team));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{teamId}/removeteam")]
+        public ActionResult<Guid> DeleteTeam(Guid teamId)
+        {
+            try
+            {
+                _TeamBL.Delete(GetUserId(), teamId);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
                 return StatusCode(500);
             }
 
             return Ok(teamId);
         }
 
-        [HttpPut]
-        [Route("editteam")]
-        public ActionResult<TeamDetailViewModel> EditTeam([FromBody]TeamDetailViewModel viewModel)
-        {
-            try
-            {
-                var team = _Mapper.Map<Team>(viewModel);
-
-                var result = _TeamBL.EditTeam(GetUserId(), team);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                return Ok(_Mapper.Map<TeamDetailViewModel>(team));
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-        }
-
         [HttpPost]
-        [Route("addpointvisited")]
-        public ActionResult<TeamPointVisitedViewModel> AddPointVisited(TeamPointVisitedViewModel viewModel)
+        [Route("addvisitedpoint")]
+        public ActionResult<VisitedPointViewModel> AddVisitedPoint(VisitedPointViewModel viewModel)
         {
             try
             {
-                var model = _Mapper.Map<TeamPointVisited>(viewModel);
+                var model = _Mapper.Map<VisitedPoint>(viewModel);
 
-                var result = _TeamBL.PointVisited(GetUserId(), model);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _VisitedPointBL.Add(GetUserId(), model);
 
                 return Ok(model);
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -170,18 +126,19 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var result = _TeamBL.DeleteTeamPointVisited(GetUserId(), teamId, teamPointVisitedId, raceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _VisitedPointBL.Delete(GetUserId(), teamPointVisitedId);
+
+                return Ok(teamPointVisitedId);
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
                 return StatusCode(500);
             }
-
-            return Ok(teamPointVisitedId);
         }
     }
 }

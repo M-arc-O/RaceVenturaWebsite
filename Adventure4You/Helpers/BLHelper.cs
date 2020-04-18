@@ -1,8 +1,5 @@
-﻿using Adventure4You.Points;
-using Adventure4You.Races;
-using Adventure4You.Results;
-using Adventure4You.Stages;
-using Adventure4You.Teams;
+﻿using Adventure4You.Races;
+using Adventure4YouData.Models.Races;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Adventure4You.Helpers
@@ -12,10 +9,11 @@ namespace Adventure4You.Helpers
         public static void AddBLs(IServiceCollection services)
         {
             services.AddScoped<IAccountBL, AccountsBL>();
-            services.AddScoped<IPointBL, PointBL>();
+            services.AddScoped<IGenericBL<Point>, PointBL>();
             services.AddScoped<IRaceBL, RaceBL>();
-            services.AddScoped<IStageBL, StageBL>();
-            services.AddScoped<ITeamBL, TeamBL>();
+            services.AddScoped<IGenericBL<Stage>, StageBL>();
+            services.AddScoped<IGenericBL<Team>, TeamBL>();
+            services.AddScoped<IGenericBL<VisitedPoint>, VisitedPointBL>();
             services.AddScoped<IResultsBL, ResultsBL>();
         }
     }

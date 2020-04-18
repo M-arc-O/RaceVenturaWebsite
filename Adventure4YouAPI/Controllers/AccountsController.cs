@@ -8,6 +8,7 @@ using Adventure4YouAPI.ViewModels.Identity;
 using Adventure4YouAPI.Helpers;
 using Adventure4You;
 using Adventure4YouData.Models.Identity;
+using Adventure4YouAPI.ViewModels;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -44,6 +45,10 @@ namespace Adventure4YouAPI.Controllers
                 }
 
                 return new OkResult();
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
             }
             catch
             {

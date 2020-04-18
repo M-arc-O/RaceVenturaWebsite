@@ -6,10 +6,5 @@ namespace Adventure4YouAPI.ViewModels.Races
     {
         public Guid RaceId { get; set; }
         public string Name { get; set; }
-
-        public RaceViewModel()
-        {
-
-        }
     }
 }

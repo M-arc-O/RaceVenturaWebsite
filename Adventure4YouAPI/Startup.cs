@@ -34,7 +34,7 @@ namespace Adventure4YouAPI
 
             BLHelper.AddBLs(services);
 
-            AddMappers.AddAutoMapper(services);
+            MapperHelper.AddAutoMapper(services);
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 

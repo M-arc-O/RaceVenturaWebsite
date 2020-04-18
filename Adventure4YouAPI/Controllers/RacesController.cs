@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouAPI.ViewModels;
 using Adventure4You.Races;
-using Adventure4YouData.Models;
 using AutoMapper;
-using Adventure4You.Results;
-using Adventure4YouData.Models.Results;
-using Adventure4YouAPI.ViewModels.Results;
+using Adventure4You;
+using Adventure4YouData.Models.Races;
+using Microsoft.Extensions.Logging;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -21,12 +20,14 @@ namespace Adventure4YouAPI.Controllers
         private readonly IRaceBL _RaceBL;
         private readonly IResultsBL _ResultsBL;
         private readonly IMapper _Mapper;
+        private readonly ILogger _Logger;
 
-        public RacesController(IRaceBL raceBL, IResultsBL resultsBL, IMapper mapper)
+        public RacesController(IRaceBL raceBL, IResultsBL resultsBL, IMapper mapper, ILogger logger)
         {
-            _RaceBL = raceBL;
-            _ResultsBL = resultsBL;
-            _Mapper = mapper;
+            _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
+            _ResultsBL = resultsBL ?? throw new ArgumentNullException(nameof(resultsBL));
+            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
@@ -35,21 +36,20 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var result = _RaceBL.GetAllRaces(GetUserId(), out List<Race> races);
+                var races = _RaceBL.Get(GetUserId());
 
-                if (result == BLReturnCodes.Ok)
+                var retVal = new List<RaceViewModel>();
+
+                foreach (var race in races)
                 {
-                    var retVal = new List<RaceViewModel>();
-
-                    foreach (var race in races)
-                    {
-                        retVal.Add(_Mapper.Map<RaceViewModel>(race));
-                    }
-
-                    return Ok(retVal);
+                    retVal.Add(_Mapper.Map<RaceViewModel>(race));
                 }
 
-                return BadRequest((ErrorCodes)result);
+                return Ok(retVal);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
             }
             catch
             {
@@ -63,18 +63,16 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var raceModel = new Race();
-
-                var result = _RaceBL.GetRaceDetails(GetUserId(), raceId, out raceModel);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
+                var raceModel = _RaceBL.GetById(GetUserId(), raceId);
                 return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -86,17 +84,39 @@ namespace Adventure4YouAPI.Controllers
             try
             {
                 var raceModel = _Mapper.Map<Race>(viewModel);
-
-                var result = _RaceBL.AddRace(GetUserId(), raceModel);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _RaceBL.Add(GetUserId(), raceModel);
 
                 return Ok(_Mapper.Map<RaceViewModel>(raceModel));
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut]
+        [Route("editrace")]
+        public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
+        {
+            try
+            {
+                var raceModel = _Mapper.Map<Race>(viewModel);
+                _RaceBL.Edit(GetUserId(), raceModel);
+
+                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -107,38 +127,17 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var result = _RaceBL.DeleteRace(GetUserId(), raceId);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
+                _RaceBL.Delete(GetUserId(), raceId);
+
+                return Ok(raceId);
             }
-            catch
+            catch (BusinessException ex)
             {
-                return StatusCode(500);
+                return BadRequest((ErrorCodes)ex.ErrorCode);
             }
-
-            return Ok(raceId);
-        }
-
-        [HttpPut]
-        [Route("editrace")]
-        public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
-        {
-            try
+            catch (Exception ex)
             {
-                var raceModel = _Mapper.Map<Race>(viewModel);
-
-                var result = _RaceBL.EditRace(GetUserId(), raceModel);
-                if (result != BLReturnCodes.Ok)
-                {
-                    return BadRequest((ErrorCodes)result);
-                }
-
-                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
-            }
-            catch
-            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -149,24 +148,24 @@ namespace Adventure4YouAPI.Controllers
         {
             try
             {
-                var result = _ResultsBL.GetRaceResults(GetUserId(), raceId, out List<TeamResult> teamResults);
+                var result = _ResultsBL.GetRaceResults(GetUserId(), raceId);
 
-                if (result == BLReturnCodes.Ok)
+                var retVal = new List<TeamResultViewModel>();
+
+                foreach (var teamResult in result)
                 {
-                    var retVal = new List<TeamResultViewModel>();
-
-                    foreach (var teamResult in teamResults)
-                    {
-                        retVal.Add(_Mapper.Map<TeamResultViewModel>(teamResult));
-                    }
-
-                    return Ok(retVal);
+                    retVal.Add(_Mapper.Map<TeamResultViewModel>(teamResult));
                 }
 
-                return BadRequest((ErrorCodes)result);
+                return Ok(retVal);
             }
-            catch
+            catch (BusinessException ex)
             {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

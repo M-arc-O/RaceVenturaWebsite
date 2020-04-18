@@ -1,6 +1,6 @@
-﻿
-using Adventure4YouData.Models;
+﻿using Adventure4YouData.Models;
 using Adventure4YouData.Models.Identity;
+using Adventure4YouData.Models.Races;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +11,7 @@ namespace Adventure4YouData.DatabaseContext
         public Adventure4YouDbContext(DbContextOptions<Adventure4YouDbContext> options)
             : base(options)
         {
+
         }        
         
         public DbSet<Race> Races { get; set; }
