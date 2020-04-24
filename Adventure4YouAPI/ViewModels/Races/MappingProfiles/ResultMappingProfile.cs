@@ -8,13 +8,10 @@ namespace Adventure4YouAPI.ViewModels.Races.MappingProfiles
         public ResultMappingProfile()
         {
             CreateMap<TeamResult, TeamResultViewModel>();
-            CreateMap<TeamResultViewModel, TeamResult>();
 
             CreateMap<StageResult, StageResultViewModel>();
-            CreateMap<StageResultViewModel, StageResult>();
 
             CreateMap<PointResult, PointResultViewModel>();
-            CreateMap<PointResultViewModel, PointResult>();
         }
     }
 }

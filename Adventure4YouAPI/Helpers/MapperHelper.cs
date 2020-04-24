@@ -17,6 +17,8 @@ namespace Adventure4YouAPI.Helpers
                 mc.AddProfile(new StageMappingProfile());
                 mc.AddProfile(new RaceMappingProfile());
                 mc.AddProfile(new TeamMappingProfile());
+                mc.AddProfile(new VisitedPointMappingProfile());
+                mc.AddProfile(new FinishedStageMappingProfile());
                 mc.AddProfile(new ResultMappingProfile());
             });
 

@@ -9,9 +9,6 @@ namespace Adventure4YouAPI.ViewModels.Races.MappingProfiles
         {
             CreateMap<Team, TeamViewModel>();
             CreateMap<TeamViewModel, Team>();
-
-            CreateMap<VisitedPoint, VisitedPointViewModel>();
-            CreateMap<VisitedPointViewModel, VisitedPoint>();
         }
     }
 }

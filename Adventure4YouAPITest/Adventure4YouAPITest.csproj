@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Adventure4YouAPI\Adventure4YouAPI.csproj" />
+    <ProjectReference Include="..\Adventure4YouData\Adventure4YouData.csproj" />
     <ProjectReference Include="..\Adventure4You\Adventure4You.csproj" />
   </ItemGroup>
 

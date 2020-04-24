@@ -19,10 +19,5 @@ namespace Adventure4YouData.Models.Races
 
         [Required]
         public DateTime Time { get; set; }
-
-        public VisitedPoint()
-        {
-
-        }
     }
 }

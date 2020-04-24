@@ -10,13 +10,12 @@ using Moq;
 using System;
 using System.Collections.Generic;
 
-namespace Adventure4YouAPITest
+namespace Adventure4YouAPITest.Controllers
 {
     public abstract class ApiControllerCrudTestsBase<ControllerType, ModelType, GetViewModel, ViewModelType> : ApiControllerCudTestsBase<ControllerType, ModelType, ViewModelType>
     {
-
-        protected readonly new Mock<IGenericCrudBL<ModelType>> _BLMock = new Mock<IGenericCrudBL<ModelType>>();
         protected new ICrudController<GetViewModel, ViewModelType> _Sut { get; set; }
+        protected readonly new Mock<IGenericCrudBL<ModelType>> _BLMock = new Mock<IGenericCrudBL<ModelType>>();
 
         protected virtual void GetNoErrorsTest()
         {

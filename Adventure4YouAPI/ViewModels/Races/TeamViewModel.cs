@@ -9,7 +9,8 @@ namespace Adventure4YouAPI.ViewModels.Races
         public Guid RaceId { get; set; }
         public int Number { get; set; }
         public string Name { get; set; }
-        public List<VisitedPointViewModel> PointsVisited { get; set; }
-        public DateTime RaceFinished { get; set; }
+        public List<VisitedPointViewModel> VisitedPoints { get; set; }
+        public DateTime FinishTime { get; set; }
+        public List<FinishedStageViewModel> FinishedStages { get; set; }
     }
 }
