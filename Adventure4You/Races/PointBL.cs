@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Adventure4You.Races
 {
-    public class PointBL : StageBaseBL, IGenericBL<Point>
+    public class PointBL : StageBaseBL, IGenericCudBL<Point>
     {
         public PointBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
         {

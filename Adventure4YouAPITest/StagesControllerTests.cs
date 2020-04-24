@@ -6,66 +6,66 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Adventure4YouAPITest
 {
     [TestClass]
-    public class TeamsControllerTests : ApiControllerCudTestsBase<TeamsController, Team, TeamViewModel>
+    public class StagesControllerTests : ApiControllerCudTestsBase<StagesController, Stage, StageViewModel>
     {
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new TeamsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            _Sut = new StagesController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamNoErrorsTest()
+        public void AddStageNoErrorsTest()
         {
             AddNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamBusinesErrorTest()
+        public void AddStageBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
         }
 
         [TestMethod]
-        public void AddTeamExceptionTest()
+        public void AddStageExceptionTest()
         {
             AddExceptionTest(_Sut, SetupBlAddException);
         }
 
         [TestMethod]
-        public void EditTeamNoErrorsTest()
+        public void EditStageNoErrorsTest()
         {
             EditNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void EditTeamBusinesErrorTest()
+        public void EditStageBusinesErrorTest()
         {
             EditBusinessErrorTest(_Sut, SetupBlEditBusinessException);
         }
 
         [TestMethod]
-        public void EditTeamExceptionTest()
+        public void EditStageExceptionTest()
         {
             EditExceptionTest(_Sut, SetupBlEditException);
         }
 
         [TestMethod]
-        public void DeleteTeamNoErrorsTest()
+        public void DeleteStageNoErrorsTest()
         {
             DeleteNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void DeleteTeamBusinesErrorTest()
+        public void DeleteStageBusinesErrorTest()
         {
             DeleteBusinessErrorTest(_Sut, SetupBlDeleteBusinessException);
         }
 
         [TestMethod]
-        public void DeleteTeamExceptionTest()
+        public void DeleteStageExceptionTest()
         {
             DeleteExceptionTest(_Sut, SetupBlDeleteException);
         }

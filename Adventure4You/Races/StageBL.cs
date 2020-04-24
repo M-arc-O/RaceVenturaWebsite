@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Adventure4You.Races
 {
-    public class StageBL : StageBaseBL, IGenericBL<Stage>
+    public class StageBL : StageBaseBL, IGenericCudBL<Stage>
     {
         public StageBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
         {

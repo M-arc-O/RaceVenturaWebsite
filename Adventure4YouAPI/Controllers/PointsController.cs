@@ -14,13 +14,13 @@ namespace Adventure4YouAPI.Controllers
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PointsController : Adventure4YouControllerBase
+    public class PointsController : Adventure4YouControllerBase, ICudController<PointViewModel>
     {
-        private readonly IGenericBL<Point> _PointBL;
+        private readonly IGenericCudBL<Point> _PointBL;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public PointsController(IGenericBL<Point> pointBL, IMapper mapper, ILogger logger)
+        public PointsController(IGenericCudBL<Point> pointBL, IMapper mapper, ILogger logger)
         {
             _PointBL = pointBL ?? throw new ArgumentNullException(nameof(pointBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -29,7 +29,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addpoint")]
-        public ActionResult<PointViewModel> AddPoint([FromBody]PointViewModel viewModel)
+        public ActionResult<PointViewModel> Add([FromBody]PointViewModel viewModel)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editpoint")]
-        public ActionResult<PointViewModel> EditPoint([FromBody]PointViewModel viewModel)
+        public ActionResult<PointViewModel> Edit([FromBody]PointViewModel viewModel)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{pointId}/remove")]
-        public ActionResult<Guid> DeletePoint(Guid pointId)
+        public ActionResult<Guid> Delete(Guid pointId)
         {
             try
             {

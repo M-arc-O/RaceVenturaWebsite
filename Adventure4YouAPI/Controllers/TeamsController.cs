@@ -14,24 +14,22 @@ namespace Adventure4YouAPI.Controllers
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : Adventure4YouControllerBase
+    public class TeamsController : Adventure4YouControllerBase, ICudController<TeamViewModel>
     {
-        private readonly IGenericBL<Team> _TeamBL;
-        private readonly IGenericBL<VisitedPoint> _VisitedPointBL;
+        private readonly IGenericCudBL<Team> _TeamBL;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public TeamsController(IGenericBL<Team> teamBL, IGenericBL<VisitedPoint> visitedPointBL, IMapper mapper, ILogger logger)
+        public TeamsController(IGenericCudBL<Team> teamBL, IMapper mapper, ILogger logger)
         {
             _TeamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
-            _VisitedPointBL = visitedPointBL ?? throw new ArgumentNullException(nameof(visitedPointBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         
         [HttpPost]
         [Route("addteam")]
-        public ActionResult<TeamViewModel> AddTeam([FromBody]TeamViewModel viewModel)
+        public ActionResult<TeamViewModel> Add([FromBody]TeamViewModel viewModel)
         {
             try
             {
@@ -55,7 +53,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editteam")]
-        public ActionResult<TeamViewModel> EditTeam([FromBody]TeamViewModel viewModel)
+        public ActionResult<TeamViewModel> Edit([FromBody]TeamViewModel viewModel)
         {
             try
             {
@@ -71,18 +69,20 @@ namespace Adventure4YouAPI.Controllers
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
 
         [HttpDelete]
         [Route("{teamId}/removeteam")]
-        public ActionResult<Guid> DeleteTeam(Guid teamId)
+        public ActionResult<Guid> Delete(Guid teamId)
         {
             try
             {
                 _TeamBL.Delete(GetUserId(), teamId);
+
+                return Ok(teamId);
             }
             catch (BusinessException ex)
             {
@@ -90,53 +90,7 @@ namespace Adventure4YouAPI.Controllers
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
-                return StatusCode(500);
-            }
-
-            return Ok(teamId);
-        }
-
-        [HttpPost]
-        [Route("addvisitedpoint")]
-        public ActionResult<VisitedPointViewModel> AddVisitedPoint(VisitedPointViewModel viewModel)
-        {
-            try
-            {
-                var model = _Mapper.Map<VisitedPoint>(viewModel);
-
-                _VisitedPointBL.Add(GetUserId(), model);
-
-                return Ok(model);
-            }
-            catch (BusinessException ex)
-            {
-                return BadRequest((ErrorCodes)ex.ErrorCode);
-            }
-            catch (Exception ex)
-            {
-                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
-                return StatusCode(500);
-            }
-        }
-
-        [HttpDelete]
-        [Route("{teamPointVisitedId}/{teamId}/{raceId}/removepointvisited")]
-        public ActionResult<Guid> DeletePointVisited(Guid teamPointVisitedId, Guid teamId, Guid raceId)
-        {
-            try
-            {
-                _VisitedPointBL.Delete(GetUserId(), teamPointVisitedId);
-
-                return Ok(teamPointVisitedId);
-            }
-            catch (BusinessException ex)
-            {
-                return BadRequest((ErrorCodes)ex.ErrorCode);
-            }
-            catch (Exception ex)
-            {
-                _Logger.LogError(ex, $"Error in {typeof(PointsController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

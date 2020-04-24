@@ -9,11 +9,11 @@ namespace Adventure4You.Helpers
         public static void AddBLs(IServiceCollection services)
         {
             services.AddScoped<IAccountBL, AccountsBL>();
-            services.AddScoped<IGenericBL<Point>, PointBL>();
-            services.AddScoped<IRaceBL, RaceBL>();
-            services.AddScoped<IGenericBL<Stage>, StageBL>();
-            services.AddScoped<IGenericBL<Team>, TeamBL>();
-            services.AddScoped<IGenericBL<VisitedPoint>, VisitedPointBL>();
+            services.AddScoped<IGenericCudBL<Point>, PointBL>();
+            services.AddScoped<IGenericCrudBL<Race>, RaceBL>();
+            services.AddScoped<IGenericCudBL<Stage>, StageBL>();
+            services.AddScoped<IGenericCudBL<Team>, TeamBL>();
+            services.AddScoped<IGenericCudBL<VisitedPoint>, VisitedPointBL>();
             services.AddScoped<IResultsBL, ResultsBL>();
         }
     }

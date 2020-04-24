@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Adventure4You.Races
 {
-    public class RaceBL : RaceBaseBL, IRaceBL
+    public class RaceBL : RaceBaseBL, IGenericCrudBL<Race>
     {
         public RaceBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
         {

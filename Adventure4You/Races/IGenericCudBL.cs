@@ -2,7 +2,7 @@
 
 namespace Adventure4You.Races
 {
-    public interface IGenericBL<T>
+    public interface IGenericCudBL<T>
     {
         void Add(Guid userId, T entity);
         void Edit(Guid userId, T newEntity);

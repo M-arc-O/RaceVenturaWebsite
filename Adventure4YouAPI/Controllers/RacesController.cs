@@ -15,24 +15,22 @@ namespace Adventure4YouAPI.Controllers
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RacesController : Adventure4YouControllerBase
+    public class RacesController : Adventure4YouControllerBase, ICrudController<RaceViewModel, RaceDetailViewModel>
     {
-        private readonly IRaceBL _RaceBL;
-        private readonly IResultsBL _ResultsBL;
+        private readonly IGenericCrudBL<Race> _RaceBL;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public RacesController(IRaceBL raceBL, IResultsBL resultsBL, IMapper mapper, ILogger logger)
+        public RacesController(IGenericCrudBL<Race> raceBL, IMapper mapper, ILogger logger)
         {
             _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
-            _ResultsBL = resultsBL ?? throw new ArgumentNullException(nameof(resultsBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
         [Route("getallraces")]
-        public ActionResult<List<RaceViewModel>> GetAllRaces()
+        public ActionResult<IEnumerable<RaceViewModel>> Get()
         {
             try
             {
@@ -51,15 +49,16 @@ namespace Adventure4YouAPI.Controllers
             {
                 return BadRequest((ErrorCodes)ex.ErrorCode);
             }
-            catch
+            catch (Exception ex)
             {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
 
         [HttpGet()]
         [Route("getracedetails")]
-        public ActionResult<RaceDetailViewModel> GetRaceDetails([FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<RaceDetailViewModel> GetById([FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
@@ -79,14 +78,14 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addrace")]
-        public ActionResult<RaceViewModel> AddRace([FromBody]RaceDetailViewModel viewModel)
+        public ActionResult<RaceDetailViewModel> Add([FromBody]RaceDetailViewModel viewModel)
         {
             try
             {
                 var raceModel = _Mapper.Map<Race>(viewModel);
                 _RaceBL.Add(GetUserId(), raceModel);
 
-                return Ok(_Mapper.Map<RaceViewModel>(raceModel));
+                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
             }
             catch (BusinessException ex)
             {
@@ -101,7 +100,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editrace")]
-        public ActionResult<RaceDetailViewModel> EditRace([FromBody]RaceDetailViewModel viewModel)
+        public ActionResult<RaceDetailViewModel> Edit([FromBody]RaceDetailViewModel viewModel)
         {
             try
             {
@@ -123,41 +122,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{raceId}/remove")]
-        public ActionResult<Guid> DeleteRace(Guid raceId)
+        public ActionResult<Guid> Delete(Guid raceId)
         {
             try
             {
                 _RaceBL.Delete(GetUserId(), raceId);
 
                 return Ok(raceId);
-            }
-            catch (BusinessException ex)
-            {
-                return BadRequest((ErrorCodes)ex.ErrorCode);
-            }
-            catch (Exception ex)
-            {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
-                return StatusCode(500);
-            }
-        }
-
-        [HttpGet]
-        [Route("getraceresults")]
-        public ActionResult<List<TeamResultViewModel>> GetRaceResults([FromQuery(Name = "raceId")]Guid raceId)
-        {
-            try
-            {
-                var result = _ResultsBL.GetRaceResults(GetUserId(), raceId);
-
-                var retVal = new List<TeamResultViewModel>();
-
-                foreach (var teamResult in result)
-                {
-                    retVal.Add(_Mapper.Map<TeamResultViewModel>(teamResult));
-                }
-
-                return Ok(retVal);
             }
             catch (BusinessException ex)
             {

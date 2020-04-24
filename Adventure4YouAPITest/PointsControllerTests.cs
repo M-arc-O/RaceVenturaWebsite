@@ -6,12 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Adventure4YouAPITest
 {
     [TestClass]
-    public class TeamsControllerTests : ApiControllerCudTestsBase<TeamsController, Team, TeamViewModel>
+    public class PointsControllerTests : ApiControllerCudTestsBase<PointsController, Point, PointViewModel>
     {
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new TeamsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            _Sut = new PointsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(_Sut);
         }

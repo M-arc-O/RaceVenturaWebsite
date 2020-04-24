@@ -14,13 +14,13 @@ namespace Adventure4YouAPI.Controllers
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class StagesController : Adventure4YouControllerBase
+    public class StagesController : Adventure4YouControllerBase, ICudController<StageViewModel>
     {
-        private readonly IGenericBL<Stage> _StageBL;
+        private readonly IGenericCudBL<Stage> _StageBL;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public StagesController(IGenericBL<Stage> stageBL, IMapper mapper, ILogger logger)
+        public StagesController(IGenericCudBL<Stage> stageBL, IMapper mapper, ILogger logger)
         {
             _StageBL = stageBL ?? throw new ArgumentNullException(nameof(stageBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -29,7 +29,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addstage")]
-        public ActionResult<StageViewModel> AddStage([FromBody]StageViewModel viewModel)
+        public ActionResult<StageViewModel> Add([FromBody]StageViewModel viewModel)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editstage")]
-        public ActionResult<StageViewModel> EditStage([FromBody]StageViewModel viewModel)
+        public ActionResult<StageViewModel> Edit([FromBody]StageViewModel viewModel)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{stageId}/remove")]
-        public ActionResult<Guid> DeleteStage(Guid stageId)
+        public ActionResult<Guid> Delete(Guid stageId)
         {
             try
             {

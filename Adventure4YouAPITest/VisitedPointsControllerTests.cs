@@ -6,66 +6,48 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Adventure4YouAPITest
 {
     [TestClass]
-    public class TeamsControllerTests : ApiControllerCudTestsBase<TeamsController, Team, TeamViewModel>
+    public class VisitedPointsControllerTests : ApiControllerCudTestsBase<VisitedPointsController, VisitedPoint, VisitedPointViewModel>
     {
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new TeamsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            _Sut = new VisitedPointsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamNoErrorsTest()
+        public void AddVisitedPointNoErrorsTest()
         {
             AddNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamBusinesErrorTest()
+        public void AddVisitedPointBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
         }
 
         [TestMethod]
-        public void AddTeamExceptionTest()
+        public void AddVisitedPointExceptionTest()
         {
             AddExceptionTest(_Sut, SetupBlAddException);
         }
 
         [TestMethod]
-        public void EditTeamNoErrorsTest()
-        {
-            EditNoErrorsTest(_Sut);
-        }
-
-        [TestMethod]
-        public void EditTeamBusinesErrorTest()
-        {
-            EditBusinessErrorTest(_Sut, SetupBlEditBusinessException);
-        }
-
-        [TestMethod]
-        public void EditTeamExceptionTest()
-        {
-            EditExceptionTest(_Sut, SetupBlEditException);
-        }
-
-        [TestMethod]
-        public void DeleteTeamNoErrorsTest()
+        public void DeleteVisitedPointNoErrorsTest()
         {
             DeleteNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void DeleteTeamBusinesErrorTest()
+        public void DeleteVisitedPointBusinesErrorTest()
         {
             DeleteBusinessErrorTest(_Sut, SetupBlDeleteBusinessException);
         }
 
         [TestMethod]
-        public void DeleteTeamExceptionTest()
+        public void DeleteVisitedPointExceptionTest()
         {
             DeleteExceptionTest(_Sut, SetupBlDeleteException);
         }
