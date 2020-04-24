@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 
 namespace Adventure4YouAPI.Controllers
@@ -10,10 +11,12 @@ namespace Adventure4YouAPI.Controllers
 
         ControllerContext ControllerContext { get; set; }
 
-        ActionResult<ViewModelType> Add([FromBody]ViewModelType viewModel);
+        ModelStateDictionary ModelState { get; }
 
-        ActionResult<ViewModelType> Edit([FromBody]ViewModelType viewModel);
+        IActionResult Add([FromBody]ViewModelType viewModel);
 
-        ActionResult<Guid> Delete(Guid id);
+        IActionResult Edit([FromBody]ViewModelType viewModel);
+
+        IActionResult Delete(Guid id);
     }
 }

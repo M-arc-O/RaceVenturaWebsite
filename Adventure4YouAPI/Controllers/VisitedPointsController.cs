@@ -29,8 +29,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addvisitedpoint")]
-        public ActionResult<VisitedPointViewModel> Add(VisitedPointViewModel viewModel)
+        public IActionResult Add(VisitedPointViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var model = _Mapper.Map<VisitedPoint>(viewModel);
@@ -52,14 +57,14 @@ namespace Adventure4YouAPI.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [NonAction]
-        public ActionResult<VisitedPointViewModel> Edit([FromBody] VisitedPointViewModel viewModel)
+        public IActionResult Edit([FromBody] VisitedPointViewModel viewModel)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
         [Route("{teamPointVisitedId}/removepointvisited")]
-        public ActionResult<Guid> Delete(Guid teamPointVisitedId)
+        public IActionResult Delete(Guid teamPointVisitedId)
         {
             try
             {

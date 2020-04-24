@@ -13,7 +13,7 @@ namespace Adventure4YouData.Models.Races
         public Guid RaceId { get; set; }
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         [Required]

@@ -26,55 +26,67 @@ namespace Adventure4YouAPITest.Controllers
         }
 
         [TestMethod]
-        public void AddTeamNoErrorsTest()
+        public void AddPointNoErrorsTest()
         {
             AddNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamBusinesErrorTest()
+        public void AddPointInvalidModelStateTest()
+        {
+            AddInvalidModelStateTest(_Sut);
+        }
+
+        [TestMethod]
+        public void AddPointBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
         }
 
         [TestMethod]
-        public void AddTeamExceptionTest()
+        public void AddPointExceptionTest()
         {
             AddExceptionTest(_Sut, SetupBlAddException);
         }
 
         [TestMethod]
-        public void EditTeamNoErrorsTest()
+        public void EditPointNoErrorsTest()
         {
             EditNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void EditTeamBusinesErrorTest()
+        public void EditPointInvalidModelStateTest()
+        {
+            EditInvalidModelStateTest(_Sut);
+        }
+
+        [TestMethod]
+        public void EditPointBusinesErrorTest()
         {
             EditBusinessErrorTest(_Sut, SetupBlEditBusinessException);
         }
 
         [TestMethod]
-        public void EditTeamExceptionTest()
+        public void EditPointExceptionTest()
         {
             EditExceptionTest(_Sut, SetupBlEditException);
         }
 
         [TestMethod]
-        public void DeleteTeamNoErrorsTest()
+        public void DeletePointNoErrorsTest()
         {
             DeleteNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void DeleteTeamBusinesErrorTest()
+        public void DeletePointBusinesErrorTest()
         {
             DeleteBusinessErrorTest(_Sut, SetupBlDeleteBusinessException);
         }
 
         [TestMethod]
-        public void DeleteTeamExceptionTest()
+        public void DeletePointExceptionTest()
         {
             DeleteExceptionTest(_Sut, SetupBlDeleteException);
         }

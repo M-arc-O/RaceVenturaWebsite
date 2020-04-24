@@ -32,6 +32,12 @@ namespace Adventure4YouAPITest.Controllers
         }
 
         [TestMethod]
+        public void AddVisitedPointInvalidModelStateTest()
+        {
+            AddInvalidModelStateTest(_Sut);
+        }
+
+        [TestMethod]
         public void AddVisitedPointBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);

@@ -29,8 +29,13 @@ namespace Adventure4YouAPI.Controllers
         
         [HttpPost]
         [Route("addteam")]
-        public ActionResult<TeamViewModel> Add([FromBody]TeamViewModel viewModel)
+        public IActionResult Add([FromBody]TeamViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var team = _Mapper.Map<Team>(viewModel);
@@ -53,8 +58,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editteam")]
-        public ActionResult<TeamViewModel> Edit([FromBody]TeamViewModel viewModel)
+        public IActionResult Edit([FromBody]TeamViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var team = _Mapper.Map<Team>(viewModel);
@@ -76,7 +86,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{teamId}/removeteam")]
-        public ActionResult<Guid> Delete(Guid teamId)
+        public IActionResult Delete(Guid teamId)
         {
             try
             {

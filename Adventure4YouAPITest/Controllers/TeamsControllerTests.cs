@@ -32,6 +32,12 @@ namespace Adventure4YouAPITest.Controllers
         }
 
         [TestMethod]
+        public void AddTeamInvalidModelStateTest()
+        {
+            AddInvalidModelStateTest(_Sut);
+        }
+
+        [TestMethod]
         public void AddTeamBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
@@ -47,6 +53,12 @@ namespace Adventure4YouAPITest.Controllers
         public void EditTeamNoErrorsTest()
         {
             EditNoErrorsTest(_Sut);
+        }
+
+        [TestMethod]
+        public void EditTeamInvalidModelStateTest()
+        {
+            EditInvalidModelStateTest(_Sut);
         }
 
         [TestMethod]

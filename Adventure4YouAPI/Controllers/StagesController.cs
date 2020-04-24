@@ -29,8 +29,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addstage")]
-        public ActionResult<StageViewModel> Add([FromBody]StageViewModel viewModel)
+        public IActionResult Add([FromBody]StageViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var stage = _Mapper.Map<Stage>(viewModel);
@@ -52,8 +57,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editstage")]
-        public ActionResult<StageViewModel> Edit([FromBody]StageViewModel viewModel)
+        public IActionResult Edit([FromBody]StageViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var stage = _Mapper.Map<Stage>(viewModel);
@@ -77,7 +87,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{stageId}/remove")]
-        public ActionResult<Guid> Delete(Guid stageId)
+        public IActionResult Delete(Guid stageId)
         {
             try
             {

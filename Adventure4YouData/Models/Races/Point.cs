@@ -18,7 +18,7 @@ namespace Adventure4YouData.Models.Races
         public PointType Type { get; set; }
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]

@@ -29,7 +29,7 @@ namespace Adventure4YouAPITest.Controllers
             _BLMock.Setup(bl => bl.Get(It.IsAny<Guid>())).Returns(retVal);
 
             var result = _Sut.Get();
-            Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<GetViewModel>>));
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             _MapperMock.Verify(m => m.Map<GetViewModel>(It.IsAny<ModelType>()), Times.Exactly(2));
         }
 
@@ -39,9 +39,8 @@ namespace Adventure4YouAPITest.Controllers
 
             var result = _Sut.Get();
 
-            Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<GetViewModel>>));
-            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-            Assert.AreEqual((int)BLErrorCodes.Duplicate, (int)(result.Result as BadRequestObjectResult).Value);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual((int)BLErrorCodes.Duplicate, (int)(result as BadRequestObjectResult).Value);
             _MapperMock.Verify(m => m.Map<ViewModelType>(It.IsAny<ModelType>()), Times.Never);
         }
 
@@ -54,9 +53,8 @@ namespace Adventure4YouAPITest.Controllers
 
             var result = _Sut.Get();
 
-            Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<GetViewModel>>));
-            Assert.IsInstanceOfType(result.Result, typeof(StatusCodeResult));
-            Assert.AreEqual(500, (result.Result as StatusCodeResult).StatusCode);
+            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+            Assert.AreEqual(500, (result as StatusCodeResult).StatusCode);
 
             _MapperMock.Verify(m => m.Map<ViewModelType>(It.IsAny<ModelType>()), Times.Never);
             _LoggerMock.Verify(
@@ -72,7 +70,7 @@ namespace Adventure4YouAPITest.Controllers
         protected virtual void GetByIdNoErrorsTest()
         {
             var result = _Sut.GetById(Guid.NewGuid());
-            Assert.IsInstanceOfType(result, typeof(ActionResult<ViewModelType>));
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             _MapperMock.Verify(m => m.Map<ViewModelType>(It.IsAny<ModelType>()), Times.Once);
         }
 
@@ -82,9 +80,8 @@ namespace Adventure4YouAPITest.Controllers
 
             var result = _Sut.GetById(Guid.NewGuid());
 
-            Assert.IsInstanceOfType(result, typeof(ActionResult<ViewModelType>));
-            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-            Assert.AreEqual((int)BLErrorCodes.Duplicate, (int)(result.Result as BadRequestObjectResult).Value);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual((int)BLErrorCodes.Duplicate, (int)(result as BadRequestObjectResult).Value);
             _MapperMock.Verify(m => m.Map<ViewModelType>(It.IsAny<ModelType>()), Times.Never);
         }
 
@@ -97,9 +94,8 @@ namespace Adventure4YouAPITest.Controllers
 
             var result = _Sut.GetById(Guid.NewGuid());
 
-            Assert.IsInstanceOfType(result, typeof(ActionResult<ViewModelType>));
-            Assert.IsInstanceOfType(result.Result, typeof(StatusCodeResult));
-            Assert.AreEqual(500, (result.Result as StatusCodeResult).StatusCode);
+            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+            Assert.AreEqual(500, (result as StatusCodeResult).StatusCode);
 
             _MapperMock.Verify(m => m.Map<ViewModelType>(It.IsAny<ModelType>()), Times.Never);
             _LoggerMock.Verify(

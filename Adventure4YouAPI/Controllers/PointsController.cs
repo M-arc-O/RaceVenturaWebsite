@@ -29,8 +29,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addpoint")]
-        public ActionResult<PointViewModel> Add([FromBody]PointViewModel viewModel)
+        public IActionResult Add([FromBody]PointViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var point = _Mapper.Map<Point>(viewModel);
@@ -52,8 +57,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editpoint")]
-        public ActionResult<PointViewModel> Edit([FromBody]PointViewModel viewModel)
+        public IActionResult Edit([FromBody]PointViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var pointModel = _Mapper.Map<Point>(viewModel);
@@ -75,7 +85,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{pointId}/remove")]
-        public ActionResult<Guid> Delete(Guid pointId)
+        public IActionResult Delete(Guid pointId)
         {
             try
             {

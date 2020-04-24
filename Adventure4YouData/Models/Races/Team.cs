@@ -20,7 +20,7 @@ namespace Adventure4YouData.Models.Races
         public int Number { get; set; }
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         public List<VisitedPoint> VisitedPoints { get; set; }

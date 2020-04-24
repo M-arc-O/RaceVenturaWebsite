@@ -30,7 +30,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet]
         [Route("getallraces")]
-        public ActionResult<IEnumerable<RaceViewModel>> Get()
+        public IActionResult Get()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpGet()]
         [Route("getracedetails")]
-        public ActionResult<RaceDetailViewModel> GetById([FromQuery(Name = "raceId")]Guid raceId)
+        public IActionResult GetById([FromQuery(Name = "raceId")]Guid raceId)
         {
             try
             {
@@ -78,8 +78,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPost]
         [Route("addrace")]
-        public ActionResult<RaceDetailViewModel> Add([FromBody]RaceDetailViewModel viewModel)
+        public IActionResult Add([FromBody]RaceDetailViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var raceModel = _Mapper.Map<Race>(viewModel);
@@ -100,8 +105,13 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpPut]
         [Route("editrace")]
-        public ActionResult<RaceDetailViewModel> Edit([FromBody]RaceDetailViewModel viewModel)
+        public IActionResult Edit([FromBody]RaceDetailViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 var raceModel = _Mapper.Map<Race>(viewModel);
@@ -122,7 +132,7 @@ namespace Adventure4YouAPI.Controllers
 
         [HttpDelete]
         [Route("{raceId}/remove")]
-        public ActionResult<Guid> Delete(Guid raceId)
+        public IActionResult Delete(Guid raceId)
         {
             try
             {
