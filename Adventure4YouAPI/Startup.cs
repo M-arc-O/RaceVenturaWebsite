@@ -6,13 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using FluentValidation.AspNetCore;
 using AutoMapper;
 
 using Adventure4YouAPI.Auth;
 using Adventure4You.Helpers;
 using Adventure4YouAPI.Helpers;
-using Adventure4YouAPI.ViewModels;
 
 namespace Adventure4YouAPI
 {
@@ -47,7 +45,6 @@ namespace Adventure4YouAPI
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(a => a.SerializerSettings.Converters.Add(new TrimmingJsonConverter()));
         }

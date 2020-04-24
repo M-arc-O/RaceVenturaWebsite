@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using System.Drawing;
+﻿using Adventure4YouData.Models.Races;
+using AutoMapper;
 
 namespace Adventure4YouAPI.ViewModels.Races.MappingProfiles
 {
