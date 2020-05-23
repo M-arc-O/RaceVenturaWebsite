@@ -7,12 +7,12 @@ namespace Adventure4YouData
 {
     public interface IAdventure4YouUnitOfWork
     {
-        GenericRepository<UserLink> UserLinkRepository { get; }
-        GenericRepository<Point> PointRepository { get; }
-        GenericRepository<Race> RaceRepository { get; }
-        GenericRepository<Stage> StageRepository { get; }
-        GenericRepository<Team> TeamRepository { get; }
-        GenericRepository<VisitedPoint> VisitedPointRepository { get; }
+        IGenericRepository<UserLink> UserLinkRepository { get; }
+        IGenericRepository<Point> PointRepository { get; }
+        IGenericRepository<Race> RaceRepository { get; }
+        IGenericRepository<Stage> StageRepository { get; }
+        IGenericRepository<Team> TeamRepository { get; }
+        IGenericRepository<VisitedPoint> VisitedPointRepository { get; }
 
         void Dispose();
         void Save();

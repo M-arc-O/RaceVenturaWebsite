@@ -18,8 +18,9 @@ namespace Adventure4You.Races
 
         public IEnumerable<TeamResult> GetRaceResults(Guid userId, Guid raceId)
         {
-            CheckUserIsAuthorizedForRace(userId, raceId);
             var race = GetRace(raceId);
+
+            CheckUserIsAuthorizedForRace(userId, raceId);
 
             var teamResults = new List<TeamResult>();
             foreach (var team in race.Teams)
@@ -30,23 +31,16 @@ namespace Adventure4You.Races
             return teamResults.OrderByDescending(r => r.NumberOfStages).ThenByDescending(r => r.TotalValue).ThenBy(r => r.EndTime).ToList();
         }
 
-        public TeamResult GetTeamResult(Guid userId, Guid raceId, Guid teamId)
-        {
-            CheckUserIsAuthorizedForRace(userId, raceId);
-
-            var race = GetRace(raceId);
-            var team = race.Teams.FirstOrDefault(t => t.TeamId == teamId);
-            if (race == null || team == null)
-            {
-                throw new BusinessException($"Error in {typeof(ResultsBL)}: Race with ID '{raceId}' or team with ID '{teamId}' not found.", BLErrorCodes.Unknown);
-            }
-
-            return GetTeamResult(race, team);
-        }
-
         private Race GetRace(Guid raceId)
         {
-            return _UnitOfWork.RaceRepository.Get(t => t.RaceId == raceId, null, "Teams,Stages,Stages.Points").FirstOrDefault();
+            var race = _UnitOfWork.RaceRepository.Get(t => t.RaceId == raceId, null, "Teams,Teams.VisitedPoints,Stages,Stages.Points").FirstOrDefault();
+
+            if (race == null)
+            {
+                throw new BusinessException($"Race with ID '{raceId}' not found.", BLErrorCodes.NotFound);
+            }
+
+            return race;
         }
 
         private TeamResult GetTeamResult(Race race, Team team)
@@ -65,9 +59,13 @@ namespace Adventure4You.Races
                 StageResult stageResult = GetStageResult(team, stage);
 
                 var numberOfPointsToCompleteStage = stage.MimimumPointsToCompleteStage.HasValue ? stage.MimimumPointsToCompleteStage.Value : race.MinimumPointsToCompleteStage;
-                retVal.NumberOfStages += stageResult.NumberOfPoints >= numberOfPointsToCompleteStage ? 1 : 0;
-                retVal.TotalValue += stageResult.TotalValue;
-                retVal.NumberOfPoints += stageResult.NumberOfPoints;
+
+                if (stageResult.NumberOfPoints >= numberOfPointsToCompleteStage)
+                {
+                    retVal.NumberOfStages += 1;
+                    retVal.TotalValue += stageResult.TotalValue;
+                    retVal.NumberOfPoints += stageResult.NumberOfPoints;
+                }
                 retVal.StageResults.Add(stageResult);
             }
 

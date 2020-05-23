@@ -21,7 +21,7 @@ namespace Adventure4You.Races
 
             if (_UnitOfWork.VisitedPointRepository.Get().Any(vp => vp.PointId == entity.PointId && vp.TeamId == entity.TeamId))
             {
-                throw new BusinessException($"Visited point with ID '{entity.VisitedPointId}' is already known", BLErrorCodes.Duplicate);
+                throw new BusinessException($"Visited point with ID '{entity.PointId}' is already known", BLErrorCodes.Duplicate);
             }
 
             _UnitOfWork.VisitedPointRepository.Insert(entity);
@@ -35,10 +35,17 @@ namespace Adventure4You.Races
 
         public void Delete(Guid userId, Guid entityId)
         {
-            var team = GetTeam(entityId);
+            var visitedPoint = _UnitOfWork.VisitedPointRepository.GetByID(entityId);
+
+            if (visitedPoint == null)
+            {
+                throw new BusinessException($"Visited point with ID '{entityId}' is unknown", BLErrorCodes.NotFound);
+            }
+
+            var team = GetTeam(visitedPoint.TeamId);
             CheckUserIsAuthorizedForRace(userId, team.RaceId);
 
-            _UnitOfWork.TeamRepository.Delete(entityId);
+            _UnitOfWork.VisitedPointRepository.Delete(visitedPoint);
             _UnitOfWork.SaveAsync();
         }
     }

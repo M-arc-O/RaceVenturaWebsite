@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Adventure4YouData.Repositories
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly IAdventure4YouDbContext _Context;
         protected readonly DbSet<TEntity> dbSet;

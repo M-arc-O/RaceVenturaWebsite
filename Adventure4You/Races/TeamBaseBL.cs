@@ -18,7 +18,7 @@ namespace Adventure4You.Races
             var team = _UnitOfWork.TeamRepository.GetByID(teamId);
             if (team == null)
             {
-                throw new BusinessException($"Stage with ID '{teamId}' is unknown", BLErrorCodes.Unknown);
+                throw new BusinessException($"Team with ID '{teamId}' is unknown", BLErrorCodes.NotFound);
             }
 
             return team;

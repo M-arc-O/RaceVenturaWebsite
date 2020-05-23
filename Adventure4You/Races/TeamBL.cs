@@ -16,7 +16,10 @@ namespace Adventure4You.Races
 
         public void Add(Guid userId, Team entity)
         {
+            CheckIfRaceExsists(userId, entity.RaceId);
             CheckUserIsAuthorizedForRace(userId, entity.RaceId);
+            CheckIfTeamNameExists(entity);
+            CheckIfTeamNumberExists(entity);
 
             _UnitOfWork.TeamRepository.Insert(entity);
             _UnitOfWork.SaveAsync();
@@ -24,16 +27,7 @@ namespace Adventure4You.Races
 
         public void Edit(Guid userId, Team newEntity)
         {
-            CheckIfRaceExsists(userId, newEntity.RaceId);
-            CheckUserIsAuthorizedForRace(userId, newEntity.RaceId);
-
-            var team = GetTeam(newEntity.TeamId);
-
-            if (team.RaceId != newEntity.RaceId)
-            {
-                _Logger.LogWarning($"Error in {typeof(TeamBL)}: User with ID '{userId}' tried to edit team with ID '{newEntity.TeamId}' but the race ID '{newEntity.RaceId}' of this entity does not match the race ID '{team.RaceId}' of the stage in the database.");
-                throw new BusinessException($"Team with ID '{newEntity.TeamId}' is not part of race with ID '{newEntity.RaceId}'", BLErrorCodes.Unknown);
-            }
+            Team team = GetAndCheckTeam(userId, newEntity.TeamId);
 
             if (!newEntity.Name.ToUpper().Equals(team.Name.ToUpper()))
             {
@@ -55,22 +49,34 @@ namespace Adventure4You.Races
 
         public void Delete(Guid userId, Guid entityId)
         {
-            var team = GetTeam(entityId);
-            CheckIfRaceExsists(userId, team.RaceId);
-            CheckUserIsAuthorizedForRace(userId, team.RaceId);
+            GetAndCheckTeam(userId, entityId);
 
             _UnitOfWork.TeamRepository.Delete(entityId);
             _UnitOfWork.SaveAsync();
         }        
 
-        private bool CheckIfTeamNameExists(Team team)
+        private void CheckIfTeamNameExists(Team team)
         {
-            return _UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper()));
+            if (_UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper())))
+            {
+                throw new BusinessException($"A team with name '{team.Name}' already exists.", BLErrorCodes.Duplicate);
+            }
         }
 
-        private bool CheckIfTeamNumberExists(Team team)
+        private void CheckIfTeamNumberExists(Team team)
         {
-            return _UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number);
+            if (_UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number))
+            {
+                throw new BusinessException($"A team with number '{team.Number}' already exists.", BLErrorCodes.Duplicate);
+            }
+        }
+
+        private Team GetAndCheckTeam(Guid userId, Guid teamId)
+        {
+            var team = GetTeam(teamId);
+            CheckIfRaceExsists(userId, team.RaceId);
+            CheckUserIsAuthorizedForRace(userId, team.RaceId);
+            return team;
         }
     }
 }

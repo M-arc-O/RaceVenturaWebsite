@@ -14,7 +14,7 @@ namespace Adventure4YouDataTest
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new Adventure4YouDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<Adventure4YouDbContext>());
+            _Sut = new Adventure4YouDbContext(new DbContextOptions<Adventure4YouDbContext>());
         }
 
         [TestMethod]

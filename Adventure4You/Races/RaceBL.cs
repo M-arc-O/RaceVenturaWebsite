@@ -25,23 +25,19 @@ namespace Adventure4You.Races
 
         public Race GetById(Guid userId, Guid raceId)
         {
-            if (GetRaceUserLink(userId, raceId) == null)
-            {
-                _Logger.LogWarning($"Error in {typeof(Race)}: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
-                throw new BusinessException($"Error in {typeof(Race)}: User with ID '{userId}' is not authorized for race with ID {raceId}.", BLErrorCodes.UserUnauthorized);
-            }
+            GetAndCheckUserLink(userId, raceId);
 
             var race = _UnitOfWork.RaceRepository.Get(r => r.RaceId == raceId, null,
                 "Teams,Teams.PointsVisited,Teams.StagesFinished," +
                 "Stages,Stages.Points").FirstOrDefault();
             if (race == null)
             {
-                throw new BusinessException($"Error in {typeof(Race)}: No race with ID {raceId} found.", BLErrorCodes.Unknown);
+                throw new BusinessException($"No race with ID {raceId} found.", BLErrorCodes.NotFound);
             }
 
             race.Teams = race.Teams.OrderBy(team => team.Number).ToList();
             race.Stages = race.Stages.OrderBy(stage => stage.Number).ToList();
-            race.Stages.ForEach(stage => stage.Points = stage.Points.OrderBy(point => point.Name).ToList());
+            race.Stages.ForEach(stage => stage.Points = stage.Points?.OrderBy(point => point.Name).ToList());
 
             return race;
         }
@@ -61,61 +57,60 @@ namespace Adventure4You.Races
             _UnitOfWork.SaveAsync();
         }
 
-        public void Delete(Guid userId, Guid raceId)
+        public void Edit(Guid userId, Race newEntity)
         {
-            var userLink = GetRaceUserLink(userId, raceId);
-            if (userLink == null)
+            CheckIfRaceExsists(userId, newEntity.RaceId);
+            CheckUserIsAuthorizedForRace(userId, newEntity.RaceId);
+
+            var race = _UnitOfWork.RaceRepository.GetByID(newEntity.RaceId);
+
+            if (!race.Name.ToUpper().Equals(newEntity.Name.ToUpper()))
             {
-                _Logger.LogWarning($"Error in {typeof(Race)}: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
-                throw new BusinessException($"User with ID '{userId}' is not authorized for race with ID {raceId}.", BLErrorCodes.UserUnauthorized);
+                CheckIfRaceNameExists(newEntity.Name);
             }
 
-            var race = _UnitOfWork.RaceRepository.GetByID(raceId);
-            if (race == null)
-            {
-                throw new BusinessException($"Race with ID '{raceId}' is unknown.", BLErrorCodes.Unknown);
-            }
+            race.Name = newEntity.Name;
+            race.CoordinatesCheckEnabled = newEntity.CoordinatesCheckEnabled;
+            race.PenaltyPerMinuteLate = newEntity.PenaltyPerMinuteLate;
+            race.SpecialTasksAreStage = newEntity.SpecialTasksAreStage;
+            race.MaximumTeamSize = newEntity.MaximumTeamSize;
+            race.MinimumPointsToCompleteStage = newEntity.MinimumPointsToCompleteStage;
+            race.StartTime = newEntity.StartTime;
+            race.EndTime = newEntity.EndTime;
 
-            _UnitOfWork.UserLinkRepository.Delete(userLink);
-            _UnitOfWork.RaceRepository.Delete(race);
+            _UnitOfWork.RaceRepository.Update(race);
 
             _UnitOfWork.SaveAsync();
         }
 
-        public void Edit(Guid userId, Race raceNew)
+        public void Delete(Guid userId, Guid raceId)
         {
-            if (GetRaceUserLink(userId, raceNew.RaceId) == null)
-            {
-                _Logger.LogWarning($"Error in {typeof(Race)}: User with ID '{userId}' tried to access race with ID {raceNew.RaceId} but is not authorized.");
-                throw new BusinessException($"User with ID '{userId}' is not authorized for race with ID {raceNew.RaceId}.", BLErrorCodes.UserUnauthorized);
-            }
+            CheckIfRaceExsists(userId, raceId);
+            UserLink userLink = GetAndCheckUserLink(userId, raceId);
 
-            var race = _UnitOfWork.RaceRepository.GetByID(raceNew.RaceId);
-            if (race == null)
-            {
-                throw new BusinessException($"Race with ID '{raceNew.RaceId}' is unknown.", BLErrorCodes.Unknown);
-            }
+            _UnitOfWork.UserLinkRepository.Delete(userLink);
+            _UnitOfWork.RaceRepository.Delete(raceId);
 
-            if (!race.Name.ToUpper().Equals(raceNew.Name.ToUpper()))
-            {
-                CheckIfRaceNameExists(raceNew.Name);
-            }
-
-            race.Name = raceNew.Name;
-            race.CoordinatesCheckEnabled = raceNew.CoordinatesCheckEnabled;
-            race.SpecialTasksAreStage = raceNew.SpecialTasksAreStage;
-            race.MaximumTeamSize = raceNew.MaximumTeamSize;
-            race.MinimumPointsToCompleteStage = raceNew.MinimumPointsToCompleteStage;
-            race.StartTime = raceNew.StartTime;
-            race.EndTime = raceNew.EndTime;
             _UnitOfWork.SaveAsync();
+        }
+
+        private UserLink GetAndCheckUserLink(Guid userId, Guid raceId)
+        {
+            var userLink = GetRaceUserLink(userId, raceId);
+            if (userLink == null)
+            {
+                _Logger.LogWarning($"Error in {nameof(RaceBL)}: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
+                throw new BusinessException($"User is not authorized for race.", BLErrorCodes.UserUnauthorized);
+            }
+
+            return userLink;
         }
 
         private void CheckIfRaceNameExists(string name)
         {
             if (_UnitOfWork.RaceRepository.Get().Any(race => race.Name.ToUpper().Equals(name.ToUpper())))
             {
-                throw new BusinessException($"A race with name '{name}' allready exsists", BLErrorCodes.Duplicate);
+                throw new BusinessException($"A race with name '{name}' already exists.", BLErrorCodes.Duplicate);
             }
         }
     }

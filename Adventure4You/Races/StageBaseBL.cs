@@ -18,9 +18,17 @@ namespace Adventure4You.Races
             var stage = _UnitOfWork.StageRepository.GetByID(stageId);
             if (stage == null)
             {
-                throw new BusinessException($"Stage with ID '{stageId}' is unknown", BLErrorCodes.Unknown);
+                throw new BusinessException($"Stage with ID '{stageId}' is unknown", BLErrorCodes.NotFound);
             }
 
+            return stage;
+        }
+
+        protected Stage GetAndCheckStage(Guid userId, Guid stageId)
+        {
+            var stage = GetStage(stageId);
+            CheckIfRaceExsists(userId, stage.RaceId);
+            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
             return stage;
         }
     }

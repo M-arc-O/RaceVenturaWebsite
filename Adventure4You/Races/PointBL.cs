@@ -16,14 +16,8 @@ namespace Adventure4You.Races
 
         public void Add(Guid userId, Point point)
         {
-            var stage = GetStage(point.StageId);
-
-            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
-
-            if (CheckIfPointNameExists(point))
-            {
-                throw new BusinessException($"A point with name '{point.Name}' allready excits.", BLErrorCodes.Duplicate);
-            }
+            GetAndCheckStage(userId, point.StageId);
+            CheckIfPointNameExists(point);
 
             _UnitOfWork.PointRepository.Insert(point);
             _UnitOfWork.SaveAsync();
@@ -31,21 +25,11 @@ namespace Adventure4You.Races
 
         public void Edit(Guid userId, Point newEntity)
         {
-            var point = GetPoint(newEntity.PointId);
+            var point = GetAndCheckPoint(userId, newEntity.PointId);
 
-            if (point.StageId != newEntity.StageId)
+            if (!point.Name.ToUpper().Equals(newEntity.Name.ToUpper()))
             {
-                _Logger.LogWarning($"Error in {typeof(PointBL)}: User with ID '{userId}' tried to edit point with ID '{newEntity.PointId}' but the stage ID '{newEntity.StageId}' of this point differs from the stage ID '{point.StageId}' in the database");
-                throw new BusinessException($"Point with id '{newEntity.PointId}' has a stage ID that differs from the stage ID in the database.", BLErrorCodes.Unknown);
-            }
-
-            var stage = GetStage(point.StageId);
-
-            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
-
-            if (!point.Name.ToUpper().Equals(newEntity.Name.ToUpper()) && CheckIfPointNameExists(newEntity))
-            {
-                throw new BusinessException($"A point with name '{newEntity.Name}' allready exists.", BLErrorCodes.Duplicate);
+                CheckIfPointNameExists(newEntity);
             }
 
             point.Name = newEntity.Name;
@@ -62,13 +46,17 @@ namespace Adventure4You.Races
 
         public void Delete(Guid userId, Guid pointId)
         {
-            var point = GetPoint(pointId);
-            var stage = GetStage(point.StageId);
-
-            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
+            GetAndCheckPoint(userId, pointId);
 
             _UnitOfWork.PointRepository.Delete(pointId);
             _UnitOfWork.SaveAsync();
+        }
+
+        private Point GetAndCheckPoint(Guid userId, Guid pointId)
+        {
+            var point = GetPoint(pointId);
+            GetAndCheckStage(userId, point.StageId);
+            return point;
         }
 
         private Point GetPoint(Guid pointId)
@@ -82,9 +70,12 @@ namespace Adventure4You.Races
             return point;
         }
 
-        private bool CheckIfPointNameExists(Point point)
+        private void CheckIfPointNameExists(Point point)
         {
-            return _UnitOfWork.PointRepository.Get(p => p.StageId == point.StageId).Any(p => p.Name.ToUpper().Equals(point.Name.ToUpper()));
+            if (_UnitOfWork.PointRepository.Get(p => p.StageId == point.StageId).Any(p => p.Name.ToUpper().Equals(point.Name.ToUpper())))
+            {
+                throw new BusinessException($"A point with name '{point.Name}' already exists.", BLErrorCodes.Duplicate);
+            }
         }
     }
 }

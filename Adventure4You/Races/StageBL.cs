@@ -16,24 +16,17 @@ namespace Adventure4You.Races
 
         public void Add(Guid userId, Stage entity)
         {
+            CheckIfRaceExsists(userId, entity.RaceId);
             CheckUserIsAuthorizedForRace(userId, entity.RaceId);
-
+            CheckIfStageNumberExists(entity);
+            
             _UnitOfWork.StageRepository.Insert(entity);
             _UnitOfWork.SaveAsync();
         }
 
         public void Edit(Guid userId, Stage newEntity)
         {
-            CheckIfRaceExsists(userId, newEntity.RaceId);
-            CheckUserIsAuthorizedForRace(userId, newEntity.RaceId);
-
-            var stage = GetStage(newEntity.StageId);
-
-            if (stage.RaceId != newEntity.RaceId)
-            {
-                _Logger.LogWarning($"Error in {typeof(StageBL)}: User with ID '{userId}' tried to edit stage with ID '{newEntity.StageId}' but the race ID '{newEntity.RaceId}' of this entity does not match the race ID '{stage.RaceId}' of the stage in the database.");
-                throw new BusinessException($"Stage with ID '{newEntity.StageId}' is not part of race with ID '{newEntity.RaceId}'", BLErrorCodes.Unknown);
-            }
+            var stage = GetAndCheckStage(userId, newEntity.StageId);
 
             if (newEntity.Number != stage.Number)
             {
@@ -50,17 +43,18 @@ namespace Adventure4You.Races
 
         public void Delete(Guid userId, Guid entityId)
         {
-            var stage = GetStage(entityId);
-            CheckIfRaceExsists(userId, stage.RaceId);
-            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
+            GetAndCheckStage(userId, entityId);
 
             _UnitOfWork.StageRepository.Delete(entityId);
             _UnitOfWork.SaveAsync();
         }
 
-        private bool CheckIfStageNumberExists(Stage stage)
+        private void CheckIfStageNumberExists(Stage stage)
         {
-            return _UnitOfWork.StageRepository.Get(s => s.RaceId == stage.RaceId).Any(s => s.Number == stage.Number);
+            if (_UnitOfWork.StageRepository.Get(s => s.RaceId == stage.RaceId).Any(s => s.Number == stage.Number))
+            {
+                throw new BusinessException($"A stage with number '{stage.Number}' already exists.", BLErrorCodes.Duplicate);
+            }
         }
     }
 }

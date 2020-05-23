@@ -20,7 +20,7 @@ namespace Adventure4You.Races
 
         protected UserLink GetRaceUserLink(Guid userId, Guid raceId)
         {
-            return _UnitOfWork.UserLinkRepository.Get().FirstOrDefault(link => link.UserId == userId && link.RaceId == raceId);
+            return _UnitOfWork.UserLinkRepository.Get(link => link.UserId == userId && link.RaceId == raceId).FirstOrDefault();
         }
 
         protected void CheckUserIsAuthorizedForRace(Guid userId, Guid raceId)
@@ -37,7 +37,7 @@ namespace Adventure4You.Races
             if (_UnitOfWork.RaceRepository.GetByID(raceId) == null)
             {
                 _Logger.LogError($"Error in {GetType().Name}: User with ID '{userId}' tried to access race with ID '{raceId}' but it does not exsist.");
-                throw new BusinessException($"Race with ID '{raceId}' does not exsist.", BLErrorCodes.Unknown);
+                throw new BusinessException($"Race with ID '{raceId}' does not exsist.", BLErrorCodes.NotFound);
             }
         }
     }

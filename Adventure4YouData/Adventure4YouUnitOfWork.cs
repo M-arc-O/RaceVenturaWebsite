@@ -18,7 +18,7 @@ namespace Adventure4YouData
         private GenericRepository<Team> _TeamRepository;
         private GenericRepository<VisitedPoint> _VisitedPointRepository;
 
-        public GenericRepository<UserLink> UserLinkRepository
+        public IGenericRepository<UserLink> UserLinkRepository
         {
             get
             {
@@ -27,11 +27,11 @@ namespace Adventure4YouData
                     _UserLinkRepository = new GenericRepository<UserLink>(_Context);
                 }
 
-                return _UserLinkRepository;
+                return (IGenericRepository<UserLink>)_UserLinkRepository;
             }
         }
 
-        public GenericRepository<Race> RaceRepository
+        public IGenericRepository<Race> RaceRepository
         {
             get
             {
@@ -40,11 +40,11 @@ namespace Adventure4YouData
                     _RaceRepository = new GenericRepository<Race>(_Context);
                 }
 
-                return _RaceRepository;
+                return (IGenericRepository<Race>)_RaceRepository;
             }
         }
 
-        public GenericRepository<Stage> StageRepository
+        public IGenericRepository<Stage> StageRepository
         {
             get
             {
@@ -53,11 +53,11 @@ namespace Adventure4YouData
                     _StageRepository = new GenericRepository<Stage>(_Context);
                 }
 
-                return _StageRepository;
+                return (IGenericRepository<Stage>)_StageRepository;
             }
         }
 
-        public GenericRepository<Point> PointRepository
+        public IGenericRepository<Point> PointRepository
         {
             get
             {
@@ -66,11 +66,11 @@ namespace Adventure4YouData
                     _PointRepository = new GenericRepository<Point>(_Context);
                 }
 
-                return _PointRepository;
+                return (IGenericRepository<Point>)_PointRepository;
             }
         }
 
-        public GenericRepository<Team> TeamRepository
+        public IGenericRepository<Team> TeamRepository
         {
             get
             {
@@ -79,11 +79,11 @@ namespace Adventure4YouData
                     _TeamRepository = new GenericRepository<Team>(_Context);
                 }
 
-                return _TeamRepository;
+                return (IGenericRepository<Team>)_TeamRepository;
             }
         }
-        
-        public GenericRepository<VisitedPoint> VisitedPointRepository
+
+        public IGenericRepository<VisitedPoint> VisitedPointRepository
         {
             get
             {
@@ -92,7 +92,7 @@ namespace Adventure4YouData
                     _VisitedPointRepository = new GenericRepository<VisitedPoint>(_Context);
                 }
 
-                return _VisitedPointRepository;
+                return (IGenericRepository<VisitedPoint>)_VisitedPointRepository;
             }
         }
 
