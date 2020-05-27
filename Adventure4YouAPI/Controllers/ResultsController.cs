@@ -20,7 +20,7 @@ namespace Adventure4YouAPI.Controllers
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public ResultsController(IResultsBL resultsBL, IMapper mapper, ILogger logger)
+        public ResultsController(IResultsBL resultsBL, IMapper mapper, ILogger<ResultsController> logger)
         {
             _ResultsBL = resultsBL ?? throw new ArgumentNullException(nameof(resultsBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

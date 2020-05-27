@@ -18,7 +18,7 @@ namespace Adventure4YouTest.Races
     [TestClass]
     public class TeamBLTests
     {
-        private readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        private readonly Mock<ILogger<TeamBL>> _LoggerMock = new Mock<ILogger<TeamBL>>();
         private readonly Mock<IAdventure4YouUnitOfWork> _UnitOfWorkMock = new Mock<IAdventure4YouUnitOfWork>();
         private TeamBL _Sut;
 
@@ -50,7 +50,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<Team>, IOrderedQueryable<Team>>>(),
                 It.IsAny<string>()), Times.Exactly(2));
             teamRepositoryMock.Verify(r => r.Insert(It.Is<Team>(x => x.Equals(team))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, Exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Insert(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, Exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Insert(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -136,7 +136,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<Team>, IOrderedQueryable<Team>>>(),
                 It.IsAny<string>()), Times.Once);
             teamRepositoryMock.Verify(r => r.Insert(It.Is<Team>(x => x.Equals(team))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<Team>, IOrderedQueryable<Team>>>(),
                 It.IsAny<string>()), Times.Exactly(2));
             teamRepositoryMock.Verify(r => r.Insert(It.Is<Team>(x => x.Equals(mockTeam))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -218,7 +218,7 @@ namespace Adventure4YouTest.Races
                 x.Number == team.Number &&
                 x.FinishTime.Equals(team.FinishTime)
             )), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -242,7 +242,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -268,7 +268,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(raceId.ToString()));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -293,7 +293,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -337,7 +337,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual($"A team with name '{team.Name}' already exists.", exception.Message);
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -382,7 +382,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual($"A team with number '{team.Number}' already exists.", exception.Message);
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -408,7 +408,7 @@ namespace Adventure4YouTest.Races
             _Sut.Delete(userId, teamId);
 
             teamRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(teamId))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -427,7 +427,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(teamId))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -447,7 +447,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(raceId.ToString()));
 
             teamRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(teamId))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -466,7 +466,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             teamRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(teamId))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         private Mock<IGenericRepository<Team>> SetupTeamRepositoryMock(Guid raceId, Guid teamId, out Mock<IGenericRepository<Team>> teamRepositoryMock)

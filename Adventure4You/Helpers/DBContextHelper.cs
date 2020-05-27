@@ -19,7 +19,7 @@ namespace Adventure4You.Helpers
             services.AddScoped<IAdventure4YouDbContext>(provider => provider.GetService<Adventure4YouDbContext>());
         }
 
-        public static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
+        public static void AddAuthentication(IServiceCollection services)
         {
             var builder = services.AddIdentityCore<AppUser>(o =>
             {

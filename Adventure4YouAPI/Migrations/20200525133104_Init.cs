@@ -54,7 +54,7 @@ namespace Adventure4YouAPI.Migrations
                 columns: table => new
                 {
                     RaceId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     CoordinatesCheckEnabled = table.Column<bool>(nullable: false),
                     SpecialTasksAreStage = table.Column<bool>(nullable: false),
                     MaximumTeamSize = table.Column<int>(nullable: false),
@@ -194,7 +194,7 @@ namespace Adventure4YouAPI.Migrations
                     StageId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     MimimumPointsToCompleteStage = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -215,8 +215,8 @@ namespace Adventure4YouAPI.Migrations
                     TeamId = table.Column<Guid>(nullable: false),
                     RaceId = table.Column<Guid>(nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    RaceFinished = table.Column<DateTime>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    FinishTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,7 +236,7 @@ namespace Adventure4YouAPI.Migrations
                     PointId = table.Column<Guid>(nullable: false),
                     StageId = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Value = table.Column<int>(nullable: false),
                     Latitude = table.Column<double>(nullable: false),
                     Longitude = table.Column<double>(nullable: false),
@@ -255,21 +255,19 @@ namespace Adventure4YouAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamPointsVisited",
+                name: "FinishedStages",
                 columns: table => new
                 {
-                    TeamPointVisitedId = table.Column<Guid>(nullable: false),
-                    RaceId = table.Column<Guid>(nullable: false),
+                    FinishedStageId = table.Column<Guid>(nullable: false),
                     StageId = table.Column<Guid>(nullable: false),
-                    PointId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
-                    Time = table.Column<DateTime>(nullable: false)
+                    FinishTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamPointsVisited", x => x.TeamPointVisitedId);
+                    table.PrimaryKey("PK_FinishedStages", x => x.FinishedStageId);
                     table.ForeignKey(
-                        name: "FK_TeamPointsVisited_Teams_TeamId",
+                        name: "FK_FinishedStages_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
@@ -277,20 +275,19 @@ namespace Adventure4YouAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamStagesFinished",
+                name: "VisitedPoints",
                 columns: table => new
                 {
-                    StageFinishedId = table.Column<Guid>(nullable: false),
-                    RaceId = table.Column<Guid>(nullable: false),
-                    StageId = table.Column<Guid>(nullable: false),
+                    VisitedPointId = table.Column<Guid>(nullable: false),
+                    PointId = table.Column<Guid>(nullable: false),
                     TeamId = table.Column<Guid>(nullable: false),
-                    StopTime = table.Column<DateTime>(nullable: false)
+                    Time = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamStagesFinished", x => x.StageFinishedId);
+                    table.PrimaryKey("PK_VisitedPoints", x => x.VisitedPointId);
                     table.ForeignKey(
-                        name: "FK_TeamStagesFinished_Teams_TeamId",
+                        name: "FK_VisitedPoints_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
@@ -335,6 +332,11 @@ namespace Adventure4YouAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_FinishedStages_TeamId",
+                table: "FinishedStages",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Points_StageId",
                 table: "Points",
                 column: "StageId");
@@ -345,18 +347,13 @@ namespace Adventure4YouAPI.Migrations
                 column: "RaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamPointsVisited_TeamId",
-                table: "TeamPointsVisited",
-                column: "TeamId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teams_RaceId",
                 table: "Teams",
                 column: "RaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamStagesFinished_TeamId",
-                table: "TeamStagesFinished",
+                name: "IX_VisitedPoints_TeamId",
+                table: "VisitedPoints",
                 column: "TeamId");
         }
 
@@ -378,16 +375,16 @@ namespace Adventure4YouAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "FinishedStages");
+
+            migrationBuilder.DropTable(
                 name: "Points");
 
             migrationBuilder.DropTable(
-                name: "TeamPointsVisited");
-
-            migrationBuilder.DropTable(
-                name: "TeamStagesFinished");
-
-            migrationBuilder.DropTable(
                 name: "UserLinks");
+
+            migrationBuilder.DropTable(
+                name: "VisitedPoints");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -9,7 +9,7 @@ namespace Adventure4You.Races
 {
     public class VisitedPointBL : TeamBaseBL, IGenericCudBL<VisitedPoint>
     {
-        public VisitedPointBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public VisitedPointBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<VisitedPointBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -25,7 +25,7 @@ namespace Adventure4You.Races
             }
 
             _UnitOfWork.VisitedPointRepository.Insert(entity);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Edit(Guid userId, VisitedPoint newEntity)
@@ -46,7 +46,7 @@ namespace Adventure4You.Races
             CheckUserIsAuthorizedForRace(userId, team.RaceId);
 
             _UnitOfWork.VisitedPointRepository.Delete(visitedPoint);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
     }
 }

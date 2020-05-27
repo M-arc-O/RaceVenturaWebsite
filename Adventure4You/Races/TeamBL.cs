@@ -9,7 +9,7 @@ namespace Adventure4You.Races
 {
     public class TeamBL : TeamBaseBL, IGenericCudBL<Team>
     {
-        public TeamBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public TeamBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<TeamBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -22,7 +22,7 @@ namespace Adventure4You.Races
             CheckIfTeamNumberExists(entity);
 
             _UnitOfWork.TeamRepository.Insert(entity);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Edit(Guid userId, Team newEntity)
@@ -44,7 +44,7 @@ namespace Adventure4You.Races
             team.FinishTime = newEntity.FinishTime;
 
             _UnitOfWork.TeamRepository.Update(team);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid entityId)
@@ -52,7 +52,7 @@ namespace Adventure4You.Races
             GetAndCheckTeam(userId, entityId);
 
             _UnitOfWork.TeamRepository.Delete(entityId);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }        
 
         private void CheckIfTeamNameExists(Team team)

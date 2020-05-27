@@ -18,7 +18,7 @@ namespace Adventure4YouTest.Races
     [TestClass]
     public class PointBLTests
     {
-        private readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        private readonly Mock<ILogger<PointBL>> _LoggerMock = new Mock<ILogger<PointBL>> ();
         private readonly Mock<IAdventure4YouUnitOfWork> _UnitOfWorkMock = new Mock<IAdventure4YouUnitOfWork>();
         private PointBL _Sut;
 
@@ -53,7 +53,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<Point>, IOrderedQueryable<Point>>>(),
                 It.IsAny<string>()), Times.Once);
             pointRepositoryMock.Verify(r => r.Insert(It.Is<Point>(x => x.Equals(point))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Insert(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Insert(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Insert(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -175,7 +175,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<Point>, IOrderedQueryable<Point>>>(),
                 It.IsAny<string>()), Times.Once);
             pointRepositoryMock.Verify(r => r.Insert(It.Is<Point>(x => x.Equals(mockPoint))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -232,7 +232,7 @@ namespace Adventure4YouTest.Races
                 x.Type == point.Type &&
                 x.Value == point.Value
             )), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(stageId.ToString()));
 
             pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -312,7 +312,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(raceId.ToString()));
 
             pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -338,7 +338,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -383,7 +383,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual($"A point with name '{point.Name}' already exists.", exception.Message);
 
             pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -412,7 +412,7 @@ namespace Adventure4YouTest.Races
             _Sut.Delete(userId, pointId);
 
             pointRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(pointId))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -433,7 +433,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -455,7 +455,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(stageId.ToString()));
 
             pointRepositoryMock.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -477,7 +477,7 @@ namespace Adventure4YouTest.Races
             Assert.IsTrue(exception.Message.Contains(raceId.ToString()));
 
             pointRepositoryMock.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -498,7 +498,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             pointRepositoryMock.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         private void SetupStageRepo(Guid raceId, Guid stageId)

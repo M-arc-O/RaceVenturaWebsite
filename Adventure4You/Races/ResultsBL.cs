@@ -11,7 +11,7 @@ namespace Adventure4You.Races
 {
     public class ResultsBL : RaceBaseBL, IResultsBL
     {
-        public ResultsBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public ResultsBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<ResultsBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -45,20 +45,22 @@ namespace Adventure4You.Races
 
         private TeamResult GetTeamResult(Race race, Team team)
         {
-            var retVal = new TeamResult();
-            retVal.TeamNumber = team.Number;
-            retVal.TeamName = team.Name;
-            retVal.NumberOfStages = 0;
-            retVal.TotalValue = 0;
-            retVal.EndTime = team.FinishTime;
-            retVal.NumberOfPoints = 0;
-            retVal.StageResults = new List<StageResult>();
+            var retVal = new TeamResult
+            {
+                TeamNumber = team.Number,
+                TeamName = team.Name,
+                NumberOfStages = 0,
+                TotalValue = 0,
+                EndTime = team.FinishTime,
+                NumberOfPoints = 0,
+                StageResults = new List<StageResult>()
+            };
 
             foreach (var stage in race.Stages)
             {
                 StageResult stageResult = GetStageResult(team, stage);
 
-                var numberOfPointsToCompleteStage = stage.MimimumPointsToCompleteStage.HasValue ? stage.MimimumPointsToCompleteStage.Value : race.MinimumPointsToCompleteStage;
+                var numberOfPointsToCompleteStage = stage.MimimumPointsToCompleteStage ?? race.MinimumPointsToCompleteStage;
 
                 if (stageResult.NumberOfPoints >= numberOfPointsToCompleteStage)
                 {
@@ -92,12 +94,14 @@ namespace Adventure4You.Races
 
         private static StageResult GetStageResult(Team team, Stage stage)
         {
-            var stageResult = new StageResult();
-            stageResult.StageNumber = stage.Number;
-            stageResult.StageName = stage.Name;
-            stageResult.TotalValue = 0;
-            stageResult.PointResults = new List<PointResult>();
-             
+            var stageResult = new StageResult
+            {
+                StageNumber = stage.Number,
+                StageName = stage.Name,
+                TotalValue = 0,
+                PointResults = new List<PointResult>()
+            };
+
             foreach (var pointVisited in team.VisitedPoints)
             {
                 var point = stage.Points.FirstOrDefault(p => p.PointId == pointVisited.PointId);

@@ -9,7 +9,7 @@ namespace Adventure4You.Races
 {
     public class PointBL : StageBaseBL, IGenericCudBL<Point>
     {
-        public PointBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public PointBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<PointBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -20,7 +20,7 @@ namespace Adventure4You.Races
             CheckIfPointNameExists(point);
 
             _UnitOfWork.PointRepository.Insert(point);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Edit(Guid userId, Point newEntity)
@@ -41,7 +41,7 @@ namespace Adventure4You.Races
             point.Message = newEntity.Message;
 
             _UnitOfWork.PointRepository.Update(point);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid pointId)
@@ -49,7 +49,7 @@ namespace Adventure4You.Races
             GetAndCheckPoint(userId, pointId);
 
             _UnitOfWork.PointRepository.Delete(pointId);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         private Point GetAndCheckPoint(Guid userId, Guid pointId)

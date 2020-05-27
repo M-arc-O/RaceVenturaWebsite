@@ -18,7 +18,7 @@ namespace Adventure4YouTest.Races
     [TestClass]
     public class VisitedPointBLTests
     {
-        private readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        private readonly Mock<ILogger<VisitedPointBL>> _LoggerMock = new Mock<ILogger<VisitedPointBL>>();
         private readonly Mock<IAdventure4YouUnitOfWork> _UnitOfWorkMock = new Mock<IAdventure4YouUnitOfWork>();
         private VisitedPointBL _Sut;
 
@@ -51,7 +51,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
                 It.IsAny<string>()), Times.Once);
             visitedRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(x => x.Equals(visitedPoint))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
                 It.IsAny<string>()), Times.Never);
             visitedRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(x => x.Equals(visitedPoint))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
                 It.IsAny<string>()), Times.Never);
             visitedRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(x => x.Equals(visitedPoint))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -143,7 +143,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
                 It.IsAny<string>()), Times.Once);
             visitedRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(x => x.Equals(visitedPoint))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -174,7 +174,7 @@ namespace Adventure4YouTest.Races
 
             visitedRepositoryMock.Verify(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Once);
             visitedRepositoryMock.Verify(r => r.Delete(It.Is<VisitedPoint>(g => g.Equals(visitedPoint))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -204,7 +204,7 @@ namespace Adventure4YouTest.Races
 
             visitedRepositoryMock.Verify(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Once);
             visitedRepositoryMock.Verify(r => r.Delete(It.IsAny<VisitedPoint>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -235,7 +235,7 @@ namespace Adventure4YouTest.Races
 
             visitedRepositoryMock.Verify(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Once);
             visitedRepositoryMock.Verify(r => r.Delete(It.IsAny<VisitedPoint>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ namespace Adventure4YouTest.Races
 
             visitedRepositoryMock.Verify(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Once);
             visitedRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         private void SetupUnitOfWorkToPassAuthorizedTest(Guid teamId)

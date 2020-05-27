@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "c0031484-1faa-4ab0-bac5-ad634fd56107",
+		"name": "Adventure4you",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d2e8f7d-ca72-4086-87aa-623b48ff61a1",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"AuthToken\", jsonData.auth_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Email\": \"m.trapman@gmail.com\",\n    \"Password\": \"Pietje0070!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/auth/login",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddRace",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8fdc8089-bc82-41dd-9df6-47c58a0c1045",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"Race1Id\", jsonData.raceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Test\",\n    \"CoordinatesCheckEnabled\": \"true\",\n    \"SpecialTasksAreStage\": \"false\",\n    \"MaximumTeamSize\": \"2\",\n    \"MinimumPointsToCompleteStage\": \"1\",\n    \"PenaltyPerMinuteLate\": \"12\",\n    \"StartTime\": \"07:30:00\",\n    \"EndTime\": \"18:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/races/addrace",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"races",
+						"addrace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllRaces",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "051bf23e-8a0d-4e8f-adb0-f9fda85f2df3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Race name is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.equal(\"Test\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/races/getallraces",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"races",
+						"getallraces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteRace",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/races/{{Race1Id}}/remove",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"races",
+						"{{Race1Id}}",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AuthToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "099d5242-da7c-4cf8-9c70-1a8c33d77121",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8995518e-fb5a-4dec-a7be-a89ffed93f23",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "edbd52c0-eb72-4c1c-b1cb-87e496cf0896",
+			"key": "AuthToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtLnRyYXBtYW5AZ21haWwuY29tIiwianRpIjoiMDQ3NTBmODMtOGFjOS00MjA0LWI5ZmQtYWNiNTYyMDQ3NWMxIiwiaWF0IjoxNTkwNTAzNDkxLCJyb2wiOiJhcGlfYWNjZXNzIiwiaWQiOiI3NDRjMTZhOS05YzQ1LTQyZTctYjQ3YS0wOGRjOWI5MTRlMzciLCJuYmYiOjE1OTA1MDM0OTEsImV4cCI6MTU5MDUwNTI5MSwiaXNzIjoiQWR2ZW50dXJlNFlvdVdlYkFwaSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzA5LyJ9.cNFqAtnzyIJJOEBMsr9iPwKLR9SsO4TUnIxJaoyevDw",
+			"type": "string"
+		},
+		{
+			"id": "149507ec-6266-4161-b730-e2193f420795",
+			"key": "ApiBaseUrl",
+			"value": "https://localhost:44305",
+			"type": "string"
+		},
+		{
+			"id": "980bea33-2e00-4e1b-a762-bf55f000133f",
+			"key": "Race1Id",
+			"value": "67d2fa11-e092-46aa-ab1e-8160c99f12d5",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

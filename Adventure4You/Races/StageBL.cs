@@ -9,7 +9,7 @@ namespace Adventure4You.Races
 {
     public class StageBL : StageBaseBL, IGenericCudBL<Stage>
     {
-        public StageBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public StageBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<StageBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -21,7 +21,7 @@ namespace Adventure4You.Races
             CheckIfStageNumberExists(entity);
             
             _UnitOfWork.StageRepository.Insert(entity);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Edit(Guid userId, Stage newEntity)
@@ -38,7 +38,7 @@ namespace Adventure4You.Races
             stage.MimimumPointsToCompleteStage = newEntity.MimimumPointsToCompleteStage;
 
             _UnitOfWork.StageRepository.Update(stage);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid entityId)
@@ -46,7 +46,7 @@ namespace Adventure4You.Races
             GetAndCheckStage(userId, entityId);
 
             _UnitOfWork.StageRepository.Delete(entityId);
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         private void CheckIfStageNumberExists(Stage stage)

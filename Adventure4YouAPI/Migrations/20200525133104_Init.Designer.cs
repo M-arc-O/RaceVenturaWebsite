@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Adventure4YouAPI.Migrations
 {
     [DbContext(typeof(Adventure4YouDbContext))]
-    [Migration("20200406081516_Init")]
+    [Migration("20200525133104_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,7 +77,25 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Points.Point", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.FinishedStage", b =>
+                {
+                    b.Property<Guid>("FinishedStageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("FinishTime");
+
+                    b.Property<Guid>("StageId");
+
+                    b.Property<Guid>("TeamId");
+
+                    b.HasKey("FinishedStageId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("FinishedStages");
+                });
+
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Point", b =>
                 {
                     b.Property<Guid>("PointId")
                         .ValueGeneratedOnAdd();
@@ -92,7 +110,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(50);
 
                     b.Property<Guid>("StageId");
 
@@ -107,7 +125,7 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("Points");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Race", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Race", b =>
                 {
                     b.Property<Guid>("RaceId")
                         .ValueGeneratedOnAdd();
@@ -122,7 +140,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(100);
 
                     b.Property<int>("PenaltyPerMinuteLate");
 
@@ -135,7 +153,7 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("Races");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Stages.Stage", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Stage", b =>
                 {
                     b.Property<Guid>("StageId")
                         .ValueGeneratedOnAdd();
@@ -144,7 +162,7 @@ namespace Adventure4YouAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(50);
 
                     b.Property<int>("Number");
 
@@ -157,18 +175,18 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("Stages");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.Team", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Team", b =>
                 {
                     b.Property<Guid>("TeamId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("FinishTime");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255);
+                        .HasMaxLength(100);
 
                     b.Property<int>("Number");
-
-                    b.Property<DateTime>("RaceFinished");
 
                     b.Property<Guid>("RaceId");
 
@@ -179,46 +197,22 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.TeamPointVisited", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.VisitedPoint", b =>
                 {
-                    b.Property<Guid>("TeamPointVisitedId")
+                    b.Property<Guid>("VisitedPointId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("PointId");
-
-                    b.Property<Guid>("RaceId");
-
-                    b.Property<Guid>("StageId");
 
                     b.Property<Guid>("TeamId");
 
                     b.Property<DateTime>("Time");
 
-                    b.HasKey("TeamPointVisitedId");
+                    b.HasKey("VisitedPointId");
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamPointsVisited");
-                });
-
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.TeamStageFinished", b =>
-                {
-                    b.Property<Guid>("StageFinishedId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("RaceId");
-
-                    b.Property<Guid>("StageId");
-
-                    b.Property<DateTime>("StopTime");
-
-                    b.Property<Guid>("TeamId");
-
-                    b.HasKey("StageFinishedId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("TeamStagesFinished");
+                    b.ToTable("VisitedPoints");
                 });
 
             modelBuilder.Entity("Adventure4YouData.Models.UserLink", b =>
@@ -342,42 +336,42 @@ namespace Adventure4YouAPI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Points.Point", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.FinishedStage", b =>
                 {
-                    b.HasOne("Adventure4YouData.Models.Stages.Stage")
+                    b.HasOne("Adventure4YouData.Models.Races.Team")
+                        .WithMany("FinishedStages")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Point", b =>
+                {
+                    b.HasOne("Adventure4YouData.Models.Races.Stage")
                         .WithMany("Points")
                         .HasForeignKey("StageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Stages.Stage", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Stage", b =>
                 {
-                    b.HasOne("Adventure4YouData.Models.Race")
+                    b.HasOne("Adventure4YouData.Models.Races.Race")
                         .WithMany("Stages")
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.Team", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.Team", b =>
                 {
-                    b.HasOne("Adventure4YouData.Models.Race")
+                    b.HasOne("Adventure4YouData.Models.Races.Race")
                         .WithMany("Teams")
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.TeamPointVisited", b =>
+            modelBuilder.Entity("Adventure4YouData.Models.Races.VisitedPoint", b =>
                 {
-                    b.HasOne("Adventure4YouData.Models.Teams.Team")
-                        .WithMany("PointsVisited")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Adventure4YouData.Models.Teams.TeamStageFinished", b =>
-                {
-                    b.HasOne("Adventure4YouData.Models.Teams.Team")
-                        .WithMany("StagesFinished")
+                    b.HasOne("Adventure4YouData.Models.Races.Team")
+                        .WithMany("VisitedPoints")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

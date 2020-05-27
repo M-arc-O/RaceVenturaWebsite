@@ -20,7 +20,7 @@ namespace Adventure4YouAPI.Controllers
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public StagesController(IGenericCudBL<Stage> stageBL, IMapper mapper, ILogger logger)
+        public StagesController(IGenericCudBL<Stage> stageBL, IMapper mapper, ILogger<StagesController> logger)
         {
             _StageBL = stageBL ?? throw new ArgumentNullException(nameof(stageBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

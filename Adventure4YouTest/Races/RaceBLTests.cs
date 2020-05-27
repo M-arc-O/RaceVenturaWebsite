@@ -19,7 +19,7 @@ namespace Adventure4YouTest.Races
     [TestClass]
     public class RaceBLTests
     {
-        private readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        private readonly Mock<ILogger<RaceBL>> _LoggerMock = new Mock<ILogger<RaceBL>>();
         private readonly Mock<IAdventure4YouUnitOfWork> _UnitOfWorkMock = new Mock<IAdventure4YouUnitOfWork>();
         private RaceBL _Sut;
 
@@ -203,8 +203,7 @@ namespace Adventure4YouTest.Races
 
             userLinkRepositoryMock.Verify(r => r.Insert(It.Is<UserLink>(l => l.UserId.Equals(userId) && l.RaceId.Equals(raceId))), Times.Once);
 
-            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -245,7 +244,7 @@ namespace Adventure4YouTest.Races
 
             userLinkRepositoryMock.Verify(r => r.Insert(It.IsAny<UserLink>()), Times.Never);
 
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -305,7 +304,7 @@ namespace Adventure4YouTest.Races
                 x.SpecialTasksAreStage == race.SpecialTasksAreStage &&
                 x.StartTime.Equals(race.StartTime)
             )), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -326,7 +325,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
 
             raceRepositoryMock.Verify(r => r.Update(It.IsAny<Race>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -347,7 +346,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             raceRepositoryMock.Verify(r => r.Update(It.IsAny<Race>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -376,7 +375,7 @@ namespace Adventure4YouTest.Races
             Assert.AreEqual($"A race with name '{race.Name}' already exists.", exception.Message);
 
             raceRepositoryMock.Verify(r => r.Update(It.IsAny<Race>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -402,9 +401,9 @@ namespace Adventure4YouTest.Races
 
             _Sut.Delete(userId, raceId);
 
-            raceRepositoryMock.Verify(r => r.Delete(It.Is<Race>(r => r.RaceId.Equals(raceId))), Times.Once);
+            raceRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(r => r.Equals(raceId))), Times.Once);
             userLinkRepositoryMock.Verify(r => r.Delete(It.Is<UserLink>(l => l.UserId.Equals(userId))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Once);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
         }
 
         [TestMethod]
@@ -442,7 +441,7 @@ namespace Adventure4YouTest.Races
                 It.IsAny<Func<object, Exception, string>>()),
             Times.Once);
 
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         [TestMethod]
@@ -463,7 +462,7 @@ namespace Adventure4YouTest.Races
 
             userLinkRepositoryMock.Verify(r => r.Delete(It.IsAny<object>()), Times.Never);
             raceRepositoryMock.Verify(r => r.Delete(It.IsAny<object>()), Times.Never);
-            _UnitOfWorkMock.Verify(u => u.SaveAsync(), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
 
         private void SetupUserLinkAndRaceRepositoryMock(List<UserLink> userLinks, Guid raceId, out Mock<IGenericRepository<Race>> raceRepositoryMock)

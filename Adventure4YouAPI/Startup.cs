@@ -27,7 +27,7 @@ namespace Adventure4YouAPI
         public void ConfigureServices(IServiceCollection services)
         {
             DBContextHelper.AddDBContext(services, Configuration);
-            DBContextHelper.AddAuthentication(services, Configuration);
+            DBContextHelper.AddAuthentication(services);
             JwtHelper.AddJwt(services, Configuration);
 
             BLHelper.AddBLs(services);

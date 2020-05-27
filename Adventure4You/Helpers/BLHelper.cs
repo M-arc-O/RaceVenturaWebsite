@@ -1,4 +1,5 @@
 ﻿using Adventure4You.Races;
+using Adventure4YouData;
 using Adventure4YouData.Models.Races;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +9,7 @@ namespace Adventure4You.Helpers
     {
         public static void AddBLs(IServiceCollection services)
         {
+            services.AddScoped<IAdventure4YouUnitOfWork, Adventure4YouUnitOfWork>();
             services.AddScoped<IAccountBL, AccountsBL>();
             services.AddScoped<IGenericCudBL<Point>, PointBL>();
             services.AddScoped<IGenericCrudBL<Race>, RaceBL>();

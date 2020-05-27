@@ -20,7 +20,7 @@ namespace Adventure4YouAPI.Controllers
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public PointsController(IGenericCudBL<Point> pointBL, IMapper mapper, ILogger logger)
+        public PointsController(IGenericCudBL<Point> pointBL, IMapper mapper, ILogger<PointsController> logger)
         {
             _PointBL = pointBL ?? throw new ArgumentNullException(nameof(pointBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

@@ -18,7 +18,7 @@ namespace Adventure4YouTest.Races
     [TestClass]
     public class ResultBLTests
     {
-        private readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        private readonly Mock<ILogger<ResultsBL>> _LoggerMock = new Mock<ILogger<ResultsBL>>();
         private readonly Mock<IAdventure4YouUnitOfWork> _UnitOfWorkMock = new Mock<IAdventure4YouUnitOfWork>();
         private ResultsBL _Sut;
 

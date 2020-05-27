@@ -11,7 +11,7 @@ namespace Adventure4You.Races
 {
     public class RaceBL : RaceBaseBL, IGenericCrudBL<Race>
     {
-        public RaceBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public RaceBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<RaceBL> logger) : base(unitOfWork, logger)
         {
 
         }
@@ -54,7 +54,7 @@ namespace Adventure4You.Races
                 UserId = userId
             });
 
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Edit(Guid userId, Race newEntity)
@@ -80,7 +80,7 @@ namespace Adventure4You.Races
 
             _UnitOfWork.RaceRepository.Update(race);
 
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid raceId)
@@ -91,7 +91,7 @@ namespace Adventure4You.Races
             _UnitOfWork.UserLinkRepository.Delete(userLink);
             _UnitOfWork.RaceRepository.Delete(raceId);
 
-            _UnitOfWork.SaveAsync();
+            _UnitOfWork.Save();
         }
 
         private UserLink GetAndCheckUserLink(Guid userId, Guid raceId)

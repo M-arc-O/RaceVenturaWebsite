@@ -19,7 +19,7 @@ namespace Adventure4YouAPITest.Controllers
     {
         protected readonly Mock<IGenericCudBL<ModelType>> _BLMock = new Mock<IGenericCudBL<ModelType>>();
         protected readonly Mock<IMapper> _MapperMock = new Mock<IMapper>();
-        protected readonly Mock<ILogger> _LoggerMock = new Mock<ILogger>();
+        protected readonly Mock<ILogger<ControllerType>> _LoggerMock = new Mock<ILogger<ControllerType>>();
         protected ICudController<ViewModelType> _Sut;
 
         protected virtual void AddNoErrorsTest(ICudController<ViewModelType> sut)

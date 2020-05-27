@@ -20,7 +20,7 @@ namespace Adventure4YouAPI.Controllers
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public TeamsController(IGenericCudBL<Team> teamBL, IMapper mapper, ILogger logger)
+        public TeamsController(IGenericCudBL<Team> teamBL, IMapper mapper, ILogger<TeamsController> logger)
         {
             _TeamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

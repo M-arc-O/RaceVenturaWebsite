@@ -21,7 +21,7 @@ namespace Adventure4YouAPI.Controllers
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public RacesController(IGenericCrudBL<Race> raceBL, IMapper mapper, ILogger logger)
+        public RacesController(IGenericCrudBL<Race> raceBL, IMapper mapper, ILogger<RacesController> logger)
         {
             _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
