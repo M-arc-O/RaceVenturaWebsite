@@ -9,6 +9,7 @@ using Adventure4YouAPI.Helpers;
 using Adventure4You;
 using Adventure4YouData.Models.Identity;
 using Adventure4YouAPI.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Adventure4YouAPI.Controllers
 {
@@ -18,10 +19,12 @@ namespace Adventure4YouAPI.Controllers
     {
         private readonly IAccountBL _AccountBL;
         private readonly IMapper _Mapper;
+        private readonly ILogger<AccountsController> _Logger;
 
-        public AccountsController(IAccountBL accountBL, IMapper mapper)
+        public AccountsController(IAccountBL accountBL, IMapper mapper, ILogger<AccountsController> logger)
         {
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _AccountBL = accountBL ?? throw new ArgumentNullException(nameof(accountBL));
         }
 
@@ -50,8 +53,9 @@ namespace Adventure4YouAPI.Controllers
             {
                 return BadRequest((ErrorCodes)ex.ErrorCode);
             }
-            catch
+            catch (Exception ex)
             {
+                _Logger.LogError(ex, $"Error in {typeof(AccountsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

@@ -1,11 +1,11 @@
 ﻿using Adventure4YouAPI.ViewModels.Validators;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Adventure4YouAPI.ViewModels.Races
 {
     public class VisitedPointViewModel
     {
-        [RequiredNotEmpty]
         public Guid VisitedPointId { get; set; }
 
         [RequiredNotEmpty]
@@ -14,6 +14,7 @@ namespace Adventure4YouAPI.ViewModels.Races
         [RequiredNotEmpty]
         public Guid TeamId { get; set; }
 
+        [Required]
         public DateTime Time { get; set; }
     }
 }

@@ -9,20 +9,20 @@ namespace Adventure4YouAPI.Auth
 {
     public class JwtHelper
     {
-        private const string SecretKey = "2KDEqsqEJLBy643DQuckWf7FrzfKGvjg"; // todo: get this from somewhere secure
-        private static readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-
         public static void AddJwt(IServiceCollection services, IConfiguration configuration)
         {
             var jwtAppSettingOptions = configuration.GetSection(nameof(JwtIssuerOptions));
 
+            var SecretKey = "test"; //configuration.GetValue<string>("JwtSecret");
+            var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
-            {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-            });
+                {
+                    options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                    options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                    options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                });
 
             var tokenValidationParameters = new TokenValidationParameters
             {

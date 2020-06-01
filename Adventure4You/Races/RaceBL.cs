@@ -28,7 +28,7 @@ namespace Adventure4You.Races
             GetAndCheckUserLink(userId, raceId);
 
             var race = _UnitOfWork.RaceRepository.Get(r => r.RaceId == raceId, null,
-                "Teams,Teams.PointsVisited,Teams.StagesFinished," +
+                "Teams,Teams.VisitedPoints,Teams.FinishedStages," +
                 "Stages,Stages.Points").FirstOrDefault();
             if (race == null)
             {
