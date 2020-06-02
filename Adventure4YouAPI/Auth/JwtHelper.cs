@@ -13,7 +13,7 @@ namespace Adventure4YouAPI.Auth
         {
             var jwtAppSettingOptions = configuration.GetSection(nameof(JwtIssuerOptions));
 
-            var SecretKey = "test"; //configuration.GetValue<string>("JwtSecret");
+            var SecretKey = configuration.GetValue<string>("JwtSecret");
             var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
             // Configure JwtIssuerOptions
