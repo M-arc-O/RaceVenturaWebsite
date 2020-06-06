@@ -1,5 +1,7 @@
 import { ValidationMessageComponent } from '../validation-message/validation-message.component';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ValidationMessageService {
     private messageComponents: ValidationMessageComponent[];
 

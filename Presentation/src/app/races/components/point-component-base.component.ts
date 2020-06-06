@@ -1,7 +1,8 @@
 import { ComponentBase } from 'src/app/shared';
 import { PointType, PointDetailViewModel } from '../shared/models';
-import { Input } from '@angular/core';
+import { Input, Directive } from '@angular/core';
 
+@Directive()
 export abstract class PointComponentBase extends ComponentBase {
     @Input() stageId: string;
 

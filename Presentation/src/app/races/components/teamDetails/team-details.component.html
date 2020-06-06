@@ -84,6 +84,11 @@
                         <span class="help-block offset-sm-6">Please enter the finish time.</span>
                     </div>
                 </validation-message>
+                <validation-message error="incorrectTime">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a correct time (hh:mm:ss).</span>
+                    </div>
+                </validation-message>
             </validation-message-for>
 
             <button type="submit" class="btn btn-primary" [disabled]="(editBase$ | async).isActive">

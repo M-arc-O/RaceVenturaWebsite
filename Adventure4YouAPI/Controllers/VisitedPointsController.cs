@@ -63,7 +63,7 @@ namespace Adventure4YouAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{teamPointVisitedId}/removepointvisited")]
+        [Route("{teamPointVisitedId}/deletevisitedpoint")]
         public IActionResult Delete(Guid teamPointVisitedId)
         {
             try

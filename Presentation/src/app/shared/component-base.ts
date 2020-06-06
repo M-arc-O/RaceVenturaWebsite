@@ -2,7 +2,7 @@ import { OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { UserService } from '.';
+import { UserService } from './user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export abstract class ComponentBase implements OnDestroy {

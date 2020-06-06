@@ -115,6 +115,13 @@
                     formControlName="startDate" />
             </div>
         </div>
+        <validation-message-for field="startDate">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter the start date.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
                     !addRaceForm.get('startTime').valid }">
@@ -124,6 +131,18 @@
                     formControlName="startTime" />
             </div>
         </div>
+        <validation-message-for field="startTime">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter the start time.</span>
+                </div>
+            </validation-message>
+            <validation-message error="incorrectTime">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
                     !addRaceForm.get('endDate').valid }">
@@ -133,6 +152,13 @@
                     formControlName="endDate" />
             </div>
         </div>
+        <validation-message-for field="endDate">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter the end date.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
                     !addRaceForm.get('endTime').valid }">
@@ -142,6 +168,18 @@
                     formControlName="endTime" />
             </div>
         </div>
+        <validation-message-for field="endTime">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter the end time.</span>
+                </div>
+            </validation-message>
+            <validation-message error="incorrectTime">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
 
         <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">

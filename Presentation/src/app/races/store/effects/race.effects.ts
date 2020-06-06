@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { RacesService } from '../../shared';
+import { RacesService, ResultsService } from '../../shared';
 import * as racesActions from './../actions/race.actions';
 import { RaceActions } from './../actions/race.actions';
 
 
 @Injectable()
 export class RaceEffects {
-
     constructor(
         private racesService: RacesService,
+        private resultsService: ResultsService,
         private actions$: Actions
     ) { }
 
@@ -48,7 +48,7 @@ export class RaceEffects {
 
     @Effect() GetRaceResult$ = this.actions$.pipe(
         ofType(RaceActions.GET_RACE_RESULT),
-        switchMap(action => this.racesService.getRaceResult((action as racesActions.LoadRaceDetailsAction).payload).pipe(
+        switchMap(action => this.resultsService.getRaceResult((action as racesActions.LoadRaceDetailsAction).payload).pipe(
             map(raceResults => new racesActions.GetRaceResultSuccesAction(raceResults)),
             catchError((error: HttpErrorResponse) => of(new racesActions.LoadRaceDetailsErrorAction({ error: error }))))));
 }

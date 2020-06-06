@@ -9,17 +9,20 @@ export function stagesReducer(state: StageStoreModel[] = [],
             return Object.assign([], state);
         }
         case stagesActions.StageActions.ADD_STAGE_SUCCES: {
-            state.push(action.payload);
-            return Object.assign([], state);
+            var newState = Object.assign([], state);
+            newState.push(action.payload);
+            return newState;
         }
         case stagesActions.StageActions.EDIT_STAGE_SUCCES: {
-            const index = state.findIndex(s => s.stageId === action.payload.stageId);
-            state[index] = action.payload;
+            var newState = Object.assign([], state);
+            const index = newState.findIndex(s => s.stageId === action.payload.stageId);
+            newState[index] = action.payload;
             return Object.assign([], state);
         }
         case stagesActions.StageActions.DELETE_STAGE_SUCCES: {
-            state.splice(state.findIndex(item => item.stageId === action.payload), 1);
-            return Object.assign([], state);
+            var newState = Object.assign([], state);
+            newState.splice(newState.findIndex(item => item.stageId === action.payload), 1);
+            return newState;
         }
         default: {
             return state;

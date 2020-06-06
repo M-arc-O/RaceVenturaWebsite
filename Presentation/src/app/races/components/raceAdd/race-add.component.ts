@@ -11,6 +11,7 @@ import { addRaceSelector, editSelectedRaceSelector, IRacesState } from '../../st
 import * as racesActions from '../../store/actions/race.actions';
 import { AddEditType } from '../../../shared';
 import { HttpErrorResponse } from '@angular/common/http';
+import { timeValidator } from '../../shared/Validators/time.validator';
 
 @Component({
     selector: 'app-race-add',
@@ -102,9 +103,9 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
             penaltyPerMinuteLate: [penaltyPerMinuteLate, [Validators.required]],
             startDate: [startDate, [Validators.required]],
-            startTime: [startTime, [Validators.required]],
+            startTime: [startTime, [Validators.required, timeValidator(false)]],
             endDate: [endDate, [Validators.required]],
-            endTime: [endTime, [Validators.required]],
+            endTime: [endTime, [Validators.required, timeValidator(false)]],
         });
     }
 

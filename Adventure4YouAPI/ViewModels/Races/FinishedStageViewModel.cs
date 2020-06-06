@@ -5,7 +5,6 @@ namespace Adventure4YouAPI.ViewModels.Races
 {
     public class FinishedStageViewModel
     {
-        [RequiredNotEmpty]
         public Guid FinishedStageId { get; set; }
 
         [RequiredNotEmpty]

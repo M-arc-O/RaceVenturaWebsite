@@ -13,12 +13,14 @@ export function pointVisitedReducer(state: TeamPointVisitedViewModel[] = [], act
             return Object.assign([], state);
         }
         case teamsActions.TeamPointVisitedActions.ADD_TEAM_POINT_VISITED_SUCCES: {
-            state.push(action.payload);
-            return Object.assign([], state);
+            var newState = Object.assign([], state);
+            newState.push(action.payload);
+            return newState;
         }
         case teamsActions.TeamPointVisitedActions.DELETE_TEAM_POINT_VISITED_SUCCES: {
-            state.splice(state.findIndex(item => item.teamPointVisitedId === action.payload), 1);
-            return Object.assign([], state);
+            var newState = Object.assign([], state);
+            newState.splice(newState.findIndex(item => item.teamPointVisitedId === action.payload), 1);
+            return newState;
         }
         default: {
             return state;

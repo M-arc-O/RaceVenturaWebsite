@@ -9,6 +9,7 @@ import { StageStoreModel, TeamStoreModel } from '../../shared/models';
 import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';
 import * as teamActions from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
+import { timeValidator } from '../../shared/Validators/time.validator';
 
 @Component({
     selector: 'app-team-details',
@@ -48,7 +49,7 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit {
 
         this.setFinishTimeForm = formBuilder.group({
             finishDate: [this.getDateString(new Date())],
-            finishTime: ['', Validators.required],
+            finishTime: ['', [Validators.required, timeValidator(true)]],
         });
     }
 
