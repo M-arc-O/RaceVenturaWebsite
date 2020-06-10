@@ -128,6 +128,11 @@
                     <span class="help-block offset-sm-6">Please enter the start date.</span>
                 </div>
             </validation-message>
+            <validation-message error="ngbDate">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a valid start date (dd-mm-yyyy).</span>
+                </div>
+            </validation-message>
         </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
@@ -170,6 +175,11 @@
             <validation-message error="required">
                 <div class="form-group row">
                     <span class="help-block offset-sm-6">Please enter the end date.</span>
+                </div>
+            </validation-message>
+            <validation-message error="ngbDate">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a valid end date (dd-mm-yyyy).</span>
                 </div>
             </validation-message>
         </validation-message-for>

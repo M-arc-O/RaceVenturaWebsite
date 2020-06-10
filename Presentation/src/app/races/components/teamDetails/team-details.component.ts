@@ -51,8 +51,6 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit {
             finishDate: [this.getDateString(new Date()), [Validators.required]],
             finishTime: ['', [Validators.required, timeValidator(true)]],
         });
-
-        this.setFinishTimeForm.valueChanges.subscribe(value => console.log(value));
     }
 
     public setFinishTimeClick(): void {
