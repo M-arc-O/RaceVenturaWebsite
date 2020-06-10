@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgbModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { ValidationModule } from '../shared/components/validation/validation.module';
 import { PipesModule } from '../shared/pipes/pipes.module';
 import { PointAddComponent } from './components/pointAdd/point-add.component';
@@ -28,6 +29,7 @@ import { racesReducers } from './store/reducers/races';
 import { stagesReducers } from './store/reducers/stages';
 import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
 import { teamsReducers } from './store/reducers/teams';
+import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
 
 @NgModule({
   declarations: [
@@ -57,8 +59,17 @@ import { teamsReducers } from './store/reducers/teams';
     StoreModule.forFeature('teamPointVisitedFeature', teamPointVisitedReducers),
     EffectsModule.forFeature([RaceEffects, StageEffects, PointEffects, TeamEffects, TeamPointVisitedEffects]),
     ValidationModule,
-    PipesModule
+    PipesModule,    
+    NgbModule
   ],
-  providers: [RacesService, StagesService, PointsService, TeamsService, ResultsService, VisitedPointsService],
+  providers: [
+    RacesService, 
+    StagesService, 
+    PointsService, 
+    TeamsService, 
+    ResultsService, 
+    VisitedPointsService,
+    {provide: NgbDateAdapter, useClass: CustomDateAdapter},
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}  ]
 })
 export class RacesModule { }

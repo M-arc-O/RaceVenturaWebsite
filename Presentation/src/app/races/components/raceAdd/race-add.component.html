@@ -111,8 +111,15 @@
                     !addRaceForm.get('startDate').valid }">
             <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
             <div class="col">
-                <input class="form-control" id="startDate{{type}}" type="text" placeholder="dd-mm-yyyy"
-                    formControlName="startDate" />
+                <div class="input-group">
+                    <input class="form-control" id="startDate{{type}}" placeholder="dd-mm-yyyy" name="dpStartDate"
+                        ngbDatepicker #dStartDate="ngbDatepicker" formControlName="startDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" (click)="dStartDate.toggle()" type="button">
+                            <span class="fa fa-calendar" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <validation-message-for field="startDate">
@@ -148,8 +155,15 @@
                     !addRaceForm.get('endDate').valid }">
             <label class="col-sm-6 col-form-label" for="endDate{{type}}">End date</label>
             <div class="col">
-                <input class="form-control" id="endDate{{type}}" type="text" placeholder="dd-mm-yyyy"
-                    formControlName="endDate" />
+                <div class="input-group">
+                    <input class="form-control" id="endDate{{type}}" placeholder="dd-mm-yyyy" name="dpEndDate"
+                        ngbDatepicker #dEndDate="ngbDatepicker" formControlName="endDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" (click)="dEndDate.toggle()" type="button">
+                            <span class="fa fa-calendar" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <validation-message-for field="endDate">

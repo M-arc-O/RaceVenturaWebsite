@@ -58,9 +58,9 @@ export abstract class ComponentBase implements OnDestroy {
             const minutes = time.getMinutes();
             const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
             const seconds = time.getSeconds();
-            const secondsStr = seconds < 10 ? `0${seconds}` : seconds;
+            const secondsStr = seconds === 0 ? "": seconds < 10 ? `0${seconds}` : seconds;
 
-            return `${hoursStr}:${minutesStr}:${secondsStr}`;
+            return `${hoursStr}:${minutesStr}${secondsStr === "" ? "": `:${secondsStr}`}`;
         }
 
         return '';

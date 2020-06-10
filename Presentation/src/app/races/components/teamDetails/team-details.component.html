@@ -59,8 +59,15 @@
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label" for="finishDate{{selectedTeam.teamId}}">Finish date</label>
                 <div class="col">
-                    <input class="form-control" id="finishDate{{selectedTeam.teamId}}" type="text"
-                        placeholder="dd-mm-yyyy" formControlName="finishDate" />
+                    <div class="input-group">
+                        <input class="form-control" id="finishDate{{selectedTeam.teamId}}" placeholder="dd-mm-yyyy" name="dpFinishDate"
+                            ngbDatepicker #dFinishDate="ngbDatepicker" formControlName="finishDate">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" (click)="dFinishDate.toggle()" type="button">
+                                <span class="fa fa-calendar" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <validation-message-for field="finishDate">
