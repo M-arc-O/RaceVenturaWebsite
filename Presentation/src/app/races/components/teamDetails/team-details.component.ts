@@ -48,9 +48,11 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit {
         const formBuilder = new FormBuilder();
 
         this.setFinishTimeForm = formBuilder.group({
-            finishDate: [this.getDateString(new Date())],
+            finishDate: [this.getDateString(new Date()), [Validators.required]],
             finishTime: ['', [Validators.required, timeValidator(true)]],
         });
+
+        this.setFinishTimeForm.valueChanges.subscribe(value => console.log(value));
     }
 
     public setFinishTimeClick(): void {
