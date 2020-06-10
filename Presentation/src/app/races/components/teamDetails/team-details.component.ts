@@ -56,7 +56,7 @@ export class TeamDetailsComponent extends ComponentBase implements OnInit {
     public setFinishTimeClick(): void {
         if (this.setFinishTimeForm.valid) {
             const viewModel: TeamStoreModel = Object.assign({}, this.selectedTeam);
-            viewModel.raceFinished = this.getDate(this.setFinishTimeForm.get('finishDate').value,
+            viewModel.finishTime = this.getDate(this.setFinishTimeForm.get('finishDate').value,
                 this.setFinishTimeForm.get('finishTime').value);
 
             this.store.dispatch(new teamActions.EditTeamAction(viewModel));
