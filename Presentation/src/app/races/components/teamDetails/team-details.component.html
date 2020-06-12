@@ -60,8 +60,8 @@
                 <label class="col-sm-6 col-form-label" for="finishDate{{selectedTeam.teamId}}">Finish date</label>
                 <div class="col">
                     <div class="input-group">
-                        <input class="form-control" id="finishDate{{selectedTeam.teamId}}" placeholder="dd-mm-yyyy" name="dpFinishDate"
-                            ngbDatepicker #dFinishDate="ngbDatepicker" formControlName="finishDate">
+                        <input class="form-control" id="finishDate{{selectedTeam.teamId}}" placeholder="dd-mm-yyyy"
+                            name="dpFinishDate" ngbDatepicker #dFinishDate="ngbDatepicker" formControlName="finishDate">
                         <div class="input-group-append">
                             <button class="btn btn-secondary" (click)="dFinishDate.toggle()" type="button">
                                 <span class="fa fa-calendar" aria-hidden="true"></span>
@@ -123,8 +123,7 @@
                 <div [attr.id]="'stageCollapse-' + i" class="collapse" [attr.aria-labelledby]="'stageHeading-' + i"
                     data-parent="#teamStagesAccordion">
                     <div class="card-body">
-                        <app-team-points [raceId]="selectedTeam.raceId" [stageId]="stage.stageId"
-                            [teamId]="selectedTeam.teamId"></app-team-points>
+                        <app-team-points [stageId]="stage.stageId" [teamId]="selectedTeam.teamId"></app-team-points>
                     </div>
                 </div>
             </div>

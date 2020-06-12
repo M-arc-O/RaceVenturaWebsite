@@ -8,7 +8,7 @@ export function pointVisitedReducer(state: TeamPointVisitedViewModel[] = [], act
         case RaceActions.LOAD_RACE_DETAILS_SUCCES: {
             state = new Array();
             action.payload.teams.forEach(team => {
-                state = state.concat(team.pointsVisited);
+                state = state.concat(team.visitedPoints);
             });
             return Object.assign([], state);
         }

@@ -24,6 +24,6 @@ export class StagesService extends ServiceBase {
     }
 
     public deleteStage(viewModel: StageStoreModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.stageId}/${viewModel.raceId}/remove`);
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.stageId}/remove`);
     }
 }

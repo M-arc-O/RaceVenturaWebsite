@@ -24,6 +24,6 @@ export class PointsService extends ServiceBase {
     }
 
     public deletePoint(viewModel: PointDetailViewModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.pointId}/${viewModel.stageId}/remove`);
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.pointId}/remove`);
     }
 }

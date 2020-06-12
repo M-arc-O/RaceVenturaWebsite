@@ -24,6 +24,6 @@ export class TeamsService extends ServiceBase {
     }
 
     public deleteTeam(viewModel: TeamStoreModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/${viewModel.raceId}/removeteam`);
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamId}/removeteam`);
     }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -16,8 +16,7 @@ import { PointComponentBase } from '../point-component-base.component';
     templateUrl: './team-points.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TeamPointsComponent extends PointComponentBase implements OnInit {
-    @Input() raceId: string;
+export class TeamPointsComponent extends PointComponentBase implements OnInit, OnChanges {
     @Input() teamId: string;
 
     public points$: Observable<PointDetailViewModel[]>;
@@ -29,6 +28,7 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
 
     private filteredPoints: PointDetailViewModel[];
     private visitedPoints: TeamPointVisitedViewModel[];
+    private filteredVisitedPoints: TeamPointVisitedViewModel[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -44,7 +44,10 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.points$.pipe(takeUntil(this.unsubscribe$)).subscribe(points => this.setupForm(points));
-        this.pointsVisited$.pipe(takeUntil(this.unsubscribe$)).subscribe(pointsVisited => this.updateForm(pointsVisited));
+        this.pointsVisited$.pipe(takeUntil(this.unsubscribe$)).subscribe(pointsVisited => {
+            this.visitedPoints = pointsVisited;
+            this.updateForm(pointsVisited)
+        });
 
         this.addBase$.pipe(takeUntil(this.unsubscribe$)).subscribe(base => {
             if (base !== undefined && base.error !== undefined) {
@@ -61,12 +64,14 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
                 }
             }
         });
+    }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        this.updateForm(this.visitedPoints);
     }
 
     private setupForm(points: Array<PointDetailViewModel>): void {
         this.filteredPoints = this.getPoints(points);
-
         this.form = this.formBuilder.group({
             points: new FormArray([])
         });
@@ -83,20 +88,25 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
     }
 
     private updateForm(pointsVisited: Array<TeamPointVisitedViewModel>): void {
-        this.visitedPoints = pointsVisited;
-        for (let i = 0; i < this.filteredPoints.length; i++) {
-            const visitedPoint = this.visitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
-            const control = this.getPointArray().controls[i] as FormControl;
+        if (pointsVisited !== undefined) {
+            this.filteredVisitedPoints = pointsVisited.filter(point => point.teamId === this.teamId);
+            for (let i = 0; i < this.filteredPoints.length; i++) {
+                const visitedPoint = this.filteredVisitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
+                const control = this.getPointArray().controls[i] as FormControl;
 
-            if (control !== undefined) {
-                control.setValue(visitedPoint !== undefined, { emitEvent: false, onlySelf: true });
+                if (control !== undefined) {
+                    control.setValue(visitedPoint !== undefined, { emitEvent: false, onlySelf: true });
+                }
             }
         }
     }
 
     private checkboxValueChanged(val: any): void {
         for (let i = 0; i < val.length; i++) {
-            const visitedPoint = this.visitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
+            var visitedPoint;
+            if (this.filteredVisitedPoints !== undefined) {
+                visitedPoint = this.filteredVisitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
+            }
 
             if (val[i] && visitedPoint === undefined) {
                 const viewModel = this.getViewModel(i, visitedPoint);
@@ -111,8 +121,6 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit {
 
     private getViewModel(index: number, visitedPoint: TeamPointVisitedViewModel): TeamPointVisitedViewModel {
         const viewModel = new TeamPointVisitedViewModel();
-        viewModel.raceId = this.raceId;
-        viewModel.stageId = this.stageId;
         viewModel.teamId = this.teamId;
         viewModel.pointId = this.filteredPoints[index].pointId;
         viewModel.teamPointVisitedId = visitedPoint !== undefined ? visitedPoint.teamPointVisitedId : undefined;
