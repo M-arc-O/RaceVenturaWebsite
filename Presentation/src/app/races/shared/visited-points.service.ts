@@ -19,6 +19,6 @@ export class VisitedPointsService extends ServiceBase {
     }
 
     public deleteTeamPointVisited(viewModel: TeamPointVisitedViewModel): Observable<string> {
-        return this.http.delete<string>(`${this.baseUrl}/${viewModel.teamPointVisitedId}/deletevisitedpoint`);
+        return this.http.delete<string>(`${this.baseUrl}/${viewModel.visitedPointId}/deletevisitedpoint`);
     }
 }

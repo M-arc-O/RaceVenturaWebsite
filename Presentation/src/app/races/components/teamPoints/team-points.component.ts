@@ -90,6 +90,7 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit, O
     private updateForm(pointsVisited: Array<TeamPointVisitedViewModel>): void {
         if (pointsVisited !== undefined) {
             this.filteredVisitedPoints = pointsVisited.filter(point => point.teamId === this.teamId);
+            console.log(this.filteredVisitedPoints);
             for (let i = 0; i < this.filteredPoints.length; i++) {
                 const visitedPoint = this.filteredVisitedPoints.find(vp => vp.pointId === this.filteredPoints[i].pointId);
                 const control = this.getPointArray().controls[i] as FormControl;
@@ -123,7 +124,7 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit, O
         const viewModel = new TeamPointVisitedViewModel();
         viewModel.teamId = this.teamId;
         viewModel.pointId = this.filteredPoints[index].pointId;
-        viewModel.teamPointVisitedId = visitedPoint !== undefined ? visitedPoint.teamPointVisitedId : undefined;
+        viewModel.visitedPointId = visitedPoint !== undefined ? visitedPoint.visitedPointId : undefined;
         return viewModel;
     }
 
