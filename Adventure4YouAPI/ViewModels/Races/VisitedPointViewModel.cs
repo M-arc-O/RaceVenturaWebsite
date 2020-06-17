@@ -1,6 +1,5 @@
 ﻿using Adventure4YouAPI.ViewModels.Validators;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Adventure4YouAPI.ViewModels.Races
 {
@@ -14,7 +13,6 @@ namespace Adventure4YouAPI.ViewModels.Races
         [RequiredNotEmpty]
         public Guid TeamId { get; set; }
 
-        [Required]
         public DateTime Time { get; set; }
     }
 }

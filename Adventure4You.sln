@@ -6,36 +6,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4You", "Adventure4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouAPI", "Adventure4YouAPI\Adventure4YouAPI.csproj", "{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Presentation", "Presentation\", "{1BE21C8E-5638-4D68-830F-ACC7E0374324}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_60058"
-		Debug.AspNetCompiler.PhysicalPath = "Presentation\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60058\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_60058"
-		Release.AspNetCompiler.PhysicalPath = "Presentation\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60058\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "60058"
-		SlnRelativePath = "Presentation\"
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{3404177D-C6F3-46EB-917C-598EA51550B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adventure4YouTest", "Adventure4YouTest\Adventure4YouTest.csproj", "{87D94AE2-7432-4261-81EB-35688DA9D5E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouTest", "Adventure4YouTest\Adventure4YouTest.csproj", "{87D94AE2-7432-4261-81EB-35688DA9D5E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adventure4YouAPITest", "Adventure4YouAPITest\Adventure4YouAPITest.csproj", "{977872AF-AF41-4F78-AFFB-9F612178680E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouAPITest", "Adventure4YouAPITest\Adventure4YouAPITest.csproj", "{977872AF-AF41-4F78-AFFB-9F612178680E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adventure4YouData", "Adventure4YouData\Adventure4YouData.csproj", "{0F4C6601-4F94-4662-94E4-CBB98F05801B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouData", "Adventure4YouData\Adventure4YouData.csproj", "{0F4C6601-4F94-4662-94E4-CBB98F05801B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adventure4YouDataTest", "Adventure4YouDataTest\Adventure4YouDataTest.csproj", "{40047EF6-DF39-44C6-AC50-DE0970423C1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure4YouDataTest", "Adventure4YouDataTest\Adventure4YouDataTest.csproj", "{40047EF6-DF39-44C6-AC50-DE0970423C1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +30,6 @@ Global
 		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01B33F8C-9ADB-4B29-A887-BDB453AFA39B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BE21C8E-5638-4D68-830F-ACC7E0374324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BE21C8E-5638-4D68-830F-ACC7E0374324}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BE21C8E-5638-4D68-830F-ACC7E0374324}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BE21C8E-5638-4D68-830F-ACC7E0374324}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{87D94AE2-7432-4261-81EB-35688DA9D5E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{87D94AE2-7432-4261-81EB-35688DA9D5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87D94AE2-7432-4261-81EB-35688DA9D5E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
