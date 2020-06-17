@@ -1,0 +1,128 @@
+<div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Check GPS coordinates</th>
+                            <th>Spezial tasks are a stage</th>
+                            <th>Maximum team size</th>
+                            <th>Minumum points to complete stage</th>
+                            <th>Penalty per minute late</th>
+                            <th>Start date</th>
+                            <th>Start time</th>
+                            <th>End date</th>
+                            <th>End time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{(raceDetails$ | async).name}}</td>
+                            <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
+                            <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
+                            <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
+                            <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
+                            <td>{{(raceDetails$ | async).penaltyPerMinuteLate}}</td>
+                            <td>{{getDateString((raceDetails$ | async).startTime)}}</td>
+                            <td>{{getTimeString((raceDetails$ | async).startTime)}}</td>
+                            <td>{{getDateString((raceDetails$ | async).endTime)}}</td>
+                            <td>{{getTimeString((raceDetails$ | async).endTime)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <app-race-add [details]="raceDetails$ | async" [type]="addEditType.Edit"></app-race-add>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeRaceModal">
+                Remove race
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="removeRaceModal" tabindex="-1" role="dialog"
+                aria-labelledby="removeRaceModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removeRaceModalLabel">Are you sure?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to remove {{(raceDetails$ | async).name}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" (click)="RemoveRaceClicked()"
+                                data-dismiss="modal">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="accordion" id="raceAccordion">
+                <div class="card">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#StagesCollapse" id="raceHeading">
+                        Stages
+                    </button>
+                    <div id="StagesCollapse" class="collapse" aria-labelledby="raceHeading"
+                        data-parent="#raceAccordion">
+                        <div class="card-body">
+                            <app-stages-overview [raceId]=raceId></app-stages-overview>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#teamsCollapse" id="teamsHeading">
+                        Teams
+                    </button>
+                    <div id="teamsCollapse" class="collapse" aria-labelledby="teamsHeading"
+                        data-parent="#raceAccordion">
+                        <div class="card-body">
+                            <app-teams-overview [raceId]=raceId></app-teams-overview>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#resultsCollapse" id="resultsHeading">
+                        Results
+                    </button>
+                    <div id="resultsCollapse" class="collapse" aria-labelledby="resultsHeading"
+                        data-parent="#raceAccordion">
+                        <div class="card-body">
+                            <app-race-result [raceId]="raceId"></app-race-result>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="(raceDetailsLoad$ | async).error">
+    Error while loading race details.
+</div>
+
+<ng-template #raceLoading>
+    <div *ngIf="(raceDetailsLoad$ | async).isActive">
+        <div class="align-items-center m-2">
+            <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+            <strong>Loading race details...</strong>
+        </div>
+    </div>
+</ng-template>

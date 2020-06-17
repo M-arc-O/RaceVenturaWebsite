@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col">
+        <button type="button" class="btn btn-primary" id="refresh" (click)="refresh()">
+            refresh
+        </button>
+    </div>
+</div>
+<div *ngIf="(raceResult$ | async)" class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Team</th>
+                        <th>End time</th>
+                        <th>Total stages</th>
+                        <th>Total value</th>
+                        <th>Total points</th>
+                        <th *ngFor="let stage of stages$ | async">{{stage.number}} {{stage.name}} point(s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of raceResult$ | async; let i = index">
+                        <td>{{(i + 1)}}</td>
+                        <td>{{result.teamNumber}} {{result.teamName}}</td>
+                        <td>{{getDateString(result.endTime)}} - {{getTimeString(result.endTime)}}</td>
+                        <td>{{result.numberOfStages}}</td>
+                        <td>{{result.totalValue}}</td>
+                        <td>{{result.numberOfPoints}}</td>
+                        <td *ngFor="let stageResult of result.stageResults">
+                            {{stageResult.numberOfPoints}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
