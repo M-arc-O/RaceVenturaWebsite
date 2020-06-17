@@ -11,7 +11,6 @@ namespace Adventure4YouAPITest.ViewModels.Races
         [TestMethod]
         public void AttributeTest()
         {
-            TestUtils.TestAttributeOnProperty<FinishedStageViewModel, RequiredNotEmptyAttribute>("FinishedStageId");
             TestUtils.TestAttributeOnProperty<FinishedStageViewModel, RequiredNotEmptyAttribute>("StageId");
             TestUtils.TestAttributeOnProperty<FinishedStageViewModel, RequiredNotEmptyAttribute>("TeamId");
         }

@@ -11,7 +11,6 @@ namespace Adventure4YouAPITest.ViewModels.Races
         [TestMethod]
         public void AttributeTest()
         {
-            TestUtils.TestAttributeOnProperty<VisitedPointViewModel, RequiredNotEmptyAttribute>("VisitedPointId");
             TestUtils.TestAttributeOnProperty<VisitedPointViewModel, RequiredNotEmptyAttribute>("PointId");
             TestUtils.TestAttributeOnProperty<VisitedPointViewModel, RequiredNotEmptyAttribute>("TeamId");
         }

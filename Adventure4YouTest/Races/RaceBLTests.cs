@@ -87,7 +87,7 @@ namespace Adventure4YouTest.Races
             var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
             raceRepositoryMock.Setup(r => r.Get(It.IsAny<Expression<Func<Race, bool>>>(),
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
-                It.Is<string>(s => s.Equals("Teams,Teams.PointsVisited,Teams.StagesFinished,Stages,Stages.Points"))))
+                It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Teams.FinishedStages,Stages,Stages.Points"))))
                 .Returns(new[] { race });
             _UnitOfWorkMock.Setup(u => u.RaceRepository).Returns(raceRepositoryMock.Object);
 
@@ -110,7 +110,7 @@ namespace Adventure4YouTest.Races
 
             raceRepositoryMock.Verify(r => r.Get(It.IsAny<Expression<Func<Race, bool>>>(),
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
-                It.Is<string>(s => s.Equals("Teams,Teams.PointsVisited,Teams.StagesFinished,Stages,Stages.Points"))), Times.Once);
+                It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Teams.FinishedStages,Stages,Stages.Points"))), Times.Once);
         }
 
         [TestMethod]
@@ -174,7 +174,7 @@ namespace Adventure4YouTest.Races
 
             raceRepositoryMock.Verify(r => r.Get(It.IsAny<Expression<Func<Race, bool>>>(),
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
-                It.Is<string>(s => s.Equals("Teams,Teams.PointsVisited,Teams.StagesFinished,Stages,Stages.Points"))), Times.Once);
+                It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Teams.FinishedStages,Stages,Stages.Points"))), Times.Once);
         }
 
         [TestMethod]
