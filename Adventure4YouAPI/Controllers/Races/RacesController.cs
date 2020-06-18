@@ -10,12 +10,12 @@ using Adventure4You;
 using Adventure4YouData.Models.Races;
 using Microsoft.Extensions.Logging;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RacesController : Adventure4YouControllerBase, ICrudController<RaceViewModel, RaceDetailViewModel>
+    public class RacesController : RacesControllerBase, ICrudController<RaceViewModel, RaceDetailViewModel>
     {
         private readonly IGenericCrudBL<Race> _RaceBL;
         private readonly IMapper _Mapper;

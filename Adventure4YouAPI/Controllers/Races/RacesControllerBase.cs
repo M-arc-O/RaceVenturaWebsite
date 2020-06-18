@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
-    public abstract class Adventure4YouControllerBase: ControllerBase
+    public abstract class RacesControllerBase: ControllerBase
     {
         protected Guid GetUserId()
         {

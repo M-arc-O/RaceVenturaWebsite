@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class VisitedPointsController : Adventure4YouControllerBase, ICudController<VisitedPointViewModel>
+    public class VisitedPointsController : RacesControllerBase, ICudController<VisitedPointViewModel>
     {
         private readonly IGenericCudBL<VisitedPoint> _VisitedPointBL;
         private readonly IMapper _Mapper;

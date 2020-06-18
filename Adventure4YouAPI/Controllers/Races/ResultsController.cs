@@ -9,12 +9,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ResultsController : Adventure4YouControllerBase
+    public class ResultsController : RacesControllerBase
     {
         private readonly IResultsBL _ResultsBL;
         private readonly IMapper _Mapper;

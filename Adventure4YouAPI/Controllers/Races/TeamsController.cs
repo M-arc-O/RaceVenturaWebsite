@@ -1,35 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using Adventure4YouAPI.ViewModels;
+﻿using Adventure4YouAPI.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using Adventure4You;
-using Adventure4You.Races;
 using Adventure4YouData.Models.Races;
+using Adventure4You.Races;
 using Microsoft.Extensions.Logging;
 using Adventure4YouAPI.ViewModels.Races;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class StagesController : Adventure4YouControllerBase, ICudController<StageViewModel>
+    public class TeamsController : RacesControllerBase, ICudController<TeamViewModel>
     {
-        private readonly IGenericCudBL<Stage> _StageBL;
+        private readonly IGenericCudBL<Team> _TeamBL;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public StagesController(IGenericCudBL<Stage> stageBL, IMapper mapper, ILogger<StagesController> logger)
+        public TeamsController(IGenericCudBL<Team> teamBL, IMapper mapper, ILogger<TeamsController> logger)
         {
-            _StageBL = stageBL ?? throw new ArgumentNullException(nameof(stageBL));
+            _TeamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
+        
         [HttpPost]
-        [Route("addstage")]
-        public IActionResult Add([FromBody]StageViewModel viewModel)
+        [Route("addteam")]
+        public IActionResult Add([FromBody]TeamViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -38,11 +38,11 @@ namespace Adventure4YouAPI.Controllers
 
             try
             {
-                var stage = _Mapper.Map<Stage>(viewModel);
+                var team = _Mapper.Map<Team>(viewModel);
 
-                _StageBL.Add(GetUserId(), stage);
+                _TeamBL.Add(GetUserId(), team);
 
-                return Ok(_Mapper.Map<StageViewModel>(stage));
+                return Ok(_Mapper.Map<TeamViewModel>(team));
             }
             catch (BusinessException ex)
             {
@@ -50,14 +50,15 @@ namespace Adventure4YouAPI.Controllers
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
 
+
         [HttpPut]
-        [Route("editstage")]
-        public IActionResult Edit([FromBody]StageViewModel viewModel)
+        [Route("editteam")]
+        public IActionResult Edit([FromBody]TeamViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -66,13 +67,11 @@ namespace Adventure4YouAPI.Controllers
 
             try
             {
-                var stage = _Mapper.Map<Stage>(viewModel);
+                var team = _Mapper.Map<Team>(viewModel);
 
-                _StageBL.Edit(GetUserId(), stage);
+                _TeamBL.Edit(GetUserId(), team);
 
-                var retVal = _Mapper.Map<StageViewModel>(stage);
-
-                return Ok(retVal);
+                return Ok(_Mapper.Map<TeamViewModel>(team));
             }
             catch (BusinessException ex)
             {
@@ -80,20 +79,20 @@ namespace Adventure4YouAPI.Controllers
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
 
         [HttpDelete]
-        [Route("{stageId}/remove")]
-        public IActionResult Delete(Guid stageId)
+        [Route("{teamId}/removeteam")]
+        public IActionResult Delete(Guid teamId)
         {
             try
             {
-                _StageBL.Delete(GetUserId(), stageId);
+                _TeamBL.Delete(GetUserId(), teamId);
 
-                return Ok(stageId);
+                return Ok(teamId);
             }
             catch (BusinessException ex)
             {
@@ -101,7 +100,7 @@ namespace Adventure4YouAPI.Controllers
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(StagesController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

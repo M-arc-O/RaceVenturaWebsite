@@ -1,4 +1,4 @@
-using Adventure4YouAPI.Controllers;
+using Adventure4YouAPI.Controllers.Races;
 using Adventure4YouAPI.ViewModels.Races;
 using Adventure4YouData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

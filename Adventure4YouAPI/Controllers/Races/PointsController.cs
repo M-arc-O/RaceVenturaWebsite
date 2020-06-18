@@ -9,12 +9,12 @@ using Adventure4YouData.Models.Races;
 using Microsoft.Extensions.Logging;
 using Adventure4YouAPI.ViewModels.Races;
 
-namespace Adventure4YouAPI.Controllers
+namespace Adventure4YouAPI.Controllers.Races
 {
     [Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PointsController : Adventure4YouControllerBase, ICudController<PointViewModel>
+    public class PointsController : RacesControllerBase, ICudController<PointViewModel>
     {
         private readonly IGenericCudBL<Point> _PointBL;
         private readonly IMapper _Mapper;
