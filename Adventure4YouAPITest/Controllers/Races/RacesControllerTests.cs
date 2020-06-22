@@ -4,7 +4,7 @@ using Adventure4YouData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Adventure4YouAPITest.Controllers
+namespace Adventure4YouAPITest.Controllers.Races
 {
     [TestClass]
     public class RacesControllerTests : ApiControllerCrudTestsBase<RacesController, Race, RaceViewModel, RaceDetailViewModel>

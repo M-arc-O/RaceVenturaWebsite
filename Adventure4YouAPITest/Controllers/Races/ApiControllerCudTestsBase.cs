@@ -13,7 +13,7 @@ using System;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace Adventure4YouAPITest.Controllers
+namespace Adventure4YouAPITest.Controllers.Races
 {
     public abstract class ApiControllerCudTestsBase<ControllerType, ModelType, ViewModelType>
     {

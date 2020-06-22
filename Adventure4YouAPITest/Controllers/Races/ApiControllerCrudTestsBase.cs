@@ -10,7 +10,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 
-namespace Adventure4YouAPITest.Controllers
+namespace Adventure4YouAPITest.Controllers.Races
 {
     public abstract class ApiControllerCrudTestsBase<ControllerType, ModelType, GetViewModel, ViewModelType> : ApiControllerCudTestsBase<ControllerType, ModelType, ViewModelType>
     {

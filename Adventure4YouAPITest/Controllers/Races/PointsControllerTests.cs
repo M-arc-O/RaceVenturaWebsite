@@ -4,15 +4,15 @@ using Adventure4YouData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Adventure4YouAPITest.Controllers
+namespace Adventure4YouAPITest.Controllers.Races
 {
     [TestClass]
-    public class TeamsControllerTests : ApiControllerCudTestsBase<TeamsController, Team, TeamViewModel>
+    public class PointsControllerTests : ApiControllerCudTestsBase<PointsController, Point, PointViewModel>
     {
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new TeamsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            _Sut = new PointsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(_Sut);
         }
@@ -20,73 +20,73 @@ namespace Adventure4YouAPITest.Controllers
         [TestMethod]
         public void ConstructorTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(null, _MapperMock.Object, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(_BLMock.Object, null, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(_BLMock.Object, _MapperMock.Object, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new PointsController(null, _MapperMock.Object, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new PointsController(_BLMock.Object, null, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new PointsController(_BLMock.Object, _MapperMock.Object, null));
         }
 
         [TestMethod]
-        public void AddTeamNoErrorsTest()
+        public void AddPointNoErrorsTest()
         {
             AddNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamInvalidModelStateTest()
+        public void AddPointInvalidModelStateTest()
         {
             AddInvalidModelStateTest(_Sut);
         }
 
         [TestMethod]
-        public void AddTeamBusinesErrorTest()
+        public void AddPointBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
         }
 
         [TestMethod]
-        public void AddTeamExceptionTest()
+        public void AddPointExceptionTest()
         {
             AddExceptionTest(_Sut, SetupBlAddException);
         }
 
         [TestMethod]
-        public void EditTeamNoErrorsTest()
+        public void EditPointNoErrorsTest()
         {
             EditNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void EditTeamInvalidModelStateTest()
+        public void EditPointInvalidModelStateTest()
         {
             EditInvalidModelStateTest(_Sut);
         }
 
         [TestMethod]
-        public void EditTeamBusinesErrorTest()
+        public void EditPointBusinesErrorTest()
         {
             EditBusinessErrorTest(_Sut, SetupBlEditBusinessException);
         }
 
         [TestMethod]
-        public void EditTeamExceptionTest()
+        public void EditPointExceptionTest()
         {
             EditExceptionTest(_Sut, SetupBlEditException);
         }
 
         [TestMethod]
-        public void DeleteTeamNoErrorsTest()
+        public void DeletePointNoErrorsTest()
         {
             DeleteNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void DeleteTeamBusinesErrorTest()
+        public void DeletePointBusinesErrorTest()
         {
             DeleteBusinessErrorTest(_Sut, SetupBlDeleteBusinessException);
         }
 
         [TestMethod]
-        public void DeleteTeamExceptionTest()
+        public void DeletePointExceptionTest()
         {
             DeleteExceptionTest(_Sut, SetupBlDeleteException);
         }

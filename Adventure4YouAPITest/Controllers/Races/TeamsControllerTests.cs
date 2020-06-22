@@ -4,15 +4,15 @@ using Adventure4YouData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Adventure4YouAPITest.Controllers
+namespace Adventure4YouAPITest.Controllers.Races
 {
     [TestClass]
-    public class StagesControllerTests : ApiControllerCudTestsBase<StagesController, Stage, StageViewModel>
+    public class TeamsControllerTests : ApiControllerCudTestsBase<TeamsController, Team, TeamViewModel>
     {
         [TestInitialize]
         public void InitializeTest()
         {
-            _Sut = new StagesController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            _Sut = new TeamsController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(_Sut);
         }
@@ -20,73 +20,73 @@ namespace Adventure4YouAPITest.Controllers
         [TestMethod]
         public void ConstructorTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new StagesController(null, _MapperMock.Object, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new StagesController(_BLMock.Object, null, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new StagesController(_BLMock.Object, _MapperMock.Object, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(null, _MapperMock.Object, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(_BLMock.Object, null, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new TeamsController(_BLMock.Object, _MapperMock.Object, null));
         }
 
         [TestMethod]
-        public void AddStageNoErrorsTest()
+        public void AddTeamNoErrorsTest()
         {
             AddNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void AddStageInvalidModelStateTest()
+        public void AddTeamInvalidModelStateTest()
         {
             AddInvalidModelStateTest(_Sut);
         }
 
         [TestMethod]
-        public void AddStageBusinesErrorTest()
+        public void AddTeamBusinesErrorTest()
         {
             AddBusinessErrorTest(_Sut, SetupBlAddBusinessException);
         }
 
         [TestMethod]
-        public void AddStageExceptionTest()
+        public void AddTeamExceptionTest()
         {
             AddExceptionTest(_Sut, SetupBlAddException);
         }
 
         [TestMethod]
-        public void EditStageNoErrorsTest()
+        public void EditTeamNoErrorsTest()
         {
             EditNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void EditStageInvalidModelStateTest()
+        public void EditTeamInvalidModelStateTest()
         {
             EditInvalidModelStateTest(_Sut);
         }
 
         [TestMethod]
-        public void EditStageBusinesErrorTest()
+        public void EditTeamBusinesErrorTest()
         {
             EditBusinessErrorTest(_Sut, SetupBlEditBusinessException);
         }
 
         [TestMethod]
-        public void EditStageExceptionTest()
+        public void EditTeamExceptionTest()
         {
             EditExceptionTest(_Sut, SetupBlEditException);
         }
 
         [TestMethod]
-        public void DeleteStageNoErrorsTest()
+        public void DeleteTeamNoErrorsTest()
         {
             DeleteNoErrorsTest(_Sut);
         }
 
         [TestMethod]
-        public void DeleteStageBusinesErrorTest()
+        public void DeleteTeamBusinesErrorTest()
         {
             DeleteBusinessErrorTest(_Sut, SetupBlDeleteBusinessException);
         }
 
         [TestMethod]
-        public void DeleteStageExceptionTest()
+        public void DeleteTeamExceptionTest()
         {
             DeleteExceptionTest(_Sut, SetupBlDeleteException);
         }
