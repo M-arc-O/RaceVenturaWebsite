@@ -1,4 +1,5 @@
-﻿using Adventure4You.Races;
+﻿using Adventure4You.AppApi;
+using Adventure4You.Races;
 using Adventure4YouData;
 using Adventure4YouData.Models.Races;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Adventure4You.Helpers
             services.AddScoped<IGenericCudBL<Team>, TeamBL>();
             services.AddScoped<IGenericCudBL<VisitedPoint>, VisitedPointBL>();
             services.AddScoped<IResultsBL, ResultsBL>();
+            services.AddScoped<IAppApiBL, AppApiBL>();
         }
     }
 }

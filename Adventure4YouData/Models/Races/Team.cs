@@ -26,6 +26,8 @@ namespace Adventure4YouData.Models.Races
         [Required]
         public TeamCategory Category { get; set; }
 
+        public List<RegisteredId> RegisteredIds { get; set; }
+
         public List<VisitedPoint> VisitedPoints { get; set; }
 
         public List<FinishedStage> FinishedStages { get; set; }

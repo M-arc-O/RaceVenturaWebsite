@@ -5,6 +5,7 @@
     {
         Duplicate = 1,
         UserUnauthorized = 2,
-        NotFound = 3
+        NotFound = 3,
+        MaxIdsReached = 4,
     }
 }

@@ -13,6 +13,7 @@ namespace Adventure4YouData
         IGenericRepository<Stage> StageRepository { get; }
         IGenericRepository<Team> TeamRepository { get; }
         IGenericRepository<VisitedPoint> VisitedPointRepository { get; }
+        IGenericRepository<RegisteredId> RegisteredIdRepository { get; }
 
         void Dispose();
         void Save();

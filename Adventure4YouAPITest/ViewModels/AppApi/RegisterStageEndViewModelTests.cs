@@ -1,6 +1,7 @@
 ﻿using Adventure4YouAPI.ViewModels.AppApi;
 using Adventure4YouAPI.ViewModels.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel.DataAnnotations;
 
 namespace Adventure4YouAPITest.ViewModels.AppApi
 {
@@ -12,7 +13,7 @@ namespace Adventure4YouAPITest.ViewModels.AppApi
         {
             TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("RaceId");
             TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("TeamId");
-            TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("UniqueId");
+            TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredAttribute>("UniqueId");
             TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("StageId");
         }
     }

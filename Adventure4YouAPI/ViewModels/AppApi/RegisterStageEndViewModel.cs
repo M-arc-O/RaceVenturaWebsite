@@ -1,5 +1,6 @@
 ﻿using Adventure4YouAPI.ViewModels.Validators;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Adventure4YouAPI.ViewModels.AppApi
 {
@@ -11,8 +12,8 @@ namespace Adventure4YouAPI.ViewModels.AppApi
         [RequiredNotEmpty]
         public Guid TeamId { get; set; }
 
-        [RequiredNotEmpty]
-        public Guid UniqueId { get; set; }
+        [Required]
+        public string UniqueId { get; set; }
 
         [RequiredNotEmpty]
         public Guid StageId { get; set; }

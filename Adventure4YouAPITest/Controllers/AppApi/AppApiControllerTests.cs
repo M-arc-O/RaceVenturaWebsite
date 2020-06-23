@@ -51,7 +51,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var viewModel = new RegisterToRaceViewModel();
             var exception = new BusinessException("", BLErrorCodes.Duplicate);
 
-            _BLMock.Setup(bl => bl.RegisterToRace(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterToRace(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>())).Throws(exception);
 
             var result = _Sut.RegisterToRace(viewModel);
 
@@ -66,7 +66,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var exceptionMessage = "a";
             var exception = new Exception(exceptionMessage);
 
-            _BLMock.Setup(bl => bl.RegisterToRace(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterToRace(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>())).Throws(exception);
 
             var result = _Sut.RegisterToRace(viewModel);
 
@@ -92,7 +92,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             _BLMock.Setup(bl => bl.RegisterPoint(
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>(),
-                It.IsAny<Guid>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>(),
                 It.IsAny<double>(),
                 It.IsAny<double>(),
@@ -114,7 +114,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             _BLMock.Setup(bl => bl.RegisterPoint(
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>(),
-                It.IsAny<Guid>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>(),
                 It.IsAny<double>(),
                 It.IsAny<double>(),
@@ -136,7 +136,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             _BLMock.Setup(bl => bl.RegisterPoint(
                 It.IsAny<Guid>(),
                 It.IsAny<Guid>(),
-                It.IsAny<Guid>(),
+                It.IsAny<string>(),
                 It.IsAny<Guid>(),
                 It.IsAny<double>(),
                 It.IsAny<double>(),
@@ -174,7 +174,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var viewModel = new RegisterStageEndViewModel();
             var exception = new BusinessException("", BLErrorCodes.Duplicate);
 
-            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Guid>())).Throws(exception);
 
             var result = _Sut.RegisterStageEnd(viewModel);
 
@@ -189,7 +189,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var exceptionMessage = "a";
             var exception = new Exception(exceptionMessage);
 
-            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Guid>())).Throws(exception);
 
             var result = _Sut.RegisterStageEnd(viewModel);
 
@@ -223,7 +223,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var viewModel = new RegisterToRaceViewModel();
             var exception = new BusinessException("", BLErrorCodes.Duplicate);
 
-            _BLMock.Setup(bl => bl.RegisterRaceEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterRaceEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>())).Throws(exception);
 
             var result = _Sut.RegisterRaceEnd(viewModel);
 
@@ -238,7 +238,7 @@ namespace Adventure4YouAPITest.Controllers.Races
             var exceptionMessage = "a";
             var exception = new Exception(exceptionMessage);
 
-            _BLMock.Setup(bl => bl.RegisterRaceEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterRaceEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>())).Throws(exception);
 
             var result = _Sut.RegisterRaceEnd(viewModel);
 

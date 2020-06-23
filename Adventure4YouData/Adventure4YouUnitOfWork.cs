@@ -17,6 +17,7 @@ namespace Adventure4YouData
         private GenericRepository<Point> _PointRepository;
         private GenericRepository<Team> _TeamRepository;
         private GenericRepository<VisitedPoint> _VisitedPointRepository;
+        private GenericRepository<RegisteredId> _RegisteredIdRepository;
 
         public IGenericRepository<UserLink> UserLinkRepository
         {
@@ -93,6 +94,19 @@ namespace Adventure4YouData
                 }
 
                 return (IGenericRepository<VisitedPoint>)_VisitedPointRepository;
+            }
+        }
+        
+        public IGenericRepository<RegisteredId> RegisteredIdRepository
+        {
+            get
+            {
+                if (_RegisteredIdRepository == null)
+                {
+                    _RegisteredIdRepository = new GenericRepository<RegisteredId>(_Context);
+                }
+
+                return (IGenericRepository<RegisteredId>)_RegisteredIdRepository;
             }
         }
 

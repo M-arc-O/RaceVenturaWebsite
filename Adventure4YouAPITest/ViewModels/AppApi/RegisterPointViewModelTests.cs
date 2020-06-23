@@ -13,7 +13,7 @@ namespace Adventure4YouAPITest.ViewModels.AppApi
         {
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("RaceId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("TeamId");
-            TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("UniqueId");
+            TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredAttribute>("UniqueId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("PointId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredAttribute>("Latitude");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredAttribute>("Longitude");
