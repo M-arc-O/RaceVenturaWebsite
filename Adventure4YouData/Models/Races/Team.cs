@@ -23,6 +23,9 @@ namespace Adventure4YouData.Models.Races
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
+        public TeamCategory Category { get; set; }
+
         public List<VisitedPoint> VisitedPoints { get; set; }
 
         public List<FinishedStage> FinishedStages { get; set; }

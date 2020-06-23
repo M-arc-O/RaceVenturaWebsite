@@ -4,6 +4,7 @@
             <tr>
                 <th>Name</th>
                 <th>Number</th>
+                <th>Category</th>
                 <th>Finish date</th>
                 <th>Finish time</th>
             </tr>
@@ -12,6 +13,7 @@
             <tr>
                 <td>{{selectedTeam.name}}</td>
                 <td>{{selectedTeam.number}}</td>
+                <td>{{categoryToString(selectedTeam.category)}}</td>
                 <td>{{getDateString(selectedTeam.finishTime)}}</td>
                 <td>{{getTimeString(selectedTeam.finishTime)}}</td>
             </tr>

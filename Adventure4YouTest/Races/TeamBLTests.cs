@@ -192,6 +192,7 @@ namespace Adventure4YouTest.Races
                 RaceId = raceId,
                 Name = "Test",
                 Number = 1,
+                Category = TeamCategory.Man,
                 FinishTime = DateTime.Now
             };
 
@@ -208,6 +209,7 @@ namespace Adventure4YouTest.Races
                 RaceId = raceId,
                 Name = "Blaat",
                 Number = 2,
+                Category = TeamCategory.Woman,
                 FinishTime = DateTime.Now
             };
 
@@ -216,6 +218,7 @@ namespace Adventure4YouTest.Races
             teamRepositoryMock.Verify(r => r.Update(It.Is<Team>(x =>
                 x.Name.Equals(team.Name) &&
                 x.Number == team.Number &&
+                x.Category == team.Category &&
                 x.FinishTime.Equals(team.FinishTime)
             )), Times.Once);
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);

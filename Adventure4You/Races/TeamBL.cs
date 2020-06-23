@@ -41,6 +41,7 @@ namespace Adventure4You.Races
 
             team.Name = newEntity.Name;
             team.Number = newEntity.Number;
+            team.Category = newEntity.Category;
             team.FinishTime = newEntity.FinishTime;
 
             _UnitOfWork.TeamRepository.Update(team);

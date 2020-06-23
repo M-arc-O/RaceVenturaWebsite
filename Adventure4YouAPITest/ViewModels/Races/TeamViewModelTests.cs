@@ -14,6 +14,7 @@ namespace Adventure4YouAPITest.ViewModels.Races
             TestUtils.TestAttributeOnProperty<TeamViewModel, RequiredNotEmptyAttribute>("RaceId");
             TestUtils.TestAttributeOnProperty<TeamViewModel, RequiredAttribute>("Number");
             TestUtils.TestAttributeOnProperty<TeamViewModel, RequiredAttribute>("Name");
+            TestUtils.TestAttributeOnProperty<TeamViewModel, RequiredAttribute>("Category");
             TestUtils.TestStringLengthAttributeOnProperty<TeamViewModel>("Name", 100);
         }
     }

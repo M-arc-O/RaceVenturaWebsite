@@ -19,6 +19,9 @@ namespace Adventure4YouAPI.ViewModels.Races
         [StringLength(100)]
         public string Name { get; set; }
 
+        [Required]
+        public TeamCategoryViewModel Category { get; set; }
+
         public List<VisitedPointViewModel> VisitedPoints { get; set; }
 
         public DateTime FinishTime { get; set; }
