@@ -3,15 +3,17 @@ using System;
 using Adventure4YouData.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Adventure4YouAPI.Migrations
 {
     [DbContext(typeof(Adventure4YouDbContext))]
-    partial class Adventure4YouDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200624152123_UpdateForPointRegistration")]
+    partial class UpdateForPointRegistration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

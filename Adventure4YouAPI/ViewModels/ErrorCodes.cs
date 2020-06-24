@@ -7,5 +7,7 @@ namespace Adventure4YouAPI.ViewModels
         UserUnauthorized = 2,
         NotFound = 3,
         MaxIdsReached = 4,
+        AnswerIncorrect = 5,
+        PointNotInActiveStage = 7,
     }
 }

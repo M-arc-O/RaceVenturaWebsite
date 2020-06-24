@@ -34,6 +34,8 @@ namespace Adventure4YouData.Models.Races
 
         public DateTime FinishTime { get; set; }
 
+        public int ActiveStage { get; set; }
+
         public Team()
         {
         }

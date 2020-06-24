@@ -257,6 +257,7 @@ namespace Adventure4YouTest.Races
             {
                 RaceId = raceId,
                 CoordinatesCheckEnabled = false,
+                AllowedCoordinatesDeviation = 1,
                 EndTime = DateTime.Now,
                 MaximumTeamSize = 1,
                 MinimumPointsToCompleteStage = 2,
@@ -283,6 +284,7 @@ namespace Adventure4YouTest.Races
             {
                 RaceId = raceId,
                 CoordinatesCheckEnabled = true,
+                AllowedCoordinatesDeviation = 2,
                 EndTime = DateTime.Now,
                 MaximumTeamSize = 4,
                 MinimumPointsToCompleteStage = 5,

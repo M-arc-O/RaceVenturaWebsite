@@ -19,6 +19,8 @@ namespace Adventure4YouData.Models.Races
         [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
+        public double AllowedCoordinatesDeviation { get; set; }
+
         [Required]
         public bool SpecialTasksAreStage { get; set; }
 

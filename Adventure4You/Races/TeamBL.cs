@@ -21,6 +21,8 @@ namespace Adventure4You.Races
             CheckIfTeamNameExists(entity);
             CheckIfTeamNumberExists(entity);
 
+            entity.ActiveStage = 1;
+
             _UnitOfWork.TeamRepository.Insert(entity);
             _UnitOfWork.Save();
         }

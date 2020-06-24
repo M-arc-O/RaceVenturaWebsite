@@ -71,6 +71,7 @@ namespace Adventure4You.Races
 
             race.Name = newEntity.Name;
             race.CoordinatesCheckEnabled = newEntity.CoordinatesCheckEnabled;
+            race.AllowedCoordinatesDeviation = newEntity.AllowedCoordinatesDeviation;
             race.PenaltyPerMinuteLate = newEntity.PenaltyPerMinuteLate;
             race.SpecialTasksAreStage = newEntity.SpecialTasksAreStage;
             race.MaximumTeamSize = newEntity.MaximumTeamSize;

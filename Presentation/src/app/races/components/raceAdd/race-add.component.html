@@ -42,6 +42,24 @@
             </div>
         </div>
 
+        <div *ngIf="addRaceForm.get('checkCoordinates').value">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('allowedCoordinatesDeviation').touched || addRaceForm.get('allowedCoordinatesDeviation').dirty) &&
+                        !addRaceForm.get('allowedCoordinatesDeviation').valid }">
+                <label class="col-sm-6 col-form-label" for="allowedCoordinatesDeviation{{type}}">Maximum coordinate deviation.</label>
+                <div class="col">
+                    <input class="form-control" id="allowedCoordinatesDeviation{{type}}" type="text" placeholder="1 (required)"
+                        formControlName="allowedCoordinatesDeviation" />
+                </div>
+            </div>
+            <validation-message-for field="allowedCoordinatesDeviation">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the maximum coordinate deviation.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+        </div>
+
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('specialTasksAreStage').touched || addRaceForm.get('specialTasksAreStage').dirty) &&
                 !addRaceForm.get('specialTasksAreStage').valid }">
             <div class="col-sm-6"></div>

@@ -7,6 +7,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Check GPS coordinates</th>
+                            <th>Allowed GPS Deviation</th>
                             <th>Spezial tasks are a stage</th>
                             <th>Maximum team size</th>
                             <th>Minumum points to complete stage</th>
@@ -21,6 +22,7 @@
                         <tr>
                             <td>{{(raceDetails$ | async).name}}</td>
                             <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
+                            <td>{{(raceDetails$ | async).allowedCoordinatesDeviation}}</td>
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>

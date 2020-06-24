@@ -9,6 +9,8 @@ namespace Adventure4YouAPI.ViewModels.Races
         [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
+        public double AllowedCoordinatesDeviation { get; set; }
+
         [Required]
         public bool SpecialTasksAreStage { get; set; }
 

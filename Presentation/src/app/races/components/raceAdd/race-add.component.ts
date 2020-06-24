@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -73,6 +73,7 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
 
         let name = '';
         let checkCoordinates = false;
+        let allowedCoordinatesDeviation = 0;
         let specialTasksAreStage = false;
         let maximumTeamSize;
         let minimumPointsToCompleteStage;
@@ -85,6 +86,7 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
         if (details !== undefined) {
             name = details.name;
             checkCoordinates = details.coordinatesCheckEnabled;
+            allowedCoordinatesDeviation = details.allowedCoordinatesDeviation;
             specialTasksAreStage = details.specialTasksAreStage;
             maximumTeamSize = details.maximumTeamSize;
             minimumPointsToCompleteStage = details.minimumPointsToCompleteStage;
@@ -95,9 +97,25 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             endTime = this.getTimeString(details.endTime);
         }
 
+        let checkCoordinatesControl = new FormControl(checkCoordinates);
+        checkCoordinatesControl.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
+            if (value) {
+                allowedCoordinatesDeviationControl.clearValidators();
+                allowedCoordinatesDeviationControl.setValidators(Validators.required);
+            } else {
+                allowedCoordinatesDeviationControl.clearValidators();
+            }            
+        });
+
+        let allowedCoordinatesDeviationControl = new FormControl(allowedCoordinatesDeviation);
+        if (checkCoordinates) {
+            allowedCoordinatesDeviationControl.setValidators(Validators.required);
+        }
+
         this.addRaceForm = formBuilder.group({
             name: [name, [Validators.required]],
-            checkCoordinates: [checkCoordinates],
+            checkCoordinates: checkCoordinatesControl,
+            allowedCoordinatesDeviation: allowedCoordinatesDeviationControl,
             specialTasksAreStage: [specialTasksAreStage],
             maximumTeamSize: [maximumTeamSize, [Validators.required]],
             minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
@@ -116,6 +134,7 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             const viewModel = new RaceDetailViewModel();
             viewModel.name = this.addRaceForm.get('name').value;
             viewModel.coordinatesCheckEnabled = this.addRaceForm.get('checkCoordinates').value;
+            viewModel.allowedCoordinatesDeviation = this.addRaceForm.get('allowedCoordinatesDeviation').value;
             viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
             viewModel.maximumTeamSize = this.addRaceForm.get('maximumTeamSize').value;
             viewModel.minimumPointsToCompleteStage = this.addRaceForm.get('minimumPointsToCompleteStage').value;
