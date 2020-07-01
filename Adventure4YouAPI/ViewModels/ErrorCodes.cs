@@ -8,6 +8,7 @@ namespace Adventure4YouAPI.ViewModels
         NotFound = 3,
         MaxIdsReached = 4,
         AnswerIncorrect = 5,
-        PointNotInActiveStage = 7,
+        NotActiveStage = 7,
+        RaceNotStarted = 8,
     }
 }

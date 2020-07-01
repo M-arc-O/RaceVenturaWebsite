@@ -3,7 +3,6 @@ using Adventure4YouData;
 using Adventure4YouData.Models.Races;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
-using Remotion.Linq;
 using System;
 using System.Linq;
 
@@ -22,16 +21,17 @@ namespace Adventure4You.AppApi
 
         public void RegisterToRace(Guid raceId, Guid teamId, string uniqueId)
         {
-            var race = GetRace(raceId);
             var team = GetTeam(teamId);
+            var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId).ToList();
 
-            if (team.RegisteredIds.Count >= race.MaximumTeamSize)
+            var race = GetRace(raceId);
+            if (registeredIds.Count >= race.MaximumTeamSize)
             {
                 _Logger.LogError($"Error in {GetType().Name}: Someone tried to registers to many ID's to team with id '{raceId}'.");
                 throw new BusinessException($"Maximum of registered ID's reached.", BLErrorCodes.MaxIdsReached);
             }
 
-            if (team.RegisteredIds.Any(id => id.TeamId == teamId && id.UniqueId == uniqueId))
+            if (registeredIds.Any(id => id.UniqueId == uniqueId))
             {
                 _Logger.LogError($"Error in {GetType().Name}: Someone tried to registers the unique ID '{uniqueId}' twice.");
                 throw new BusinessException($"Unique ID '{uniqueId}' allready registered.", BLErrorCodes.Duplicate);
@@ -43,19 +43,21 @@ namespace Adventure4You.AppApi
 
         public string RegisterPoint(Guid raceId, Guid teamId, string uniqueId, Guid pointId, double latitude, double longitude, string answer)
         {
-            var race = GetRace(raceId);
             var team = GetTeam(teamId);
 
-            CheckTeamIdAndUniqueId(teamId, uniqueId, team);
+            CheckTeamIdAndUniqueId(teamId, uniqueId);
 
             var point = GetPoint(pointId);
             var stage = GetStage(point.StageId);
 
             if (team.ActiveStage != stage.Number)
             {
-                throw new BusinessException($"Previous stage not finsished.", BLErrorCodes.PointNotInActiveStage);
+                throw new BusinessException($"Point with ID '{pointId}' not in active stage.", BLErrorCodes.NotActiveStage);
             }
 
+            var race = GetRace(raceId);
+            var dateNow = DateTime.Now;
+            CheckTime(race, dateNow);
             CheckCoordinates(race, point, latitude, longitude);
 
             if (!string.IsNullOrEmpty(point.Message))
@@ -76,7 +78,7 @@ namespace Adventure4You.AppApi
                 throw new BusinessException($"Point already registered '{pointId}'.", BLErrorCodes.Duplicate);
             }
 
-            _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = teamId, PointId = pointId, Time = DateTime.Now });
+            _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = teamId, PointId = pointId, Time = dateNow });
             _UnitOfWork.Save();
 
             return "";
@@ -84,12 +86,37 @@ namespace Adventure4You.AppApi
 
         public void RegisterStageEnd(Guid raceId, Guid teamId, string uniqueId, Guid stageId)
         {
-            throw new NotImplementedException();
+            var team = GetTeam(teamId);
+
+            CheckTeamIdAndUniqueId(teamId, uniqueId);
+
+            var stage = GetStage(stageId);
+            if (team.ActiveStage != stage.Number)
+            {
+                throw new BusinessException($"Stage with ID '{stageId}' is not the active stage.", BLErrorCodes.NotActiveStage);
+            }
+
+            var dateNow = DateTime.Now;
+            var race = GetRace(raceId);
+            CheckTime(race, dateNow);
+
+            team.ActiveStage++;
+
+            _UnitOfWork.TeamRepository.Update(team);
+            _UnitOfWork.FinishedStageRepository.Insert(new FinishedStage { TeamId = teamId, StageId = stageId, FinishTime = dateNow });
+            _UnitOfWork.Save();
         }
 
         public void RegisterRaceEnd(Guid raceId, Guid teamId, string uniqueId)
         {
-            throw new NotImplementedException();
+            var team = GetTeam(teamId);
+
+            CheckTeamIdAndUniqueId(teamId, uniqueId);
+            GetRace(raceId);
+
+            team.FinishTime = DateTime.Now;
+            _UnitOfWork.TeamRepository.Update(team);
+            _UnitOfWork.Save();
         }
 
         private Race GetRace(Guid raceId)
@@ -106,8 +133,7 @@ namespace Adventure4You.AppApi
 
         private Team GetTeam(Guid teamId)
         {
-            var team = _UnitOfWork.TeamRepository.Get(t => t.TeamId == teamId, null,
-                "Teams,Teams.VisitedPoints,Teams.FinishedStages").FirstOrDefault();
+            var team = _UnitOfWork.TeamRepository.GetByID(teamId);
             if (team == null)
             {
                 _Logger.LogError($"Error in {GetType().Name}: Someone tried to access team with ID '{teamId}' but it does not exsist.");
@@ -115,27 +141,6 @@ namespace Adventure4You.AppApi
             }
 
             return team;
-        }
-
-        private void CheckTeamIdAndUniqueId(Guid teamId, string uniqueId, Team team)
-        {
-            if (!team.RegisteredIds.Any(id => id.TeamId == teamId && id.UniqueId.Equals(uniqueId)))
-            {
-                _Logger.LogError($"Error in {GetType().Name}: Someone tried to register a point but the team id '{teamId}' and unique id '{uniqueId}' do not match.");
-                throw new BusinessException($"Unauthorized action, team id '{teamId}' and unique id '{uniqueId}' do not match.", BLErrorCodes.UserUnauthorized);
-            }
-        }
-
-        private void CheckCoordinates(Race race, Point point, double latitude, double longitude)
-        {
-            if (race.CoordinatesCheckEnabled &&
-                latitude <= point.Latitude - race.AllowedCoordinatesDeviation &&
-                latitude >= point.Latitude + race.AllowedCoordinatesDeviation &&
-                longitude <= point.Longitude - race.AllowedCoordinatesDeviation &&
-                longitude >= point.Longitude + race.AllowedCoordinatesDeviation)
-            {
-                throw new BusinessException($"Coordinates incorrect, latitude '{latitude}', longitude '{longitude}'", BLErrorCodes.CoordinatesIncorrect);
-            }
         }
 
         private Stage GetStage(Guid stageId)
@@ -160,6 +165,35 @@ namespace Adventure4You.AppApi
             }
 
             return point;
+        }
+
+        private void CheckTeamIdAndUniqueId(Guid teamId, string uniqueId)
+        {
+            if (_UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId && id.UniqueId.Equals(uniqueId)) == null)
+            {
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to register a point but the team id '{teamId}' and unique id '{uniqueId}' do not match.");
+                throw new BusinessException($"Unauthorized action, team id '{teamId}' and unique id '{uniqueId}' do not match.", BLErrorCodes.UserUnauthorized);
+            }
+        }
+
+        private void CheckCoordinates(Race race, Point point, double latitude, double longitude)
+        {
+            if (race.CoordinatesCheckEnabled &&
+                latitude <= point.Latitude - race.AllowedCoordinatesDeviation &&
+                latitude >= point.Latitude + race.AllowedCoordinatesDeviation &&
+                longitude <= point.Longitude - race.AllowedCoordinatesDeviation &&
+                longitude >= point.Longitude + race.AllowedCoordinatesDeviation)
+            {
+                throw new BusinessException($"Coordinates incorrect, latitude '{latitude}', longitude '{longitude}'", BLErrorCodes.CoordinatesIncorrect);
+            }
+        }
+
+        private void CheckTime(Race race, DateTime date)
+        {
+            if (date < race.StartTime)
+            {
+                throw new BusinessException($"Race not started yet", BLErrorCodes.RaceNotStarted);
+            }
         }
     }
 }

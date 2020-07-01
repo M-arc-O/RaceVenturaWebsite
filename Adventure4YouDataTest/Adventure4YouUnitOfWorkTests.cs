@@ -31,6 +31,7 @@ namespace Adventure4YouDataTest
             Assert.IsInstanceOfType(_Sut.TeamRepository, typeof(GenericRepository<Team>));
             Assert.IsInstanceOfType(_Sut.UserLinkRepository, typeof(GenericRepository<UserLink>));
             Assert.IsInstanceOfType(_Sut.VisitedPointRepository, typeof(GenericRepository<VisitedPoint>));
+            Assert.IsInstanceOfType(_Sut.FinishedStageRepository, typeof(GenericRepository<FinishedStage>));
             Assert.IsInstanceOfType(_Sut.RegisteredIdRepository, typeof(GenericRepository<RegisteredId>));
         }
 
