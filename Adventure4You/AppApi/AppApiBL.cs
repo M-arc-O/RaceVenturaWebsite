@@ -62,14 +62,14 @@ namespace Adventure4You.AppApi
 
             if (!string.IsNullOrEmpty(point.Message))
             {
-                if (string.IsNullOrEmpty(answer))
+                if (string.IsNullOrEmpty(answer.Trim()))
                 {
                     return point.Message;
                 }
 
-                if (point.Answer.Equals(answer))
+                if (!point.Answer.Equals(answer.Trim()))
                 {
-                    throw new BusinessException($"Answer '{answer}' is incorrect ", BLErrorCodes.AnswerIncorrect);
+                    throw new BusinessException($"Answer '{answer}' is incorrect.", BLErrorCodes.AnswerIncorrect);
                 }
             }
 
@@ -178,11 +178,11 @@ namespace Adventure4You.AppApi
 
         private void CheckCoordinates(Race race, Point point, double latitude, double longitude)
         {
-            if (race.CoordinatesCheckEnabled &&
-                latitude <= point.Latitude - race.AllowedCoordinatesDeviation &&
-                latitude >= point.Latitude + race.AllowedCoordinatesDeviation &&
-                longitude <= point.Longitude - race.AllowedCoordinatesDeviation &&
-                longitude >= point.Longitude + race.AllowedCoordinatesDeviation)
+            if (race.CoordinatesCheckEnabled && (
+                latitude < point.Latitude - race.AllowedCoordinatesDeviation ||
+                latitude > point.Latitude + race.AllowedCoordinatesDeviation ||
+                longitude < point.Longitude - race.AllowedCoordinatesDeviation ||
+                longitude > point.Longitude + race.AllowedCoordinatesDeviation))
             {
                 throw new BusinessException($"Coordinates incorrect, latitude '{latitude}', longitude '{longitude}'", BLErrorCodes.CoordinatesIncorrect);
             }
