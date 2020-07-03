@@ -25,6 +25,11 @@ namespace Adventure4YouAPI.Controllers.AppApi
         [Route("registertorace")]
         public IActionResult RegisterToRace(RegisterToRaceViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 _AppApiBL.RegisterToRace(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId);
@@ -46,6 +51,11 @@ namespace Adventure4YouAPI.Controllers.AppApi
         [Route("registerpoint")]
         public IActionResult RegisterPoint(RegisterPointViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 viewModel.Question = _AppApiBL.RegisterPoint(
@@ -74,6 +84,11 @@ namespace Adventure4YouAPI.Controllers.AppApi
         [Route("registerStageEnd")]
         public IActionResult RegisterStageEnd(RegisterStageEndViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 _AppApiBL.RegisterStageEnd(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId, viewModel.StageId);
@@ -95,6 +110,11 @@ namespace Adventure4YouAPI.Controllers.AppApi
         [Route("registerRaceEnd")]
         public IActionResult RegisterRaceEnd(RegisterToRaceViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 _AppApiBL.RegisterRaceEnd(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId);

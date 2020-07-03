@@ -13,7 +13,7 @@ namespace Adventure4You.AppApi
         private readonly IAdventure4YouUnitOfWork _UnitOfWork;
         private readonly ILogger _Logger;
 
-        public AppApiBL(IAdventure4YouUnitOfWork unitOfWork, ILogger logger)
+        public AppApiBL(IAdventure4YouUnitOfWork unitOfWork, ILogger<AppApiBL> logger)
         {
             _UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
