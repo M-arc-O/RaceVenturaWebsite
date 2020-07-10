@@ -106,8 +106,8 @@ export class TeamAddComponent extends TeamComponentBase implements OnInit, OnCha
 
             const viewModel = new TeamStoreModel();
             viewModel.name = this.addTeamForm.get('name').value;
-            viewModel.number = this.addTeamForm.get('number').value;
-            viewModel.category = this.addTeamForm.get('category').value;
+            viewModel.number = parseFloat(this.addTeamForm.get('number').value);
+            viewModel.category = parseFloat(this.addTeamForm.get('category').value);
             viewModel.raceId = this.raceId;
 
             switch (this.type) {

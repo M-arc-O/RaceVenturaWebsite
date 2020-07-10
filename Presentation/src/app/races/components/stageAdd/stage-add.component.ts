@@ -98,8 +98,8 @@ export class StageAddComponent extends ComponentBase implements OnInit, OnChange
 
             const viewModel = new StageStoreModel();
             viewModel.name = this.addStageForm.get('name').value;
-            viewModel.number = this.addStageForm.get('number').value;
-            viewModel.mimimumPointsToCompleteStage = this.addStageForm.get('minimumPointsToCompleteStage').value;
+            viewModel.number = parseFloat(this.addStageForm.get('number').value);
+            viewModel.mimimumPointsToCompleteStage = parseFloat(this.addStageForm.get('minimumPointsToCompleteStage').value);
             viewModel.raceId = this.raceId;
 
             switch (this.type) {

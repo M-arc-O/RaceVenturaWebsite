@@ -134,11 +134,11 @@ export class RaceAddComponent extends ComponentBase implements OnInit, OnChanges
             const viewModel = new RaceDetailViewModel();
             viewModel.name = this.addRaceForm.get('name').value;
             viewModel.coordinatesCheckEnabled = this.addRaceForm.get('checkCoordinates').value;
-            viewModel.allowedCoordinatesDeviation = this.addRaceForm.get('allowedCoordinatesDeviation').value;
+            viewModel.allowedCoordinatesDeviation = parseFloat(this.addRaceForm.get('allowedCoordinatesDeviation').value);
             viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
-            viewModel.maximumTeamSize = this.addRaceForm.get('maximumTeamSize').value;
-            viewModel.minimumPointsToCompleteStage = this.addRaceForm.get('minimumPointsToCompleteStage').value;
-            viewModel.penaltyPerMinuteLate = this.addRaceForm.get('penaltyPerMinuteLate').value;
+            viewModel.maximumTeamSize = parseFloat(this.addRaceForm.get('maximumTeamSize').value);
+            viewModel.minimumPointsToCompleteStage = parseFloat(this.addRaceForm.get('minimumPointsToCompleteStage').value);
+            viewModel.penaltyPerMinuteLate = parseFloat(this.addRaceForm.get('penaltyPerMinuteLate').value);
             viewModel.startTime = this.getDate(this.addRaceForm.get('startDate').value, this.addRaceForm.get('startTime').value);
             viewModel.endTime = this.getDate(this.addRaceForm.get('endDate').value, this.addRaceForm.get('endTime').value);
 

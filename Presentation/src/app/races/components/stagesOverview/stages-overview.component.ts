@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { StageDetailViewModel, StageStoreModel } from '../../shared/models';
+import { StageStoreModel } from '../../shared/models';
 import { deleteStageSelector, IStages, stagesSelector } from '../../store';
 
 @Component({

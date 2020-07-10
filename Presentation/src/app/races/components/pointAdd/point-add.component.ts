@@ -117,10 +117,10 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             const viewModel = new PointDetailViewModel();
             viewModel.stageId = this.stageId;
             viewModel.name = this.addPointForm.get('name').value;
-            viewModel.type = this.addPointForm.get('type').value;
-            viewModel.value = this.addPointForm.get('value').value;
-            viewModel.latitude = this.addPointForm.get('latitude').value;
-            viewModel.longitude = this.addPointForm.get('longitude').value;
+            viewModel.type = parseFloat(this.addPointForm.get('type').value);
+            viewModel.value = parseFloat(this.addPointForm.get('value').value);
+            viewModel.latitude = parseFloat(this.addPointForm.get('latitude').value);
+            viewModel.longitude = parseFloat(this.addPointForm.get('longitude').value);
             viewModel.answer = this.addPointForm.get('answer').value;
             viewModel.message = this.addPointForm.get('message').value;
 
