@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Adventure4You": {
+    "RaceVentura": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/Adventure4You",
+            "outputPath": "dist/RaceVentura",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Adventure4You:build"
+            "browserTarget": "RaceVentura:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Adventure4You:build:production"
+              "browserTarget": "RaceVentura:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Adventure4You:build"
+            "browserTarget": "RaceVentura:build"
           }
         },
         "test": {
@@ -108,7 +108,7 @@
         }
       }
     },
-    "Adventure4You-e2e": {
+    "RaceVentura-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -117,11 +117,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Adventure4You:serve"
+            "devServerTarget": "RaceVentura:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Adventure4You:serve:production"
+              "devServerTarget": "RaceVentura:serve:production"
             }
           }
         },
@@ -137,5 +137,5 @@
       }
     }
   },
-  "defaultProject": "Adventure4You"
+  "defaultProject": "RaceVentura"
 }

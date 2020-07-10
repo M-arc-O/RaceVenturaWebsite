@@ -1,0 +1,479 @@
+{
+	"info": {
+		"_postman_id": "574b3df2-624d-4e72-a2bc-134d333066ec",
+		"name": "RaceVentura Basic Setup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a329ea70-9ef4-4750-ab0e-bc1182a47733",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"AuthToken\", jsonData.auth_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Email\": \"m.trapman@gmail.com\",\n    \"Password\": \"Pietje0070!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/auth/login",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddRace",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "440db2b1-1cec-4b83-bcd7-e9d86aa64c19",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"RaceId\", jsonData.raceId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"TestRace\",\n    \"CoordinatesCheckEnabled\": true,\n    \"SpecialTasksAreStage\": false,\n    \"MaximumTeamSize\": 2,\n    \"MinimumPointsToCompleteStage\": 1,\n    \"PenaltyPerMinuteLate\": 12,\n    \"StartTime\": \"2020-07-08T05:00:00.000Z\",\n    \"EndTime\": \"2020-07-08T05:00:00.000Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/races/addrace",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"races",
+						"addrace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTeam1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d00ff93e-ff76-4325-ae62-dc30353a8bca",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"TeamId\", jsonData.teamId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"RaceId\": \"{{RaceId}}\",\n\t\"Name\": \"TZN\",\n    \"Number\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/teams/addteam",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"teams",
+						"addteam"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTeam2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfba8795-75f1-438a-ae92-b4168d1f82d7",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"TeamId\", jsonData.teamId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"RaceId\": \"{{RaceId}}\",\n\t\"Name\": \"TMN\",\n    \"Number\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/teams/addteam",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"teams",
+						"addteam"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "181e777e-3543-472f-9531-cd7199265221",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"Stage1Id\", jsonData.stageId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"RaceId\": \"{{RaceId}}\",\n\t\"Name\": \"Run 1\",\n    \"Number\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/stages/addstage",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"stages",
+						"addstage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage1Point1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"StageId\": \"{{Stage1Id}}\",\r\n\t\"Name\": \"Point 1\",\r\n\t\"Type\": 0,\r\n\t\"Value\": 1,\r\n\t\"Latitude\": 1,\r\n\t\"Longitude\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/points/addpoint",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"points",
+						"addpoint"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage1Point2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d246325-9052-4361-8424-10b986f42714",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"PointId\", jsonData.pointId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"StageId\": \"{{Stage1Id}}\",\n\t\"Name\": \"Point 2\",\n\t\"Type\": 0,\n\t\"Value\": 2,\n\t\"Latitude\": 2,\n\t\"Longitude\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/points/addpoint",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"points",
+						"addpoint"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "56494c37-2428-4862-8c27-f63c43faf296",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"Stage2Id\", jsonData.stageId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"RaceId\": \"{{RaceId}}\",\n\t\"Name\": \"Step 1\",\n    \"Number\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/stages/addstage",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"stages",
+						"addstage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage2Point1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5416a8ef-f345-4cf5-9784-2693266fc661",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"PointId\", jsonData.pointId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"StageId\": \"{{Stage2Id}}\",\n\t\"Name\": \"Point 1\",\n\t\"Type\": 0,\n\t\"Value\": 10,\n\t\"Latitude\": 10,\n\t\"Longitude\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/points/addpoint",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"points",
+						"addpoint"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddStage2Point2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "622a9b0a-ac90-4a3e-afeb-8de635fb22dd",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"PointId\", jsonData.pointId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"StageId\": \"{{Stage2Id}}\",\n\t\"Name\": \"Point 2\",\n\t\"Type\": 0,\n\t\"Value\": 20,\n\t\"Latitude\": 20,\n\t\"Longitude\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/points/addpoint",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"points",
+						"addpoint"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AuthToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "27bfd6a2-dabb-4f9e-aae3-9c29e476ee11",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e7c11076-9611-4c4e-8773-dbcd893ff285",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "52d3bedc-0a4f-48d2-98b3-3a2159d4f8d7",
+			"key": "AuthToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtLnRyYXBtYW5AZ21haWwuY29tIiwianRpIjoiMmJkYWViMmMtMzkwNi00Mzk0LTg3NzgtMGQzNzJhNGQyNDc1IiwiaWF0IjoxNTkxMDg1MTAxLCJyb2wiOiJhcGlfYWNjZXNzIiwiaWQiOiI1ZjM4NmFjMy1lMGYxLTQ2MGMtOGNmYi04Yjk1MTMzNDY5MDYiLCJuYmYiOjE1OTEwODUxMDEsImV4cCI6MTU5MTA4NjkwMSwiaXNzIjoiQWR2ZW50dXJlNFlvdVdlYkFwaSIsImF1ZCI6Imh0dHBzOi8vYWR2ZW50dXJlNHlvdS5henVyZXdlYnNpdGVzLm5ldCJ9.GIryXcNjP9hkuzfI0ROmb_lh7cz2sCDJz5eshcU1f18"
+		},
+		{
+			"id": "346bb427-ab8a-4fad-86b0-c5890f375d85",
+			"key": "RaceId",
+			"value": "1b6e25c0-c697-45fc-90f9-fc932fe349ba"
+		},
+		{
+			"id": "3107fe68-500a-4720-b9a2-30fdac6a6a5f",
+			"key": "Stage1Id",
+			"value": "77feff11-dfbe-4a7b-9601-68529a7783e3"
+		},
+		{
+			"id": "60e23618-ff18-4299-a1eb-7d2e11eab370",
+			"key": "Stage2Id",
+			"value": ""
+		},
+		{
+			"id": "1482a582-da72-423b-bafb-b61a73bb78fb",
+			"key": "TeamId",
+			"value": ""
+		},
+		{
+			"id": "ddfcdbe6-2ce1-4216-bd24-1b53ae89de0c",
+			"key": "PointId",
+			"value": ""
+		},
+		{
+			"id": "2ca425c0-9e66-44f8-b2ae-691b86789f7c",
+			"key": "Race1Id",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

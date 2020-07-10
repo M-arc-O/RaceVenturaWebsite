@@ -5,8 +5,9 @@ export function stagesReducer(state: StageStoreModel[] = [],
     action: stagesActions.StageActionsUnion | stagesActions.RaceActionsUnion) {
     switch (action.type) {
         case stagesActions.RaceActions.LOAD_RACE_DETAILS_SUCCES: {
-            state = action.payload.stages;
-            return Object.assign([], state);
+            var newState = Object.assign([], state);
+            newState = action.payload.stages;
+            return newState;
         }
         case stagesActions.StageActions.ADD_STAGE_SUCCES: {
             var newState = Object.assign([], state);
@@ -17,7 +18,7 @@ export function stagesReducer(state: StageStoreModel[] = [],
             var newState = Object.assign([], state);
             const index = newState.findIndex(s => s.stageId === action.payload.stageId);
             newState[index] = action.payload;
-            return Object.assign([], state);
+            return Object.assign([], newState);
         }
         case stagesActions.StageActions.DELETE_STAGE_SUCCES: {
             var newState = Object.assign([], state);

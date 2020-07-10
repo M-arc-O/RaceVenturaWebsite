@@ -10,12 +10,13 @@ import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';
 import * as teamActions from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { timeValidator } from '../../shared/Validators/time.validator';
+import { TeamComponentBase } from '../team-component-base.component';
 
 @Component({
     selector: 'app-team-details',
     templateUrl: './team-details.component.html'
 })
-export class TeamDetailsComponent extends ComponentBase implements OnInit {
+export class TeamDetailsComponent extends TeamComponentBase implements OnInit {
     @Input() selectedTeam: TeamStoreModel;
 
     public setFinishTimeForm: FormGroup;

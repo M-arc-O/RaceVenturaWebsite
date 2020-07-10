@@ -55,6 +55,16 @@
             </validation-message>
         </validation-message-for>
 
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="category{{type}}">Category</label>
+            <div class="col">
+                <select class="form-control" id="category{{type}}" formControlName="category">
+                    <option *ngFor="let category of categorys | enumToArray" [value]="category.index">
+                        {{categoryToString(category.index)}}</option>
+                </select>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">
             <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 

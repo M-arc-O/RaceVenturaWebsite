@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -8,19 +8,21 @@ import { takeUntil } from 'rxjs/operators';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
-import { TeamStoreModel } from '../../shared/models';
+import { TeamStoreModel, TeamCategory } from '../../shared/models';
 import { addTeamSelector, editTeamSelector, ITeams } from '../../store';
 import * as teamActions from '../../store/actions/team.actions';
+import { TeamComponentBase } from '../team-component-base.component';
 
 @Component({
     selector: 'app-team-add',
     templateUrl: './team-add.component.html'
 })
-export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges {
+export class TeamAddComponent extends TeamComponentBase implements OnInit, OnChanges, AfterViewInit {
     @Input() public type: AddEditType;
     @Input() public raceId: string;
     @Input() public details: TeamStoreModel;
 
+    public categorys = TeamCategory;
     public addEditType = AddEditType;
 
     private addTeamNgForm: NgForm;
@@ -72,20 +74,29 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
         }
     }
 
+    public ngAfterViewInit(): void {
+        if (this.details === undefined) {
+            this.addTeamForm.controls['category'].setValue(TeamCategory.Man);
+        }
+    }
+
     private setupForm(details?: TeamStoreModel): void {
         const formBuilder = new FormBuilder();
 
         let name = '';
         let number: number;
+        let category: number;
 
         if (details !== undefined) {
             name = details.name;
             number = details.number;
+            category = details.category;
         }
 
         this.addTeamForm = formBuilder.group({
             name: [name, [Validators.required]],
-            number: [number, [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]]
+            number: [number, [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+            category: [category, [Validators.required]]
         });
     }
 
@@ -95,7 +106,8 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
 
             const viewModel = new TeamStoreModel();
             viewModel.name = this.addTeamForm.get('name').value;
-            viewModel.number = this.addTeamForm.get('number').value;
+            viewModel.number = parseFloat(this.addTeamForm.get('number').value);
+            viewModel.category = parseFloat(this.addTeamForm.get('category').value);
             viewModel.raceId = this.raceId;
 
             switch (this.type) {
@@ -119,7 +131,7 @@ export class TeamAddComponent extends ComponentBase implements OnInit, OnChanges
             default:
                 return 'Default error!';
         }
-    }
+    }    
 
     private resetForm(): void {
         if (this.addTeamNgForm !== undefined) {
