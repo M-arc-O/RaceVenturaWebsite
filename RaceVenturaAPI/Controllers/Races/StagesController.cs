@@ -29,7 +29,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPost]
         [Route("addstage")]
-        public IActionResult Add([FromBody]StageViewModel viewModel)
+        public IActionResult Add(StageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPut]
         [Route("editstage")]
-        public IActionResult Edit([FromBody]StageViewModel viewModel)
+        public IActionResult Edit(StageViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

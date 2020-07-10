@@ -29,7 +29,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPost]
         [Route("addpoint")]
-        public IActionResult Add([FromBody]PointViewModel viewModel)
+        public IActionResult Add(PointViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPut]
         [Route("editpoint")]
-        public IActionResult Edit([FromBody]PointViewModel viewModel)
+        public IActionResult Edit(PointViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

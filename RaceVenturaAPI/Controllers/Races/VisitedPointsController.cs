@@ -57,7 +57,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [NonAction]
-        public IActionResult Edit([FromBody] VisitedPointViewModel viewModel)
+        public IActionResult Edit(VisitedPointViewModel viewModel)
         {
             throw new NotImplementedException();
         }

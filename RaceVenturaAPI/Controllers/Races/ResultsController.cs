@@ -29,7 +29,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpGet]
         [Route("getraceresults")]
-        public ActionResult<List<TeamResultViewModel>> GetRaceResults([FromQuery(Name = "raceId")]Guid raceId)
+        public ActionResult<List<TeamResultViewModel>> GetRaceResults(Guid raceId)
         {
             try
             {

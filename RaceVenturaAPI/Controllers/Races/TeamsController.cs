@@ -29,7 +29,7 @@ namespace RaceVenturaAPI.Controllers.Races
         
         [HttpPost]
         [Route("addteam")]
-        public IActionResult Add([FromBody]TeamViewModel viewModel)
+        public IActionResult Add(TeamViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPut]
         [Route("editteam")]
-        public IActionResult Edit([FromBody]TeamViewModel viewModel)
+        public IActionResult Edit(TeamViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
