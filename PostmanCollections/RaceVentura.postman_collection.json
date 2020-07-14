@@ -1258,72 +1258,72 @@
 	],
 	"variable": [
 		{
-			"id": "2b3e8af8-8ec7-4af0-8b8b-d0ba08c9ea6e",
+			"id": "ebe491b3-954e-4cdb-b109-dbffeb597bb2",
 			"key": "AuthToken",
 			"value": ""
 		},
 		{
-			"id": "8b0bdded-1279-4acf-b333-3b288ad2ea75",
+			"id": "a727bcc1-bcbb-4d3b-b408-886833e5364f",
 			"key": "Race1Id",
 			"value": ""
 		},
 		{
-			"id": "5dff898c-c024-4d1b-b62e-6703147ec257",
+			"id": "244b9607-f2a1-4438-9038-66c38996ee57",
 			"key": "Race2Id",
 			"value": ""
 		},
 		{
-			"id": "e9f4d7ad-dacc-442c-b9b7-64fe58db2e64",
+			"id": "7d3dec80-9a72-4490-89cf-163eef538f05",
 			"key": "Team1Id",
 			"value": ""
 		},
 		{
-			"id": "4072d05c-f4aa-4db6-a125-30e089702a1a",
+			"id": "bca557de-6af4-40c3-b434-bcc19853c897",
 			"key": "Team2Id",
 			"value": ""
 		},
 		{
-			"id": "300fa2ff-02d9-4277-ab13-fd55ee91e7e0",
+			"id": "208277d6-f740-429d-aa84-96eabb74374a",
 			"key": "Stage1Id",
 			"value": ""
 		},
 		{
-			"id": "c10fc312-353d-49ae-aa81-feebee50e765",
+			"id": "2b151621-6c65-47b1-b82a-14637e782863",
 			"key": "Stage1Point1Id",
 			"value": ""
 		},
 		{
-			"id": "48828a86-dbcd-4d79-8d98-6263aae7e0c2",
+			"id": "e383cfa7-4a50-41ff-9ce6-e063a59baaa4",
 			"key": "Stage1Point2Id",
 			"value": ""
 		},
 		{
-			"id": "1d1bbc3e-33d9-4788-881d-a705060f76d4",
+			"id": "1335ca3b-7c26-4387-989d-f6e7b56ad1bb",
 			"key": "Stage2Id",
 			"value": ""
 		},
 		{
-			"id": "4b2ce2ee-3a2c-43f6-a16b-526264e563a4",
+			"id": "44a685a9-de25-4131-aff5-7be8c8d69522",
 			"key": "Stage2Point1Id",
 			"value": ""
 		},
 		{
-			"id": "6b472aa3-15e7-4a1c-9916-4191d03e2738",
+			"id": "e486d1d0-edc4-47f6-bcea-25a793c714d4",
 			"key": "Stage2Point2Id",
 			"value": ""
 		},
 		{
-			"id": "3d5b76bc-8119-4764-b3de-b13802126c62",
+			"id": "8cd8ca2e-4f74-4953-92b2-9b807df5960c",
 			"key": "VisitedPointId",
 			"value": ""
 		},
 		{
-			"id": "2174ed14-9988-4880-a1b6-6591a0d2b089",
+			"id": "78f56d2a-0561-4901-9c36-c660fb8db174",
 			"key": "Team1UniqueId",
 			"value": "MyUniqueIdForTeam1"
 		},
 		{
-			"id": "d0726c79-817e-46b6-b5af-5411c0288463",
+			"id": "33f665c2-310a-4ec0-a755-0e9f6f7ad196",
 			"key": "Team2UniqueId",
 			"value": "MyUniqueIdForTeam2"
 		}

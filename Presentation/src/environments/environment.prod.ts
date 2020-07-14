@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://RaceVentura.azurewebsites.net'
+  apiBaseUrl: 'https://raceventuradev.azurewebsites.net'
 };
