@@ -11,8 +11,8 @@ namespace RaceVenturaAPITest.Controllers.Races
     [TestClass]
     public class RacesControllerTests : ApiControllerCrudTestsBase<RacesController, Race, RaceViewModel, RaceDetailViewModel>
     {
-        private Mock<IHtmlToPdfBL> _HtmlToPdfMock = new Mock<IHtmlToPdfBL>();
-        private Mock<IRazorToHtml> _RazorToHtmlMock = new Mock<IRazorToHtml>();
+        private readonly Mock<IHtmlToPdfBL> _HtmlToPdfMock = new Mock<IHtmlToPdfBL>();
+        private readonly Mock<IRazorToHtml> _RazorToHtmlMock = new Mock<IRazorToHtml>();
 
         [TestInitialize]
         public void InitializeTest()

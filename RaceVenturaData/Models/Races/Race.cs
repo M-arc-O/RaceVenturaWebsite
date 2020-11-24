@@ -37,7 +37,11 @@ namespace RaceVenturaData.Models.Races
         public DateTime StartTime { get; set; }
 
         [Required]
+        [MaxLength(500)]
         public DateTime EndTime { get; set; }
+
+        [Required]
+        public string PointInformationText { get; set; }
 
         public List<Stage> Stages { get; set; }
 

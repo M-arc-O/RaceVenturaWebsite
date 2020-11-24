@@ -1,10 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Pdf</title>
-    </head>
-    <body>
-        Hallo PDF!
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Points information for @Model.Name</title>
+</head>
+<body>
+    <h1>Points information for @Model.Name</h1>
+    @foreach (var stage in Model.Stages)
+    {
+        <p>
+            <h2>Stage @stage.Number (@stage.Name)</h2>
+            @foreach (var point in stage.Points)
+            {
+                <h3>@point.Name</h3>
+                @Model.PointInformationText
+                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="100" width="100" />
+            }
+        </p>
+    }
+</body>
 </html>

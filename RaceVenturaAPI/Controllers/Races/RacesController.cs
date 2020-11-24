@@ -11,6 +11,9 @@ using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using RaceVentura.PdfGeneration;
+using QRCoder;
+using System.Drawing;
+using System.IO;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -163,7 +166,10 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var html = await GetHtmlForPoints(raceId);
+                var race = _RaceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                CreateQrCodes(raceViewModel);
+                var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
                 var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
                 return File(bytes, "application/pdf", "RacePoints.pdf");
             }
@@ -178,11 +184,23 @@ namespace RaceVenturaAPI.Controllers.Races
             }
         }
 
-        private async Task<string> GetHtmlForPoints(Guid raceId)
+        private static void CreateQrCodes(RaceDetailViewModel raceViewModel)
         {
-            var race = _RaceBL.GetById(GetUserId(), raceId);
-            var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceId);
-            return html;
+            foreach (var stage in raceViewModel.Stages)
+            {
+                foreach (var point in stage.Points)
+                {
+                    var txtQRCode = $"RaceId:{raceViewModel.RaceId}, TeamId:{point.PointId} ";
+
+                    QRCodeGenerator qrCodeGenerator = new QRCodeGenerator();
+                    QRCodeData qrCodeData = qrCodeGenerator.CreateQrCode(txtQRCode, QRCodeGenerator.ECCLevel.Q);
+                    QRCode qrCode = new QRCode(qrCodeData);
+                    Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                    using MemoryStream stream = new MemoryStream();
+                    qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    point.QrCodeArray = stream.ToArray();
+                }
+            }
         }
     }
 }

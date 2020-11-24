@@ -29,6 +29,10 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public DateTime EndTime { get; set; }
 
+        [Required]
+        [MaxLength(500)]
+        public string PointInformationText { get; set; }
+
         public List<TeamViewModel> Teams { get; set; }
 
         public List<StageViewModel> Stages { get; set; }

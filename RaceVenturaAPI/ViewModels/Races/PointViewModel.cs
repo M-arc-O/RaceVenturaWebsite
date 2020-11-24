@@ -30,5 +30,7 @@ namespace RaceVenturaAPI.ViewModels.Races
         public string Answer { get; set; }
 
         public string Message { get; set; }
+
+        public byte[] QrCodeArray { get; set; }
     }
 }
