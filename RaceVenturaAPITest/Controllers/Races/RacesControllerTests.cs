@@ -3,16 +3,21 @@ using RaceVenturaAPI.ViewModels.Races;
 using RaceVenturaData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using RaceVentura.PdfGeneration;
+using Moq;
 
 namespace RaceVenturaAPITest.Controllers.Races
 {
     [TestClass]
     public class RacesControllerTests : ApiControllerCrudTestsBase<RacesController, Race, RaceViewModel, RaceDetailViewModel>
     {
+        private Mock<IHtmlToPdfBL> _HtmlToPdfMock = new Mock<IHtmlToPdfBL>();
+        private Mock<IRazorToHtml> _RazorToHtmlMock = new Mock<IRazorToHtml>();
+
         [TestInitialize]
         public void InitializeTest()
         {
-            Sut = new RacesController(_BLMock.Object, _MapperMock.Object, _LoggerMock.Object);
+            Sut = new RacesController(_BLMock.Object, _HtmlToPdfMock.Object, _RazorToHtmlMock.Object, _MapperMock.Object, _LoggerMock.Object);
 
             SetControllerContext(Sut);
         }
@@ -20,9 +25,11 @@ namespace RaceVenturaAPITest.Controllers.Races
         [TestMethod]
         public void ConstructorTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(null, _MapperMock.Object, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, null, _LoggerMock.Object));
-            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, _MapperMock.Object, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(null, _HtmlToPdfMock.Object, _RazorToHtmlMock.Object, _MapperMock.Object, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, null, _RazorToHtmlMock.Object, _MapperMock.Object, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, _HtmlToPdfMock.Object, null, _MapperMock.Object, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, _HtmlToPdfMock.Object, _RazorToHtmlMock.Object, null, _LoggerMock.Object));
+            Assert.ThrowsException<ArgumentNullException>(() => new RacesController(_BLMock.Object, _HtmlToPdfMock.Object, _RazorToHtmlMock.Object, _MapperMock.Object, null));
         }
 
         [TestMethod]

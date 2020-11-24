@@ -9,6 +9,8 @@ using AutoMapper;
 using RaceVentura;
 using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using RaceVentura.PdfGeneration;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -18,12 +20,16 @@ namespace RaceVenturaAPI.Controllers.Races
     public class RacesController : RacesControllerBase, ICrudController<RaceViewModel, RaceDetailViewModel>
     {
         private readonly IGenericCrudBL<Race> _RaceBL;
+        private readonly IHtmlToPdfBL _HtmlToPdfBL;
+        private readonly IRazorToHtml _RazorToHtml;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public RacesController(IGenericCrudBL<Race> raceBL, IMapper mapper, ILogger<RacesController> logger)
+        public RacesController(IGenericCrudBL<Race> raceBL, IHtmlToPdfBL htmlToPdfBL, IRazorToHtml razorToHtml, IMapper mapper, ILogger<RacesController> logger)
         {
             _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
+            _HtmlToPdfBL = htmlToPdfBL ?? throw new ArgumentNullException(nameof(htmlToPdfBL));
+            _RazorToHtml = razorToHtml ?? throw new ArgumentNullException(nameof(razorToHtml));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -149,6 +155,34 @@ namespace RaceVenturaAPI.Controllers.Races
                 _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
+        }
+
+        [HttpGet]
+        [Route("getpointspdf")]
+        public async Task<IActionResult> GetPointsPdf(Guid raceId)
+        {
+            try
+            {
+                var html = await GetHtmlForPoints(raceId);
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                return File(bytes, "application/pdf", "RacePoints.pdf");
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        private async Task<string> GetHtmlForPoints(Guid raceId)
+        {
+            var race = _RaceBL.GetById(GetUserId(), raceId);
+            var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceId);
+            return html;
         }
     }
 }

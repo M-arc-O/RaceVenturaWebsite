@@ -3,6 +3,7 @@ using RaceVentura.Races;
 using RaceVenturaData;
 using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.DependencyInjection;
+using RaceVentura.PdfGeneration;
 
 namespace RaceVentura.Helpers
 {
@@ -19,6 +20,8 @@ namespace RaceVentura.Helpers
             services.AddScoped<IGenericCudBL<VisitedPoint>, VisitedPointBL>();
             services.AddScoped<IResultsBL, ResultsBL>();
             services.AddScoped<IAppApiBL, AppApiBL>();
+            services.AddScoped<IHtmlToPdfBL, HtmlToPdfBL>();
+            services.AddScoped<IRazorToHtml, RazorToHtml>();
         }
     }
 }
