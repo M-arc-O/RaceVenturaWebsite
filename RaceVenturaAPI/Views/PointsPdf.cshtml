@@ -9,12 +9,12 @@
     @foreach (var stage in Model.Stages)
     {
         <p>
-            <h2>Stage @stage.Number (@stage.Name)</h2>
             @foreach (var point in stage.Points)
             {
-                <h3>@point.Name</h3>
-                @Model.PointInformationText
-                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="100" width="100" />
+                <h3>Stage @stage.Number (@stage.Name) - @point.Name</h3>
+                <img class="avatar" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="100" width="100" />
+                <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="100" width="100" />
+                <span>@Model.PointInformationText</span>
             }
         </p>
     }

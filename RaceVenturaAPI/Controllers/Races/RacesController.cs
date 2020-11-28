@@ -14,6 +14,7 @@ using RaceVentura.PdfGeneration;
 using QRCoder;
 using System.Drawing;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -25,14 +26,16 @@ namespace RaceVenturaAPI.Controllers.Races
         private readonly IGenericCrudBL<Race> _RaceBL;
         private readonly IHtmlToPdfBL _HtmlToPdfBL;
         private readonly IRazorToHtml _RazorToHtml;
+        private readonly IWebHostEnvironment _WebHostingEnvironment;
         private readonly IMapper _Mapper;
         private readonly ILogger _Logger;
 
-        public RacesController(IGenericCrudBL<Race> raceBL, IHtmlToPdfBL htmlToPdfBL, IRazorToHtml razorToHtml, IMapper mapper, ILogger<RacesController> logger)
+        public RacesController(IGenericCrudBL<Race> raceBL, IHtmlToPdfBL htmlToPdfBL, IRazorToHtml razorToHtml, IWebHostEnvironment webHostingEnvironment, IMapper mapper, ILogger<RacesController> logger)
         {
             _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
             _HtmlToPdfBL = htmlToPdfBL ?? throw new ArgumentNullException(nameof(htmlToPdfBL));
             _RazorToHtml = razorToHtml ?? throw new ArgumentNullException(nameof(razorToHtml));
+            _WebHostingEnvironment = webHostingEnvironment ?? throw new ArgumentNullException(nameof(webHostingEnvironment));
             _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -169,6 +172,7 @@ namespace RaceVenturaAPI.Controllers.Races
                 var race = _RaceBL.GetById(GetUserId(), raceId);
                 var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodes(raceViewModel);
+                AddAvatar(raceViewModel);
                 var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
                 var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
                 return File(bytes, "application/pdf", "RacePoints.pdf");
@@ -182,6 +186,14 @@ namespace RaceVenturaAPI.Controllers.Races
                 _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
+        }
+
+        private void AddAvatar(RaceDetailViewModel raceViewModel)
+        {
+            var avatar = new Bitmap($@"{_WebHostingEnvironment.ContentRootPath}\Content\Images\DefaultAvatar.png");
+            using MemoryStream stream = new MemoryStream();
+            avatar.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            raceViewModel.Avatar = stream.ToArray();
         }
 
         private static void CreateQrCodes(RaceDetailViewModel raceViewModel)

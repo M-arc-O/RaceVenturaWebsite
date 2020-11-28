@@ -1,2 +1,11 @@
-﻿body {
+﻿.avatar {
+    width: 100px;
+    float: left;
+    margin-right: 2px;
+}
+
+.qrcode {
+    width: 100px;
+    float: right;
+    margin-left: 2px;
 }

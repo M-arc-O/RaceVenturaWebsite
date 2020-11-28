@@ -65,6 +65,7 @@ namespace RaceVenturaAPI
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseStaticFiles();
         }
     }
 }
