@@ -15,6 +15,7 @@ using QRCoder;
 using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using RaceVenturaAPI.ViewModels.AppApi;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -202,7 +203,7 @@ namespace RaceVenturaAPI.Controllers.Races
             {
                 foreach (var point in stage.Points)
                 {
-                    var txtQRCode = $"RaceId:{raceViewModel.RaceId}, TeamId:{point.PointId} ";
+                    var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterPoint}, RaceId:{raceViewModel.RaceId}, TeamId:{point.PointId}";
 
                     QRCodeGenerator qrCodeGenerator = new QRCodeGenerator();
                     QRCodeData qrCodeData = qrCodeGenerator.CreateQrCode(txtQRCode, QRCodeGenerator.ECCLevel.Q);
