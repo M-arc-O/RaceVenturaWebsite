@@ -172,11 +172,11 @@ namespace RaceVenturaAPI.Controllers.Races
             {
                 var race = _RaceBL.GetById(GetUserId(), raceId);
                 var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
-                CreateQrCodes(raceViewModel);
+                CreateQrCodesForPoints(raceViewModel);
                 AddAvatar(raceViewModel);
                 var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
                 var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
-                return File(bytes, "application/pdf", "RacePoints.pdf");
+                return File(bytes, "application/pdf", "Points.pdf");
             }
             catch (BusinessException ex)
             {
@@ -189,6 +189,78 @@ namespace RaceVenturaAPI.Controllers.Races
             }
         }
 
+        [HttpGet]
+        [Route("getteamspdf")]
+        public async Task<IActionResult> GetTeamsPdf(Guid raceId)
+        {
+            try
+            {
+                var race = _RaceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                CreateQrCodesForTeams(raceViewModel);
+                var html = await _RazorToHtml.RenderRazorViewAsync("TeamsPdf", raceViewModel);
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                return File(bytes, "application/pdf", "Teams.pdf");
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("getstagesandraceendpdf")]
+        public async Task<IActionResult> GetStagesAndRaceEndPdf(Guid raceId)
+        {
+            try
+            {
+                var race = _RaceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                CreateQrCodesForStagesAndRaceEnd(raceViewModel);
+                var html = await _RazorToHtml.RenderRazorViewAsync("StagesAndRaceEndPdf", raceViewModel);
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                return File(bytes, "application/pdf", "StagesAndRaceEnd.pdf");
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        private static void CreateQrCodesForStagesAndRaceEnd(RaceDetailViewModel raceViewModel)
+        {
+            var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterRaceEnd}, RaceId:{raceViewModel.RaceId}";
+            var stream = CreateQrCodes(txtQRCode);
+            raceViewModel.QrCodeArray = stream.ToArray();
+
+            foreach (var stage in raceViewModel.Stages)
+            {
+                txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterStageEnd}, RaceId:{raceViewModel.RaceId}, StageId:{stage.StageId}";
+                stream = CreateQrCodes(txtQRCode);
+                stage.QrCodeArray = stream.ToArray();
+            }
+        }
+
+        private static void CreateQrCodesForTeams(RaceDetailViewModel raceViewModel)
+        {
+            foreach (var team in raceViewModel.Teams)
+            {
+                var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterToRace}, RaceId:{raceViewModel.RaceId}, TeamId:{team.TeamId}";
+                var stream = CreateQrCodes(txtQRCode);
+                team.QrCodeArray = stream.ToArray();
+            }
+        }
+
         private void AddAvatar(RaceDetailViewModel raceViewModel)
         {
             var avatar = new Bitmap($@"{_WebHostingEnvironment.ContentRootPath}\Content\Images\DefaultAvatar.png");
@@ -197,23 +269,28 @@ namespace RaceVenturaAPI.Controllers.Races
             raceViewModel.Avatar = stream.ToArray();
         }
 
-        private static void CreateQrCodes(RaceDetailViewModel raceViewModel)
+        private static void CreateQrCodesForPoints(RaceDetailViewModel raceViewModel)
         {
             foreach (var stage in raceViewModel.Stages)
             {
                 foreach (var point in stage.Points)
                 {
-                    var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterPoint}, RaceId:{raceViewModel.RaceId}, TeamId:{point.PointId}";
-
-                    QRCodeGenerator qrCodeGenerator = new QRCodeGenerator();
-                    QRCodeData qrCodeData = qrCodeGenerator.CreateQrCode(txtQRCode, QRCodeGenerator.ECCLevel.Q);
-                    QRCode qrCode = new QRCode(qrCodeData);
-                    Bitmap qrCodeImage = qrCode.GetGraphic(20);
-                    using MemoryStream stream = new MemoryStream();
-                    qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterPoint}, RaceId:{raceViewModel.RaceId}, PointId:{point.PointId}";
+                    var stream = CreateQrCodes(txtQRCode);
                     point.QrCodeArray = stream.ToArray();
                 }
             }
+        }
+
+        private static MemoryStream CreateQrCodes(string txtQRCode)
+        {
+            QRCodeGenerator qrCodeGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrCodeGenerator.CreateQrCode(txtQRCode, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            MemoryStream stream = new MemoryStream();
+            qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return stream;
         }
     }
 }

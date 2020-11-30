@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Stages and race end information for @Model.Name</title>
+</head>
+<body>
+    <h1>Stages and race end information for @Model.Name</h1>
+
+    <p>
+        <h3>@Model.Name end information</h3>
+        <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.QrCodeArray))" height="100" width="100" />
+        <div style="height: 100px;">Scan this QR code to end the race. This will register your teams finish time.</div>
+    </p>
+
+    @foreach (var stage in Model.Stages)
+    {
+        <p>
+            <h3>@Model.Name - Stage @stage.Number (@stage.Name) end information</h3>
+            <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(stage.QrCodeArray))" height="100" width="100" />
+            <div style="height: 100px;">By scanning this QR code you will finish this stage for your team. You cannot scan any points for stage @stage.Number (@stage.Name) afterwards! To be able the scan point of the next stage you must end this one!</div>
+        </p>
+    }
+</body>
+</html>

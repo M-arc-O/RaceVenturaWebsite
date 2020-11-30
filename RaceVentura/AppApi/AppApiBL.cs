@@ -1,7 +1,6 @@
 ﻿using RaceVentura.Models;
 using RaceVenturaData;
 using RaceVenturaData.Models.Races;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace RaceVentura.AppApi
 
         public void RegisterToRace(Guid raceId, Guid teamId, string uniqueId)
         {
-            var team = GetTeam(teamId);
+            var team = GetTeamByTeamId(teamId);
             var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId).ToList();
 
             var race = GetRace(raceId);
@@ -41,12 +40,9 @@ namespace RaceVentura.AppApi
             _UnitOfWork.Save();
         }
 
-        public string RegisterPoint(Guid raceId, Guid teamId, string uniqueId, Guid pointId, double latitude, double longitude, string answer)
+        public string RegisterPoint(Guid raceId, string uniqueId, Guid pointId, double latitude, double longitude, string answer)
         {
-            var team = GetTeam(teamId);
-
-            CheckTeamIdAndUniqueId(teamId, uniqueId);
-
+            var team = GetTeamByRegisteredId(uniqueId);
             var point = GetPoint(pointId);
             var stage = GetStage(point.StageId);
 
@@ -73,22 +69,20 @@ namespace RaceVentura.AppApi
                 }
             }
 
-            if (_UnitOfWork.VisitedPointRepository.Get(p => p.TeamId == teamId && p.PointId == pointId).Any())
+            if (_UnitOfWork.VisitedPointRepository.Get(p => p.TeamId == team.TeamId && p.PointId == pointId).Any())
             {
                 throw new BusinessException($"Point already registered '{pointId}'.", BLErrorCodes.Duplicate);
             }
 
-            _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = teamId, PointId = pointId, Time = dateNow });
+            _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = team.TeamId, PointId = pointId, Time = dateNow });
             _UnitOfWork.Save();
 
             return "";
         }
 
-        public void RegisterStageEnd(Guid raceId, Guid teamId, string uniqueId, Guid stageId)
+        public void RegisterStageEnd(Guid raceId, string uniqueId, Guid stageId)
         {
-            var team = GetTeam(teamId);
-
-            CheckTeamIdAndUniqueId(teamId, uniqueId);
+            var team = GetTeamByRegisteredId(uniqueId);
 
             var stage = GetStage(stageId);
             if (team.ActiveStage != stage.Number)
@@ -103,15 +97,14 @@ namespace RaceVentura.AppApi
             team.ActiveStage++;
 
             _UnitOfWork.TeamRepository.Update(team);
-            _UnitOfWork.FinishedStageRepository.Insert(new FinishedStage { TeamId = teamId, StageId = stageId, FinishTime = dateNow });
+            _UnitOfWork.FinishedStageRepository.Insert(new FinishedStage { TeamId = team.TeamId, StageId = stageId, FinishTime = dateNow });
             _UnitOfWork.Save();
         }
 
-        public void RegisterRaceEnd(Guid raceId, Guid teamId, string uniqueId)
+        public void RegisterRaceEnd(Guid raceId, string uniqueId)
         {
-            var team = GetTeam(teamId);
+            var team = GetTeamByRegisteredId(uniqueId);
 
-            CheckTeamIdAndUniqueId(teamId, uniqueId);
             GetRace(raceId);
 
             team.FinishTime = DateTime.Now;
@@ -131,13 +124,32 @@ namespace RaceVentura.AppApi
             return race;
         }
 
-        private Team GetTeam(Guid teamId)
+        private Team GetTeamByTeamId(Guid teamId)
         {
             var team = _UnitOfWork.TeamRepository.GetByID(teamId);
             if (team == null)
             {
                 _Logger.LogError($"Error in {GetType().Name}: Someone tried to access team with ID '{teamId}' but it does not exsist.");
                 throw new BusinessException($"Team with ID '{teamId}' is unknown", BLErrorCodes.NotFound);
+            }
+
+            return team;
+        }
+
+        private Team GetTeamByRegisteredId(string uniqueId)
+        {
+            var registeredId = _UnitOfWork.RegisteredIdRepository.Get(id => id.UniqueId.Equals(uniqueId)).FirstOrDefault();
+            if (registeredId == null)
+            {
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to access registeredId with uniqueID '{uniqueId}' but it does not exsist.");
+                throw new BusinessException($"RegisteredID with uniqueID '{uniqueId}' is unknown", BLErrorCodes.NotFound);
+            }
+
+            var team = _UnitOfWork.TeamRepository.GetByID(registeredId.TeamId);
+            if (team == null)
+            {
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to access team with ID '{registeredId.TeamId}' but it does not exsist.");
+                throw new BusinessException($"Team with ID '{registeredId.TeamId}' is unknown", BLErrorCodes.NotFound);
             }
 
             return team;
@@ -167,16 +179,7 @@ namespace RaceVentura.AppApi
             return point;
         }
 
-        private void CheckTeamIdAndUniqueId(Guid teamId, string uniqueId)
-        {
-            if (_UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId && id.UniqueId.Equals(uniqueId)) == null)
-            {
-                _Logger.LogError($"Error in {GetType().Name}: Someone tried to register a point but the team id '{teamId}' and unique id '{uniqueId}' do not match.");
-                throw new BusinessException($"Unauthorized action, team id '{teamId}' and unique id '{uniqueId}' do not match.", BLErrorCodes.UserUnauthorized);
-            }
-        }
-
-        private void CheckCoordinates(Race race, Point point, double latitude, double longitude)
+        private static void CheckCoordinates(Race race, Point point, double latitude, double longitude)
         {
             if (race.CoordinatesCheckEnabled && (
                 latitude < point.Latitude - race.AllowedCoordinatesDeviation ||
@@ -188,7 +191,7 @@ namespace RaceVentura.AppApi
             }
         }
 
-        private void CheckTime(Race race, DateTime date)
+        private static void CheckTime(Race race, DateTime date)
         {
             if (date < race.StartTime)
             {

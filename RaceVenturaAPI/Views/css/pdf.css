@@ -4,8 +4,13 @@
     margin-right: 2px;
 }
 
+.text {
+    overflow: hidden;
+}
+
 .qrcode {
     width: 100px;
+    height: 100px;
     float: right;
     margin-left: 2px;
 }

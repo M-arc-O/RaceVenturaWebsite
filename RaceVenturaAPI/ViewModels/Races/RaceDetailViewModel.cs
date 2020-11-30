@@ -34,6 +34,7 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         [MaxLength(500)]
         public string PointInformationText { get; set; }
+        public byte[] QrCodeArray { get; set; }
 
         public List<TeamViewModel> Teams { get; set; }
 

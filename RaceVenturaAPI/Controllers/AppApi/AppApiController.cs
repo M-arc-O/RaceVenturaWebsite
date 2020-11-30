@@ -60,7 +60,6 @@ namespace RaceVenturaAPI.Controllers.AppApi
             {
                 viewModel.Question = _AppApiBL.RegisterPoint(
                     viewModel.RaceId, 
-                    viewModel.TeamId, 
                     viewModel.UniqueId,
                     viewModel.PointId,
                     viewModel.Latitude,
@@ -91,7 +90,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
             try
             {
-                _AppApiBL.RegisterStageEnd(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId, viewModel.StageId);
+                _AppApiBL.RegisterStageEnd(viewModel.RaceId, viewModel.UniqueId, viewModel.StageId);
 
                 return Ok(viewModel);
             }
@@ -108,7 +107,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
         [HttpPost]
         [Route("registerRaceEnd")]
-        public IActionResult RegisterRaceEnd(RegisterToRaceViewModel viewModel)
+        public IActionResult RegisterRaceEnd(RegisterRaceEndViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -117,7 +116,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
             try
             {
-                _AppApiBL.RegisterRaceEnd(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId);
+                _AppApiBL.RegisterRaceEnd(viewModel.RaceId, viewModel.UniqueId);
 
                 return Ok(viewModel);
             }
