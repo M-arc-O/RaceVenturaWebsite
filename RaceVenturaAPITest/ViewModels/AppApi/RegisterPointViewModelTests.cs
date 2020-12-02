@@ -12,7 +12,6 @@ namespace RaceVenturaAPITest.ViewModels.AppApi
         public void AttributeTest()
         {
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("RaceId");
-            TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("TeamId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredAttribute>("UniqueId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredNotEmptyAttribute>("PointId");
             TestUtils.TestAttributeOnProperty<RegisterPointViewModel, RequiredAttribute>("Latitude");

@@ -49,7 +49,7 @@ namespace RaceVenturaTest.AppApi
             _Sut.RegisterToRace(raceId, teamId, uniqueId);
 
             regiteredIdRepositoryMock.Verify(r => r.Insert(It.Is<RegisteredId>(id => id.TeamId == teamId && id.UniqueId.Equals(uniqueId))), Times.Once);
-            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once); 
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
             _LoggerMock.VerifyLog(LogLevel.Error, Times.Never);
         }
 
@@ -147,7 +147,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var result = _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer);
+            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -167,7 +167,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(Guid.NewGuid(), false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
             AssertUnknownRace(raceId, exception);
@@ -188,7 +188,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, Guid.NewGuid(), stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
             AssertUnknownTeam(teamId, exception);
@@ -209,7 +209,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, Guid.NewGuid(), 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
             AssertUnknownStage(stageId, exception);
@@ -230,7 +230,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, Guid.NewGuid(), stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
             AssertUnknownPoint(pointId, exception);
@@ -248,12 +248,14 @@ namespace RaceVenturaTest.AppApi
             var longitude = 0;
             var answer = "";
 
+            var registeredIds = new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = "blaat" } };
+
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId, null, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
-            AssertUnknownUniqueId(teamId, uniqueId, exception);
+            AssertUnknownUniqueId(uniqueId, exception);
         }
 
         [TestMethod]
@@ -271,7 +273,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 2, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             Assert.AreEqual(BLErrorCodes.NotActiveStage, exception.ErrorCode);
             Assert.AreEqual($"Point with ID '{pointId}' not in active stage.", exception.Message);
@@ -294,7 +296,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude, 0, "", "", DateTime.Now.AddDays(1));
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
             AssertIncorrectTime(exception);
@@ -315,7 +317,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, true, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 1, 1);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             Assert.AreEqual(BLErrorCodes.CoordinatesIncorrect, exception.ErrorCode);
             Assert.AreEqual($"Coordinates incorrect, latitude '{latitude}', longitude '{longitude}'", exception.Message);
@@ -338,7 +340,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, true, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 2, 2, 2);
 
-            var result = _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer);
+            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -358,7 +360,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 1, 1);
 
-            var result = _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer);
+            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -382,7 +384,7 @@ namespace RaceVenturaTest.AppApi
                         It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
                         It.IsAny<string>())).Returns(new List<VisitedPoint> { new VisitedPoint() });
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             Assert.AreEqual(BLErrorCodes.Duplicate, exception.ErrorCode);
             Assert.AreEqual($"Point already registered '{pointId}'.", exception.Message);
@@ -405,7 +407,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude, 0, message);
 
-            var result = _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer);
+            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             Assert.AreEqual(message, result);
 
@@ -428,7 +430,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude, 0, message, "een");
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer));
 
             Assert.AreEqual(BLErrorCodes.AnswerIncorrect, exception.ErrorCode);
             Assert.AreEqual($"Answer '{answer}' is incorrect.", exception.Message);
@@ -452,7 +454,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude, 0, message, answer);
 
-            var result = _Sut.RegisterPoint(raceId, teamId, uniqueId, pointId, latitude, longitude, answer);
+            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -469,7 +471,7 @@ namespace RaceVenturaTest.AppApi
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId, new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
-            _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId);
+            _Sut.RegisterStageEnd(raceId, uniqueId, stageId);
 
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
             finishedStageRepositoryMock.Verify(r => r.Insert(It.Is<FinishedStage>(s => s.TeamId == teamId && s.StageId == stageId &&
@@ -493,10 +495,10 @@ namespace RaceVenturaTest.AppApi
             var stageId = Guid.NewGuid();
             var uniqueId = "unique";
 
-            SetupMockForRegisterStageEnd(Guid.NewGuid(), teamId, stageId, 
+            SetupMockForRegisterStageEnd(Guid.NewGuid(), teamId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             finishedStageRepositoryMock.Verify(r => r.Insert(It.IsAny<FinishedStage>()), Times.Never);
@@ -511,10 +513,10 @@ namespace RaceVenturaTest.AppApi
             var stageId = Guid.NewGuid();
             var uniqueId = "unique";
 
-            SetupMockForRegisterStageEnd(raceId, Guid.NewGuid(), stageId, 
+            SetupMockForRegisterStageEnd(raceId, Guid.NewGuid(), stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             finishedStageRepositoryMock.Verify(r => r.Insert(It.IsAny<FinishedStage>()), Times.Never);
@@ -529,10 +531,10 @@ namespace RaceVenturaTest.AppApi
             var stageId = Guid.NewGuid();
             var uniqueId = "unique";
 
-            SetupMockForRegisterStageEnd(raceId, teamId, Guid.NewGuid(), 
+            SetupMockForRegisterStageEnd(raceId, teamId, Guid.NewGuid(),
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             finishedStageRepositoryMock.Verify(r => r.Insert(It.IsAny<FinishedStage>()), Times.Never);
@@ -549,11 +551,11 @@ namespace RaceVenturaTest.AppApi
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId, null, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             finishedStageRepositoryMock.Verify(r => r.Insert(It.IsAny<FinishedStage>()), Times.Never);
-            AssertUnknownUniqueId(teamId, uniqueId, exception);
+            AssertUnknownUniqueId(uniqueId, exception);
         }
 
         [TestMethod]
@@ -567,7 +569,7 @@ namespace RaceVenturaTest.AppApi
             SetupMockForRegisterStageEnd(Guid.NewGuid(), teamId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock, 2);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             Assert.AreEqual(BLErrorCodes.NotActiveStage, exception.ErrorCode);
             Assert.AreEqual($"Stage with ID '{stageId}' is not the active stage.", exception.Message);
@@ -585,10 +587,10 @@ namespace RaceVenturaTest.AppApi
             var uniqueId = "unique";
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId,
-                new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 
+                new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } },
                 out var teamRepositoryMock, out var finishedStageRepositoryMock, 1, DateTime.Now.AddDays(1));
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, teamId, uniqueId, stageId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterStageEnd(raceId, uniqueId, stageId));
 
             AssertIncorrectTime(exception);
 
@@ -606,14 +608,14 @@ namespace RaceVenturaTest.AppApi
             var uniqueId = "unique";
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
-            SetupMocksForRegisterToRace(raceId, teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(), 
+            SetupMocksForRegisterToRace(raceId, teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } });
 
-            _Sut.RegisterRaceEnd(raceId, teamId, uniqueId);
+            _Sut.RegisterRaceEnd(raceId, uniqueId);
 
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
 
-            teamRepositoryMock.Verify(r => r.Update(It.Is<Team>(t => 
+            teamRepositoryMock.Verify(r => r.Update(It.Is<Team>(t =>
             t.FinishTime.Year == DateTime.Now.Year &&
             t.FinishTime.Month == DateTime.Now.Month &&
             t.FinishTime.Day == DateTime.Now.Day &&
@@ -633,9 +635,9 @@ namespace RaceVenturaTest.AppApi
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(Guid.NewGuid(), teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
-                new List<RegisteredId>());
+                new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } });
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, teamId, uniqueId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, uniqueId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             AssertUnknownRace(raceId, exception);
@@ -652,12 +654,12 @@ namespace RaceVenturaTest.AppApi
             SetupMocksForRegisterToRace(raceId, Guid.NewGuid(), teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } });
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, teamId, uniqueId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, uniqueId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
             AssertUnknownTeam(teamId, exception);
         }
-        
+
         [TestMethod]
         public void RegisterRaceEndUnknownUniqueId()
         {
@@ -668,10 +670,10 @@ namespace RaceVenturaTest.AppApi
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(raceId, teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(), null);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, teamId, uniqueId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterRaceEnd(raceId, uniqueId));
 
             teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
-            AssertUnknownUniqueId(teamId, uniqueId, exception);
+            AssertUnknownUniqueId(uniqueId, exception);
         }
         #endregion
 
@@ -686,7 +688,7 @@ namespace RaceVenturaTest.AppApi
             raceRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(raceId)))).Returns(new Race { AllowedCoordinatesDeviation = deviation, CoordinatesCheckEnabled = checkCoordinates, MaximumTeamSize = 2, StartTime = startTime.Value });
             _UnitOfWorkMock.Setup(u => u.RaceRepository).Returns(raceRepositoryMock.Object);
 
-            teamRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g=>g.Equals(teamId)))).Returns(new Team { TeamId = teamId, ActiveStage = 1 });
+            teamRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(teamId)))).Returns(new Team { TeamId = teamId, ActiveStage = 1 });
             _UnitOfWorkMock.Setup(u => u.TeamRepository).Returns(teamRepositoryMock.Object);
 
             regiteredIdRepositoryMock.Setup(r => r.Get(It.IsAny<Expression<Func<RegisteredId, bool>>>(),
@@ -708,7 +710,7 @@ namespace RaceVenturaTest.AppApi
             _UnitOfWorkMock.Setup(u => u.FinishedStageRepository).Returns(finishedStageRepositoryMock.Object);
         }
 
-        private Mock<IGenericRepository<VisitedPoint>> SetupMocksForRegisterPoint(Guid raceId, bool checkCoordinates, Guid teamId, Guid stageId, int stageNumber, Guid pointId, Guid pointStageId, List<RegisteredId> registeredIds, double latitude, double longitude, double deviation = 0, string message = "", string answer = "", DateTime ? startTime = null)
+        private Mock<IGenericRepository<VisitedPoint>> SetupMocksForRegisterPoint(Guid raceId, bool checkCoordinates, Guid teamId, Guid stageId, int stageNumber, Guid pointId, Guid pointStageId, List<RegisteredId> registeredIds, double latitude, double longitude, double deviation = 0, string message = "", string answer = "", DateTime? startTime = null)
         {
             SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), new Mock<IGenericRepository<RegisteredId>>(), registeredIds, startTime, checkCoordinates, deviation);
 
@@ -759,7 +761,7 @@ namespace RaceVenturaTest.AppApi
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
             _LoggerMock.VerifyLog(LogLevel.Error, Times.Once, $"Error in AppApiBL: Someone tried to access stage with id '{stageId}' but it does not exsist.");
         }
-        
+
         private void AssertUnknownPoint(Guid pointId, BusinessException exception)
         {
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
@@ -769,13 +771,13 @@ namespace RaceVenturaTest.AppApi
             _LoggerMock.VerifyLog(LogLevel.Error, Times.Once, $"Error in AppApiBL: Someone tried to access point with id '{pointId}' but it does not exsist.");
         }
 
-        private void AssertUnknownUniqueId(Guid teamId, string uniqueId, BusinessException exception)
+        private void AssertUnknownUniqueId(string uniqueId, BusinessException exception)
         {
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
-            Assert.AreEqual($"Unauthorized action, team id '{teamId}' and unique id '{uniqueId}' do not match.", exception.Message);
+            Assert.AreEqual($"RegisteredID with uniqueID '{uniqueId}' is unknown", exception.Message);
 
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
-            _LoggerMock.VerifyLog(LogLevel.Error, Times.Once, $"Error in AppApiBL: Someone tried to register a point but the team id '{teamId}' and unique id '{uniqueId}' do not match.");
+            _LoggerMock.VerifyLog(LogLevel.Error, Times.Once, $"Error in AppApiBL: Someone tried to register a point but the unique id '{uniqueId}' does not exsist.");
         }
 
         private static void AssertIncorrectTime(BusinessException exception)

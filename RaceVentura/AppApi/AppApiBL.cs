@@ -138,18 +138,18 @@ namespace RaceVentura.AppApi
 
         private Team GetTeamByRegisteredId(string uniqueId)
         {
-            var registeredId = _UnitOfWork.RegisteredIdRepository.Get(id => id.UniqueId.Equals(uniqueId)).FirstOrDefault();
-            if (registeredId == null)
+            var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.UniqueId.Equals(uniqueId));
+            if (registeredIds == null || registeredIds.Count() < 0)
             {
-                _Logger.LogError($"Error in {GetType().Name}: Someone tried to access registeredId with uniqueID '{uniqueId}' but it does not exsist.");
-                throw new BusinessException($"RegisteredID with uniqueID '{uniqueId}' is unknown", BLErrorCodes.NotFound);
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to register a point but the unique id '{uniqueId}' does not exsist.");
+                throw new BusinessException($"RegisteredID with uniqueID '{uniqueId}' is unknown", BLErrorCodes.UserUnauthorized);
             }
 
-            var team = _UnitOfWork.TeamRepository.GetByID(registeredId.TeamId);
+            var team = _UnitOfWork.TeamRepository.GetByID(registeredIds.First().TeamId);
             if (team == null)
             {
-                _Logger.LogError($"Error in {GetType().Name}: Someone tried to access team with ID '{registeredId.TeamId}' but it does not exsist.");
-                throw new BusinessException($"Team with ID '{registeredId.TeamId}' is unknown", BLErrorCodes.NotFound);
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to access team with ID '{registeredIds.First().TeamId}' but it does not exsist.");
+                throw new BusinessException($"Team with ID '{registeredIds.First().TeamId}' is unknown", BLErrorCodes.NotFound);
             }
 
             return team;
