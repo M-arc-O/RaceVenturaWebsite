@@ -29,11 +29,15 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public DateTime EndTime { get; set; }
 
-        public byte[] Avatar { get; set; }
-
         [Required]
         [MaxLength(500)]
         public string PointInformationText { get; set; }
+
+        [Required]
+        public RaceTypeViewModel RaceType { get; set; }
+
+        public byte[] Avatar { get; set; }
+
         public byte[] QrCodeArray { get; set; }
 
         public List<TeamViewModel> Teams { get; set; }

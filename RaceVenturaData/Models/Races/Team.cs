@@ -26,15 +26,15 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public TeamCategory Category { get; set; }
 
+        public DateTime FinishTime { get; set; }
+
+        public int ActiveStage { get; set; }
+
         public List<RegisteredId> RegisteredIds { get; set; }
 
         public List<VisitedPoint> VisitedPoints { get; set; }
 
         public List<FinishedStage> FinishedStages { get; set; }
-
-        public DateTime FinishTime { get; set; }
-
-        public int ActiveStage { get; set; }
 
         public Team()
         {

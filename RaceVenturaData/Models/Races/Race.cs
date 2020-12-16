@@ -17,6 +17,9 @@ namespace RaceVenturaData.Models.Races
         public string Name { get; set; }
 
         [Required]
+        public RaceType RaceType { get; set; }
+
+        [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
         public double AllowedCoordinatesDeviation { get; set; }

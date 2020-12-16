@@ -1,0 +1,9 @@
+1. Install IIS with management tools
+
+2. Install .NET 5.0
+
+3. Install postgresql
+
+4. Install webdeploy
+
+5. Add inbound rule for https
