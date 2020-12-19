@@ -1,17 +1,22 @@
-﻿$RGName = "todo"
+﻿$AppName = "todo"
+$Location = "westeurope"
 
-$VMName = "todo"
+$RGName = "$($AppName)RG"
+
+$VMName = "$($AppName)VM"
 $VMUserName = "todo"
 $VMUserPassword = "todo"
 
-$KVName = "todo"
+$KVName = "$($AppName)KV"
 $KVJwtSecret = "todo"
+
+$SAName = "$($AppName.ToLower())sa"
 
 echo "Login"
 az login
 
 echo "Create resource group"
-az group create --name $RGName --location westeurope
+az group create --name $RGName --location $Location
 
 echo "Create vm"
 az vm create --resource-group $RGName --name $VMName --image win2019datacenter --admin-username $VMUserName --admin-password $VMUserPassword
@@ -33,3 +38,9 @@ $VMIdentity = az vm identity assign --name $VMName --resource-group $RGName --qu
 
 echo "Set keyvault policy"
 az keyvault set-policy --name $KVName --object-id $VMIdentity --secret-permissions get list
+
+echo "Create storage account"
+az storage account create --name $SAName --resource-group $RGName --location $Location --sku Standard_ZRS --encryption-services blob
+
+echo "Enable static website"
+az storage blob service-properties update --account-name $SAName --static-website --404-document 404.html --index-document index.html
