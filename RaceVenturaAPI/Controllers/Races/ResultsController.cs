@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
-    [Authorize(Policy = "RaceUser")]
+    //[Authorize(Policy = "RaceUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class ResultsController : RacesControllerBase

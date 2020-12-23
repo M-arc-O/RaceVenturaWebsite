@@ -20,7 +20,7 @@ namespace RaceVentura.Races
         {
             var race = GetRace(raceId);
 
-            CheckUserIsAuthorizedForRace(userId, raceId);
+            //CheckUserIsAuthorizedForRace(userId, raceId);
 
             var teamResults = new List<TeamResult>();
             foreach (var team in race.Teams)
@@ -78,17 +78,24 @@ namespace RaceVentura.Races
 
         private static void SettleFinishTime(Race race, Team team, TeamResult retVal)
         {
-            if (team.FinishTime.CompareTo(race.EndTime) > 0)
+            if (race.RaceType == RaceType.Classic)
             {
-                var endTime = team.FinishTime;
-                if (team.FinishTime.Second > 0)
+                if (team.FinishTime.CompareTo(race.EndTime) > 0)
                 {
-                    endTime = new DateTime(team.FinishTime.Year, team.FinishTime.Month, team.FinishTime.Day, team.FinishTime.Hour, team.FinishTime.Minute, 0);
-                    endTime = endTime.AddMinutes(1);
-                }
+                    var endTime = team.FinishTime;
+                    if (team.FinishTime.Second > 0)
+                    {
+                        endTime = new DateTime(team.FinishTime.Year, team.FinishTime.Month, team.FinishTime.Day, team.FinishTime.Hour, team.FinishTime.Minute, 0);
+                        endTime = endTime.AddMinutes(1);
+                    }
 
-                var timeDif = race.EndTime - endTime;
-                retVal.TotalValue += (int)timeDif.TotalMinutes * race.PenaltyPerMinuteLate;
+                    var timeDif = race.EndTime - endTime;
+                    retVal.TotalValue += (int)timeDif.TotalMinutes * race.PenaltyPerMinuteLate;
+                }
+            }
+            else
+            {
+                team.FinishTime = new DateTime(2020, 0, 1) + (team.FinishTime - team.VisitedPoints.OrderBy(t => t.Time).First().Time);
             }
         }
 
