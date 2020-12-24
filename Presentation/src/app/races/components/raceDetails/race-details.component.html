@@ -6,12 +6,14 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Name</th>
+                            <th>Type</th>
                             <th>Check GPS coordinates</th>
-                            <th>Allowed GPS Deviation</th>
+                            <th *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">Allowed GPS Deviation</th>
                             <th>Spezial tasks are a stage</th>
                             <th>Maximum team size</th>
                             <th>Minumum points to complete stage</th>
                             <th>Penalty per minute late</th>
+                            <th>Point information text</th>
                             <th>Start date</th>
                             <th>Start time</th>
                             <th>End date</th>
@@ -21,12 +23,14 @@
                     <tbody>
                         <tr>
                             <td>{{(raceDetails$ | async).name}}</td>
+                            <td>{{raceTypeToString((raceDetails$ | async).raceType)}}</td>
                             <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-                            <td>{{(raceDetails$ | async).allowedCoordinatesDeviation}}</td>
+                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ | async).allowedCoordinatesDeviation}}</td>
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
                             <td>{{(raceDetails$ | async).penaltyPerMinuteLate}}</td>
+                            <td>{{(raceDetails$ | async).pointInformationText}}</td>
                             <td>{{getDateString((raceDetails$ | async).startTime)}}</td>
                             <td>{{getTimeString((raceDetails$ | async).startTime)}}</td>
                             <td>{{getDateString((raceDetails$ | async).endTime)}}</td>

@@ -23,6 +23,7 @@ export abstract class ComponentBase implements OnDestroy {
             const control = formGroup.get(key);
             if (control instanceof FormControl) {
                 control.markAsTouched({ onlySelf: true });
+                control.updateValueAndValidity();                
             } else if (control instanceof FormGroup) {
                 this.validateAllFormFields(control);
             }

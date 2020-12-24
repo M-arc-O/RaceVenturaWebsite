@@ -5,5 +5,13 @@
 3. Install postgresql
 
 4. Install webdeploy
+   - Add inbound rule in azure for webdeploy.
 
-5. Add inbound rule for https
+5. Deploy to VM.
+
+6. Update database
+   - Set postgresql to listen to all ips.
+   - Add inbound rule in azure and windows firewall for postgres port.
+   - Changes connection string in appsettings to VM string.
+   - Run update-database command in package manager console.
+   - Disable inbound rules.

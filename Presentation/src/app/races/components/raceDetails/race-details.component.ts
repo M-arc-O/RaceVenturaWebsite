@@ -3,18 +3,19 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ComponentBase, UserService } from 'src/app/shared';
+import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
 import { RaceStoreModel } from '../../shared/models';
 import { IRacesState, loadSelectedRaceSelector, selectedRaceSelector } from '../../store';
 import * as raceActions from '../../store/actions/race.actions';
+import { RaceComponentBase } from '../race-component-base.component';
 
 @Component({
     selector: 'app-race-details',
     templateUrl: './race-details.component.html'
 })
-export class RaceDetailsComponent extends ComponentBase implements OnInit, OnChanges {
+export class RaceDetailsComponent extends RaceComponentBase implements OnInit, OnChanges {
     @Input() raceId: string;
 
     public raceDetails$: Observable<RaceStoreModel>;
