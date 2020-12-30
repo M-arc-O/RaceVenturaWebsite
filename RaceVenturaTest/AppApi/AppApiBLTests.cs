@@ -41,7 +41,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var regiteredIdRepositoryMock = new Mock<IGenericRepository<RegisteredId>>();
             SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId>());
@@ -58,7 +58,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var regiteredIdRepositoryMock = new Mock<IGenericRepository<RegisteredId>>();
             SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId>());
@@ -76,7 +76,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
             raceRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(raceId)))).Returns(new Race { MaximumTeamSize = 2 });
@@ -95,7 +95,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var regiteredIdRepositoryMock = new Mock<IGenericRepository<RegisteredId>>();
             SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId> { new RegisteredId(), new RegisteredId() });
@@ -115,7 +115,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var regiteredIdRepositoryMock = new Mock<IGenericRepository<RegisteredId>>();
             SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } });
@@ -139,7 +139,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -159,7 +159,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -180,7 +180,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -201,7 +201,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -222,7 +222,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -243,12 +243,12 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
 
-            var registeredIds = new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = "blaat" } };
+            var registeredIds = new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = Guid.NewGuid() } };
 
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId, null, latitude, longitude);
 
@@ -265,7 +265,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -288,7 +288,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -309,7 +309,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -332,7 +332,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -352,7 +352,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -372,7 +372,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var answer = "";
@@ -398,7 +398,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var message = "message";
@@ -421,7 +421,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var message = "message";
@@ -445,7 +445,7 @@ namespace RaceVenturaTest.AppApi
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
             var latitude = 0;
             var longitude = 0;
             var message = "message";
@@ -467,7 +467,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId, new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
@@ -493,7 +493,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(Guid.NewGuid(), teamId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
@@ -511,7 +511,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(raceId, Guid.NewGuid(), stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
@@ -529,7 +529,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(raceId, teamId, Guid.NewGuid(),
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock);
@@ -547,7 +547,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId, null, out var teamRepositoryMock, out var finishedStageRepositoryMock);
 
@@ -564,7 +564,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(Guid.NewGuid(), teamId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, out var teamRepositoryMock, out var finishedStageRepositoryMock, 2);
@@ -584,7 +584,7 @@ namespace RaceVenturaTest.AppApi
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
             var stageId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             SetupMockForRegisterStageEnd(raceId, teamId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } },
@@ -605,7 +605,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(raceId, teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
@@ -631,7 +631,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(Guid.NewGuid(), teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
@@ -648,7 +648,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(raceId, Guid.NewGuid(), teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(),
@@ -665,7 +665,7 @@ namespace RaceVenturaTest.AppApi
         {
             var raceId = Guid.NewGuid();
             var teamId = Guid.NewGuid();
-            var uniqueId = "unique";
+            var uniqueId = Guid.NewGuid();
 
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             SetupMocksForRegisterToRace(raceId, teamId, teamRepositoryMock, new Mock<IGenericRepository<RegisteredId>>(), null);
@@ -771,7 +771,7 @@ namespace RaceVenturaTest.AppApi
             _LoggerMock.VerifyLog(LogLevel.Error, Times.Once, $"Error in AppApiBL: Someone tried to access point with id '{pointId}' but it does not exsist.");
         }
 
-        private void AssertUnknownUniqueId(string uniqueId, BusinessException exception)
+        private void AssertUnknownUniqueId(Guid uniqueId, BusinessException exception)
         {
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
             Assert.AreEqual($"RegisteredID with uniqueID '{uniqueId}' is unknown", exception.Message);

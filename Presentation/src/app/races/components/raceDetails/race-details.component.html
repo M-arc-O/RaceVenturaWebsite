@@ -1,6 +1,29 @@
 <div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
     <div class="row">
         <div class="col">
+            <button type="button" class="btn btn-primary" (click)="downloadPointsPdf()">
+                <span>
+                    Download points pdf
+                </span>
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" (click)="downloadTeamsPdf()">
+                <span>
+                    Download teams pdf
+                </span>
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" (click)="downloadStagesAndRaceEndPdf()">
+                <span>
+                    Download stages and race end pdf
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -25,7 +48,8 @@
                             <td>{{(raceDetails$ | async).name}}</td>
                             <td>{{raceTypeToString((raceDetails$ | async).raceType)}}</td>
                             <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ | async).allowedCoordinatesDeviation}}</td>
+                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ |
+                                async).allowedCoordinatesDeviation}}</td>
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>

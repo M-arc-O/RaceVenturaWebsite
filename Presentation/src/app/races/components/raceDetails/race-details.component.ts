@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
+import { RacesDownloadService } from '../../shared';
 import { RaceStoreModel } from '../../shared/models';
 import { IRacesState, loadSelectedRaceSelector, selectedRaceSelector } from '../../store';
 import * as raceActions from '../../store/actions/race.actions';
@@ -25,6 +26,7 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
 
     constructor(private store: Store<IRacesState>,
         userService: UserService,
+        private racesDownloadService: RacesDownloadService,
         router: Router) {
         super(userService, router);
         this.raceDetails$ = this.store.pipe(select(selectedRaceSelector));
@@ -36,6 +38,30 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
             if (base !== undefined && base.error !== undefined) {
                 this.handleError(base.error);
             }
+        });
+    }
+
+    public downloadPointsPdf(): void {
+        this.racesDownloadService.downloadPointPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
+            let blob:any = new Blob([response], { type: 'application/pdf' });
+            const url= window.URL.createObjectURL(blob);
+            window.open(url);
+        });
+    }
+
+    public downloadTeamsPdf(): void {
+        this.racesDownloadService.downloadTeamsPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
+            let blob:any = new Blob([response], { type: 'application/pdf' });
+            const url= window.URL.createObjectURL(blob);
+            window.open(url);
+        });
+    }
+
+    public downloadStagesAndRaceEndPdf(): void {
+        this.racesDownloadService.downloadStagesAndRaceEndPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
+            let blob:any = new Blob([response], { type: 'application/pdf' });
+            const url= window.URL.createObjectURL(blob);
+            window.open(url);
         });
     }
 

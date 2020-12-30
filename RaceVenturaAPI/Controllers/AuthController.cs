@@ -11,6 +11,7 @@ using RaceVenturaAPI.ViewModels.Identity;
 using RaceVenturaData.Models.Identity;
 using RaceVentura;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace RaceVenturaAPI.Controllers
 {
@@ -21,12 +22,14 @@ namespace RaceVenturaAPI.Controllers
         private readonly IAccountBL _AccountBL;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ILogger _Logger;
 
-        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, ILogger<AuthController> logger)
         {
             _AccountBL = accountBL;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
+            _Logger = logger;
         }
 
         [HttpPost("login")]
@@ -50,6 +53,7 @@ namespace RaceVenturaAPI.Controllers
             }
             catch (Exception ex)
             {
+                _Logger.LogError(ex, ex.Message);
                 return StatusCode(500);
             }
         }

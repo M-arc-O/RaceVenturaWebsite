@@ -10,7 +10,7 @@ namespace RaceVenturaAPI.ViewModels.AppApi
         public Guid RaceId { get; set; }
 
         [Required]
-        public string UniqueId { get; set; }
+        public Guid UniqueId { get; set; }
 
         [RequiredNotEmpty]
         public Guid PointId { get; set; }

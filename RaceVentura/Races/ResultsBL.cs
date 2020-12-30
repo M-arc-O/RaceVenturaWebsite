@@ -43,7 +43,7 @@ namespace RaceVentura.Races
             return race;
         }
 
-        private TeamResult GetTeamResult(Race race, Team team)
+        private static TeamResult GetTeamResult(Race race, Team team)
         {
             var retVal = new TeamResult
             {

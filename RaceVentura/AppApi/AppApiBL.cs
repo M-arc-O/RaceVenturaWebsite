@@ -18,7 +18,7 @@ namespace RaceVentura.AppApi
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public void RegisterToRace(Guid raceId, Guid teamId, string uniqueId)
+        public void RegisterToRace(Guid raceId, Guid teamId, Guid uniqueId)
         {
             var team = GetTeamByTeamId(teamId);
             var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId).ToList();
@@ -40,7 +40,7 @@ namespace RaceVentura.AppApi
             _UnitOfWork.Save();
         }
 
-        public string RegisterPoint(Guid raceId, string uniqueId, Guid pointId, double latitude, double longitude, string answer)
+        public string RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
         {
             var team = GetTeamByRegisteredId(uniqueId);
             var point = GetPoint(pointId);
@@ -80,7 +80,7 @@ namespace RaceVentura.AppApi
             return "";
         }
 
-        public void RegisterStageEnd(Guid raceId, string uniqueId, Guid stageId)
+        public void RegisterStageEnd(Guid raceId, Guid uniqueId, Guid stageId)
         {
             var team = GetTeamByRegisteredId(uniqueId);
 
@@ -101,7 +101,7 @@ namespace RaceVentura.AppApi
             _UnitOfWork.Save();
         }
 
-        public void RegisterRaceEnd(Guid raceId, string uniqueId)
+        public void RegisterRaceEnd(Guid raceId, Guid uniqueId)
         {
             var team = GetTeamByRegisteredId(uniqueId);
 
@@ -136,7 +136,7 @@ namespace RaceVentura.AppApi
             return team;
         }
 
-        private Team GetTeamByRegisteredId(string uniqueId)
+        private Team GetTeamByRegisteredId(Guid uniqueId)
         {
             var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.UniqueId.Equals(uniqueId));
             if (registeredIds == null || registeredIds.Count() < 0)

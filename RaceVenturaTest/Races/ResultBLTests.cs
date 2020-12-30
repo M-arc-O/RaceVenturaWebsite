@@ -201,30 +201,5 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
             Assert.AreEqual($"Race with ID '{raceId}' not found.", exception.Message);
         }
-
-        [TestMethod]
-        public void GetRaceResultNotAuthorizedForRace()
-        {
-            var userId = Guid.NewGuid();
-            var raceId = Guid.NewGuid();
-
-            var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
-            userLinkRepositoryMock.Setup(r => r.Get(
-                It.IsAny<Expression<Func<UserLink, bool>>>(),
-                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
-                It.IsAny<string>())).Returns(new List<UserLink> { });
-            _UnitOfWorkMock.Setup(m => m.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
-
-            var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
-            raceRepositoryMock.Setup(r => r.Get(
-                It.IsAny<Expression<Func<Race, bool>>>(),
-                It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
-                It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Stages,Stages.Points")))).Returns(new List<Race> { new Race() });
-            _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
-
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(userId, raceId));
-
-            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
-        }
     }
 }
