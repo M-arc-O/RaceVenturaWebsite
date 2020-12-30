@@ -95,7 +95,12 @@ namespace RaceVentura.Races
             }
             else
             {
-                team.FinishTime = new DateTime(2020, 0, 1) + (team.FinishTime - team.VisitedPoints.OrderBy(t => t.Time).First().Time);
+                var firstVisitedPointTime = team.VisitedPoints.OrderBy(t => t.Time).FirstOrDefault();
+                
+                if (firstVisitedPointTime != null)
+                {
+                    team.FinishTime = new DateTime(2020, 0, 1) + (team.FinishTime - firstVisitedPointTime.Time);
+                }
             }
         }
 
