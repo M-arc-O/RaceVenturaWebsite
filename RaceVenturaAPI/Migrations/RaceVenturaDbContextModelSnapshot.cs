@@ -295,7 +295,6 @@ namespace RaceVenturaAPI.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("EndTime")
-                        .HasMaxLength(500)
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("MaximumTeamSize")
@@ -314,7 +313,8 @@ namespace RaceVenturaAPI.Migrations
 
                     b.Property<string>("PointInformationText")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("RaceType")
                         .HasColumnType("integer");
@@ -339,10 +339,9 @@ namespace RaceVenturaAPI.Migrations
                     b.Property<Guid>("TeamId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UniqueId")
-                        .IsRequired()
+                    b.Property<Guid>("UniqueId")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("uuid");
 
                     b.HasKey("RegisteredIdId");
 

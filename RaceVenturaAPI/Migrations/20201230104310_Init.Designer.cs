@@ -10,8 +10,8 @@ using RaceVenturaData.DatabaseContext;
 namespace RaceVenturaAPI.Migrations
 {
     [DbContext(typeof(RaceVenturaDbContext))]
-    [Migration("20201124142548_WithPointInformationText")]
-    partial class WithPointInformationText
+    [Migration("20201230104310_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -297,7 +297,6 @@ namespace RaceVenturaAPI.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("EndTime")
-                        .HasMaxLength(500)
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("MaximumTeamSize")
@@ -316,7 +315,11 @@ namespace RaceVenturaAPI.Migrations
 
                     b.Property<string>("PointInformationText")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("RaceType")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("SpecialTasksAreStage")
                         .HasColumnType("boolean");
@@ -338,10 +341,9 @@ namespace RaceVenturaAPI.Migrations
                     b.Property<Guid>("TeamId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UniqueId")
-                        .IsRequired()
+                    b.Property<Guid>("UniqueId")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("uuid");
 
                     b.HasKey("RegisteredIdId");
 

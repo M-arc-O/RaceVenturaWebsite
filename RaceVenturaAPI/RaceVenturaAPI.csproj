@@ -48,4 +48,8 @@
     <ProjectReference Include="..\RaceVentura\RaceVentura.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
