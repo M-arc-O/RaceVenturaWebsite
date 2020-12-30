@@ -32,8 +32,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
             try
             {
-                _AppApiBL.RegisterToRace(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId);
-
+                viewModel.Name = _AppApiBL.RegisterToRace(viewModel.RaceId, viewModel.TeamId, viewModel.UniqueId);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)

@@ -18,7 +18,7 @@ namespace RaceVentura.AppApi
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public void RegisterToRace(Guid raceId, Guid teamId, Guid uniqueId)
+        public string RegisterToRace(Guid raceId, Guid teamId, Guid uniqueId)
         {
             var team = GetTeamByTeamId(teamId);
             var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId).ToList();
@@ -38,6 +38,8 @@ namespace RaceVentura.AppApi
 
             _UnitOfWork.RegisteredIdRepository.Insert(new RegisteredId  { TeamId = teamId, UniqueId = uniqueId });
             _UnitOfWork.Save();
+
+            return race.Name;
         }
 
         public string RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
