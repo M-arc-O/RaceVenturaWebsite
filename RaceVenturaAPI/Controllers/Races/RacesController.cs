@@ -175,7 +175,7 @@ namespace RaceVenturaAPI.Controllers.Races
                 CreateQrCodesForPoints(raceViewModel);
                 AddAvatar(raceViewModel);
                 var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "Points.pdf");
             }
             catch (BusinessException ex)
@@ -199,7 +199,7 @@ namespace RaceVenturaAPI.Controllers.Races
                 var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodesForTeams(raceViewModel);
                 var html = await _RazorToHtml.RenderRazorViewAsync("TeamsPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "Teams.pdf");
             }
             catch (BusinessException ex)
@@ -223,7 +223,7 @@ namespace RaceVenturaAPI.Controllers.Races
                 var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodesForStagesAndRaceEnd(raceViewModel);
                 var html = await _RazorToHtml.RenderRazorViewAsync("StagesAndRaceEndPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/pdf.css");
+                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "StagesAndRaceEnd.pdf");
             }
             catch (BusinessException ex)

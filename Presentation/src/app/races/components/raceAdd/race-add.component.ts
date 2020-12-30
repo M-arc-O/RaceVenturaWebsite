@@ -141,19 +141,21 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
                 validators = [Validators.required];
             }
 
-            this.resetFormControl(this.addRaceForm.get('startDate'), validators);
+            this.resetFormControl(this.addRaceForm.get('allowedCoordinatesDeviation'), validators);
         });
 
-
         this.addRaceForm.get('type').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+            let penaltyValidators = [];
             let dateValidators = [];
             let timeValidators = [];
 
-            if (value.toString() === RaceType.Classic.toString()) {
+            if (value === null || value.toString() === RaceType.Classic.toString()) {
+                penaltyValidators = [Validators.required];
                 dateValidators = [Validators.required];
                 timeValidators = [Validators.required, timeValidator(false)];
             }
 
+            this.resetFormControl(this.addRaceForm.get('penaltyPerMinuteLate'), penaltyValidators);
             this.resetFormControl(this.addRaceForm.get('startDate'), dateValidators);
             this.resetFormControl(this.addRaceForm.get('startTime'), timeValidators);
             this.resetFormControl(this.addRaceForm.get('endDate'), dateValidators);
@@ -167,7 +169,7 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
 
             const viewModel = new RaceDetailViewModel();
             viewModel.name = this.addRaceForm.get('name').value;
-            viewModel.raceType = this.addRaceForm.get('type').value;
+            viewModel.raceType = parseFloat(this.addRaceForm.get('type').value);
             viewModel.coordinatesCheckEnabled = this.addRaceForm.get('checkCoordinates').value;
             viewModel.allowedCoordinatesDeviation = parseFloat(this.addRaceForm.get('allowedCoordinatesDeviation').value);
             viewModel.specialTasksAreStage = this.addRaceForm.get('specialTasksAreStage').value;
@@ -177,6 +179,13 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             viewModel.pointInformationText = this.addRaceForm.get('pointInformationText').value;
             viewModel.startTime = this.getDate(this.addRaceForm.get('startDate').value, this.addRaceForm.get('startTime').value);
             viewModel.endTime = this.getDate(this.addRaceForm.get('endDate').value, this.addRaceForm.get('endTime').value);
+
+            if (viewModel.raceType === RaceType.NoTimeLimit)
+            {
+                viewModel.penaltyPerMinuteLate = 0;
+                viewModel.startTime = new Date();
+                viewModel.endTime = new Date();
+            }
 
             switch (this.type) {
                 case AddEditType.Add:
@@ -196,6 +205,7 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
         if (this.addRaceNgForm !== undefined) {
             this.addRaceNgForm.resetForm();
             this.addRaceForm.reset();
+            this.addRaceForm.controls['type'].setValue(RaceType.Classic);
         }
     }
     

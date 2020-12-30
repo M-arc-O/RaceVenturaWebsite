@@ -5,14 +5,22 @@
     <title>Team registration codes information for @Model.Name</title>
 </head>
 <body>
-    <h1>Teams information for @Model.Name</h1>
+    <div class="row">
+        <h1>Teams information for @Model.Name</h1>
+    </div>
     @foreach (var team in Model.Teams)
     {
-        <p>
+        <div class="row">
             <h3>@Model.Name - Team @team.Name (@team.Number)</h3>
-            <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(team.QrCodeArray))" height="100" width="100" />
-            <div style="height: 100px">This QR code is used to register your phone to the @Model.Name. The maximum team size for the @Model.Name is @Model.MaximumTeamSize, this means you can only register @Model.MaximumTeamSize phones. Be sure that these are the right phones because this cannot be undone! To register your phone to the @Model.Name download the Race Ventura app for the app/play store.</div>
-        </p>
+        </div>
+        <div class="row">
+            <div class="col">
+                This QR code is used to register your phone to the @Model.Name. The maximum team size for the @Model.Name is @Model.MaximumTeamSize, this means you can only register @Model.MaximumTeamSize phones. Be sure that these are the right phones because this cannot be undone! To register your phone to the @Model.Name download the Race Ventura app for the app/play store.
+            </div>
+            <div class="col">
+                <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(team.QrCodeArray))" height="100" width="100" />
+            </div>
+        </div>
     }
 </body>
 </html>

@@ -20,13 +20,10 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
-        [Required]
         public int PenaltyPerMinuteLate { get; set; }
 
-        [Required]
         public DateTime StartTime { get; set; }
 
-        [Required]
         public DateTime EndTime { get; set; }
 
         [Required]

@@ -23,7 +23,7 @@ export abstract class ComponentBase implements OnDestroy {
             const control = formGroup.get(key);
             if (control instanceof FormControl) {
                 control.markAsTouched({ onlySelf: true });
-                control.updateValueAndValidity();                
+                control.updateValueAndValidity();
             } else if (control instanceof FormGroup) {
                 this.validateAllFormFields(control);
             }
@@ -31,6 +31,10 @@ export abstract class ComponentBase implements OnDestroy {
     }
 
     protected getDate(date: string, time: string): Date {
+        if (date === null || time === null) {
+            return null;
+        }
+
         const [day, month, year] = date.split('-');
         const [hours, minutes, seconds] = time.split(':');
         return new Date(+year, +month - 1, +day, +hours, +minutes, seconds === undefined ? 0 : +seconds);
@@ -59,9 +63,9 @@ export abstract class ComponentBase implements OnDestroy {
             const minutes = time.getMinutes();
             const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
             const seconds = time.getSeconds();
-            const secondsStr = seconds === 0 ? "": seconds < 10 ? `0${seconds}` : seconds;
+            const secondsStr = seconds === 0 ? "" : seconds < 10 ? `0${seconds}` : seconds;
 
-            return `${hoursStr}:${minutesStr}${secondsStr === "" ? "": `:${secondsStr}`}`;
+            return `${hoursStr}:${minutesStr}${secondsStr === "" ? "" : `:${secondsStr}`}`;
         }
 
         return '';

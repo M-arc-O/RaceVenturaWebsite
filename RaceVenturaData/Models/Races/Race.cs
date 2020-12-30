@@ -33,7 +33,6 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
-        [Required]
         public int PenaltyPerMinuteLate { get; set; }
 
         public DateTime StartTime { get; set; }
