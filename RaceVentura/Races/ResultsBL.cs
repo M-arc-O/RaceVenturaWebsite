@@ -80,6 +80,8 @@ namespace RaceVentura.Races
         {
             if (race.RaceType == RaceType.Classic)
             {
+                retVal.RaceDuration = team.FinishTime - race.StartTime;
+
                 if (team.FinishTime.CompareTo(race.EndTime) > 0)
                 {
                     var endTime = team.FinishTime;
@@ -99,7 +101,7 @@ namespace RaceVentura.Races
                 
                 if (firstVisitedPointTime != null)
                 {
-                    team.FinishTime = new DateTime(2020, 0, 1) + (team.FinishTime - firstVisitedPointTime.Time);
+                    retVal.RaceDuration = team.FinishTime - firstVisitedPointTime.Time;
                 }
             }
         }
