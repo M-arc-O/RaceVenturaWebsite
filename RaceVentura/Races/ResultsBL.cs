@@ -76,30 +76,30 @@ namespace RaceVentura.Races
 
         private static void SettleFinishTime(Race race, Team team, TeamResult retVal)
         {
-            if (race.RaceType == RaceType.Classic)
+            if (race.RaceType == RaceType.Classic && team.FinishTime.HasValue)
             {
-                retVal.RaceDuration = team.FinishTime - race.StartTime;
+                retVal.RaceDuration = team.FinishTime.Value - race.StartTime.Value;
 
-                if (team.FinishTime.CompareTo(race.EndTime) > 0)
+                if (team.FinishTime.Value.CompareTo(race.EndTime) > 0)
                 {
                     var endTime = team.FinishTime;
-                    if (team.FinishTime.Second > 0)
+                    if (team.FinishTime.Value.Second > 0)
                     {
-                        endTime = new DateTime(team.FinishTime.Year, team.FinishTime.Month, team.FinishTime.Day, team.FinishTime.Hour, team.FinishTime.Minute, 0);
-                        endTime = endTime.AddMinutes(1);
+                        endTime = new DateTime(team.FinishTime.Value.Year, team.FinishTime.Value.Month, team.FinishTime.Value.Day, team.FinishTime.Value.Hour, team.FinishTime.Value.Minute, 0);
+                        endTime = endTime.Value.AddMinutes(1);
                     }
 
                     var timeDif = race.EndTime - endTime;
-                    retVal.TotalValue += (int)timeDif.TotalMinutes * race.PenaltyPerMinuteLate;
+                    retVal.TotalValue += (int)timeDif.Value.TotalMinutes * race.PenaltyPerMinuteLate;
                 }
             }
             else
             {
                 var firstVisitedPointTime = team.VisitedPoints.OrderBy(t => t.Time).FirstOrDefault();
                 
-                if (firstVisitedPointTime != null)
+                if (team.FinishTime.HasValue && firstVisitedPointTime != null)
                 {
-                    retVal.RaceDuration = team.FinishTime - firstVisitedPointTime.Time;
+                    retVal.RaceDuration = team.FinishTime.Value - firstVisitedPointTime.Time;
                 }
             }
         }

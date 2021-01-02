@@ -82,6 +82,9 @@ namespace RaceVenturaTest.AppApi
             raceRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(raceId)))).Returns(new Race { MaximumTeamSize = 2 });
             _UnitOfWorkMock.Setup(u => u.RaceRepository).Returns(raceRepositoryMock.Object);
 
+            var registeredIdsMock = new Mock<IGenericRepository<RegisteredId>>();
+            _UnitOfWorkMock.Setup(u => u.RegisteredIdRepository).Returns(registeredIdsMock.Object);
+
             var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
             _UnitOfWorkMock.Setup(u => u.TeamRepository).Returns(teamRepositoryMock.Object);
 
@@ -98,7 +101,7 @@ namespace RaceVenturaTest.AppApi
             var uniqueId = Guid.NewGuid();
 
             var regiteredIdRepositoryMock = new Mock<IGenericRepository<RegisteredId>>();
-            SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId> { new RegisteredId(), new RegisteredId() });
+            SetupMocksForRegisterToRace(raceId, teamId, new Mock<IGenericRepository<Team>>(), regiteredIdRepositoryMock, new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = Guid.NewGuid() }, new RegisteredId { TeamId = teamId, UniqueId = Guid.NewGuid() } });
 
             var exception = Assert.ThrowsException<BusinessException>(() => _Sut.RegisterToRace(raceId, teamId, uniqueId));
 
@@ -333,12 +336,12 @@ namespace RaceVenturaTest.AppApi
             var stageId = Guid.NewGuid();
             var pointId = Guid.NewGuid();
             var uniqueId = Guid.NewGuid();
-            var latitude = 0;
-            var longitude = 0;
+            var latitude = 50.0000001;
+            var longitude = 4.000001;
             var answer = "";
 
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, true, teamId, stageId, 1, pointId, stageId,
-                new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 2, 2, 2);
+                new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 50.000000, 4.000000, 100);
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
@@ -616,12 +619,12 @@ namespace RaceVenturaTest.AppApi
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
 
             teamRepositoryMock.Verify(r => r.Update(It.Is<Team>(t =>
-            t.FinishTime.Year == DateTime.Now.Year &&
-            t.FinishTime.Month == DateTime.Now.Month &&
-            t.FinishTime.Day == DateTime.Now.Day &&
-            t.FinishTime.Hour == DateTime.Now.Hour &&
-            t.FinishTime.Minute == DateTime.Now.Minute &&
-            t.FinishTime.Second == DateTime.Now.Second)), Times.Once);
+            t.FinishTime.Value.Year == DateTime.Now.Year &&
+            t.FinishTime.Value.Month == DateTime.Now.Month &&
+            t.FinishTime.Value.Day == DateTime.Now.Day &&
+            t.FinishTime.Value.Hour == DateTime.Now.Hour &&
+            t.FinishTime.Value.Minute == DateTime.Now.Minute &&
+            t.FinishTime.Value.Second == DateTime.Now.Second)), Times.Once);
 
             _LoggerMock.VerifyLog(LogLevel.Error, Times.Never);
         }

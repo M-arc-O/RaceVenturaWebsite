@@ -35,9 +35,9 @@ namespace RaceVenturaData.Models.Races
 
         public int PenaltyPerMinuteLate { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [Required]
         [MaxLength(500)]

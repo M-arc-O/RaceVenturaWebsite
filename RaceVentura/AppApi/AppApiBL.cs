@@ -20,6 +20,12 @@ namespace RaceVentura.AppApi
 
         public string RegisterToRace(Guid raceId, Guid teamId, Guid uniqueId)
         {
+            if (_UnitOfWork.RegisteredIdRepository.Get().Any(id => id.UniqueId == uniqueId))
+            {
+                _Logger.LogError($"Error in {GetType().Name}: Someone tried to registers the unique ID '{uniqueId}' twice.");
+                throw new BusinessException($"Unique ID '{uniqueId}' allready registered.", BLErrorCodes.Duplicate);
+            }
+
             var team = GetTeamByTeamId(teamId);
             var registeredIds = _UnitOfWork.RegisteredIdRepository.Get(id => id.TeamId == teamId).ToList();
 
@@ -28,12 +34,6 @@ namespace RaceVentura.AppApi
             {
                 _Logger.LogError($"Error in {GetType().Name}: Someone tried to registers to many ID's to team with id '{raceId}'.");
                 throw new BusinessException($"Maximum of registered ID's reached.", BLErrorCodes.MaxIdsReached);
-            }
-
-            if (registeredIds.Any(id => id.UniqueId == uniqueId))
-            {
-                _Logger.LogError($"Error in {GetType().Name}: Someone tried to registers the unique ID '{uniqueId}' twice.");
-                throw new BusinessException($"Unique ID '{uniqueId}' allready registered.", BLErrorCodes.Duplicate);
             }
 
             _UnitOfWork.RegisteredIdRepository.Insert(new RegisteredId  { TeamId = teamId, UniqueId = uniqueId });
@@ -107,9 +107,16 @@ namespace RaceVentura.AppApi
         {
             var team = GetTeamByRegisteredId(uniqueId);
 
-            GetRace(raceId);
+            if (team.FinishTime.HasValue)
+            {
+                throw new BusinessException($"Race is ended already for team '{team.TeamId}'", BLErrorCodes.RaceEnded);
+            }
 
-            team.FinishTime = DateTime.Now;
+            var dateNow = DateTime.Now;
+            var race = GetRace(raceId);
+            CheckTime(race, dateNow);
+
+            team.FinishTime = dateNow;
             _UnitOfWork.TeamRepository.Update(team);
             _UnitOfWork.Save();
         }

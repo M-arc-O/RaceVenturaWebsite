@@ -26,7 +26,7 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public TeamCategory Category { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public DateTime? FinishTime { get; set; }
 
         public int ActiveStage { get; set; }
 

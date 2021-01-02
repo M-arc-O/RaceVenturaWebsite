@@ -7,7 +7,7 @@ namespace RaceVentura.Models.Results
     {
         public int TeamNumber { get; set; }
         public string TeamName { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public TimeSpan RaceDuration { get; set; }
         public int TotalValue { get; set; }
         public int NumberOfPoints { get; set; }

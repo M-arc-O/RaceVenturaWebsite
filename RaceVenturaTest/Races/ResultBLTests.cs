@@ -58,6 +58,7 @@ namespace RaceVenturaTest.Races
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
                 It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Stages,Stages.Points")))).Returns(new List<Race> { new Race
                 {
+                    StartTime = new DateTime(2020, 1, 1, 0, 0, 0),
                     EndTime = new DateTime(2020, 1, 1, 18, 0, 0),
                     PenaltyPerMinuteLate = 5,
                     MinimumPointsToCompleteStage = 1,
@@ -167,7 +168,7 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(2, result[1].NumberOfStages);
             Assert.AreEqual(3, result[1].NumberOfPoints);
             Assert.AreEqual(60, result[1].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 17, 0, 0), result[1].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 17, 0, 0), result[1].EndTime.Value);
             Assert.AreEqual(2, result[1].StageResults.Count);
 
             Assert.AreEqual("TeLaat", result[2].TeamName);
@@ -175,7 +176,7 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(2, result[2].NumberOfStages);
             Assert.AreEqual(3, result[2].NumberOfPoints);
             Assert.AreEqual(55, result[2].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 1, 0), result[2].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 1, 0), result[2].EndTime.Value);
             Assert.AreEqual(2, result[2].StageResults.Count);
 
             Assert.AreEqual("EtappeMinder", result[3].TeamName);
@@ -183,7 +184,7 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(1, result[3].NumberOfStages);
             Assert.AreEqual(1, result[3].NumberOfPoints);
             Assert.AreEqual(10, result[3].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 0, 0), result[3].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 0, 0), result[3].EndTime.Value);
             Assert.AreEqual(2, result[3].StageResults.Count);
         }
 
