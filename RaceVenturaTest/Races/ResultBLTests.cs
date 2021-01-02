@@ -137,7 +137,7 @@ namespace RaceVenturaTest.Races
                 }});
             _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
 
-            var result = _Sut.GetRaceResults(userId, raceId).ToList();
+            var result = _Sut.GetRaceResults(raceId).ToList();
 
             Assert.AreEqual("Eerste", result[0].TeamName);
             Assert.AreEqual(2, result[0].TeamNumber);
@@ -190,13 +190,12 @@ namespace RaceVenturaTest.Races
         [TestMethod]
         public void GetRaceResultRaceDoesNotExist()
         {
-            var userId = Guid.NewGuid();
             var raceId = Guid.NewGuid();
 
             var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
             _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(userId, raceId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(raceId));
 
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
             Assert.AreEqual($"Race with ID '{raceId}' not found.", exception.Message);

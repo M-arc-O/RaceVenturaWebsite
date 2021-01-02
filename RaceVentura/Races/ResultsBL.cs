@@ -16,11 +16,9 @@ namespace RaceVentura.Races
 
         }
 
-        public IEnumerable<TeamResult> GetRaceResults(Guid userId, Guid raceId)
+        public IEnumerable<TeamResult> GetRaceResults(Guid raceId)
         {
             var race = GetRace(raceId);
-
-            //CheckUserIsAuthorizedForRace(userId, raceId);
 
             var teamResults = new List<TeamResult>();
             foreach (var team in race.Teams)
@@ -28,7 +26,7 @@ namespace RaceVentura.Races
                 teamResults.Add(GetTeamResult(race, team));
             };
 
-            return teamResults.OrderByDescending(r => r.NumberOfStages).ThenByDescending(r => r.TotalValue).ThenBy(r => r.EndTime).ToList();
+            return teamResults.OrderByDescending(r => r.NumberOfStages).ThenByDescending(r => r.TotalValue).ThenBy(r => r.RaceDuration).ToList();
         }
 
         private Race GetRace(Guid raceId)

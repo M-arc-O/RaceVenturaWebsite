@@ -33,7 +33,7 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var result = _ResultsBL.GetRaceResults(GetUserId(), raceId);
+                var result = _ResultsBL.GetRaceResults(raceId);
 
                 var retVal = new List<TeamResultViewModel>();
 
@@ -50,7 +50,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _Logger.LogError(ex, $"Error in {typeof(ResultsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
