@@ -22,7 +22,7 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
-        public double AllowedCoordinatesDeviation { get; set; }
+        public double? AllowedCoordinatesDeviation { get; set; }
 
         [Required]
         public bool SpecialTasksAreStage { get; set; }
@@ -33,7 +33,7 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
-        public int PenaltyPerMinuteLate { get; set; }
+        public int? PenaltyPerMinuteLate { get; set; }
 
         public DateTime? StartTime { get; set; }
 

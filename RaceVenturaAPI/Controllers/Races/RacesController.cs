@@ -93,6 +93,30 @@ namespace RaceVenturaAPI.Controllers.Races
         [Route("addrace")]
         public IActionResult Add(RaceDetailViewModel viewModel)
         {
+            if (viewModel.RaceType == RaceTypeViewModel.Classic)
+            {
+                if (!viewModel.PenaltyPerMinuteLate.HasValue)
+                {
+                    ModelState.AddModelError("PenaltyPerMinuteLate", "'PenaltyPerMinuteLate' cannot be null when race type is classic.");
+                }
+                if (!viewModel.StartTime.HasValue)
+                {
+                    ModelState.AddModelError("StartTime", "'StartTime' cannot be null when race type is classic.");
+                }
+                if (!viewModel.EndTime.HasValue)
+                {
+                    ModelState.AddModelError("EndTime", "'EndTime' cannot be null when race type is classic.");
+                }
+            }
+
+            if (viewModel.CoordinatesCheckEnabled)
+            {
+                if (!viewModel.AllowedCoordinatesDeviation.HasValue)
+                {
+                    ModelState.AddModelError("AllowedCoordinatesDeviation", "'AllowedCoordinatesDeviation' cannot be null when race type is classic.");
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest();

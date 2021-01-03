@@ -41,7 +41,7 @@ export abstract class ComponentBase implements OnDestroy {
     }
 
     public getDateString(input: Date): string {
-        if (input !== undefined) {
+        if (input !== undefined && input !== null) {
             const date = new Date(input);
             const yy = date.getFullYear();
             const mm = date.getMonth() + 1;
@@ -56,7 +56,7 @@ export abstract class ComponentBase implements OnDestroy {
     }
 
     public getTimeString(input: Date): string {
-        if (input !== undefined) {
+        if (input !== undefined && input !== null) {
             const time = new Date(input.toString().replace(/\Z+$/g, '') + 'Z');
             const hours = time.getHours();
             const hoursStr = hours < 10 ? `0${hours}` : hours;

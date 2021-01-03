@@ -90,7 +90,7 @@ namespace RaceVentura.Races
                     }
 
                     var timeDif = race.EndTime - endTime;
-                    retVal.TotalValue += (int)timeDif.Value.TotalMinutes * race.PenaltyPerMinuteLate;
+                    retVal.TotalValue += (int)timeDif.Value.TotalMinutes * race.PenaltyPerMinuteLate.Value;
                 }
             }
             else

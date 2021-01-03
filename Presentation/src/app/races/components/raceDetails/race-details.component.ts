@@ -7,7 +7,7 @@ import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
 import { RacesDownloadService } from '../../shared';
-import { RaceStoreModel } from '../../shared/models';
+import { RaceStoreModel, RaceType } from '../../shared/models';
 import { IRacesState, loadSelectedRaceSelector, selectedRaceSelector } from '../../store';
 import * as raceActions from '../../store/actions/race.actions';
 import { RaceComponentBase } from '../race-component-base.component';
@@ -18,6 +18,8 @@ import { RaceComponentBase } from '../race-component-base.component';
 })
 export class RaceDetailsComponent extends RaceComponentBase implements OnInit, OnChanges {
     @Input() raceId: string;
+    
+    public raceTypes = RaceType;
 
     public raceDetails$: Observable<RaceStoreModel>;
     public raceDetailsLoad$: Observable<IBase>;

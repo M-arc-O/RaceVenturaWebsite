@@ -180,13 +180,6 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             viewModel.startTime = this.getDate(this.addRaceForm.get('startDate').value, this.addRaceForm.get('startTime').value);
             viewModel.endTime = this.getDate(this.addRaceForm.get('endDate').value, this.addRaceForm.get('endTime').value);
 
-            if (viewModel.raceType === RaceType.NoTimeLimit)
-            {
-                viewModel.penaltyPerMinuteLate = 0;
-                viewModel.startTime = new Date();
-                viewModel.endTime = new Date();
-            }
-
             switch (this.type) {
                 case AddEditType.Add:
                     this.store.dispatch(new racesActions.AddRaceAction(viewModel));
@@ -213,6 +206,7 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
         control.clearValidators();
         control.setErrors(null);
         control.setValidators(validators);
+        control.setValue(null);
     }
 
     public getErrorText(error: HttpErrorResponse): string {

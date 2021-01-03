@@ -35,12 +35,12 @@
                             <th>Spezial tasks are a stage</th>
                             <th>Maximum team size</th>
                             <th>Minumum points to complete stage</th>
-                            <th>Penalty per minute late</th>
+                            <th *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">Penalty per minute late</th>
                             <th>Point information text</th>
-                            <th>Start date</th>
-                            <th>Start time</th>
-                            <th>End date</th>
-                            <th>End time</th>
+                            <th *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">Start date</th>
+                            <th *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">Start time</th>
+                            <th *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">End date</th>
+                            <th *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">End time</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,12 +53,12 @@
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
-                            <td>{{(raceDetails$ | async).penaltyPerMinuteLate}}</td>
+                            <td *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">{{(raceDetails$ | async).penaltyPerMinuteLate}}</td>
                             <td>{{(raceDetails$ | async).pointInformationText}}</td>
-                            <td>{{getDateString((raceDetails$ | async).startTime)}}</td>
-                            <td>{{getTimeString((raceDetails$ | async).startTime)}}</td>
-                            <td>{{getDateString((raceDetails$ | async).endTime)}}</td>
-                            <td>{{getTimeString((raceDetails$ | async).endTime)}}</td>
+                            <td *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">{{getDateString((raceDetails$ | async).startTime)}}</td>
+                            <td *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">{{getTimeString((raceDetails$ | async).startTime)}}</td>
+                            <td *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">{{getDateString((raceDetails$ | async).endTime)}}</td>
+                            <td *ngIf="(raceDetails$ | async).raceType.toString() === raceTypes.Classic.toString()">{{getTimeString((raceDetails$ | async).endTime)}}</td>
                         </tr>
                     </tbody>
                 </table>

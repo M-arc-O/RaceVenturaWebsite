@@ -71,11 +71,11 @@ namespace RaceVenturaAPITest.Controllers.Races
             GetByIdExceptionTest(SetupBlGetByIdException);
         }
 
-        [TestMethod]
-        public void AddRaceNoErrorsTest()
-        {
-            AddNoErrorsTest(Sut);
-        }
+        //[TestMethod]
+        //public void AddRaceNoErrorsTest()
+        //{
+        //    AddNoErrorsTest(Sut);
+        //}
 
         [TestMethod]
         public void AddRaceInvalidModelStateTest()
@@ -83,17 +83,17 @@ namespace RaceVenturaAPITest.Controllers.Races
             AddInvalidModelStateTest(Sut);
         }
 
-        [TestMethod]
-        public void AddRaceBusinesErrorTest()
-        {
-            AddBusinessErrorTest(Sut, SetupBlAddBusinessException);
-        }
+        //[TestMethod]
+        //public void AddRaceBusinesErrorTest()
+        //{
+        //    AddBusinessErrorTest(Sut, SetupBlAddBusinessException);
+        //}
 
-        [TestMethod]
-        public void AddRaceExceptionTest()
-        {
-            AddExceptionTest(Sut, SetupBlAddException);
-        }
+        //[TestMethod]
+        //public void AddRaceExceptionTest()
+        //{
+        //    AddExceptionTest(Sut, SetupBlAddException);
+        //}
 
         [TestMethod]
         public void EditRaceNoErrorsTest()
