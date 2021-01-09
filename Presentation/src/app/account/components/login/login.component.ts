@@ -4,10 +4,10 @@ import { UserService, ComponentBase } from 'src/app/shared';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html'
+    selector: 'app-login',
+    templateUrl: './login.component.html'
 })
-export class HomeComponent extends ComponentBase implements OnInit {
+export class LoginComponent extends ComponentBase implements OnInit {
     loginError = false;
     loginForm: FormGroup;
 
