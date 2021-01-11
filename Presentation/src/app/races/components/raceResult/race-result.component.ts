@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
@@ -6,7 +6,6 @@ import { TeamResultViewModel, StageStoreModel } from '../../shared/models';
 import * as raceActions from '../../store/actions/race.actions';
 import { resultStateSelector, stagesSelector } from '../../store';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-race-result',

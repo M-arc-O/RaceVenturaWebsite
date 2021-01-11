@@ -74,7 +74,7 @@ export abstract class ComponentBase implements OnDestroy {
     handleError(error: HttpErrorResponse) {
         if (error.status === 401) {
             this.userService.logout();
-            this.router.navigateByUrl('home');
+            this.router.navigateByUrl('login');
         }
     }
 }

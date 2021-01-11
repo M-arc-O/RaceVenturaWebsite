@@ -30,6 +30,7 @@ import { stagesReducers } from './store/reducers/stages';
 import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
 import { teamsReducers } from './store/reducers/teams';
 import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
+import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-result-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
     RaceDetailsComponent,
     RaceAddComponent,
     RaceResultComponent,
+    RaceResultWrapperComponent,
     StagesOverviewComponent,
     StageDetailsComponent,
     StageAddComponent,
