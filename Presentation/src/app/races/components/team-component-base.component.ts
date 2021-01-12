@@ -1,8 +1,11 @@
 import { TeamCategory } from "../shared/models";
 import { ComponentBase } from "src/app/shared";
-import { Directive } from "@angular/core";
+import { Component } from "@angular/core";
 
-@Directive()
+@Component({
+    selector: 'app-team-component-base',
+    template: ``
+})
 export abstract class TeamComponentBase extends ComponentBase {
     public categoryToString(category: TeamCategory): string {
         switch (category) {

@@ -1,8 +1,11 @@
 import { ComponentBase } from 'src/app/shared';
 import { RaceType } from '../shared/models';
-import { Directive } from '@angular/core';
+import { Component } from '@angular/core';
 
-@Directive()
+@Component({
+    selector: 'app-race-component-base',
+    template: ``
+})
 export abstract class RaceComponentBase extends ComponentBase {
     public raceTypeToString(type: RaceType): string {
         switch (type) {
