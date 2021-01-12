@@ -1,10 +1,14 @@
-import { OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
+@Component({
+    selector: 'app-base',
+    template: ``
+})
 export abstract class ComponentBase implements OnDestroy {
     protected unsubscribe$: Subject<void>;
 
