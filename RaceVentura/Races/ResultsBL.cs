@@ -71,6 +71,8 @@ namespace RaceVentura.Races
 
             SettleFinishTime(race, team, retVal);
 
+            retVal.StageResults = retVal.StageResults.OrderBy(stage => stage.StageNumber).ToList();
+
             return retVal;
         }
 
@@ -110,6 +112,7 @@ namespace RaceVentura.Races
             {
                 StageNumber = stage.Number,
                 StageName = stage.Name,
+                MaxNumberOfPoints = stage.Points.Count(),
                 TotalValue = 0,
                 PointResults = new List<PointResult>()
             };
