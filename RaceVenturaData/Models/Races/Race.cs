@@ -17,9 +17,12 @@ namespace RaceVenturaData.Models.Races
         public string Name { get; set; }
 
         [Required]
+        public RaceType RaceType { get; set; }
+
+        [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
-        public double AllowedCoordinatesDeviation { get; set; }
+        public double? AllowedCoordinatesDeviation { get; set; }
 
         [Required]
         public bool SpecialTasksAreStage { get; set; }
@@ -30,14 +33,15 @@ namespace RaceVenturaData.Models.Races
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
-        [Required]
-        public int PenaltyPerMinuteLate { get; set; }
+        public int? PenaltyPerMinuteLate { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
-
-        [Required]
-        public DateTime EndTime { get; set; }
+        [MaxLength(500)]
+        public string PointInformationText { get; set; }
 
         public List<Stage> Stages { get; set; }
 

@@ -6,6 +6,6 @@ namespace RaceVentura.Races
 {
     public interface IResultsBL
     {
-        IEnumerable<TeamResult> GetRaceResults(Guid userId, Guid raceId);
+        IEnumerable<TeamResult> GetRaceResults(Guid raceId);
     }
 }

@@ -10,5 +10,6 @@
         CoordinatesIncorrect = 6,
         NotActiveStage = 7,
         RaceNotStarted = 8,
+        RaceEnded = 9
     }
 }

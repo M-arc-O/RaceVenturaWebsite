@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { AccountModule } from './account/account.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { NotFoundComponent } from './components/notFound/not-found.component';
 import { RacesModule } from './races/races.module';
@@ -19,7 +20,8 @@ import { HeadersInterceptor } from './shared/interceptors/headers.interceptor';
   declarations: [
     AppComponent,
     NotFoundComponent,
-    MenuComponent
+    MenuComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

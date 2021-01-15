@@ -10,6 +10,8 @@ using RaceVenturaAPI.Helpers;
 using RaceVenturaAPI.ViewModels.Identity;
 using RaceVenturaData.Models.Identity;
 using RaceVentura;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace RaceVenturaAPI.Controllers
 {
@@ -20,30 +22,40 @@ namespace RaceVenturaAPI.Controllers
         private readonly IAccountBL _AccountBL;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ILogger _Logger;
 
-        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, ILogger<AuthController> logger)
         {
             _AccountBL = accountBL;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
+            _Logger = logger;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var identity = await GetClaimsIdentity(credentials.Email, credentials.Password);
-            if (identity == null)
+                var identity = await GetClaimsIdentity(credentials.Email, credentials.Password);
+                if (identity == null)
+                {
+                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                }
+
+                var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                return new OkObjectResult(jwt);
+            }
+            catch (Exception ex)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                _Logger.LogError(ex, ex.Message);
+                return StatusCode(500);
             }
-
-            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return new OkObjectResult(jwt);
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)

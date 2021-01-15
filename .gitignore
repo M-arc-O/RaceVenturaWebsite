@@ -1,6 +1,9 @@
 # Node modules
 Presentation/node_modules
 
+#chromium
+*.local-chromium/
+
 # Autosave files
 *~
 

@@ -9,7 +9,7 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public bool CoordinatesCheckEnabled { get; set; }
 
-        public double AllowedCoordinatesDeviation { get; set; }
+        public double? AllowedCoordinatesDeviation { get; set; }
 
         [Required]
         public bool SpecialTasksAreStage { get; set; }
@@ -20,14 +20,22 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public int MinimumPointsToCompleteStage { get; set; }
 
-        [Required]
-        public int PenaltyPerMinuteLate { get; set; }
+        public int? PenaltyPerMinuteLate { get; set; }
+
+        public DateTime? StartTime { get; set; }
+
+        public DateTime? EndTime { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
+        [MaxLength(500)]
+        public string PointInformationText { get; set; }
 
         [Required]
-        public DateTime EndTime { get; set; }
+        public RaceTypeViewModel RaceType { get; set; }
+
+        public byte[] Avatar { get; set; }
+
+        public byte[] QrCodeArray { get; set; }
 
         public List<TeamViewModel> Teams { get; set; }
 

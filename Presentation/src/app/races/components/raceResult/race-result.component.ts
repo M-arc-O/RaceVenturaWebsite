@@ -1,12 +1,12 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { TeamResultViewModel, StageStoreModel } from '../../shared/models';
+import { TeamResultViewModel } from '../../shared/models';
 import * as raceActions from '../../store/actions/race.actions';
-import { resultStateSelector, stagesSelector } from '../../store';
+import { resultStateSelector } from '../../store';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-race-result',
@@ -16,14 +16,13 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
 
     public raceResult$: Observable<TeamResultViewModel[]>;
-    public stages$: Observable<StageStoreModel[]>;
 
     constructor(private store: Store<TeamResultViewModel[]>,
+        private modalService: NgbModal,
         userService: UserService,
         router: Router) {
         super(userService, router);
         this.raceResult$ = this.store.pipe(select(resultStateSelector));
-        this.stages$ = this.store.pipe(select(stagesSelector));
     }
 
     public ngOnInit(): void {
@@ -32,5 +31,9 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
 
     public refresh(): void {
         this.store.dispatch(new raceActions.GetRaceResultAction(this.raceId));
+    }
+
+    public openModal(content: any): void {
+        this.modalService.open(content, { size: 'xl', scrollable: true });
     }
 }

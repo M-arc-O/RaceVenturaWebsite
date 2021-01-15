@@ -15,6 +15,6 @@ namespace RaceVenturaData.Models.Races
 
         [Required]
         [MaxLength(100)]
-        public string UniqueId { get; set; }
+        public Guid UniqueId { get; set; }
     }
 }

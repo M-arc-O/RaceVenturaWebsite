@@ -28,6 +28,16 @@
             </validation-message>
         </validation-message-for>
 
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
+            <div class="col">
+                <select class="form-control" id="type{{type}}" formControlName="type">
+                    <option *ngFor="let type of raceTypes | enumToArray" [value]="type.index">
+                        {{raceTypeToString(type.index)}}</option>
+                </select>
+            </div>
+        </div>
+
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('checkCoordinates').touched || addRaceForm.get('checkCoordinates').dirty) &&
                 !addRaceForm.get('checkCoordinates').valid }">
             <div class="col-sm-6"></div>
@@ -45,10 +55,11 @@
         <div *ngIf="addRaceForm.get('checkCoordinates').value">
             <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('allowedCoordinatesDeviation').touched || addRaceForm.get('allowedCoordinatesDeviation').dirty) &&
                         !addRaceForm.get('allowedCoordinatesDeviation').valid }">
-                <label class="col-sm-6 col-form-label" for="allowedCoordinatesDeviation{{type}}">Maximum coordinate deviation.</label>
+                <label class="col-sm-6 col-form-label" for="allowedCoordinatesDeviation{{type}}">Maximum coordinate
+                    deviation.</label>
                 <div class="col">
-                    <input class="form-control" id="allowedCoordinatesDeviation{{type}}" type="text" placeholder="1 (required)"
-                        formControlName="allowedCoordinatesDeviation" />
+                    <input class="form-control" id="allowedCoordinatesDeviation{{type}}" type="text"
+                        placeholder="1 (required)" formControlName="allowedCoordinatesDeviation" />
                 </div>
             </div>
             <validation-message-for field="allowedCoordinatesDeviation">
@@ -109,119 +120,148 @@
             </validation-message>
         </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
     !addRaceForm.get('penaltyPerMinuteLate').valid }">
-            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute late</label>
+                <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute
+                    late</label>
+                <div class="col">
+                    <input class="form-control" id="penaltyPerMinuteLate{{type}}" type="text" placeholder="0 (required)"
+                        formControlName="penaltyPerMinuteLate" />
+                </div>
+            </div>
+            <validation-message-for field="penaltyPerMinuteLate">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the penalty per minute late.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+        </div>
+
+        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('pointInformationText').touched || addRaceForm.get('pointInformationText').dirty) &&
+    !addRaceForm.get('pointInformationText').valid }">
+            <label class="col-sm-6 col-form-label" for="pointInformationText{{type}}">Point information text</label>
             <div class="col">
-                <input class="form-control" id="penaltyPerMinuteLate{{type}}" type="text" placeholder="0 (required)"
-                    formControlName="penaltyPerMinuteLate" />
+                <textarea class="form-control" id="pointInformationText{{type}}" type="text"
+                    placeholder="Information text that will be printed with the point QR code. (required)"
+                    formControlName="pointInformationText">
+                </textarea>
             </div>
         </div>
-        <validation-message-for field="penaltyPerMinuteLate">
+        <validation-message-for field="pointInformationText">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the penalty per minute late.</span>
+                    <span class="help-block offset-sm-6">Please enter the point information text.</span>
                 </div>
             </validation-message>
         </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startDate').touched || addRaceForm.get('startDate').dirty) &&
                     !addRaceForm.get('startDate').valid }">
-            <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
-            <div class="col">
-                <div class="input-group">
-                    <input class="form-control" id="startDate{{type}}" placeholder="dd-mm-yyyy" name="dpStartDate"
-                        ngbDatepicker #dStartDate="ngbDatepicker" formControlName="startDate">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" (click)="dStartDate.toggle()" type="button">
-                            <span class="fa fa-calendar" aria-hidden="true"></span>
-                        </button>
+                <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
+                <div class="col">
+                    <div class="input-group">
+                        <input class="form-control" id="startDate{{type}}" placeholder="dd-mm-yyyy" name="dpStartDate"
+                            ngbDatepicker #dStartDate="ngbDatepicker" formControlName="startDate">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" (click)="dStartDate.toggle()" type="button">
+                                <span class="fa fa-calendar" aria-hidden="true"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <validation-message-for field="startDate">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the start date.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="ngbDate">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a valid start date (dd-mm-yyyy).</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
         </div>
-        <validation-message-for field="startDate">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the start date.</span>
-                </div>
-            </validation-message>
-            <validation-message error="ngbDate">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a valid start date (dd-mm-yyyy).</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('startTime').touched || addRaceForm.get('startTime').dirty) &&
                     !addRaceForm.get('startTime').valid }">
-            <label class="col-sm-6 col-form-label" for="startTime{{type}}">Start time</label>
-            <div class="col">
-                <input class="form-control" id="startTime{{type}}" type="text" placeholder="hh:mm"
-                    formControlName="startTime" />
+                <label class="col-sm-6 col-form-label" for="startTime{{type}}">Start time</label>
+                <div class="col">
+                    <input class="form-control" id="startTime{{type}}" type="text" placeholder="hh:mm"
+                        formControlName="startTime" />
+                </div>
             </div>
+            <validation-message-for field="startTime">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the start time.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="incorrectTime">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
         </div>
-        <validation-message-for field="startTime">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the start time.</span>
-                </div>
-            </validation-message>
-            <validation-message error="incorrectTime">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
                     !addRaceForm.get('endDate').valid }">
-            <label class="col-sm-6 col-form-label" for="endDate{{type}}">End date</label>
-            <div class="col">
-                <div class="input-group">
-                    <input class="form-control" id="endDate{{type}}" placeholder="dd-mm-yyyy" name="dpEndDate"
-                        ngbDatepicker #dEndDate="ngbDatepicker" formControlName="endDate">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" (click)="dEndDate.toggle()" type="button">
-                            <span class="fa fa-calendar" aria-hidden="true"></span>
-                        </button>
+                <label class="col-sm-6 col-form-label" for="endDate{{type}}">End date</label>
+                <div class="col">
+                    <div class="input-group">
+                        <input class="form-control" id="endDate{{type}}" placeholder="dd-mm-yyyy" name="dpEndDate"
+                            ngbDatepicker #dEndDate="ngbDatepicker" formControlName="endDate">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" (click)="dEndDate.toggle()" type="button">
+                                <span class="fa fa-calendar" aria-hidden="true"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <validation-message-for field="endDate">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the end date.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="ngbDate">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a valid end date (dd-mm-yyyy).</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
         </div>
-        <validation-message-for field="endDate">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the end date.</span>
-                </div>
-            </validation-message>
-            <validation-message error="ngbDate">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a valid end date (dd-mm-yyyy).</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
                     !addRaceForm.get('endTime').valid }">
-            <label class="col-sm-6 col-form-label" for="endTime{{type}}">End time</label>
-            <div class="col">
-                <input class="form-control" id="endTime{{type}}" type="text" placeholder="hh:mm"
-                    formControlName="endTime" />
+                <label class="col-sm-6 col-form-label" for="endTime{{type}}">End time</label>
+                <div class="col">
+                    <input class="form-control" id="endTime{{type}}" type="text" placeholder="hh:mm"
+                        formControlName="endTime" />
+                </div>
             </div>
+            <validation-message-for field="endTime">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter the end time.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="incorrectTime">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
         </div>
-        <validation-message-for field="endTime">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter the end time.</span>
-                </div>
-            </validation-message>
-            <validation-message error="incorrectTime">
-                <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
 
         <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">

@@ -21,6 +21,8 @@ namespace RaceVenturaAPI.ViewModels.Races
 
         public int? MimimumPointsToCompleteStage { get; set; }
 
+        public byte[] QrCodeArray { get; set; }
+
         public List<PointViewModel> Points { get; set; }
     }
 }

@@ -21,7 +21,7 @@ import { TeamDetailsComponent } from './components/teamDetails/team-details.comp
 import { TeamPointsComponent } from './components/teamPoints/team-points.component';
 import { TeamsOverviewComponent } from './components/teamsOverview/teams-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
-import { PointsService, RacesService, StagesService, TeamsService, ResultsService, VisitedPointsService } from './shared';
+import { PointsService, RacesService, StagesService, TeamsService, ResultsService, VisitedPointsService, RacesDownloadService } from './shared';
 import { PointEffects, RaceEffects, StageEffects, TeamEffects } from './store/effects';
 import { TeamPointVisitedEffects } from './store/effects/team-point-visited';
 import { pointsReducers } from './store/reducers/points';
@@ -30,6 +30,7 @@ import { stagesReducers } from './store/reducers/stages';
 import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
 import { teamsReducers } from './store/reducers/teams';
 import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
+import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-result-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
     RaceDetailsComponent,
     RaceAddComponent,
     RaceResultComponent,
+    RaceResultWrapperComponent,
     StagesOverviewComponent,
     StageDetailsComponent,
     StageAddComponent,
@@ -64,6 +66,7 @@ import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
   ],
   providers: [
     RacesService, 
+    RacesDownloadService,
     StagesService, 
     PointsService, 
     TeamsService, 

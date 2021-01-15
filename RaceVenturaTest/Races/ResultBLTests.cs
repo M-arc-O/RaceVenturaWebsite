@@ -58,6 +58,7 @@ namespace RaceVenturaTest.Races
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
                 It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Stages,Stages.Points")))).Returns(new List<Race> { new Race
                 {
+                    StartTime = new DateTime(2020, 1, 1, 0, 0, 0),
                     EndTime = new DateTime(2020, 1, 1, 18, 0, 0),
                     PenaltyPerMinuteLate = 5,
                     MinimumPointsToCompleteStage = 1,
@@ -137,7 +138,7 @@ namespace RaceVenturaTest.Races
                 }});
             _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
 
-            var result = _Sut.GetRaceResults(userId, raceId).ToList();
+            var result = _Sut.GetRaceResults(raceId).ToList();
 
             Assert.AreEqual("Eerste", result[0].TeamName);
             Assert.AreEqual(2, result[0].TeamNumber);
@@ -167,7 +168,7 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(2, result[1].NumberOfStages);
             Assert.AreEqual(3, result[1].NumberOfPoints);
             Assert.AreEqual(60, result[1].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 17, 0, 0), result[1].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 17, 0, 0), result[1].EndTime.Value);
             Assert.AreEqual(2, result[1].StageResults.Count);
 
             Assert.AreEqual("TeLaat", result[2].TeamName);
@@ -175,7 +176,7 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(2, result[2].NumberOfStages);
             Assert.AreEqual(3, result[2].NumberOfPoints);
             Assert.AreEqual(55, result[2].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 1, 0), result[2].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 1, 0), result[2].EndTime.Value);
             Assert.AreEqual(2, result[2].StageResults.Count);
 
             Assert.AreEqual("EtappeMinder", result[3].TeamName);
@@ -183,48 +184,22 @@ namespace RaceVenturaTest.Races
             Assert.AreEqual(1, result[3].NumberOfStages);
             Assert.AreEqual(1, result[3].NumberOfPoints);
             Assert.AreEqual(10, result[3].TotalValue);
-            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 0, 0), result[3].EndTime);
+            Assert.AreEqual(new DateTime(2020, 1, 1, 18, 0, 0), result[3].EndTime.Value);
             Assert.AreEqual(2, result[3].StageResults.Count);
         }
 
         [TestMethod]
         public void GetRaceResultRaceDoesNotExist()
         {
-            var userId = Guid.NewGuid();
             var raceId = Guid.NewGuid();
 
             var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
             _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(userId, raceId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(raceId));
 
             Assert.AreEqual(BLErrorCodes.NotFound, exception.ErrorCode);
             Assert.AreEqual($"Race with ID '{raceId}' not found.", exception.Message);
-        }
-
-        [TestMethod]
-        public void GetRaceResultNotAuthorizedForRace()
-        {
-            var userId = Guid.NewGuid();
-            var raceId = Guid.NewGuid();
-
-            var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
-            userLinkRepositoryMock.Setup(r => r.Get(
-                It.IsAny<Expression<Func<UserLink, bool>>>(),
-                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
-                It.IsAny<string>())).Returns(new List<UserLink> { });
-            _UnitOfWorkMock.Setup(m => m.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
-
-            var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
-            raceRepositoryMock.Setup(r => r.Get(
-                It.IsAny<Expression<Func<Race, bool>>>(),
-                It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
-                It.Is<string>(s => s.Equals("Teams,Teams.VisitedPoints,Stages,Stages.Points")))).Returns(new List<Race> { new Race() });
-            _UnitOfWorkMock.Setup(m => m.RaceRepository).Returns(raceRepositoryMock.Object);
-
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.GetRaceResults(userId, raceId));
-
-            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
         }
     }
 }

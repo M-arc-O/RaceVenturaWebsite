@@ -22,9 +22,11 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public TeamCategoryViewModel Category { get; set; }
 
-        public List<VisitedPointViewModel> VisitedPoints { get; set; }
+        public DateTime? FinishTime { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public byte[] QrCodeArray { get; set; }
+
+        public List<VisitedPointViewModel> VisitedPoints { get; set; }
 
         public List<FinishedStageViewModel> FinishedStages { get; set; }
     }

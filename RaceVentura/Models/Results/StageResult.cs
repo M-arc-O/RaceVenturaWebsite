@@ -7,6 +7,7 @@ namespace RaceVentura.Models.Results
         public int StageNumber { get; set; }
         public string StageName { get; set; }
         public int TotalValue { get; set; }
+        public int MaxNumberOfPoints { get; internal set; }
         public int NumberOfPoints
         {
             get

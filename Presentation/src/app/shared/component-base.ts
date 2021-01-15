@@ -1,10 +1,14 @@
-import { OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
+@Component({
+    selector: 'app-base',
+    template: ``
+})
 export abstract class ComponentBase implements OnDestroy {
     protected unsubscribe$: Subject<void>;
 
@@ -23,6 +27,7 @@ export abstract class ComponentBase implements OnDestroy {
             const control = formGroup.get(key);
             if (control instanceof FormControl) {
                 control.markAsTouched({ onlySelf: true });
+                control.updateValueAndValidity();
             } else if (control instanceof FormGroup) {
                 this.validateAllFormFields(control);
             }
@@ -30,13 +35,17 @@ export abstract class ComponentBase implements OnDestroy {
     }
 
     protected getDate(date: string, time: string): Date {
+        if (date === null || time === null) {
+            return null;
+        }
+
         const [day, month, year] = date.split('-');
         const [hours, minutes, seconds] = time.split(':');
         return new Date(+year, +month - 1, +day, +hours, +minutes, seconds === undefined ? 0 : +seconds);
     }
 
     public getDateString(input: Date): string {
-        if (input !== undefined) {
+        if (input !== undefined && input !== null) {
             const date = new Date(input);
             const yy = date.getFullYear();
             const mm = date.getMonth() + 1;
@@ -51,16 +60,16 @@ export abstract class ComponentBase implements OnDestroy {
     }
 
     public getTimeString(input: Date): string {
-        if (input !== undefined) {
+        if (input !== undefined && input !== null) {
             const time = new Date(input.toString().replace(/\Z+$/g, '') + 'Z');
             const hours = time.getHours();
             const hoursStr = hours < 10 ? `0${hours}` : hours;
             const minutes = time.getMinutes();
             const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
             const seconds = time.getSeconds();
-            const secondsStr = seconds === 0 ? "": seconds < 10 ? `0${seconds}` : seconds;
+            const secondsStr = seconds === 0 ? "" : seconds < 10 ? `0${seconds}` : seconds;
 
-            return `${hoursStr}:${minutesStr}${secondsStr === "" ? "": `:${secondsStr}`}`;
+            return `${hoursStr}:${minutesStr}${secondsStr === "" ? "" : `:${secondsStr}`}`;
         }
 
         return '';
@@ -69,7 +78,7 @@ export abstract class ComponentBase implements OnDestroy {
     handleError(error: HttpErrorResponse) {
         if (error.status === 401) {
             this.userService.logout();
-            this.router.navigateByUrl('home');
+            this.router.navigateByUrl('login');
         }
     }
 }

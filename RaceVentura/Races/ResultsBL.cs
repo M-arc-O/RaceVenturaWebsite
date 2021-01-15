@@ -16,11 +16,9 @@ namespace RaceVentura.Races
 
         }
 
-        public IEnumerable<TeamResult> GetRaceResults(Guid userId, Guid raceId)
+        public IEnumerable<TeamResult> GetRaceResults(Guid raceId)
         {
             var race = GetRace(raceId);
-
-            CheckUserIsAuthorizedForRace(userId, raceId);
 
             var teamResults = new List<TeamResult>();
             foreach (var team in race.Teams)
@@ -28,7 +26,7 @@ namespace RaceVentura.Races
                 teamResults.Add(GetTeamResult(race, team));
             };
 
-            return teamResults.OrderByDescending(r => r.NumberOfStages).ThenByDescending(r => r.TotalValue).ThenBy(r => r.EndTime).ToList();
+            return teamResults.OrderByDescending(r => r.NumberOfStages).ThenByDescending(r => r.TotalValue).ThenBy(r => r.RaceDuration).ToList();
         }
 
         private Race GetRace(Guid raceId)
@@ -43,7 +41,7 @@ namespace RaceVentura.Races
             return race;
         }
 
-        private TeamResult GetTeamResult(Race race, Team team)
+        private static TeamResult GetTeamResult(Race race, Team team)
         {
             var retVal = new TeamResult
             {
@@ -73,22 +71,38 @@ namespace RaceVentura.Races
 
             SettleFinishTime(race, team, retVal);
 
+            retVal.StageResults = retVal.StageResults.OrderBy(stage => stage.StageNumber).ToList();
+
             return retVal;
         }
 
         private static void SettleFinishTime(Race race, Team team, TeamResult retVal)
         {
-            if (team.FinishTime.CompareTo(race.EndTime) > 0)
+            if (race.RaceType == RaceType.Classic && team.FinishTime.HasValue)
             {
-                var endTime = team.FinishTime;
-                if (team.FinishTime.Second > 0)
-                {
-                    endTime = new DateTime(team.FinishTime.Year, team.FinishTime.Month, team.FinishTime.Day, team.FinishTime.Hour, team.FinishTime.Minute, 0);
-                    endTime = endTime.AddMinutes(1);
-                }
+                retVal.RaceDuration = team.FinishTime.Value - race.StartTime.Value;
 
-                var timeDif = race.EndTime - endTime;
-                retVal.TotalValue += (int)timeDif.TotalMinutes * race.PenaltyPerMinuteLate;
+                if (team.FinishTime.Value.CompareTo(race.EndTime) > 0)
+                {
+                    var endTime = team.FinishTime;
+                    if (team.FinishTime.Value.Second > 0)
+                    {
+                        endTime = new DateTime(team.FinishTime.Value.Year, team.FinishTime.Value.Month, team.FinishTime.Value.Day, team.FinishTime.Value.Hour, team.FinishTime.Value.Minute, 0);
+                        endTime = endTime.Value.AddMinutes(1);
+                    }
+
+                    var timeDif = race.EndTime - endTime;
+                    retVal.TotalValue += (int)timeDif.Value.TotalMinutes * race.PenaltyPerMinuteLate.Value;
+                }
+            }
+            else
+            {
+                var firstVisitedPointTime = team.VisitedPoints.OrderBy(t => t.Time).FirstOrDefault();
+                
+                if (team.FinishTime.HasValue && firstVisitedPointTime != null)
+                {
+                    retVal.RaceDuration = team.FinishTime.Value - firstVisitedPointTime.Time;
+                }
             }
         }
 
@@ -98,6 +112,7 @@ namespace RaceVentura.Races
             {
                 StageNumber = stage.Number,
                 StageName = stage.Name,
+                MaxNumberOfPoints = stage.Points.Count(),
                 TotalValue = 0,
                 PointResults = new List<PointResult>()
             };

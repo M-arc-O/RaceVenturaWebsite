@@ -54,6 +54,7 @@ namespace RaceVenturaAPI
                 {
                     logging.ClearProviders();
                     logging.AddConsole();
+                    logging.AddEventLog();
                     logging.AddAzureWebAppDiagnostics();
                 });
     }

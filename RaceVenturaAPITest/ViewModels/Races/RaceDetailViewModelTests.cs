@@ -14,9 +14,8 @@ namespace RaceVenturaAPITest.ViewModels.Races
             TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("SpecialTasksAreStage");
             TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("MaximumTeamSize");
             TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("MinimumPointsToCompleteStage");
-            TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("PenaltyPerMinuteLate");
-            TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("StartTime");
-            TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("EndTime");
+            TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("PointInformationText");
+            TestUtils.TestAttributeOnProperty<RaceDetailViewModel, RequiredAttribute>("RaceType");
         }
     }
 }

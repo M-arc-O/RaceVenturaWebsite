@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RaceVenturaAPI.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,10 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,23 +26,23 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,16 +53,18 @@ namespace RaceVenturaAPI.Migrations
                 name: "Races",
                 columns: table => new
                 {
-                    RaceId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    CoordinatesCheckEnabled = table.Column<bool>(nullable: false),
-                    AllowedCoordinatesDeviation = table.Column<double>(nullable: false),
-                    SpecialTasksAreStage = table.Column<bool>(nullable: false),
-                    MaximumTeamSize = table.Column<int>(nullable: false),
-                    MinimumPointsToCompleteStage = table.Column<int>(nullable: false),
-                    PenaltyPerMinuteLate = table.Column<int>(nullable: false),
-                    StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false)
+                    RaceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    RaceType = table.Column<int>(type: "integer", nullable: false),
+                    CoordinatesCheckEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AllowedCoordinatesDeviation = table.Column<double>(type: "double precision", nullable: false),
+                    SpecialTasksAreStage = table.Column<bool>(type: "boolean", nullable: false),
+                    MaximumTeamSize = table.Column<int>(type: "integer", nullable: false),
+                    MinimumPointsToCompleteStage = table.Column<int>(type: "integer", nullable: false),
+                    PenaltyPerMinuteLate = table.Column<int>(type: "integer", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    PointInformationText = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,9 +75,9 @@ namespace RaceVenturaAPI.Migrations
                 name: "UserLinks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    RaceId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RaceId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,11 +88,11 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,11 +109,11 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,10 +130,10 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,8 +150,8 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,10 +174,10 @@ namespace RaceVenturaAPI.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,11 +194,11 @@ namespace RaceVenturaAPI.Migrations
                 name: "Stages",
                 columns: table => new
                 {
-                    StageId = table.Column<Guid>(nullable: false),
-                    RaceId = table.Column<Guid>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    MimimumPointsToCompleteStage = table.Column<int>(nullable: true)
+                    StageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RaceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Number = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    MimimumPointsToCompleteStage = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,13 +215,13 @@ namespace RaceVenturaAPI.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    TeamId = table.Column<Guid>(nullable: false),
-                    RaceId = table.Column<Guid>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Category = table.Column<int>(nullable: false),
-                    FinishTime = table.Column<DateTime>(nullable: false),
-                    ActiveStage = table.Column<int>(nullable: false)
+                    TeamId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RaceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Number = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Category = table.Column<int>(type: "integer", nullable: false),
+                    FinishTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ActiveStage = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,15 +238,15 @@ namespace RaceVenturaAPI.Migrations
                 name: "Points",
                 columns: table => new
                 {
-                    PointId = table.Column<Guid>(nullable: false),
-                    StageId = table.Column<Guid>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Value = table.Column<int>(nullable: false),
-                    Latitude = table.Column<double>(nullable: false),
-                    Longitude = table.Column<double>(nullable: false),
-                    Answer = table.Column<string>(nullable: true),
-                    Message = table.Column<string>(nullable: true)
+                    PointId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    Latitude = table.Column<double>(type: "double precision", nullable: false),
+                    Longitude = table.Column<double>(type: "double precision", nullable: false),
+                    Answer = table.Column<string>(type: "text", nullable: true),
+                    Message = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,10 +263,10 @@ namespace RaceVenturaAPI.Migrations
                 name: "FinishedStages",
                 columns: table => new
                 {
-                    FinishedStageId = table.Column<Guid>(nullable: false),
-                    StageId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: false),
-                    FinishTime = table.Column<DateTime>(nullable: false)
+                    FinishedStageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FinishTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,9 +283,9 @@ namespace RaceVenturaAPI.Migrations
                 name: "RegisteredId",
                 columns: table => new
                 {
-                    RegisteredIdId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: false),
-                    UniqueId = table.Column<string>(maxLength: 100, nullable: false)
+                    RegisteredIdId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UniqueId = table.Column<Guid>(type: "uuid", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -300,10 +302,10 @@ namespace RaceVenturaAPI.Migrations
                 name: "VisitedPoints",
                 columns: table => new
                 {
-                    VisitedPointId = table.Column<Guid>(nullable: false),
-                    PointId = table.Column<Guid>(nullable: false),
-                    TeamId = table.Column<Guid>(nullable: false),
-                    Time = table.Column<DateTime>(nullable: false)
+                    VisitedPointId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PointId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
