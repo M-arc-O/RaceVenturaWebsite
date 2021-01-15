@@ -21,7 +21,7 @@ namespace RaceVenturaAPI.Controllers
             try
             {
                 _Logger.LogDebug("GetVersion called.");
-                return Ok("1.0");
+                return Ok("1.0.1.0");
             }
             catch (Exception ex)
             {
