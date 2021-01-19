@@ -20,8 +20,21 @@ namespace RaceVenturaAPI.Controllers
         {
             try
             {
-                _Logger.LogDebug("GetVersion called.");
-                return Ok("1.0.1.0");
+                return Ok("1.0.2.0");
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(AccountsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("getappversion")]
+        public IActionResult GetAppVersion()
+        {
+            try
+            {
+                return Ok("1.0.8.0");
             }
             catch (Exception ex)
             {
