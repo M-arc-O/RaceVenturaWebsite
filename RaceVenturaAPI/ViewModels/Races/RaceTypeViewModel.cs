@@ -3,6 +3,7 @@
     public enum RaceTypeViewModel
     {
         Classic,
-        NoTimeLimit
+        NoTimeLimit,
+        TimeLimit,
     }
 }

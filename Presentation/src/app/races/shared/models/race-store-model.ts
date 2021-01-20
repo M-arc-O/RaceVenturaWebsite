@@ -11,5 +11,5 @@ export class RaceStoreModel extends RaceViewModel {
     public penaltyPerMinuteLate: number;
     public pointInformationText: string;
     public startTime: Date;
-    public endTime: Date;
+    public maxDuration: string;
 }

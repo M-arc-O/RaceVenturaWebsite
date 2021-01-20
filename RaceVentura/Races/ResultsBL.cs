@@ -78,31 +78,44 @@ namespace RaceVentura.Races
 
         private static void SettleFinishTime(Race race, Team team, TeamResult retVal)
         {
-            if (race.RaceType == RaceType.Classic && team.FinishTime.HasValue)
+            if (team.FinishTime.HasValue)
             {
-                retVal.RaceDuration = team.FinishTime.Value - race.StartTime.Value;
-
-                if (team.FinishTime.Value.CompareTo(race.EndTime) > 0)
+                switch (race.RaceType)
                 {
-                    var endTime = team.FinishTime;
-                    if (team.FinishTime.Value.Second > 0)
-                    {
-                        endTime = new DateTime(team.FinishTime.Value.Year, team.FinishTime.Value.Month, team.FinishTime.Value.Day, team.FinishTime.Value.Hour, team.FinishTime.Value.Minute, 0);
-                        endTime = endTime.Value.AddMinutes(1);
-                    }
+                    case RaceType.Classic:
+                        retVal.RaceDuration = team.FinishTime.Value - race.StartTime.Value;
+                        break;
 
-                    var timeDif = race.EndTime - endTime;
-                    retVal.TotalValue += (int)timeDif.Value.TotalMinutes * race.PenaltyPerMinuteLate.Value;
+                    case RaceType.TimeLimit:
+                        SetRaceRurationForNonClassic(team, retVal);
+                        break;
+
+                    case RaceType.NoTimeLimit:
+                        SetRaceRurationForNonClassic(team, retVal);
+                        break;
+
+                    default:
+                        throw new Exception($"Unknown raceid {race.RaceId}");
+                }
+
+                if ((race.RaceType == RaceType.Classic || race.RaceType == RaceType.TimeLimit) && race.MaxDuration.HasValue)
+                {
+                    var difference = retVal.RaceDuration - race.MaxDuration.Value;
+                    if (difference.TotalSeconds > 0)
+                    {
+                        retVal.TotalValue -= (int)Math.Ceiling(difference.TotalMinutes) * race.PenaltyPerMinuteLate.Value;
+                    }
                 }
             }
-            else
+        }
+
+        private static void SetRaceRurationForNonClassic(Team team, TeamResult retVal)
+        {
+            var firstVisitedPoint = team.VisitedPoints.OrderBy(t => t.Time).FirstOrDefault();
+
+            if (firstVisitedPoint != null)
             {
-                var firstVisitedPointTime = team.VisitedPoints.OrderBy(t => t.Time).FirstOrDefault();
-                
-                if (team.FinishTime.HasValue && firstVisitedPointTime != null)
-                {
-                    retVal.RaceDuration = team.FinishTime.Value - firstVisitedPointTime.Time;
-                }
+                retVal.RaceDuration = team.FinishTime.Value - firstVisitedPoint.Time;
             }
         }
 
@@ -112,7 +125,7 @@ namespace RaceVentura.Races
             {
                 StageNumber = stage.Number,
                 StageName = stage.Name,
-                MaxNumberOfPoints = stage.Points.Count(),
+                MaxNumberOfPoints = stage.Points.Count,
                 TotalValue = 0,
                 PointResults = new List<PointResult>()
             };

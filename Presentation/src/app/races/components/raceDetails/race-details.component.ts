@@ -74,4 +74,13 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
     public RemoveRaceClicked(): void {
         this.store.dispatch(new raceActions.DeleteRaceAction(this.raceId));
     }
+
+    public GetRaceDurationString(value: string): string {
+        if (value !== null && value !== undefined) {
+            let values = value.split(`:`);
+            return `${values[0]} hours, ${values[1]} minutes`; 
+        }
+
+        return "";
+    }
 }

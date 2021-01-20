@@ -45,6 +45,7 @@ namespace RaceVentura.Races
         public void Add(Guid userId, Race race)
         {
             CheckIfRaceNameExists(race.Name);
+
             _UnitOfWork.RaceRepository.Insert(race);
             _UnitOfWork.Save();
 
@@ -77,7 +78,7 @@ namespace RaceVentura.Races
             race.MaximumTeamSize = newEntity.MaximumTeamSize;
             race.MinimumPointsToCompleteStage = newEntity.MinimumPointsToCompleteStage;
             race.StartTime = newEntity.StartTime;
-            race.EndTime = newEntity.EndTime;
+            race.MaxDuration = newEntity.MaxDuration;
 
             _UnitOfWork.RaceRepository.Update(race);
 

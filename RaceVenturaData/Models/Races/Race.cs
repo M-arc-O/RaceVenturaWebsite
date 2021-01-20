@@ -37,7 +37,7 @@ namespace RaceVenturaData.Models.Races
 
         public DateTime? StartTime { get; set; }
 
-        public DateTime? EndTime { get; set; }
+        public TimeSpan? MaxDuration { get; set; }
 
         [Required]
         [MaxLength(500)]

@@ -30,7 +30,7 @@ namespace RaceVenturaAPITest.ViewModels.Races.MappingProfiles
             var model = new Race
             {
                 CoordinatesCheckEnabled = true,
-                EndTime = DateTime.Now,
+                MaxDuration = null,
                 MaximumTeamSize = 1,
                 MinimumPointsToCompleteStage = 1,
                 Name = "a",
@@ -69,7 +69,7 @@ namespace RaceVenturaAPITest.ViewModels.Races.MappingProfiles
             var model = new Race
             {
                 CoordinatesCheckEnabled = true,
-                EndTime = DateTime.Now,
+                MaxDuration = new TimeSpan(),
                 MaximumTeamSize = 1,
                 MinimumPointsToCompleteStage = 1,
                 Name = "a",
@@ -84,7 +84,7 @@ namespace RaceVenturaAPITest.ViewModels.Races.MappingProfiles
             var result = _Sut.Map<RaceDetailViewModel>(model);
 
             Assert.AreEqual(model.CoordinatesCheckEnabled, result.CoordinatesCheckEnabled);
-            Assert.AreEqual(model.EndTime, result.EndTime);
+            Assert.AreEqual(model.MaxDuration, result.MaxDuration);
             Assert.AreEqual(model.MaximumTeamSize, result.MaximumTeamSize);
             Assert.AreEqual(model.MinimumPointsToCompleteStage, result.MinimumPointsToCompleteStage);
             Assert.AreEqual(model.Name, result.Name);
@@ -102,7 +102,7 @@ namespace RaceVenturaAPITest.ViewModels.Races.MappingProfiles
             var viewModel = new RaceDetailViewModel
             {
                 CoordinatesCheckEnabled = true,
-                EndTime = DateTime.Now,
+                MaxDuration = new TimeSpan(),
                 MaximumTeamSize = 1,
                 MinimumPointsToCompleteStage = 1,
                 Name = "a",
@@ -117,7 +117,7 @@ namespace RaceVenturaAPITest.ViewModels.Races.MappingProfiles
             var result = _Sut.Map<Race>(viewModel);
 
             Assert.AreEqual(viewModel.CoordinatesCheckEnabled, result.CoordinatesCheckEnabled);
-            Assert.AreEqual(viewModel.EndTime, result.EndTime);
+            Assert.AreEqual(viewModel.MaxDuration, result.MaxDuration);
             Assert.AreEqual(viewModel.MaximumTeamSize, result.MaximumTeamSize);
             Assert.AreEqual(viewModel.MinimumPointsToCompleteStage, result.MinimumPointsToCompleteStage);
             Assert.AreEqual(viewModel.Name, result.Name);
