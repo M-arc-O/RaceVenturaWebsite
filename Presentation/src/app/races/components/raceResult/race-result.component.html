@@ -29,8 +29,7 @@
                         <td>{{(i + 1)}}</td>
                         <td>{{result.teamNumber}} {{result.teamName}}</td>
                         <td>{{getDateString(result.endTime)}} - {{getTimeString(result.endTime)}}</td>
-                        <td>{{result.raceDuration.days}} - {{result.raceDuration.hours}} -
-                            {{result.raceDuration.minutes}} - {{result.raceDuration.seconds}}</td>
+                        <td>{{GetRaceDurationString(result.raceDuration)}}</td>
                         <td>{{result.numberOfStages}}</td>
                         <td>{{result.totalValue}}</td>
                         <td>{{result.numberOfPoints}}</td>

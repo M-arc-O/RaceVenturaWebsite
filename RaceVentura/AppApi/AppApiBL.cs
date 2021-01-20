@@ -211,7 +211,7 @@ namespace RaceVentura.AppApi
 
         private static void CheckTime(Race race, DateTime date)
         {
-            if (date < race.StartTime)
+            if (race.RaceType == RaceType.Classic && date < race.StartTime)
             {
                 throw new BusinessException($"Race not started yet", BLErrorCodes.RaceNotStarted);
             }

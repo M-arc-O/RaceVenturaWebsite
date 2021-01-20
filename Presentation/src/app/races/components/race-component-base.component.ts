@@ -13,6 +13,8 @@ export abstract class RaceComponentBase extends ComponentBase {
                 return 'Classic';
             case RaceType.NoTimeLimit:
                 return 'No time limit';
+            case RaceType.TimeLimit:
+                return 'Time limit';
             default:
                 return 'Unknown type';
         }

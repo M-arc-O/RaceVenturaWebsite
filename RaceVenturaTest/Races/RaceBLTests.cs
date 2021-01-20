@@ -251,7 +251,7 @@ namespace RaceVenturaTest.Races
                 RaceId = raceId,
                 CoordinatesCheckEnabled = false,
                 AllowedCoordinatesDeviation = 1,
-                EndTime = DateTime.Now,
+                MaxDuration = null,
                 MaximumTeamSize = 1,
                 MinimumPointsToCompleteStage = 2,
                 PenaltyPerMinuteLate = 3,
@@ -278,7 +278,7 @@ namespace RaceVenturaTest.Races
                 RaceId = raceId,
                 CoordinatesCheckEnabled = true,
                 AllowedCoordinatesDeviation = 2,
-                EndTime = DateTime.Now,
+                MaxDuration = new TimeSpan(),
                 MaximumTeamSize = 4,
                 MinimumPointsToCompleteStage = 5,
                 PenaltyPerMinuteLate = 6,
@@ -291,7 +291,7 @@ namespace RaceVenturaTest.Races
 
             raceRepositoryMock.Verify(r => r.Update(It.Is<Race>(x =>
                 x.CoordinatesCheckEnabled == race.CoordinatesCheckEnabled &&
-                x.EndTime.Equals(race.EndTime) &&
+                x.MaxDuration.Equals(race.MaxDuration) &&
                 x.MaximumTeamSize == race.MaximumTeamSize &&
                 x.MinimumPointsToCompleteStage == race.MinimumPointsToCompleteStage &&
                 x.Name.Equals(race.Name) &&

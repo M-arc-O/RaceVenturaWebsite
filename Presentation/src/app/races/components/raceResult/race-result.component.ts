@@ -35,5 +35,23 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
 
     public openModal(content: any): void {
         this.modalService.open(content, { size: 'xl', scrollable: true });
+    }    
+
+    public GetRaceDurationString(value: string): string {
+        if (value !== null && value !== undefined) {
+            let values = value.split(`.`);
+            let days = '00';
+            if (values.length > 1) {
+                days = values[0]
+                values = values[1].split(`:`);
+            }
+            else {
+                values = value.split(`:`);
+            }
+    
+            return `${days}-${values[0]}-${values[1]}-${values[2]}`; 
+        }
+
+        return "";
     }
 }

@@ -68,6 +68,11 @@
                         <span class="help-block offset-sm-6">Please enter the maximum coordinate deviation.</span>
                     </div>
                 </validation-message>
+                <validation-message error="pattern">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a positive number.</span>
+                    </div>
+                </validation-message>
             </validation-message-for>
         </div>
 
@@ -99,6 +104,11 @@
                     <span class="help-block offset-sm-6">Please enter the maximum team size.</span>
                 </div>
             </validation-message>
+            <validation-message error="pattern">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a positive number.</span>
+                </div>
+            </validation-message>
         </validation-message-for>
 
         <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('minimumPointsToCompleteStage').touched || addRaceForm.get('minimumPointsToCompleteStage').dirty) &&
@@ -118,9 +128,14 @@
                         stage.</span>
                 </div>
             </validation-message>
+            <validation-message error="pattern">
+                <div class="form-group row">
+                    <span class="help-block offset-sm-6">Please enter a positive number.</span>
+                </div>
+            </validation-message>
         </validation-message-for>
 
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
             <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('penaltyPerMinuteLate').touched || addRaceForm.get('penaltyPerMinuteLate').dirty) &&
     !addRaceForm.get('penaltyPerMinuteLate').valid }">
                 <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute
@@ -134,6 +149,11 @@
                 <validation-message error="required">
                     <div class="form-group row">
                         <span class="help-block offset-sm-6">Please enter the penalty per minute late.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="pattern">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a positive number.</span>
                     </div>
                 </validation-message>
             </validation-message-for>
@@ -210,54 +230,49 @@
             </validation-message-for>
         </div>
 
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
-            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endDate').touched || addRaceForm.get('endDate').dirty) &&
-                    !addRaceForm.get('endDate').valid }">
-                <label class="col-sm-6 col-form-label" for="endDate{{type}}">End date</label>
+        <div
+            *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
+            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('maxDurationHours').touched || addRaceForm.get('maxDurationHours').dirty) &&
+                    !addRaceForm.get('maxDurationHours').valid }">
+                <label class="col-sm-6 col-form-label" for="maxDurationHours{{type}}">Maximum duration (hours and
+                    minutes)</label>
                 <div class="col">
-                    <div class="input-group">
-                        <input class="form-control" id="endDate{{type}}" placeholder="dd-mm-yyyy" name="dpEndDate"
-                            ngbDatepicker #dEndDate="ngbDatepicker" formControlName="endDate">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" (click)="dEndDate.toggle()" type="button">
-                                <span class="fa fa-calendar" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
+                    <input class="form-control" id="maxDurationHours{{type}}" type="text" placeholder="hh"
+                        formControlName="maxDurationHours" />
+                </div>
+                <div class="col" [ngClass]="{'has-error': (addRaceForm.get('maxDurationMinutes').touched || addRaceForm.get('maxDurationMinutes').dirty) &&
+                !addRaceForm.get('maxDurationMinutes').valid }">
+                    <input class="form-control" id="maxDurationMinutes{{type}}" type="text" placeholder="mm"
+                        formControlName="maxDurationMinutes" />
                 </div>
             </div>
-            <validation-message-for field="endDate">
+            <validation-message-for field="maxDurationHours">
                 <validation-message error="required">
                     <div class="form-group row">
-                        <span class="help-block offset-sm-6">Please enter the end date.</span>
+                        <span class="help-block offset-sm-6">Please enter the maximum duration hours.</span>
                     </div>
                 </validation-message>
-                <validation-message error="ngbDate">
+                <validation-message error="pattern">
                     <div class="form-group row">
-                        <span class="help-block offset-sm-6">Please enter a valid end date (dd-mm-yyyy).</span>
+                        <span class="help-block offset-sm-6">Please enter a positive number.</span>
                     </div>
                 </validation-message>
             </validation-message-for>
-        </div>
 
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
-            <div class="form-group row" [ngClass]="{'has-error': (addRaceForm.get('endTime').touched || addRaceForm.get('endTime').dirty) &&
-                    !addRaceForm.get('endTime').valid }">
-                <label class="col-sm-6 col-form-label" for="endTime{{type}}">End time</label>
-                <div class="col">
-                    <input class="form-control" id="endTime{{type}}" type="text" placeholder="hh:mm"
-                        formControlName="endTime" />
-                </div>
-            </div>
-            <validation-message-for field="endTime">
+            <validation-message-for field="maxDurationMinutes">
                 <validation-message error="required">
                     <div class="form-group row">
-                        <span class="help-block offset-sm-6">Please enter the end time.</span>
+                        <span class="help-block offset-sm-6">Please enter the maximum duration minutes.</span>
                     </div>
                 </validation-message>
-                <validation-message error="incorrectTime">
+                <validation-message error="pattern">
                     <div class="form-group row">
-                        <span class="help-block offset-sm-6">Please enter a correct time (hh:mm).</span>
+                        <span class="help-block offset-sm-6">Please enter a positive number.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="max">
+                    <div class="form-group row">
+                        <span class="help-block offset-sm-6">Please enter a number smaller than 59.</span>
                     </div>
                 </validation-message>
             </validation-message-for>

@@ -1,4 +1,5 @@
 export enum RaceType {
     Classic,
-    NoTimeLimit
+    NoTimeLimit,
+    TimeLimit
 }

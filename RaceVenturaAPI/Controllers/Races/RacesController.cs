@@ -93,29 +93,7 @@ namespace RaceVenturaAPI.Controllers.Races
         [Route("addrace")]
         public IActionResult Add(RaceDetailViewModel viewModel)
         {
-            if (viewModel.RaceType == RaceTypeViewModel.Classic)
-            {
-                if (!viewModel.PenaltyPerMinuteLate.HasValue)
-                {
-                    ModelState.AddModelError("PenaltyPerMinuteLate", "'PenaltyPerMinuteLate' cannot be null when race type is classic.");
-                }
-                if (!viewModel.StartTime.HasValue)
-                {
-                    ModelState.AddModelError("StartTime", "'StartTime' cannot be null when race type is classic.");
-                }
-                if (!viewModel.EndTime.HasValue)
-                {
-                    ModelState.AddModelError("EndTime", "'EndTime' cannot be null when race type is classic.");
-                }
-            }
-
-            if (viewModel.CoordinatesCheckEnabled)
-            {
-                if (!viewModel.AllowedCoordinatesDeviation.HasValue)
-                {
-                    ModelState.AddModelError("AllowedCoordinatesDeviation", "'AllowedCoordinatesDeviation' cannot be null when race type is classic.");
-                }
-            }
+            ValidateViewModel(viewModel);
 
             if (!ModelState.IsValid)
             {
@@ -137,6 +115,45 @@ namespace RaceVenturaAPI.Controllers.Races
             {
                 _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
+            }
+        }
+
+        private void ValidateViewModel(RaceDetailViewModel viewModel)
+        {
+            if (viewModel.RaceType != RaceTypeViewModel.NoTimeLimit)
+            {
+                switch (viewModel.RaceType)
+                {
+                    case RaceTypeViewModel.Classic:
+                        if (!viewModel.StartTime.HasValue)
+                        {
+                            ModelState.AddModelError("StartTime", "'StartTime' cannot be null when race type is classic.");
+                        }
+                        CheckMaxDurationAndPenalty(viewModel);
+                        break;
+                    case RaceTypeViewModel.TimeLimit:
+                        CheckMaxDurationAndPenalty(viewModel);
+                        break;
+                    default:
+                        throw new Exception($"Unknown race type {viewModel.RaceType}");
+                }
+            }
+
+            if (viewModel.CoordinatesCheckEnabled && !viewModel.AllowedCoordinatesDeviation.HasValue)
+            {
+                ModelState.AddModelError("AllowedCoordinatesDeviation", "'AllowedCoordinatesDeviation' cannot be null when coordinate check is true.");
+            }
+        }
+
+        private void CheckMaxDurationAndPenalty(RaceDetailViewModel viewModel)
+        {
+            if (!viewModel.PenaltyPerMinuteLate.HasValue)
+            {
+                ModelState.AddModelError("PenaltyPerMinuteLate", "'PenaltyPerMinuteLate' cannot be null when race type is classic or time limit.");
+            }
+            if (!viewModel.MaxDuration.HasValue)
+            {
+                ModelState.AddModelError("MaxDuration", "'MaxDuration' cannot be null when race type is classic or time limit.");
             }
         }
 

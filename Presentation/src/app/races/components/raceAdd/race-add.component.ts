@@ -84,8 +84,8 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
         let pointInformationText;
         let startDate;
         let startTime;
-        let endDate;
-        let endTime;
+        let maxDurationHours;
+        let maxDurationMinutes;
 
         if (details !== undefined) {
             name = details.name;
@@ -99,46 +99,35 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             pointInformationText = details.pointInformationText;
             startDate = this.getDateString(details.startTime);
             startTime = this.getTimeString(details.startTime);
-            endDate = this.getDateString(details.endTime);
-            endTime = this.getTimeString(details.endTime);
-        }
 
-        let checkCoordinatesControl = new FormControl(checkCoordinates);
-        checkCoordinatesControl.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
-            if (value) {
-                allowedCoordinatesDeviationControl.clearValidators();
-                allowedCoordinatesDeviationControl.setValidators(Validators.required);
-            } else {
-                allowedCoordinatesDeviationControl.clearValidators();
-            }            
-        });
-
-        let allowedCoordinatesDeviationControl = new FormControl(allowedCoordinatesDeviation);
-        if (checkCoordinates) {
-            allowedCoordinatesDeviationControl.setValidators(Validators.required);
+            if (details.maxDuration !== null && details.maxDuration !== undefined) {
+                let values = details.maxDuration.split(':');
+                maxDurationHours = values[0];
+                maxDurationMinutes = values[1];
+            }
         }
 
         this.addRaceForm = formBuilder.group({
             name: [name, [Validators.required]],
             type: [type],
-            checkCoordinates: checkCoordinatesControl,
-            allowedCoordinatesDeviation: allowedCoordinatesDeviationControl,
+            checkCoordinates: checkCoordinates,
+            allowedCoordinatesDeviation: [allowedCoordinatesDeviation],
             specialTasksAreStage: [specialTasksAreStage],
-            maximumTeamSize: [maximumTeamSize, [Validators.required]],
-            minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required]],
-            penaltyPerMinuteLate: [penaltyPerMinuteLate, [Validators.required]],
+            maximumTeamSize: [maximumTeamSize, [Validators.required, Validators.pattern("^[0-9]+$")]],
+            minimumPointsToCompleteStage: [minimumPointsToCompleteStage, [Validators.required, Validators.pattern("^[0-9]+$")]],
+            penaltyPerMinuteLate: [penaltyPerMinuteLate, [Validators.required, Validators.pattern("^[0-9]+$")]],
             pointInformationText: [pointInformationText, [Validators.required]],
             startDate: [startDate, [Validators.required]],
             startTime: [startTime, [Validators.required, timeValidator(false)]],
-            endDate: [endDate, [Validators.required]],
-            endTime: [endTime, [Validators.required, timeValidator(false)]],
+            maxDurationHours: [maxDurationHours, [Validators.required, Validators.pattern("^[0-9]+$")]],
+            maxDurationMinutes: [maxDurationMinutes, [Validators.required, Validators.pattern("^[0-9]+$"), Validators.max(59)]],
         });
 
         this.addRaceForm.get('checkCoordinates').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
             let validators = [];
             
             if (value) {
-                validators = [Validators.required];
+                validators = [Validators.required, Validators.pattern("^[0-9]+$")];
             }
 
             this.resetFormControl(this.addRaceForm.get('allowedCoordinatesDeviation'), validators);
@@ -148,18 +137,28 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             let penaltyValidators = [];
             let dateValidators = [];
             let timeValidators = [];
+            let maxDurationHoursValidators = [];
+            let maxDurationMinutesValidators = [];
 
             if (value === null || value.toString() === RaceType.Classic.toString()) {
-                penaltyValidators = [Validators.required];
+                penaltyValidators = [Validators.required, Validators.pattern("^[0-9]+$")];
                 dateValidators = [Validators.required];
                 timeValidators = [Validators.required, timeValidator(false)];
+                maxDurationHoursValidators = [Validators.required, Validators.pattern("^[0-9]+$")];
+                maxDurationMinutesValidators = [Validators.required, Validators.pattern("^[0-9]+$"), Validators.max(59)];
+            }
+
+            if (value !== null && value.toString() === RaceType.TimeLimit.toString()) {
+                penaltyValidators = [Validators.required, Validators.pattern("^[0-9]+$")];
+                maxDurationHoursValidators = [Validators.required, Validators.pattern("^[0-9]+$")];
+                maxDurationMinutesValidators = [Validators.required, Validators.pattern("^[0-9]+$"), Validators.max(59)];
             }
 
             this.resetFormControl(this.addRaceForm.get('penaltyPerMinuteLate'), penaltyValidators);
             this.resetFormControl(this.addRaceForm.get('startDate'), dateValidators);
             this.resetFormControl(this.addRaceForm.get('startTime'), timeValidators);
-            this.resetFormControl(this.addRaceForm.get('endDate'), dateValidators);
-            this.resetFormControl(this.addRaceForm.get('endTime'), timeValidators);           
+            this.resetFormControl(this.addRaceForm.get('maxDurationHours'), maxDurationHoursValidators);
+            this.resetFormControl(this.addRaceForm.get('maxDurationMinutes'), maxDurationMinutesValidators);           
         });
     }
 
@@ -178,7 +177,13 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             viewModel.penaltyPerMinuteLate = parseFloat(this.addRaceForm.get('penaltyPerMinuteLate').value);
             viewModel.pointInformationText = this.addRaceForm.get('pointInformationText').value;
             viewModel.startTime = this.getDate(this.addRaceForm.get('startDate').value, this.addRaceForm.get('startTime').value);
-            viewModel.endTime = this.getDate(this.addRaceForm.get('endDate').value, this.addRaceForm.get('endTime').value);
+
+            if (viewModel.raceType === RaceType.NoTimeLimit) {
+                viewModel.maxDuration = undefined;
+            }
+            else {
+                viewModel.maxDuration = `${this.addRaceForm.get('maxDurationHours').value}:${this.addRaceForm.get('maxDurationMinutes').value}:00`;
+            }
 
             switch (this.type) {
                 case AddEditType.Add:
@@ -199,6 +204,8 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
             this.addRaceNgForm.resetForm();
             this.addRaceForm.reset();
             this.addRaceForm.controls['type'].setValue(RaceType.Classic);
+            this.addRaceForm.controls['checkCoordinates'].setValue(false);
+            this.addRaceForm.controls['specialTasksAreStage'].setValue(false);
         }
     }
     
