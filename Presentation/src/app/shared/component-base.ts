@@ -75,6 +75,10 @@ export abstract class ComponentBase implements OnDestroy {
         return '';
     }
 
+    public isControlValid(control: FormControl): boolean {
+        return (control.dirty || control.touched) && control.invalid;
+    }
+
     handleError(error: HttpErrorResponse) {
         if (error.status === 401) {
             this.userService.logout();

@@ -2,33 +2,31 @@
     <div class="row">
         <div *ngIf="!loggedIn; else logout">
             <form *ngIf="loginForm" [formGroup]="loginForm" (submit)="loginButtonClick()" role="form">
-                <div class="form-group" [ngClass]="{'has-error': (loginForm.get('email').touched || loginForm.get('email').dirty) &&
-                                                      !loginForm.get('email').valid }">
+                <div class="form-group">
                     <label class="control-label" for="emailId">First Name</label>
-                    <input class="form-control" id="emailId" type="text" placeholder="Email (required)"
-                        formControlName="email" />
-                    <span class="help-block" *ngIf="(loginForm.get('email').touched || loginForm.get('email').dirty) && 
-                                loginForm.get('email').errors">
-                        <span *ngIf="loginForm.get('email').errors.required">
-                            Please enter your email address.
-                        </span>
-                    </span>
+                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(loginForm.get('email'))}"
+                        id="emailId" type="text" placeholder="Email (required)" formControlName="email" />
+                    <validation-message-for field="email">
+                        <validation-message error="required">
+                            <span class="text-danger">Please enter your email address.</span>
+                        </validation-message>
+                    </validation-message-for>
                 </div>
 
-                <div class="form-group" [ngClass]="{'has-error': (loginForm.get('password').touched || loginForm.get('password').dirty) &&
-                                                      !loginForm.get('password').valid }">
+                <div class="form-group">
                     <label class="control-label" for="passwordId">Password</label>
-                    <input class="form-control" id="passwordId" type="password" formControlName="password" />
-                    <span class="help-block" *ngIf="(loginForm.get('password').touched || loginForm.get('password').dirty) && 
-                                loginForm.get('password').errors">
-                        <span *ngIf="loginForm.get('password').errors.required">
-                            Please enter your password.
-                        </span>
-                    </span>
+                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(loginForm.get('password'))}"
+                        id="passwordId" type="password" formControlName="password" />
+                    <validation-message-for field="password">
+                        <validation-message error="required">
+                            <div class="text-danger">Please enter your password.</div>
+                        </validation-message>
+                    </validation-message-for>
                 </div>
+
                 <button type="submit">Login</button>
                 <div *ngIf="loginError">
-                    Wrong email adres or password.
+                    Wrong email address or password.
                 </div>
             </form>
         </div>

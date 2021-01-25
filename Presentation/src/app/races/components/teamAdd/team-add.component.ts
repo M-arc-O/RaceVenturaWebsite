@@ -137,6 +137,7 @@ export class TeamAddComponent extends TeamComponentBase implements OnInit, OnCha
         if (this.addTeamNgForm !== undefined) {
             this.addTeamNgForm.resetForm();
             this.addTeamForm.reset();
+            this.addTeamForm.get('category').setValue(TeamCategory.Man);
         }
     }
 }
