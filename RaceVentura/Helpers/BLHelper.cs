@@ -4,6 +4,8 @@ using RaceVenturaData;
 using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.DependencyInjection;
 using RaceVentura.PdfGeneration;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using RaceVentura.Services;
 
 namespace RaceVentura.Helpers
 {
@@ -22,6 +24,8 @@ namespace RaceVentura.Helpers
             services.AddScoped<IAppApiBL, AppApiBL>();
             services.AddScoped<IHtmlToPdfBL, HtmlToPdfBL>();
             services.AddScoped<IRazorToHtml, RazorToHtml>();
+
+            services.AddScoped<IEmailSender, EmailSender>();
         }
     }
 }

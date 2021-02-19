@@ -7,3 +7,4 @@ export * from './service-base';
 export * from './models/jwt-view-model';
 export * from './custom-date-adapter';
 export * from './custom-date-parser-formatter';
+export * from './validators/must-match-validator';

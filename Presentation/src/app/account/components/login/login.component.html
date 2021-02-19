@@ -23,10 +23,23 @@
                         </validation-message>
                     </validation-message-for>
                 </div>
-
-                <button type="submit">Login</button>
-                <div *ngIf="loginError">
-                    Wrong email address or password.
+                <div *ngIf="serverError" class="row">
+                    <div class="col">
+                        <span class="text-danger">Wrong email address or password.</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" [disabled]="loginin">
+                            <span *ngIf="loginin" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span>
+                                Login
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <a routerLink="/forgotpassword">Forgot password</a>
+                    </div>
                 </div>
             </form>
         </div>
