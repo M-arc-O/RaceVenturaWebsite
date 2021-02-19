@@ -20,7 +20,7 @@ namespace RaceVenturaAPI.Controllers
         {
             try
             {
-                return Ok("1.0.3.0");
+                return Ok("1.0.4.0");
             }
             catch (Exception ex)
             {
