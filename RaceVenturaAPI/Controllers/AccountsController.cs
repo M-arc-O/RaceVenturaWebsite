@@ -28,8 +28,9 @@ namespace RaceVenturaAPI.Controllers
             _AccountBL = accountBL ?? throw new ArgumentNullException(nameof(accountBL));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RegistrationViewModel viewModel)
+        [HttpPost()]
+        [Route("createaccount")]
+        public async Task<IActionResult> CreateAccount([FromBody]RegistrationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +48,63 @@ namespace RaceVenturaAPI.Controllers
                     return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
                 }
 
-                return new OkResult();
+                return Ok();
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(AccountsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost()]
+        [Route("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _AccountBL.ForgotPassword(viewModel.EmailAddress);
+                return Ok();
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(AccountsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost()]
+        [Route("resetpassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var result = await _AccountBL.ResetPassword(viewModel.EmailAddress, viewModel.Password, viewModel.Code);
+
+                if (!result.Succeeded)
+                {
+                    return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+                }
+
+                return Ok();
             }
             catch (BusinessException ex)
             {

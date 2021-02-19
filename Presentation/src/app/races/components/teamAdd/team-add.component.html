@@ -13,44 +13,42 @@
     <form *ngIf="addTeamForm" [formGroup]="addTeamForm" (submit)="addTeamClick(addTeamNgForm)" #addTeamNgForm="ngForm"
         role="form">
 
-        <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('number').touched || addTeamForm.get('number').dirty) &&
-        !addTeamForm.get('number').valid }">
+        <div class="form-group row">
             <label class="col-sm-6 col-form-label" for="teamNumber{{type}}">Number</label>
             <div class="col">
-                <input class="form-control" id="teamNumber{{type}}" type="text" placeholder="Number (required)"
-                    formControlName="number" />
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}"
+                    id="teamNumber{{type}}" type="text" placeholder="Number (required)" formControlName="number" />
             </div>
         </div>
         <validation-message-for field="number">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a number.</span>
+                    <span class="text-danger offset-sm-6">Please enter a number.</span>
                 </div>
             </validation-message>
             <validation-message error="pattern">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Value is not a a number.</span>
+                    <span class="text-danger offset-sm-6">Value is not a a number.</span>
                 </div>
             </validation-message>
             <validation-message error="min">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a number greater than or equal to 1.</span>
+                    <span class="text-danger offset-sm-6">Please enter a number greater than or equal to 1.</span>
                 </div>
             </validation-message>
         </validation-message-for>
 
-        <div class="form-group row" [ngClass]="{'has-error': (addTeamForm.get('name').touched || addTeamForm.get('name').dirty) &&
-                        !addTeamForm.get('name').valid }">
+        <div class="form-group row">
             <label class="col-sm-6 col-form-label" for="teamName{{type}}">Name</label>
             <div class="col">
-                <input class="form-control" id="teamName{{type}}" type="text" placeholder="Name (required)"
-                    formControlName="name" />
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}"
+                    id="teamName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
             </div>
         </div>
         <validation-message-for field="name">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="help-block offset-sm-6">Please enter a name.</span>
+                    <span class="text-danger offset-sm-6">Please enter a name.</span>
                 </div>
             </validation-message>
         </validation-message-for>

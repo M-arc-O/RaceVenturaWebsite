@@ -24,6 +24,7 @@ namespace RaceVentura.Races
                 throw new BusinessException($"Visited point with ID '{entity.PointId}' is already known", BLErrorCodes.Duplicate);
             }
 
+            entity.Time = DateTime.Now;
             _UnitOfWork.VisitedPointRepository.Insert(entity);
             _UnitOfWork.Save();
         }
