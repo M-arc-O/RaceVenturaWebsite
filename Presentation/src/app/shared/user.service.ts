@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ForgotPasswordViewModel } from '../account/shared/models/forgot-password-view-model';
-import { ResetPasswordViewModel } from '../account/shared/models/reset-password-view-model';
+import { ConfirmEmailViewModel, ForgotPasswordViewModel, ResetPasswordViewModel } from '../account/shared/models';
 import { ConfigurationService } from './configuration-service';
 import { JwtViewModel } from './models/jwt-view-model';
 
@@ -23,12 +22,21 @@ export class UserService {
         this.baseUrl = ConfigurationService.ApiRoot;
     }
 
-    public forgotPassword(email: string): void {
+    public confirmEmail(code: string, emailAddress: string): Observable<any> {        
+        let viewModel = new ConfirmEmailViewModel();
+        viewModel.emailAddress = emailAddress;
+        viewModel.code = code;
+
+        const body = JSON.stringify(viewModel);        
+        return this.http.post<any>(`${this.baseUrl}/api/accounts/confirmemail`, body);
+    }
+
+    public forgotPassword(email: string): Observable<any> {
         let viewModel = new ForgotPasswordViewModel();
         viewModel.emailAddress = email;
 
         const body = JSON.stringify(viewModel);        
-        this.http.post(`${this.baseUrl}/api/accounts/forgotpassword`, body).subscribe();
+        return this.http.post(`${this.baseUrl}/api/accounts/forgotpassword`, body);
     }
 
     public resetPassword(password: string, emailAddress: string, code: string): Observable<any> {

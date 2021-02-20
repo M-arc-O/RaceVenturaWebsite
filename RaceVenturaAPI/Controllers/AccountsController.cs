@@ -10,11 +10,13 @@ using RaceVentura;
 using RaceVenturaData.Models.Identity;
 using RaceVenturaAPI.ViewModels;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RaceVenturaAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Policy = "RaceUser")]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountBL _AccountBL;
@@ -30,6 +32,7 @@ namespace RaceVenturaAPI.Controllers
 
         [HttpPost()]
         [Route("createaccount")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateAccount([FromBody]RegistrationViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -41,7 +44,7 @@ namespace RaceVenturaAPI.Controllers
             {
                 var userIdentity = _Mapper.Map<AppUser>(viewModel);
 
-                var result = await _AccountBL.CreateUser(userIdentity, viewModel.Password);
+                var result = await _AccountBL.CreateUser(viewModel.RegistrationSecret, userIdentity, viewModel.Password);
 
                 if (!result.Succeeded)
                 {
@@ -62,7 +65,35 @@ namespace RaceVenturaAPI.Controllers
         }
 
         [HttpPost()]
+        [Route("confirmemail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromBody]ConfirmEmailViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _AccountBL.ConfirmEmail(viewModel.EmailAddress, viewModel.Code);
+
+                return Ok();
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex, $"Error in {typeof(AccountsController)}: {ex.Message}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost()]
         [Route("forgotpassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -88,6 +119,7 @@ namespace RaceVenturaAPI.Controllers
 
         [HttpPost()]
         [Route("resetpassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel viewModel)
         {
             if (!ModelState.IsValid)

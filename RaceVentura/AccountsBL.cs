@@ -13,7 +13,6 @@ namespace RaceVentura
 {
     public class AccountsBL : IAccountBL
     {
-        private readonly IRaceVenturaDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
@@ -21,21 +20,47 @@ namespace RaceVentura
         public AccountsBL(UserManager<AppUser> userManager, IRaceVenturaDbContext context, IEmailSender emailSender, IConfiguration configuration)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _configuration = configuration ?? throw new ArgumentException(nameof(configuration));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public async Task<IdentityResult> CreateUser(AppUser userIdentity, string password)
+        public async Task<IdentityResult> CreateUser(string registrationSecret, AppUser userIdentity, string password)
         {
+            if (!registrationSecret.Equals(_configuration.GetValue<string>("RegistrationSecret")))
+            {
+                throw new BusinessException($"Wrong registration secret '{registrationSecret}'", BLErrorCodes.UserUnauthorized);
+            }
+
             var result = await _userManager.CreateAsync(userIdentity, password);
 
             if (result.Succeeded)
             {
-                await _context.SaveChangesAsync();
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(userIdentity);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                var url = $"{_configuration.GetValue<string>("WebsiteUrl")}/confirmemail/{code}/{userIdentity.Email}";
+                await _emailSender.SendEmailAsync(userIdentity.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{url}'>clicking here</a>.<br/>After confirming your email address use the forgot password option to set your password.");
             }
 
             return result;
+        }
+
+        public async Task ConfirmEmail(string emailAddress, string code)
+        {
+            var user = await _userManager.FindByEmailAsync(emailAddress);
+            if (user == null)
+            {
+                throw new BusinessException($"Could not find user with email address '{emailAddress}'", BLErrorCodes.NotFound);
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinessException($"Error while confirming email address '{emailAddress}'", BLErrorCodes.UserUnauthorized);
+            }
         }
 
         public Task<AppUser> FindByNameAsync(string userName)
@@ -53,7 +78,7 @@ namespace RaceVentura
             var user = await _userManager.FindByEmailAsync(emailAddress);
             if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
             {
-                return;
+                throw new BusinessException("Email address not confirmed.", BLErrorCodes.UserUnauthorized);
             }
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);

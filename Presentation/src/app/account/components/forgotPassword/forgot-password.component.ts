@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { of } from "rxjs";
+import { catchError, finalize, map } from "rxjs/operators";
 import { ComponentBase, UserService } from "src/app/shared";
 
 @Component({
@@ -9,13 +12,14 @@ import { ComponentBase, UserService } from "src/app/shared";
 })
 export class ForgotPasswordComponent extends ComponentBase implements OnInit {    
     public forgotPasswordForm: FormGroup;
-    public requestSend: boolean;
+    public requestSend = false;
+    public sending = false;
+    public serverError: any;
 
     constructor(
         userService: UserService,
         router: Router) {
         super(userService, router);
-        this.requestSend = false;
     }
 
     ngOnInit(): void {
@@ -24,8 +28,12 @@ export class ForgotPasswordComponent extends ComponentBase implements OnInit {
 
     public submitClick(): void {
         if (this.forgotPasswordForm.valid) {
-            this.userService.forgotPassword(this.forgotPasswordForm.get("emailAddress").value);
-            this.requestSend = true;
+            this.sending = true;
+            this.userService.forgotPassword(this.forgotPasswordForm.get("emailAddress").value).pipe(
+                map(() => { this.requestSend = true}),
+                catchError((error: HttpErrorResponse) => of(this.serverError = error.error)),
+                finalize(() => this.sending = false)
+            ).subscribe();
         } else {
             this.validateAllFormFields(this.forgotPasswordForm);
         }

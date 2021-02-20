@@ -1,0 +1,15 @@
+<div class="m-2">
+    <div *ngIf="emailConfirmed; else showSending">
+        Your email address is confirmed.
+    </div>
+
+    <ng-template #showSending>
+        <div *ngIf="sending">
+            <div class="spinner-border text-primary" role="status"></div> 
+            <span>Confirming email address...</span>
+        </div>
+        <div *ngIf="serverError">
+            An error occured while confirming your email address, please contact support.
+        </div>
+    </ng-template>
+</div>

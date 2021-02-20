@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace RaceVenturaAPI.Controllers
@@ -9,10 +10,12 @@ namespace RaceVenturaAPI.Controllers
     public class VersionController : ControllerBase
     {
         private readonly ILogger<VersionController> _Logger;
+        private readonly IConfiguration _configuration;
 
-        public VersionController(ILogger<VersionController> logger)
+        public VersionController(ILogger<VersionController> logger, IConfiguration configuration)
         {
             _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         [HttpGet("getversion")]
@@ -34,7 +37,7 @@ namespace RaceVenturaAPI.Controllers
         {
             try
             {
-                return Ok("1.0.8");
+                return Ok(_configuration.GetValue<string>("AppVersion"));
             }
             catch (Exception ex)
             {
