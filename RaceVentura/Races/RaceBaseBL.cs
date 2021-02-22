@@ -23,13 +23,16 @@ namespace RaceVentura.Races
             return _UnitOfWork.UserLinkRepository.Get(link => link.UserId == userId && link.RaceId == raceId).FirstOrDefault();
         }
 
-        protected void CheckUserIsAuthorizedForRace(Guid userId, Guid raceId)
+        protected UserLink CheckUserIsAuthorizedForRace(Guid userId, Guid raceId, RaceAccessLevel minimumAccessLevel)
         {
-            if (GetRaceUserLink(userId, raceId) == null)
+            var userLink = GetRaceUserLink(userId, raceId);
+            if (userLink == null || (int)userLink.RaceAccess > (int)minimumAccessLevel)
             {
                 _Logger.LogWarning($"Error in {GetType().Name}: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
-                throw new BusinessException($"User not authorized for race.", BLErrorCodes.UserUnauthorized);
+                throw new BusinessException($"User is not authorized for race.", BLErrorCodes.UserUnauthorized);
             }
+
+            return userLink;
         }
 
         protected void CheckIfRaceExsists(Guid userId, Guid raceId)

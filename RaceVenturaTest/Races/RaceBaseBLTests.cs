@@ -68,9 +68,9 @@ namespace RaceVenturaTest.Races
             var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
             _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
 
-            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.CheckUserIsAuthorizedForRace(userId, raceId));
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Owner));
 
-            Assert.AreEqual($"User not authorized for race.", exception.Message);
+            Assert.AreEqual($"User is not authorized for race.", exception.Message);
             Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
 
             _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in TestRaceBaseBL: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
@@ -86,7 +86,7 @@ namespace RaceVenturaTest.Races
 
             _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
 
-            _Sut.CheckUserIsAuthorizedForRace(userId, raceId);
+            _Sut.CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Owner);
 
             _LoggerMock.VerifyLog(LogLevel.Warning, Times.Never);
         }
@@ -151,9 +151,9 @@ namespace RaceVenturaTest.Races
                 return base.GetRaceUserLink(userId, raceId);
             }
 
-            public new void CheckUserIsAuthorizedForRace(Guid userId, Guid raceId)
+            public new void CheckUserIsAuthorizedForRace(Guid userId, Guid raceId, RaceAccessLevel minimumAccessLevel)
             {
-                base.CheckUserIsAuthorizedForRace(userId, raceId);
+                base.CheckUserIsAuthorizedForRace(userId, raceId, minimumAccessLevel);
             }
 
             public new void CheckIfRaceExsists(Guid userId, Guid raceId)

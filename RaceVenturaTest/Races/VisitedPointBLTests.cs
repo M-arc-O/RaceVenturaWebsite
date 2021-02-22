@@ -113,6 +113,40 @@ namespace RaceVenturaTest.Races
         }
 
         [TestMethod]
+        public void AddWrongAccessLevel()
+        {
+            var userId = Guid.NewGuid();
+            var teamId = Guid.NewGuid();
+
+            SetupUnitOfWorkToPassAuthorizedTest(teamId);
+
+            var visitedRepositoryMock = new Mock<IGenericRepository<VisitedPoint>>();
+            _UnitOfWorkMock.Setup(u => u.VisitedPointRepository).Returns(visitedRepositoryMock.Object);
+
+            var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
+            userLinkRepositoryMock.Setup(r => r.Get(
+                It.IsAny<Expression<Func<UserLink, bool>>>(),
+                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
+                It.IsAny<string>())).Returns(new List<UserLink> { new UserLink { UserId = userId, RaceAccess = RaceAccessLevel.Read } });
+            _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
+
+            var visitedPoint = new VisitedPoint
+            {
+                TeamId = teamId
+            };
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Add(userId, visitedPoint));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            visitedRepositoryMock.Verify(r => r.Get(It.IsAny<Expression<Func<VisitedPoint, bool>>>(),
+                It.IsAny<Func<IQueryable<VisitedPoint>, IOrderedQueryable<VisitedPoint>>>(),
+                It.IsAny<string>()), Times.Never);
+            visitedRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(x => x.Equals(visitedPoint))), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
         public void AddDuplicate()
         {
             var userId = Guid.NewGuid();
@@ -227,6 +261,41 @@ namespace RaceVenturaTest.Races
             _UnitOfWorkMock.Setup(u => u.VisitedPointRepository).Returns(visitedRepositoryMock.Object);
 
             var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
+            _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, visitedPointId));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            visitedRepositoryMock.Verify(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId))), Times.Once);
+            visitedRepositoryMock.Verify(r => r.Delete(It.IsAny<VisitedPoint>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteWrongAccessLevel()
+        {
+            var userId = Guid.NewGuid();
+            var teamId = Guid.NewGuid();
+            var visitedPointId = Guid.NewGuid();
+
+            SetupUnitOfWorkToPassAuthorizedTest(teamId);
+
+            var visitedPoint = new VisitedPoint
+            {
+                VisitedPointId = visitedPointId,
+                TeamId = teamId
+            };
+
+            var visitedRepositoryMock = new Mock<IGenericRepository<VisitedPoint>>();
+            visitedRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(visitedPointId)))).Returns(visitedPoint);
+            _UnitOfWorkMock.Setup(u => u.VisitedPointRepository).Returns(visitedRepositoryMock.Object);
+
+            var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
+            userLinkRepositoryMock.Setup(r => r.Get(
+                It.IsAny<Expression<Func<UserLink, bool>>>(),
+                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
+                It.IsAny<string>())).Returns(new List<UserLink> { new UserLink { UserId = userId, RaceAccess = RaceAccessLevel.Read } });
             _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
 
             var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, visitedPointId));

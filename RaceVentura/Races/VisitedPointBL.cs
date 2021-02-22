@@ -4,6 +4,7 @@ using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using RaceVenturaData.Models;
 
 namespace RaceVentura.Races
 {
@@ -17,7 +18,7 @@ namespace RaceVentura.Races
         public void Add(Guid userId, VisitedPoint entity)
         {
             var team = GetTeam(entity.TeamId);
-            CheckUserIsAuthorizedForRace(userId, team.RaceId);
+            CheckUserIsAuthorizedForRace(userId, team.RaceId, RaceAccessLevel.WriteTeams);
 
             if (_UnitOfWork.VisitedPointRepository.Get().Any(vp => vp.PointId == entity.PointId && vp.TeamId == entity.TeamId))
             {
@@ -44,7 +45,7 @@ namespace RaceVentura.Races
             }
 
             var team = GetTeam(visitedPoint.TeamId);
-            CheckUserIsAuthorizedForRace(userId, team.RaceId);
+            CheckUserIsAuthorizedForRace(userId, team.RaceId, RaceAccessLevel.WriteTeams);
 
             _UnitOfWork.VisitedPointRepository.Delete(visitedPoint);
             _UnitOfWork.Save();

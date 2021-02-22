@@ -138,7 +138,7 @@ namespace RaceVenturaTest.Races
                 It.IsAny<Func<IQueryable<Race>, IOrderedQueryable<Race>>>(),
                 It.IsAny<string>()), Times.Never);
 
-            _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in RaceBL: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
+            _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in RaceBL: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
         }
 
         [TestMethod]
@@ -345,6 +345,27 @@ namespace RaceVenturaTest.Races
         }
 
         [TestMethod]
+        public void EditWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+
+            SetupUserLinkAndRaceRepositoryMock(new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.WriteTeams } }, raceId, out var raceRepositoryMock);
+
+            var race = new Race
+            {
+                RaceId = raceId
+            };
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Edit(userId, race));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            raceRepositoryMock.Verify(r => r.Update(It.IsAny<Race>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
         public void EditRaceNameExists()
         {
             var userId = Guid.NewGuid();
@@ -391,7 +412,7 @@ namespace RaceVenturaTest.Races
             var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
             userLinkRepositoryMock.Setup(r => r.Get(It.IsAny<Expression<Func<UserLink, bool>>>(),
                 It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
-                It.IsAny<string>())).Returns(new[] { new UserLink { UserId = userId, RaceId = raceId } });
+                It.IsAny<string>())).Returns(new[] { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.Owner } });
             _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
 
             _Sut.Delete(userId, raceId);
@@ -427,7 +448,45 @@ namespace RaceVenturaTest.Races
 
             raceRepositoryMock.Verify(r => r.Delete(It.IsAny<object>()), Times.Never);
 
-            _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in RaceBL: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
+            _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in RaceBL: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
+
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteNoOwner()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+
+            var raceMock = new Race
+            {
+                RaceId = raceId
+            };
+
+            var raceRepositoryMock = new Mock<IGenericRepository<Race>>();
+            raceRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(x => x.Equals(raceId)))).Returns(raceMock);
+            _UnitOfWorkMock.Setup(u => u.RaceRepository).Returns(raceRepositoryMock.Object);
+
+            var userLinkRepositoryMock = new Mock<IGenericRepository<UserLink>>();
+            userLinkRepositoryMock.Setup(r => r.Get(It.IsAny<Expression<Func<UserLink, bool>>>(),
+                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
+                It.IsAny<string>())).Returns(new[] { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.ReadWrite } });
+            _UnitOfWorkMock.Setup(u => u.UserLinkRepository).Returns(userLinkRepositoryMock.Object);
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, raceId));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+            Assert.AreEqual($"User is not authorized for race.", exception.Message);
+
+            userLinkRepositoryMock.Verify(r => r.Get(It.IsAny<Expression<Func<UserLink, bool>>>(),
+                It.IsAny<Func<IQueryable<UserLink>, IOrderedQueryable<UserLink>>>(),
+                It.IsAny<string>()), Times.Once);
+            userLinkRepositoryMock.Verify(r => r.Delete(It.IsAny<object>()), Times.Never);
+
+            raceRepositoryMock.Verify(r => r.Delete(It.IsAny<object>()), Times.Never);
+
+            _LoggerMock.VerifyLog(LogLevel.Warning, Times.Once, $"Error in RaceBL: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
 
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }

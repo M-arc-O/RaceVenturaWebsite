@@ -100,6 +100,30 @@ namespace RaceVenturaTest.Races
             teamRepositoryMock.Verify(r => r.Insert(It.IsAny<Team>()), Times.Never);
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
         }
+        
+        [TestMethod]
+        public void AddWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+
+            var team = new Team
+            {
+                RaceId = raceId
+            };
+
+            var teamRepositoryMock = new Mock<IGenericRepository<Team>>();
+            _UnitOfWorkMock.Setup(u => u.TeamRepository).Returns(teamRepositoryMock.Object);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.Read } }, raceId);
+
+            var Exception = Assert.ThrowsException<BusinessException>(() => _Sut.Add(Guid.NewGuid(), team));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, Exception.ErrorCode);
+
+            teamRepositoryMock.Verify(r => r.Insert(It.IsAny<Team>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
 
         [TestMethod]
         public void AddNameExists()
@@ -300,6 +324,31 @@ namespace RaceVenturaTest.Races
         }
 
         [TestMethod]
+        public void EditWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+            var teamId = Guid.NewGuid();
+
+            SetupTeamRepositoryMock(raceId, teamId, out var teamRepositoryMock);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.Read } }, raceId);
+
+            var team = new Team
+            {
+                TeamId = teamId,
+                RaceId = raceId
+            };
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Edit(userId, team));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            teamRepositoryMock.Verify(r => r.Update(It.IsAny<Team>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
         public void EditTeamNameExists()
         {
             var userId = Guid.NewGuid();
@@ -463,6 +512,25 @@ namespace RaceVenturaTest.Races
             SetupTeamRepositoryMock(raceId, teamId, out var teamRepositoryMock);
 
             TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { }, raceId);
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, teamId));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            teamRepositoryMock.Verify(r => r.Delete(It.Is<Guid>(g => g.Equals(teamId))), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+            var teamId = Guid.NewGuid();
+
+            SetupTeamRepositoryMock(raceId, teamId, out var teamRepositoryMock);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.Read } }, raceId);
 
             var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, teamId));
 

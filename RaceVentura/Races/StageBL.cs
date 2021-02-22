@@ -4,6 +4,7 @@ using RaceVentura.Models;
 using RaceVenturaData;
 using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
+using RaceVenturaData.Models;
 
 namespace RaceVentura.Races
 {
@@ -17,7 +18,7 @@ namespace RaceVentura.Races
         public void Add(Guid userId, Stage entity)
         {
             CheckIfRaceExsists(userId, entity.RaceId);
-            CheckUserIsAuthorizedForRace(userId, entity.RaceId);
+            CheckUserIsAuthorizedForRace(userId, entity.RaceId, RaceAccessLevel.ReadWrite);
             CheckIfStageNumberExists(entity);
             
             _UnitOfWork.StageRepository.Insert(entity);

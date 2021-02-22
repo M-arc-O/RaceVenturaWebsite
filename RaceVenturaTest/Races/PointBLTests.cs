@@ -18,7 +18,7 @@ namespace RaceVenturaTest.Races
     [TestClass]
     public class PointBLTests
     {
-        private readonly Mock<ILogger<PointBL>> _LoggerMock = new Mock<ILogger<PointBL>> ();
+        private readonly Mock<ILogger<PointBL>> _LoggerMock = new Mock<ILogger<PointBL>>();
         private readonly Mock<IRaceVenturaUnitOfWork> _UnitOfWorkMock = new Mock<IRaceVenturaUnitOfWork>();
         private PointBL _Sut;
 
@@ -45,7 +45,7 @@ namespace RaceVenturaTest.Races
             var pointRepositoryMock = new Mock<IGenericRepository<Point>>();
             _UnitOfWorkMock.Setup(u => u.PointRepository).Returns(pointRepositoryMock.Object);
 
-            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink() }, raceId);
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { RaceAccess = RaceAccessLevel.ReadWrite } }, raceId);
 
             _Sut.Add(userId, point);
 
@@ -138,6 +138,33 @@ namespace RaceVenturaTest.Races
         }
 
         [TestMethod]
+        public void AddWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+            var stageId = Guid.NewGuid();
+
+            SetupStageRepo(raceId, stageId);
+
+            var pointRepositoryMock = new Mock<IGenericRepository<Point>>();
+            _UnitOfWorkMock.Setup(u => u.PointRepository).Returns(pointRepositoryMock.Object);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.WriteTeams } }, raceId);
+
+            var point = new Point
+            {
+                StageId = stageId
+            };
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Add(userId, point));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            pointRepositoryMock.Verify(r => r.Insert(It.IsAny<Point>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
         public void AddNumberExists()
         {
             var userId = Guid.NewGuid();
@@ -206,7 +233,7 @@ namespace RaceVenturaTest.Races
 
             _UnitOfWorkMock.Setup(u => u.PointRepository).Returns(pointRepositoryMock.Object);
 
-            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink() }, raceId);
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { RaceAccess = RaceAccessLevel.ReadWrite } }, raceId);
 
             var point = new Point
             {
@@ -342,6 +369,32 @@ namespace RaceVenturaTest.Races
         }
 
         [TestMethod]
+        public void EditWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+            var stageId = Guid.NewGuid();
+            var pointId = Guid.NewGuid();
+
+            SetupStageRepo(raceId, stageId);
+            SetupPointRepositoryMock(stageId, pointId, out var pointRepositoryMock);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.WriteTeams } }, raceId);
+
+            var point = new Point
+            {
+                PointId = pointId
+            };
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Edit(userId, point));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            pointRepositoryMock.Verify(r => r.Update(It.IsAny<Point>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
         public void EditPointNameExists()
         {
             var userId = Guid.NewGuid();
@@ -407,7 +460,7 @@ namespace RaceVenturaTest.Races
 
             _UnitOfWorkMock.Setup(u => u.PointRepository).Returns(pointRepositoryMock.Object);
 
-            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink() }, raceId);
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { RaceAccess = RaceAccessLevel.ReadWrite } }, raceId);
 
             _Sut.Delete(userId, pointId);
 
@@ -492,6 +545,27 @@ namespace RaceVenturaTest.Races
             SetupPointRepositoryMock(stageId, pointId, out var pointRepositoryMock);
 
             TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { }, raceId);
+
+            var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, pointId));
+
+            Assert.AreEqual(BLErrorCodes.UserUnauthorized, exception.ErrorCode);
+
+            pointRepositoryMock.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
+            _UnitOfWorkMock.Verify(u => u.Save(), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteWrongAccessLevelForRace()
+        {
+            var userId = Guid.NewGuid();
+            var raceId = Guid.NewGuid();
+            var stageId = Guid.NewGuid();
+            var pointId = Guid.NewGuid();
+
+            SetupStageRepo(raceId, stageId);
+            SetupPointRepositoryMock(stageId, pointId, out var pointRepositoryMock);
+
+            TestUtils.SetupUnitOfWorkToPassAuthorizedAndRace(_UnitOfWorkMock, new List<UserLink> { new UserLink { UserId = userId, RaceId = raceId, RaceAccess = RaceAccessLevel.WriteTeams } }, raceId);
 
             var exception = Assert.ThrowsException<BusinessException>(() => _Sut.Delete(userId, pointId));
 

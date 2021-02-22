@@ -14,7 +14,11 @@ namespace RaceVenturaData.Models
         [Required]
         public Guid UserId { get; set; }
         
+        [Required]
         public Guid RaceId { get; set; }
+
+        [Required]
+        public RaceAccessLevel RaceAccess { get; set; }
 
         public UserLink()
         {

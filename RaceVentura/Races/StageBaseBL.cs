@@ -3,6 +3,7 @@ using RaceVenturaData;
 using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
 using System;
+using RaceVenturaData.Models;
 
 namespace RaceVentura.Races
 {
@@ -28,7 +29,7 @@ namespace RaceVentura.Races
         {
             var stage = GetStage(stageId);
             CheckIfRaceExsists(userId, stage.RaceId);
-            CheckUserIsAuthorizedForRace(userId, stage.RaceId);
+            CheckUserIsAuthorizedForRace(userId, stage.RaceId, RaceAccessLevel.ReadWrite);
             return stage;
         }
     }

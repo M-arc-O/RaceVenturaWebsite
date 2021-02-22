@@ -20,12 +20,11 @@ namespace RaceVentura.Races
         {
             var links = _UnitOfWork.UserLinkRepository.Get(link => link.UserId == userId);
             return _UnitOfWork.RaceRepository.Get(null, r => r.OrderBy(race => race.Name)).Where(r => links.Any(link => link.RaceId == r.RaceId));
-            //return _UnitOfWork.RaceRepository.Get(r => links.Any(link => link.RaceId == r.RaceId), r => r.OrderBy(race => race.Name));
         }
 
         public Race GetById(Guid userId, Guid raceId)
         {
-            GetAndCheckUserLink(userId, raceId);
+            CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Read);
 
             var race = _UnitOfWork.RaceRepository.Get(r => r.RaceId == raceId, null,
                 "Teams,Teams.VisitedPoints,Teams.FinishedStages," +
@@ -52,7 +51,8 @@ namespace RaceVentura.Races
             _UnitOfWork.UserLinkRepository.Insert(new UserLink
             {
                 RaceId = race.RaceId,
-                UserId = userId
+                UserId = userId,
+                RaceAccess = RaceAccessLevel.Owner
             });
 
             _UnitOfWork.Save();
@@ -61,7 +61,7 @@ namespace RaceVentura.Races
         public void Edit(Guid userId, Race newEntity)
         {
             CheckIfRaceExsists(userId, newEntity.RaceId);
-            CheckUserIsAuthorizedForRace(userId, newEntity.RaceId);
+            CheckUserIsAuthorizedForRace(userId, newEntity.RaceId, RaceAccessLevel.ReadWrite);
 
             var race = _UnitOfWork.RaceRepository.GetByID(newEntity.RaceId);
 
@@ -88,24 +88,12 @@ namespace RaceVentura.Races
         public void Delete(Guid userId, Guid raceId)
         {
             CheckIfRaceExsists(userId, raceId);
-            UserLink userLink = GetAndCheckUserLink(userId, raceId);
+            UserLink userLink = CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Owner);
 
             _UnitOfWork.UserLinkRepository.Delete(userLink);
             _UnitOfWork.RaceRepository.Delete(raceId);
 
             _UnitOfWork.Save();
-        }
-
-        private UserLink GetAndCheckUserLink(Guid userId, Guid raceId)
-        {
-            var userLink = GetRaceUserLink(userId, raceId);
-            if (userLink == null)
-            {
-                _Logger.LogWarning($"Error in {nameof(RaceBL)}: User with ID '{userId}' tried to access race with ID {raceId} but is not authorized.");
-                throw new BusinessException($"User is not authorized for race.", BLErrorCodes.UserUnauthorized);
-            }
-
-            return userLink;
         }
 
         private void CheckIfRaceNameExists(string name)

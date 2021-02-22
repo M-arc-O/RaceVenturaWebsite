@@ -4,6 +4,7 @@ using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using RaceVenturaData.Models;
 
 namespace RaceVentura.Races
 {
@@ -17,7 +18,7 @@ namespace RaceVentura.Races
         public void Add(Guid userId, Team entity)
         {
             CheckIfRaceExsists(userId, entity.RaceId);
-            CheckUserIsAuthorizedForRace(userId, entity.RaceId);
+            CheckUserIsAuthorizedForRace(userId, entity.RaceId, RaceAccessLevel.WriteTeams);
             CheckIfTeamNameExists(entity);
             CheckIfTeamNumberExists(entity);
 
@@ -78,7 +79,7 @@ namespace RaceVentura.Races
         {
             var team = GetTeam(teamId);
             CheckIfRaceExsists(userId, team.RaceId);
-            CheckUserIsAuthorizedForRace(userId, team.RaceId);
+            CheckUserIsAuthorizedForRace(userId, team.RaceId, RaceAccessLevel.WriteTeams);
             return team;
         }
     }
