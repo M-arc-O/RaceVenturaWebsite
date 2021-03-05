@@ -18,13 +18,13 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <img class="avatar" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="100" width="100" />
+                        <img class="avatar" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="150" width="150" />
                     </div>
                     <div class="col">
                         @Model.PointInformationText
                     </div>
                     <div class="col">
-                        <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="100" width="100" />
+                        <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="150" width="150" />
                     </div>
                 </div>
                 <br />

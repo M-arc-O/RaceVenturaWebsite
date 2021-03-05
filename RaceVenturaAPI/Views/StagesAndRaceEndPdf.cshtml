@@ -21,7 +21,7 @@
                     By scanning this QR code you will finish this stage for your team. You cannot scan any points for stage @stage.Number (@stage.Name) afterwards! To be able the scan point of the next stage you must end this one!
                 </div>
                 <div class="col">
-                    <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(stage.QrCodeArray))" height="100" width="100" />
+                    <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(stage.QrCodeArray))" height="150" width="150" />
                 </div>
             </div>
             <br />
@@ -39,7 +39,7 @@
                 Scan this QR code to end the race. This will register your teams finish time.
             </div>
             <div class="col">
-                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.QrCodeArray))" height="100" width="100" />
+                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.QrCodeArray))" height="150" width="150" />
             </div>
         </div>
     </p>
