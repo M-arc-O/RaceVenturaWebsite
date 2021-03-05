@@ -48,11 +48,13 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr *ngFor="let stageResult of result.stageResults; let i = index">
-                                                <td>{{stageResult.stageNumber}} {{stageResult.stageName}} - total
+                                                <td style="min-width:150px">{{stageResult.stageNumber}}
+                                                    {{stageResult.stageName}} - total
                                                     {{stageResult.totalValue}} - ({{stageResult.numberOfPoints}} out of
                                                     {{stageResult.maxNumberOfPoints}})</td>
-                                                <td *ngFor="let pointResult of stageResult.pointResults">
-                                                    {{pointResult.name}} ({{pointResult.value}})</td>
+                                                <td *ngFor="let pointResult of stageResult.pointResults"
+                                                    style="min-width:75px">
+                                                    {{pointResult.name}}<br>({{pointResult.value}})</td>
                                             </tr>
                                         </tbody>
                                     </table>
