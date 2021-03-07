@@ -65,7 +65,7 @@ namespace RaceVentura.AppApi
                     return point.Message;
                 }
 
-                if (!point.Answer.Equals(answer.Trim()))
+                if (!point.Answer.ToLower().Trim().Equals(answer.ToLower().Trim()))
                 {
                     throw new BusinessException($"Answer '{answer}' is incorrect.", BLErrorCodes.AnswerIncorrect);
                 }
