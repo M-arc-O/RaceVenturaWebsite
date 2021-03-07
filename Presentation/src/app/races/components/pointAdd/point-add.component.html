@@ -93,25 +93,27 @@
         <validation-message-for field="message">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the message.</span>
+                    <span class="text-danger offset-sm-6">Please enter the message/question.</span>
                 </div>
             </validation-message>
         </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="answer{{type}}">Answer</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('answer'))}"
-                    id="answer{{type}}" type="text" placeholder="Answer (Optional)" formControlName="answer" />
-            </div>
-        </div>
-        <validation-message-for field="answer">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the answer.</span>
+        <div *ngIf="addPointForm.get('type').value.toString() === pointTypes.QuestionCheckPoint.toString()">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="answer{{type}}">Answer</label>
+                <div class="col">
+                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('answer'))}"
+                        id="answer{{type}}" type="text" placeholder="Answer (Optional)" formControlName="answer" />
                 </div>
-            </validation-message>
-        </validation-message-for>
+            </div>
+            <validation-message-for field="answer">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="text-danger offset-sm-6">Please enter the answer.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+        </div>
 
         <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)">

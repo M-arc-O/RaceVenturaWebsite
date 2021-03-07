@@ -152,7 +152,7 @@ namespace RaceVenturaTest.AppApi
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
-            AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
+            AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
 
         [TestMethod]
@@ -345,7 +345,7 @@ namespace RaceVenturaTest.AppApi
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
-            AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
+            AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
 
         [TestMethod]
@@ -365,7 +365,7 @@ namespace RaceVenturaTest.AppApi
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
-            AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
+            AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
 
         [TestMethod]
@@ -459,7 +459,7 @@ namespace RaceVenturaTest.AppApi
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
-            AssertRegisterPointNoErrors(result, teamId, pointId, visitedPointsRepositoryMock);
+            AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
         #endregion
 
@@ -789,10 +789,8 @@ namespace RaceVenturaTest.AppApi
             Assert.AreEqual($"Race not started yet", exception.Message);
         }
 
-        private void AssertRegisterPointNoErrors(string result, Guid teamId, Guid pointId, Mock<IGenericRepository<VisitedPoint>> visitedPointsRepositoryMock)
+        private void AssertRegisterPointNoErrors(Guid teamId, Guid pointId, Mock<IGenericRepository<VisitedPoint>> visitedPointsRepositoryMock)
         {
-            Assert.AreEqual("", result);
-
             _UnitOfWorkMock.Verify(u => u.Save(), Times.Once);
 
             visitedPointsRepositoryMock.Verify(r => r.Insert(It.Is<VisitedPoint>(p => p.TeamId == teamId && p.PointId == pointId &&

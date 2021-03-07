@@ -95,8 +95,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             value = details.value;
             latitude = details.latitude;
             longitude = details.longitude;
-            answer = details.answer;
             message = details.message;
+            answer = details.answer;
         }
 
         this.addPointForm = formBuilder.group({
@@ -105,9 +105,22 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             value: [value, [Validators.required]],
             latitude: [latitude, [Validators.required]],
             longitude: [longitude, [Validators.required]],
-            answer: [answer, []],
-            message: [message, []]
+            message: [message, []],
+            answer: [answer, []]
         });
+
+        this.addPointForm.get('type').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+            let stringValidator = [];
+            
+            if (value !== null && value.toString() === PointType.QuestionCheckPoint.toString())
+            {
+                stringValidator = [Validators.required];
+            }
+
+            this.resetFormControl(this.addPointForm.get('message'), stringValidator);
+            this.resetFormControl(this.addPointForm.get('answer'), stringValidator);
+        });
+
     }
 
     public addPointClick(ngFrom: NgForm): void {

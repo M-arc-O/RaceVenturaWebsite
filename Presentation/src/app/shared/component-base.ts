@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
@@ -32,6 +32,13 @@ export abstract class ComponentBase implements OnDestroy {
                 this.validateAllFormFields(control);
             }
         });
+    }   
+
+    protected resetFormControl(control: AbstractControl, validators: ValidatorFn[]) {
+        control.clearValidators();
+        control.setErrors(null);
+        control.setValidators(validators);
+        control.setValue(null);
     }
 
     protected getDate(date: string, time: string): Date {

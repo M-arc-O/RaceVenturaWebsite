@@ -229,13 +229,6 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
         }
     }
 
-    private resetFormControl(control: AbstractControl, validators: ValidatorFn[]) {
-        control.clearValidators();
-        control.setErrors(null);
-        control.setValidators(validators);
-        control.setValue(null);
-    }
-
     public getErrorText(error: HttpErrorResponse): string {
         switch (error.error.toString()) {
             case '1':
