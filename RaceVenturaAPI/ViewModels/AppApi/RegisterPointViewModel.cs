@@ -1,4 +1,5 @@
-﻿using RaceVenturaAPI.ViewModels.Validators;
+﻿using RaceVenturaAPI.ViewModels.Races;
+using RaceVenturaAPI.ViewModels.Validators;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +22,9 @@ namespace RaceVenturaAPI.ViewModels.AppApi
         [Required]
         public double Longitude { get; set; }
 
-        public string Question { get; set; }
+        public PointTypeViewModel Type { get; set; }
+
+        public string Message { get; set; }
 
         public string Answer { get; set; }
     }

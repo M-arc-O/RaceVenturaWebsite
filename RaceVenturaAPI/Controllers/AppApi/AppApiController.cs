@@ -5,6 +5,7 @@ using RaceVenturaAPI.ViewModels.AppApi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using RaceVenturaAPI.ViewModels.Races;
 
 namespace RaceVenturaAPI.Controllers.AppApi
 {
@@ -57,13 +58,16 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
             try
             {
-                viewModel.Question = _AppApiBL.RegisterPoint(
+                var model = _AppApiBL.RegisterPoint(
                     viewModel.RaceId, 
                     viewModel.UniqueId,
                     viewModel.PointId,
                     viewModel.Latitude,
                     viewModel.Longitude,
                     viewModel.Answer);
+
+                viewModel.Message = model.Message;
+                viewModel.Type = (PointTypeViewModel)model.Type;
 
                 return Ok(viewModel);
             }

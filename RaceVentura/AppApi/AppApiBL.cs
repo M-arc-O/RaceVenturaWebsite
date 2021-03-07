@@ -42,7 +42,7 @@ namespace RaceVentura.AppApi
             return race.Name;
         }
 
-        public string RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
+        public Point RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
         {
             var team = GetTeamByRegisteredId(uniqueId);
             var point = GetPoint(pointId);
@@ -58,11 +58,11 @@ namespace RaceVentura.AppApi
             CheckTime(race, dateNow);
             CheckCoordinates(race, point, latitude, longitude);
 
-            if (!string.IsNullOrEmpty(point.Message))
+            if (point.Type == PointType.QuestionCheckPoint)
             {
                 if (string.IsNullOrEmpty(answer.Trim()))
                 {
-                    return point.Message;
+                    return point;
                 }
 
                 if (!point.Answer.ToLower().Trim().Equals(answer.ToLower().Trim()))
@@ -79,7 +79,7 @@ namespace RaceVentura.AppApi
             _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = team.TeamId, PointId = pointId, Time = dateNow });
             _UnitOfWork.Save();
 
-            return "";
+            return point;
         }
 
         public void RegisterStageEnd(Guid raceId, Guid uniqueId, Guid stageId)
