@@ -102,9 +102,9 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         this.addPointForm = formBuilder.group({
             name: [name, [Validators.required]],
             type: [type, [Validators.required]],
-            value: [value, [Validators.required]],
-            latitude: [latitude, [Validators.required]],
-            longitude: [longitude, [Validators.required]],
+            value: [value, [Validators.required, Validators.pattern(/^[.\d]+$/)]],
+            latitude: [latitude, [Validators.required, Validators.pattern(/^\d+\.\d{1,10}$/)]],
+            longitude: [longitude, [Validators.required, Validators.pattern(/^\d+\.\d{1,10}$/)]],
             message: [message, []],
             answer: [answer, []]
         });

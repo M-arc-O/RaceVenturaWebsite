@@ -34,6 +34,10 @@ export abstract class ComponentBase implements OnDestroy {
         });
     }   
 
+    public isControlValid(control: FormControl): boolean {
+        return (control.dirty || control.touched) && control.invalid;
+    }
+
     protected resetFormControl(control: AbstractControl, validators: ValidatorFn[]) {
         control.clearValidators();
         control.setErrors(null);
@@ -80,10 +84,6 @@ export abstract class ComponentBase implements OnDestroy {
         }
 
         return '';
-    }
-
-    public isControlValid(control: FormControl): boolean {
-        return (control.dirty || control.touched) && control.invalid;
     }
 
     handleError(error: HttpErrorResponse) {
