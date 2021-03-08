@@ -1,11 +1,15 @@
-<app-menu></app-menu>
-
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
-
-<div class="bg-primary text-center">
-  <div class="mx-auto">
-    footer
-  </div>
+<div class="d-flex flex-column sticky-footer-wrapper min-vh-100">
+  <app-menu></app-menu>
+  
+  <main role="main" class="main flex-fill pt-5">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container text-center">
+      <img src="assets/images/RaceVenturaLogo.png" height="45" alt="Race Ventura">
+    </div>
+  </footer>
 </div>

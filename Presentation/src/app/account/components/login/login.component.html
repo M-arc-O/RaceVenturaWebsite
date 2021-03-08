@@ -3,7 +3,7 @@
         <div *ngIf="!loggedIn; else logout">
             <form *ngIf="loginForm" [formGroup]="loginForm" (submit)="loginButtonClick()" role="form">
                 <div class="form-group">
-                    <label class="control-label" for="emailId">First Name</label>
+                    <label class="control-label" for="emailId">Email address</label>
                     <input class="form-control" [ngClass]="{'is-invalid': isControlValid(loginForm.get('email'))}"
                         id="emailId" type="text" placeholder="Email (required)" formControlName="email" />
                     <validation-message-for field="email">
