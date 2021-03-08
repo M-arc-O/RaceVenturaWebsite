@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CarouselService } from '../components/carousel/carousel.service';
 
 @Component({
     selector: 'app-base',
@@ -13,7 +14,9 @@ export abstract class ComponentBase implements OnDestroy {
     protected unsubscribe$: Subject<void>;
 
     constructor(protected userService: UserService,
+        protected carouselService: CarouselService,
         protected router: Router) {
+        this.carouselService.showCarousel = false;
         this.unsubscribe$ = new Subject<void>();
     }
 
@@ -32,7 +35,7 @@ export abstract class ComponentBase implements OnDestroy {
                 this.validateAllFormFields(control);
             }
         });
-    }   
+    }
 
     public isControlValid(control: FormControl): boolean {
         return (control.dirty || control.touched) && control.invalid;

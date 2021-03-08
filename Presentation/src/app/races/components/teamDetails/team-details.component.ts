@@ -11,6 +11,7 @@ import * as teamActions from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { timeValidator } from '../../shared/Validators/time.validator';
 import { TeamComponentBase } from '../team-component-base.component';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-team-details',
@@ -27,8 +28,9 @@ export class TeamDetailsComponent extends TeamComponentBase implements OnInit {
 
     constructor(private store: Store<ISelectedRace>,
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.stages$ = this.store.pipe(select(stagesSelector));
         this.editBase$ = this.store.pipe(select(editTeamSelector));
     }

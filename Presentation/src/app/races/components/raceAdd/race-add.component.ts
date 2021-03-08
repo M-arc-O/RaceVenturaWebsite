@@ -13,6 +13,7 @@ import { AddEditType } from '../../../shared';
 import { HttpErrorResponse } from '@angular/common/http';
 import { timeValidator } from '../../shared/Validators/time.validator';
 import { RaceComponentBase } from '../race-component-base.component';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-race-add',
@@ -34,8 +35,9 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
     constructor(
         private store: Store<IRacesState>,
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.addBase$ = this.store.pipe(select(addRaceSelector));
         this.editBase$ = this.store.pipe(select(editSelectedRaceSelector));
     }

@@ -26,10 +26,10 @@ export class RacesOverviewComponent extends ComponentBase implements OnInit {
 
     constructor(
         private store: Store<IRacesState>,
-        private carouselService: CarouselService,
+        carouselService: CarouselService,
         userService: UserService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.carouselService.showCarousel = false;
         this.races$ = this.store.pipe(select(racesSelector));
         this.loadRacesBase$ = this.store.pipe(select(loadRacesSelector));

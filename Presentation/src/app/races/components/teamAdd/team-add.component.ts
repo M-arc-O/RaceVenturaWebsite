@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
@@ -34,8 +35,9 @@ export class TeamAddComponent extends TeamComponentBase implements OnInit, OnCha
     constructor(
         private store: Store<ITeams>,
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.addBase$ = this.store.pipe(select(addTeamSelector));
         this.editBase$ = this.store.pipe(select(editTeamSelector));
     }
