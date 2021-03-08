@@ -9,6 +9,7 @@ import { RaceViewModel } from '../../shared/models';
 import { deleteRaceSelector, IRacesState, loadRacesSelector, racesSelector } from '../../store';
 import * as racesActions from '../../store/actions/race.actions';
 import { AddEditType } from '../../../shared';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-race-overview',
@@ -25,9 +26,11 @@ export class RacesOverviewComponent extends ComponentBase implements OnInit {
 
     constructor(
         private store: Store<IRacesState>,
+        private carouselService: CarouselService,
         userService: UserService,
         router: Router) {
         super(userService, router);
+        this.carouselService.showCarousel = false;
         this.races$ = this.store.pipe(select(racesSelector));
         this.loadRacesBase$ = this.store.pipe(select(loadRacesSelector));
         this.deleteRaceBase$ = this.store.pipe(select(deleteRaceSelector));

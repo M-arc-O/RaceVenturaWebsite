@@ -1,15 +1,18 @@
 <div class="d-flex flex-column sticky-footer-wrapper min-vh-100">
-  <app-menu></app-menu>
-  
-  <main role="main" class="main flex-fill pt-5">
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
-  
-  <footer class="footer mt-auto py-3 bg-light">
-    <div class="container text-center">
-      <img src="assets/images/RaceVenturaLogo.png" height="45" alt="Race Ventura">
-    </div>
-  </footer>
+    <header>
+        <app-menu></app-menu>
+    </header>
+
+    <main role="main" class="main flex-fill">
+        <app-carousel *ngIf="showCarousel"></app-carousel>
+        <div class="container pt-5">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <img src="assets/images/RaceVenturaLogo.png" height="45" alt="Race Ventura">
+        </div>
+    </footer>
 </div>

@@ -1,9 +1,20 @@
 .accordion .card-header:after {
-    font-family: 'FontAwesome';  
+    font-family: 'FontAwesome';
     content: "\f068";
-    float: right; 
+    float: right;
 }
+
 .accordion .card-header.collapsed:after {
     /* symbol for "collapsed" panels */
-    content: "\f067"; 
+    content: "\f067";
+}
+
+.carousel .item img {
+    max-height: 300px;
+    min-width: auto;
+}
+
+.carousel-inner {
+    width: 100%;
+    max-height: 300px;
 }
