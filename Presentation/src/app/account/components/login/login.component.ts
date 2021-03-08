@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-login',
@@ -21,8 +22,10 @@ export class LoginComponent extends ComponentBase implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
+        this.carouselService.showCarousel = true;
     }
 
     ngOnInit(): void {

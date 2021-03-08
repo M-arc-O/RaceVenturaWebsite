@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
 import { catchError, finalize, map } from "rxjs/operators";
+import { CarouselService } from "src/app/components/carousel/carousel.service";
 import { ComponentBase, UserService } from "src/app/shared";
 
 @Component({
@@ -18,8 +19,10 @@ export class ForgotPasswordComponent extends ComponentBase implements OnInit {
 
     constructor(
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
+        this.carouselService.showCarousel = true;
     }
 
     ngOnInit(): void {

@@ -7,6 +7,7 @@ import * as raceActions from '../../store/actions/race.actions';
 import { resultStateSelector } from '../../store';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-race-result',
@@ -20,8 +21,9 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
     constructor(private store: Store<TeamResultViewModel[]>,
         private modalService: NgbModal,
         userService: UserService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.raceResult$ = this.store.pipe(select(resultStateSelector));
     }
 

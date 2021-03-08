@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { AddEditType } from '../../../shared';
@@ -29,8 +30,9 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
     constructor(private store: Store<IRacesState>,
         userService: UserService,
         private racesDownloadService: RacesDownloadService,
+        carouselService: CarouselService,
         router: Router) {
-        super(userService, router);
+        super(userService, carouselService, router);
         this.raceDetails$ = this.store.pipe(select(selectedRaceSelector));
         this.raceDetailsLoad$ = this.store.pipe(select(loadSelectedRaceSelector));
     }

@@ -24,6 +24,7 @@ export class ConfirmEmailComponent extends ComponentBase implements OnInit {
         carouselService: CarouselService,
         router: Router) {
         super(userService, carouselService, router);
+        this.carouselService.showCarousel = true;
     }
 
     ngOnInit(): void {
