@@ -1,30 +1,42 @@
 <div class="row">
-    <div class="col">
-        <app-stage-add [type]="addEditType.Add" [details]="getStage(stages$ | async)" [raceId]="raceId"></app-stage-add>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-2">
-        <h5>Stages</h5>
-    </div>
-
-    <div *ngIf="selectedStageId" class="col p-0 ml-1">
-        <h5>{{getStage(stages$ | async).name}} details</h5>
-    </div>
-</div>
-<div class="row">
-    <div class="col-2">
+    <div class="col-3">
+        <div class="row pb-3">
+            <div class="col">
+                <h5 class="mt-1">Stages:</h5>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#addStageModel">
+                    Add stages
+                </button>
+            </div>
+        </div>
         <div class="list-group stage-list">
-            <a *ngFor="let stage of (stages$ | async)" class="list-group-item list-group-item-action" href="javascript:void(0)" (click)="detailsClicked(stage.stageId)" [ngClass]="{'active': stage.stageId === selectedStageId}">{{stage.number}} -
-                {{stage.name}}</a>
+            <a *ngFor="let stage of (stages$ | async)" class="list-group-item list-group-item-action" href="javascript:void(0)" (click)="detailsClicked(stage.stageId)" [ngClass]="{'list-group-item-secondary': stage.stageId === selectedStageId}">
+                {{stage.number}} - {{stage.name}}
+            </a>
         </div>
         <div *ngIf="!(stages$ | async) || (stages$ | async).length === 0">
             No stages found.
         </div>
     </div>
 
-    <div *ngIf="selectedStageId" class="col p-0">
+    <div *ngIf="selectedStageId" class="col p-0 ml-1">
         <app-stage-details [selectedStage]="getStage(stages$ | async)" [raceId]="raceId"></app-stage-details>
+    </div>
+</div>
+
+<div class="modal fade" id="addStageModel" tabindex="-1" role="dialog" aria-labelledby="addStageModelTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStageModelTitle">Add stages</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <app-stage-add [type]="addEditType.Add" [details]="getStage(stages$ | async)" [raceId]="raceId"></app-stage-add>
+            </div>
+        </div>
     </div>
 </div>

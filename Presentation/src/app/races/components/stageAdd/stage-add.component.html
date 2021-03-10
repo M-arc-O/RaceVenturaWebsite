@@ -1,59 +1,43 @@
-<p>
-    <a class="btn btn-secondary" data-toggle="collapse" href="#openStageForm{{type}}" role="button"
-        aria-expanded="false" attr.aria-controls="openStageForm{{type}}">
-        <span *ngIf="type === addEditType.Add">
-            Add stage
-        </span>
-        <span *ngIf="type === addEditType.Edit">
-            Edit stage
-        </span>
-    </a>
-</p>
-<div class="collapse" id="openStageForm{{type}}">
-    <form *ngIf="addStageForm" [formGroup]="addStageForm" (submit)="addStageClick(addStageNgForm)"
-        #addStageNgForm="ngForm" role="form">
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="stageNumber{{type}}">Number</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addStageForm.get('number'))}"
-                    id="stageNumber{{type}}" type="text" placeholder="Number (required)" formControlName="number" />
-            </div>
+<form *ngIf="addStageForm" [formGroup]="addStageForm" (submit)="addStageClick(addStageNgForm)" #addStageNgForm="ngForm" role="form">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="stageNumber{{type}}">Number</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addStageForm.get('number'))}" id="stageNumber{{type}}" type="text" placeholder="Number (required)" formControlName="number" />
         </div>
-        <validation-message-for field="number">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="stageName{{type}}">Name</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addStageForm.get('name'))}"
-                    id="stageName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
+    </div>
+    <validation-message-for field="number">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a name.</span>
             </div>
-        </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="stageName{{type}}">Name</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addStageForm.get('name'))}" id="stageName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
+        </div>
+    </div>
+    <validation-message-for field="name">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a name.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
                 stage</label>
-            <div class="col">
-                <input class="form-control" id="minimumPointsToCompleteStage{{type}}" type="text" placeholder=""
-                    formControlName="minimumPointsToCompleteStage" />
-            </div>
+        <div class="col">
+            <input class="form-control" id="minimumPointsToCompleteStage{{type}}" type="text" placeholder="" formControlName="minimumPointsToCompleteStage" />
         </div>
-        <validation-message-for field="minimumPointsToCompleteStage">
-        </validation-message-for>
+    </div>
+    <validation-message-for field="minimumPointsToCompleteStage">
+    </validation-message-for>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+    <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">
             <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
@@ -65,11 +49,10 @@
                 Edit stage
             </span>
         </button>
-    </form>
-    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
-        {{getErrorText((addBase$ | async).error) }}
-    </div>
-    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
-        {{getErrorText((editBase$ | async).error) }}
-    </div>
+</form>
+<div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+    {{getErrorText((addBase$ | async).error) }}
+</div>
+<div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+    {{getErrorText((editBase$ | async).error) }}
 </div>

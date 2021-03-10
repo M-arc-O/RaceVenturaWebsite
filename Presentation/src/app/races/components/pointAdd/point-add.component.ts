@@ -151,6 +151,10 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         }
     }
 
+    public RemovePointClicked(): void {
+        this.store.dispatch(new pointActions.DeletePointAction(this.details));
+    }
+
     public getErrorText(error: HttpErrorResponse): string {
         switch (error.error.toString()) {
             case '1':
