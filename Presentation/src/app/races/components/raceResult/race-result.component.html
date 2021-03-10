@@ -1,11 +1,11 @@
-<div class="row">
+<div class="row pb-3">
     <div class="col-2">
         <button type="button" class="btn btn-primary" id="refresh" (click)="refresh()">
             refresh
         </button>
     </div>
     <div class="col">
-        click on the teams row to get information about all the registered points.
+        <h5 class="mt-1">Click on the teams row to get information about all the registered points.</h5>
     </div>
 </div>
 <div *ngIf="(raceResult$ | async)" class="row">
@@ -24,8 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let result of raceResult$ | async; let i = index" (click)="openModal(content)"
-                        style="cursor: pointer;">
+                    <tr *ngFor="let result of raceResult$ | async; let i = index" (click)="openModal(content)" style="cursor: pointer;">
                         <td>{{(i + 1)}}</td>
                         <td>{{result.teamNumber}} {{result.teamName}}</td>
                         <td>{{getDateString(result.endTime)}} - {{getTimeString(result.endTime)}}</td>
@@ -36,10 +35,9 @@
 
                         <ng-template #content let-modal>
                             <div class="modal-header">
-                                <h4 class="modal-title">Stage and point results for team {{result.teamNumber}}
-                                    {{result.teamName}}</h4>
-                                <button type="button" class="close" aria-label="Close"
-                                    (click)="modal.dismiss('Cross click')">
+                                <h4 class="modal-title">Stage and point results for team {{result.teamNumber}} {{result.teamName}}
+                                </h4>
+                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -48,9 +46,8 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr *ngFor="let stageResult of result.stageResults; let i = index">
-                                                <td>{{stageResult.stageNumber}} {{stageResult.stageName}} - total
-                                                    {{stageResult.totalValue}} - ({{stageResult.numberOfPoints}} out of
-                                                    {{stageResult.maxNumberOfPoints}})</td>
+                                                <td>{{stageResult.stageNumber}} {{stageResult.stageName}} - total {{stageResult.totalValue}} - ({{stageResult.numberOfPoints}} out of {{stageResult.maxNumberOfPoints}})
+                                                </td>
                                                 <td *ngFor="let pointResult of stageResult.pointResults">
                                                     {{pointResult.name}} ({{pointResult.value}})</td>
                                             </tr>
@@ -59,8 +56,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-light"
-                                    (click)="modal.close('Close click')">Close</button>
+                                <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
                             </div>
                         </ng-template>
                     </tr>

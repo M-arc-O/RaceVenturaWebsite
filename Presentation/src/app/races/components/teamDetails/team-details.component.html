@@ -26,11 +26,45 @@
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editTeamModel">
             Edit team
         </button>
+        <div class="modal fade" id="editTeamModel" tabindex="-1" role="dialog" aria-labelledby="editTeamModelTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTeamModelTitle">Edit {{selectedTeam.name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit" [raceId]="selectedTeam.raceId"></app-team-add>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col">
         <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeTeamModal">
             Remove team
         </button>
+        <div class="modal fade" id="removeTeamModal" tabindex="-1" role="dialog" aria-labelledby="removeTeamModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeTeamModalLabel">Are you sure?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to remove {{selectedTeam.name}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" (click)="RemoveTeamClicked()" data-dismiss="modal">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -105,44 +139,6 @@
                         <app-team-points [stageId]="stage.stageId" [teamId]="selectedTeam.teamId"></app-team-points>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit team modal -->
-<div class="modal fade" id="editTeamModel" tabindex="-1" role="dialog" aria-labelledby="editTeamModelTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editTeamModelTitle">Edit {{selectedTeam.name}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <app-team-add [details]="selectedTeam" [type]="addEditType.Edit" [raceId]="selectedTeam.raceId"></app-team-add>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Remove team modal -->
-<div class="modal fade" id="removeTeamModal" tabindex="-1" role="dialog" aria-labelledby="removeTeamModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeTeamModalLabel">Are you sure?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-             </button>
-            </div>
-            <div class="modal-body">
-                Do you really want to remove {{selectedTeam.name}}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" (click)="RemoveTeamClicked()" data-dismiss="modal">Remove</button>
             </div>
         </div>
     </div>
