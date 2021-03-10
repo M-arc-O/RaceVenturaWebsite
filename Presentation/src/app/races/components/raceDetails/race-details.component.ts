@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,13 +28,22 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
     public addEditType = AddEditType;
 
     constructor(private store: Store<IRacesState>,
-        userService: UserService,
+        private route: ActivatedRoute,
         private racesDownloadService: RacesDownloadService,
-        carouselService: CarouselService,
+        private carouselService: CarouselService,
+        userService: UserService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
+        this.carouselService.showCarousel$.next(false);
         this.raceDetails$ = this.store.pipe(select(selectedRaceSelector));
         this.raceDetailsLoad$ = this.store.pipe(select(loadSelectedRaceSelector));
+
+        this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe(params => {
+            if (params['id'] !== "") { 
+                this.raceId = params['id'];
+                this.store.dispatch(new raceActions.LoadRaceDetailsAction(this.raceId));
+            }
+          });
     }
 
     public ngOnInit(): void {
@@ -43,6 +52,10 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
                 this.handleError(base.error);
             }
         });
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.store.dispatch(new raceActions.LoadRaceDetailsAction(this.raceId));
     }
 
     public downloadPointsPdf(): void {
@@ -67,10 +80,6 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
             const url= window.URL.createObjectURL(blob);
             window.open(url);
         });
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        this.store.dispatch(new raceActions.LoadRaceDetailsAction(this.raceId));
     }
 
     public RemoveRaceClicked(): void {

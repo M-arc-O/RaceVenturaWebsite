@@ -1,0 +1,16 @@
+<div *ngIf="!(loadRacesBase$ | async).isActive; else racesLoading">
+    <div *ngIf="(loadRacesBase$ | async).success">
+        <a *ngFor="let race of races$ | async" class="dropdown-item" href="javascript:void(0)" (click)="detailsClicked(race)" [ngClass]="{'active bg-secondary': selectedRace && race.raceId === selectedRace.raceId}">{{race.name}}</a>
+    </div>
+    <div *ngIf="(loadRacesBase$ | async).success && (races$ | async).length === 0">
+        <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">No races found</a>
+    </div>
+</div>
+<ng-template #racesLoading>
+    <div class="align-items-center m-2">
+        <a class="dropdown-item disabled">
+            <div class="spinner-border spinner-border-sm"></div>
+            <span>Loading races...</span>
+        </a>
+    </div>
+</ng-template>

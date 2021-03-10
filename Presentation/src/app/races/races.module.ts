@@ -12,7 +12,6 @@ import { PointsOverviewComponent } from './components/pointsOverview/points-over
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RaceResultComponent } from './components/raceResult/race-result.component';
-import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
 import { StageAddComponent } from './components/stageAdd/stage-add.component';
 import { StageDetailsComponent } from './components/stageDetails/stage-details.component';
 import { StagesOverviewComponent } from './components/stagesOverview/stages-overview.component';
@@ -31,10 +30,11 @@ import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
 import { teamsReducers } from './store/reducers/teams';
 import { CustomDateAdapter, CustomDateParserFormatter } from '../shared';
 import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-result-wrapper.component';
+import { RaceListComponent } from './components/raceList/race-list.component';
 
 @NgModule({
   declarations: [
-    RacesOverviewComponent,
+    RaceListComponent,
     RaceDetailsComponent,
     RaceAddComponent,
     RaceResultComponent,
@@ -63,6 +63,9 @@ import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-
     ValidationModule,
     PipesModule,    
     NgbModule
+  ],
+  exports: [
+    RaceListComponent
   ],
   providers: [
     RacesService, 

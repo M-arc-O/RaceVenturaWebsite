@@ -21,10 +21,10 @@ export class ConfirmEmailComponent extends ComponentBase implements OnInit {
     constructor(
         private route: ActivatedRoute,
         userService: UserService,
-        carouselService: CarouselService,
+        private carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
-        this.carouselService.showCarousel = true;
+        super(userService, router);
+        this.carouselService.showCarousel$.next(true);
     }
 
     ngOnInit(): void {

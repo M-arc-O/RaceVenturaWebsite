@@ -12,10 +12,11 @@ export class RaceResultWrapperComponent extends ComponentBase implements OnInit 
     public raceId: string;
 
     constructor(userService: UserService,
-        carouselService: CarouselService,
+        private carouselService: CarouselService,
         router: Router,
         private route: ActivatedRoute) {
-        super(userService, carouselService, router);
+        super(userService, router);
+        this.carouselService.showCarousel$.next(true);
     }
 
     ngOnInit() {

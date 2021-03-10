@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/shared';
+import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { ComponentBase, UserService } from 'src/app/shared';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html'
   })
-export class MenuComponent {
-    get loggedIn(): boolean {
-        return this.userService.authToken !== undefined;
-    }
+export class MenuComponent extends ComponentBase {
+    public loggedIn = false;
 
-    constructor(private userService: UserService) {
+    constructor(userService: UserService,
+        router: Router) {
+        super(userService, router);
+
+        this.userService.loggedIn$.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
+            this.loggedIn = value;
+        });
     }
 }

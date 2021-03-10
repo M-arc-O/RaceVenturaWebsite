@@ -9,11 +9,8 @@
                 <li class="nav-item" [routerLinkActive]="['active']">
                     <a routerLink="/home" class="nav-link" href="#">Home</a>
                 </li>
-                <li *ngIf="loggedIn" class="nav-item" [routerLinkActive]="['active']">
-                    <a routerLink="/races" class="nav-link" href="#">Races</a>
-                </li>
                 <li class="nav-item" [routerLinkActive]="['active']">
-                    <a routerLink="/appsupport" class="nav-link" href="#">App Support</a>
+                    <a routerLink="/appsupport" class="nav-link " href="#">App Support</a>
                 </li>
                 <li class="nav-item" [routerLinkActive]="['active']">
                     <a routerLink="/contact" class="nav-link" href="#">Contact</a>
@@ -21,7 +18,17 @@
             </ul>
 
             <ul class="navbar-nav my-2 my-lg-0">
-                <li class="nav-item" [routerLinkActive]="['active']">
+                <li *ngIf="loggedIn" class="nav-item dropleft">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Races
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" routerLink="/addRace" href="#">Add Race</a>
+                        <div class="dropdown-divider"></div>
+                        <app-race-list></app-race-list>
+                    </div>
+                </li>
+                <li class="nav-item " [routerLinkActive]="['active']">
                     <a routerLink="/login" class="nav-link" href="#">
                         <span *ngIf="!loggedIn">Login</span>
                         <span *ngIf="loggedIn">Account</span>

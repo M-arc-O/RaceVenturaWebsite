@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
+import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
 import { StageStoreModel, TeamStoreModel } from '../../shared/models';
 import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';
@@ -11,7 +11,6 @@ import * as teamActions from '../../store/actions';
 import { takeUntil } from 'rxjs/operators';
 import { timeValidator } from '../../shared/Validators/time.validator';
 import { TeamComponentBase } from '../team-component-base.component';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-team-details',
@@ -28,9 +27,8 @@ export class TeamDetailsComponent extends TeamComponentBase implements OnInit {
 
     constructor(private store: Store<ISelectedRace>,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
         this.stages$ = this.store.pipe(select(stagesSelector));
         this.editBase$ = this.store.pipe(select(editTeamSelector));
     }

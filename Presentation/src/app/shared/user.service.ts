@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfirmEmailViewModel, ForgotPasswordViewModel, ResetPasswordViewModel } from '../account/shared/models';
 import { ConfigurationService } from './configuration-service';
 import { JwtViewModel } from './models/jwt-view-model';
@@ -18,8 +18,14 @@ export class UserService {
         return token;
     }
 
+    public loggedIn$ = new BehaviorSubject<boolean>(false);
+
     constructor(private http: HttpClient) {
         this.baseUrl = ConfigurationService.ApiRoot;
+        
+        if (this.authToken !== undefined && this.authToken !== '') {
+            this.loggedIn$.next(true);
+        }
     }
 
     public confirmEmail(code: string, emailAddress: string): Observable<any> {        
@@ -50,17 +56,17 @@ export class UserService {
     }
 
     public login(email: string, password: string): Observable<JwtViewModel> {
-        this.logout();
-
         const body = JSON.stringify({ email, password });
         return this.http.post<JwtViewModel>(`${this.baseUrl}/api/auth/login`, body);
     }
 
     public setJwtToken(token: string) {
         localStorage.setItem(this.tokenKey, token);
+        this.loggedIn$.next(true);
     }
 
     public logout(): void {
         localStorage.removeItem(this.tokenKey);
+        this.loggedIn$.next(false);
     }
 }

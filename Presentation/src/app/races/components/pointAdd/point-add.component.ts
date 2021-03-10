@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { PointDetailViewModel, PointType } from '../../shared/models';
@@ -33,9 +32,8 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
     constructor(
         private store: Store<IPoints>,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
         this.addBase$ = this.store.pipe(select(addPointSelector));
         this.editBase$ = this.store.pipe(select(editPointSelector));
     }

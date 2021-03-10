@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ComponentBase, UserService } from 'src/app/shared';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { TeamResultViewModel } from '../../shared/models';
-import * as raceActions from '../../store/actions/race.actions';
-import { resultStateSelector } from '../../store';
-import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ComponentBase, UserService } from 'src/app/shared';
+import { TeamResultViewModel } from '../../shared/models';
+import { resultStateSelector } from '../../store';
+import * as raceActions from '../../store/actions/race.actions';
 
 @Component({
     selector: 'app-race-result',
@@ -21,9 +20,8 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
     constructor(private store: Store<TeamResultViewModel[]>,
         private modalService: NgbModal,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
         this.raceResult$ = this.store.pipe(select(resultStateSelector));
     }
 

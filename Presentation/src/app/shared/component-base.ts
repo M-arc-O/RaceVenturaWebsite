@@ -14,9 +14,7 @@ export abstract class ComponentBase implements OnDestroy {
     protected unsubscribe$: Subject<void>;
 
     constructor(protected userService: UserService,
-        protected carouselService: CarouselService,
         protected router: Router) {
-        this.carouselService.showCarousel = false;
         this.unsubscribe$ = new Subject<void>();
     }
 

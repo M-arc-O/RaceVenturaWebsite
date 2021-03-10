@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { StageStoreModel } from '../../shared/models';
 import { IStages } from '../../store';
@@ -19,9 +18,8 @@ export class StageDetailsComponent extends ComponentBase {
 
     constructor(private store: Store<IStages>,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
     }
 
     public RemoveStageClicked(): void {

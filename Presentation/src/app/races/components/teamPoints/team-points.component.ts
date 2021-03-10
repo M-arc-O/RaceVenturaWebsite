@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
 import { PointDetailViewModel, TeamPointVisitedViewModel } from '../../shared/models';
@@ -34,10 +33,9 @@ export class TeamPointsComponent extends PointComponentBase implements OnInit, O
     constructor(
         private formBuilder: FormBuilder,
         private store: Store<IPoints>,
-        userService: UserService,        
-        carouselService: CarouselService,
+        userService: UserService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
         this.points$ = this.store.pipe(select(pointsSelector));
         this.pointsVisited$ = this.store.pipe(select(pointsVisitedSelector));
         this.addBase$ = this.store.pipe(select(addPointVisitedSelector));

@@ -23,10 +23,10 @@ export class ResetPasswordComponent extends ComponentBase implements OnInit {
     constructor(
         userService: UserService,
         private route: ActivatedRoute,
-        carouselService: CarouselService,
+        private carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
-        this.carouselService.showCarousel = true;
+        super(userService, router);
+        this.carouselService.showCarousel$.next(true);
     }
 
     ngOnInit(): void {

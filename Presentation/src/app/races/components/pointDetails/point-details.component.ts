@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { AddEditType, UserService } from 'src/app/shared';
 import { PointDetailViewModel } from '../../shared/models';
 import { IPoints } from '../../store';
@@ -19,9 +18,8 @@ export class PointDetailsComponent extends PointComponentBase {
 
     constructor(private store: Store<IPoints>,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
     }
 
     public RemovePointClicked(): void {

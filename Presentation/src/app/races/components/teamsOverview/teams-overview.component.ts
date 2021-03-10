@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { TeamStoreModel } from '../../shared/models';
@@ -26,9 +25,8 @@ export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     constructor(
         private store: Store<ISelectedRace>,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
         this.teams$ = this.store.pipe(select(teamsSelector));
         this.deleteTeamBase$ = this.store.pipe(select(deleteTeamSelector));
     }

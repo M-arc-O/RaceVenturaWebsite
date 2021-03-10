@@ -1,26 +1,26 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
+import { AddEditType } from '../../../shared';
 import { RaceDetailViewModel, RaceType } from '../../shared/models';
+import { timeValidator } from '../../shared/Validators/time.validator';
 import { addRaceSelector, editSelectedRaceSelector, IRacesState } from '../../store';
 import * as racesActions from '../../store/actions/race.actions';
-import { AddEditType } from '../../../shared';
-import { HttpErrorResponse } from '@angular/common/http';
-import { timeValidator } from '../../shared/Validators/time.validator';
 import { RaceComponentBase } from '../race-component-base.component';
-import { CarouselService } from 'src/app/components/carousel/carousel.service';
 
 @Component({
     selector: 'app-race-add',
     templateUrl: './race-add.component.html'
 })
 export class RaceAddComponent extends RaceComponentBase implements OnInit, OnChanges {
-    @Input() public type: AddEditType;
+    @Input() public type = AddEditType.Add;
     @Input() public details: RaceDetailViewModel;
 
     public raceTypes = RaceType;
@@ -34,10 +34,11 @@ export class RaceAddComponent extends RaceComponentBase implements OnInit, OnCha
 
     constructor(
         private store: Store<IRacesState>,
+        private carouselService: CarouselService,
         userService: UserService,
-        carouselService: CarouselService,
         router: Router) {
-        super(userService, carouselService, router);
+        super(userService, router);
+        this.carouselService.showCarousel$.next(false);
         this.addBase$ = this.store.pipe(select(addRaceSelector));
         this.editBase$ = this.store.pipe(select(editSelectedRaceSelector));
     }

@@ -7,6 +7,6 @@ import { CarouselService } from '../carousel/carousel.service';
 })
 export class HomeComponent {
     constructor(private carouselService: CarouselService) {
-        this.carouselService.showCarousel = true;
+        this.carouselService.showCarousel$.next(true);
     }
 }
