@@ -1,31 +1,41 @@
 <div class="row">
-    <div class="col">
-        <app-team-add [type]="addEditType.Add" [details]="getSelectedTeam(teams$ | async)" [raceId]="raceId"></app-team-add>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-2">
-        <h5>Teams</h5>
-    </div>
-
-    <div *ngIf="selectedTeamId" class="col p-0 ml-1">
-        <h5>{{getSelectedTeam(teams$ | async).name}} details</h5>
-    </div>
-</div>
-<div class="row">
-    <div class="col-2">
+    <div class="col-3">
+        <div class="row pb-3">
+            <div class="col">
+                <h5 class="mt-1">Teams</h5>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#addTeamModel">
+                    Add teams
+                </button>
+            </div>
+        </div>
         <div class="list-group team-list">
-            <a *ngFor="let team of (teams$ | async)" class="list-group-item list-group-item-action"
-                href="javascript:void(0)" (click)="detailsClicked(team.teamId)"
-                [ngClass]="{'active': team.teamId === selectedTeamId}">{{team.number}} - {{team.name}}</a>
+            <a *ngFor="let team of (teams$ | async)" class="list-group-item list-group-item-action" href="javascript:void(0)" (click)="detailsClicked(team.teamId)" [ngClass]="{'list-group-item-secondary': team.teamId === selectedTeamId}">{{team.number}} - {{team.name}}</a>
         </div>
         <div *ngIf="!(teams$ | async) || (teams$ | async).length === 0">
             No teams found.
         </div>
     </div>
+    <div class="col">
+        <div *ngIf="selectedTeamId" class="col p-0">
+            <app-team-details [selectedTeam]="getSelectedTeam(teams$ | async)"></app-team-details>
+        </div>
+    </div>
+</div>
 
-    <div *ngIf="selectedTeamId" class="col p-0">
-        <app-team-details [selectedTeam]="getSelectedTeam(teams$ | async)"></app-team-details>
+<div class="modal fade" id="addTeamModel" tabindex="-1" role="dialog" aria-labelledby="addTeamModelTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTeamModelTitle">Add stages</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <app-team-add [type]="addEditType.Add" [details]="getSelectedTeam(teams$ | async)" [raceId]="raceId"></app-team-add>
+            </div>
+        </div>
     </div>
 </div>

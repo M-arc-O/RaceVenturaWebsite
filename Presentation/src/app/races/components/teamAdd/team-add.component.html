@@ -1,69 +1,54 @@
-<p>
-    <a class="btn btn-secondary" data-toggle="collapse" href="#openTeamForm{{type}}" role="button" aria-expanded="false"
-        attr.aria-controls="openTeamForm{{type}}">
-        <span *ngIf="type === addEditType.Add">
-            Add team
-        </span>
-        <span *ngIf="type === addEditType.Edit">
-            Edit team
-        </span>
-    </a>
-</p>
-<div class="collapse" id="openTeamForm{{type}}">
-    <form *ngIf="addTeamForm" [formGroup]="addTeamForm" (submit)="addTeamClick(addTeamNgForm)" #addTeamNgForm="ngForm"
-        role="form">
+<form *ngIf="addTeamForm" [formGroup]="addTeamForm" (submit)="addTeamClick(addTeamNgForm)" #addTeamNgForm="ngForm" role="form">
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="teamNumber{{type}}">Number</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}"
-                    id="teamNumber{{type}}" type="text" placeholder="Number (required)" formControlName="number" />
-            </div>
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="teamNumber{{type}}">Number</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}" id="teamNumber{{type}}" type="text" placeholder="Number (required)" formControlName="number" />
         </div>
-        <validation-message-for field="number">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a number.</span>
-                </div>
-            </validation-message>
-            <validation-message error="pattern">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Value is not a a number.</span>
-                </div>
-            </validation-message>
-            <validation-message error="min">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a number greater than or equal to 1.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="teamName{{type}}">Name</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}"
-                    id="teamName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
+    </div>
+    <validation-message-for field="number">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a number.</span>
             </div>
-        </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Value is not a a number.</span>
+            </div>
+        </validation-message>
+        <validation-message error="min">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a number greater than or equal to 1.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="category{{type}}">Category</label>
-            <div class="col">
-                <select class="form-control" id="category{{type}}" formControlName="category">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="teamName{{type}}">Name</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addTeamForm.get('number'))}" id="teamName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
+        </div>
+    </div>
+    <validation-message-for field="name">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a name.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="category{{type}}">Category</label>
+        <div class="col">
+            <select class="form-control" id="category{{type}}" formControlName="category">
                     <option *ngFor="let category of categorys | enumToArray" [value]="category.index">
                         {{categoryToString(category.index)}}</option>
                 </select>
-            </div>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+    <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">
             <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
@@ -75,11 +60,10 @@
                 Edit team
             </span>
         </button>
-    </form>
-    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
-        {{getErrorText((addBase$ | async).error) }}
-    </div>
-    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
-        {{getErrorText((editBase$ | async).error) }}
-    </div>
+</form>
+<div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+    {{getErrorText((addBase$ | async).error) }}
+</div>
+<div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+    {{getErrorText((editBase$ | async).error) }}
 </div>
