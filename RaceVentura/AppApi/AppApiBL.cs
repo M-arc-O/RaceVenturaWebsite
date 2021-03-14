@@ -107,11 +107,6 @@ namespace RaceVentura.AppApi
         {
             var team = GetTeamByRegisteredId(uniqueId);
 
-            if (team.FinishTime.HasValue)
-            {
-                throw new BusinessException($"Race is ended already for team '{team.TeamId}'", BLErrorCodes.RaceEnded);
-            }
-
             var dateNow = DateTime.Now;
             var race = GetRace(raceId);
             CheckTime(race, dateNow);
@@ -142,6 +137,8 @@ namespace RaceVentura.AppApi
                 throw new BusinessException($"Team with ID '{teamId}' is unknown", BLErrorCodes.NotFound);
             }
 
+            CheckIfTeamHasFinished(team);
+
             return team;
         }
 
@@ -161,7 +158,17 @@ namespace RaceVentura.AppApi
                 throw new BusinessException($"Team with ID '{registeredIds.First().TeamId}' is unknown", BLErrorCodes.NotFound);
             }
 
+            CheckIfTeamHasFinished(team);
+
             return team;
+        }
+
+        private static void CheckIfTeamHasFinished(Team team)
+        {
+            if (team.FinishTime.HasValue)
+            {
+                throw new BusinessException($"Race is ended already for team '{team.TeamId}'", BLErrorCodes.RaceEnded);
+            }
         }
 
         private Stage GetStage(Guid stageId)
