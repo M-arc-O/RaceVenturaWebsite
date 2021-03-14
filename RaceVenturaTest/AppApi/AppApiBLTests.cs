@@ -412,9 +412,9 @@ namespace RaceVenturaTest.AppApi
 
             var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
-            Assert.AreEqual(message, result);
+            Assert.AreEqual(message, result.Message);
 
-            visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Never);
+            visitedPointsRepositoryMock.Verify(r => r.Insert(It.IsAny<VisitedPoint>()), Times.Once);
         }
 
         [TestMethod]
@@ -721,11 +721,14 @@ namespace RaceVenturaTest.AppApi
             stageRepositoryMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(stageId)))).Returns(new Stage { Number = stageNumber });
             _UnitOfWorkMock.Setup(u => u.StageRepository).Returns(stageRepositoryMock.Object);
 
+            var pointType = string.IsNullOrEmpty(answer) ? PointType.CheckPoint : PointType.QuestionCheckPoint;
+
             var pointReposityrMock = new Mock<IGenericRepository<Point>>();
             pointReposityrMock.Setup(r => r.GetByID(It.Is<Guid>(g => g.Equals(pointId)))).Returns(new Point
             {
                 PointId = pointId,
                 StageId = pointStageId,
+                Type = pointType,
                 Latitude = latitude,
                 Longitude = longitude,
                 Message = message,
