@@ -68,9 +68,14 @@ namespace RaceVentura
             return _userManager.FindByNameAsync(userName);
         }
 
-        public Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
+        public async Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
         {
-            return _userManager.CheckPasswordAsync(userToVerify, password);
+            if (userToVerify == null || !(await _userManager.IsEmailConfirmedAsync(userToVerify)))
+            {
+                throw new BusinessException("Email address not confirmed.", BLErrorCodes.EmailNotConfirmed);
+            }
+
+            return await _userManager.CheckPasswordAsync(userToVerify, password);
         }
 
         public async Task ForgotPassword(string emailAddress)
@@ -78,7 +83,7 @@ namespace RaceVentura
             var user = await _userManager.FindByEmailAsync(emailAddress);
             if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
             {
-                throw new BusinessException("Email address not confirmed.", BLErrorCodes.UserUnauthorized);
+                throw new BusinessException("Email address not confirmed.", BLErrorCodes.EmailNotConfirmed);
             }
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);

@@ -42,11 +42,13 @@ export class LoginComponent extends ComponentBase implements OnInit {
         if (this.loginForm.valid) {
             this.loginin = true;
             this.userService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).pipe(
-                map(res => this.userService.setJwtToken(res.auth_token)),
+                map(res => {
+                    this.userService.setJwtToken(res.auth_token);                    
+                    this.loginForm.reset();
+                }),
                 catchError((error: HttpErrorResponse) => of(this.serverError = error.error)),
                 finalize(() => {
                     this.loginin = false;
-                    this.loginForm.reset();
                 })
             ).subscribe();
         } else {
