@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { CarouselService } from 'src/app/components/carousel/carousel.service';
 import { UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
@@ -20,6 +20,7 @@ import { RaceComponentBase } from '../race-component-base.component';
 export class RaceDetailsComponent extends RaceComponentBase implements OnInit, OnChanges {
     @Input() raceId: string;
     
+    public downloading = false;
     public raceTypes = RaceType;
 
     public raceDetails$: Observable<RaceStoreModel>;
@@ -59,27 +60,39 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
     }
 
     public downloadPointsPdf(): void {
-        this.racesDownloadService.downloadPointPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
-            let blob:any = new Blob([response], { type: 'application/pdf' });
-            const url= window.URL.createObjectURL(blob);
-            window.open(url);
-        });
+        this.downloading = true;
+        this.racesDownloadService.downloadPointPdf(this.raceId).pipe(
+            takeUntil(this.unsubscribe$),
+            map(response => {
+                let blob:any = new Blob([response], { type: 'application/pdf' });
+                const url= window.URL.createObjectURL(blob);
+                window.open(url);
+            }),
+            finalize(() => this.downloading = false)).subscribe();
     }
 
     public downloadTeamsPdf(): void {
-        this.racesDownloadService.downloadTeamsPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
-            let blob:any = new Blob([response], { type: 'application/pdf' });
-            const url= window.URL.createObjectURL(blob);
-            window.open(url);
-        });
+        this.downloading = true;
+        this.racesDownloadService.downloadTeamsPdf(this.raceId).pipe(
+            takeUntil(this.unsubscribe$),
+            map(response => {
+                let blob:any = new Blob([response], { type: 'application/pdf' });
+                const url= window.URL.createObjectURL(blob);
+                window.open(url);
+            }),
+            finalize(() => this.downloading = false)).subscribe();
     }
 
     public downloadStagesAndRaceEndPdf(): void {
-        this.racesDownloadService.downloadStagesAndRaceEndPdf(this.raceId).pipe(takeUntil(this.unsubscribe$)).subscribe(response => {
-            let blob:any = new Blob([response], { type: 'application/pdf' });
-            const url= window.URL.createObjectURL(blob);
-            window.open(url);
-        });
+        this.downloading = true;
+        this.racesDownloadService.downloadStagesAndRaceEndPdf(this.raceId).pipe(
+            takeUntil(this.unsubscribe$),
+            map(response => {
+                let blob:any = new Blob([response], { type: 'application/pdf' });
+                const url= window.URL.createObjectURL(blob);
+                window.open(url);
+            }),
+            finalize(() => this.downloading = false)).subscribe();
     }
 
     public RemoveRaceClicked(): void {

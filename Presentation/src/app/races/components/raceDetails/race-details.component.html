@@ -60,15 +60,15 @@
         <div class="col">
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editRaceModal">
                 Edit race information
-              </button>
+            </button>
             <div class="modal fade" id="editRaceModal" tabindex="-1" role="dialog" aria-labelledby="editRaceModalTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title " id="editRaceModalTitle">Edit {{(raceDetails$ | async).name}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <app-race-add [details]="raceDetails$ | async" [type]="addEditType.Edit"></app-race-add>
@@ -79,8 +79,9 @@
         </div>
         <div class="col">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Download QR codes
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="downloading">
+                    <span *ngIf="downloading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Download QR codes
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" (click)="downloadPointsPdf()" href="javascript:void(0)">Points</a>
