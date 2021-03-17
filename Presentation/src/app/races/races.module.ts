@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -12,6 +13,7 @@ import { PointsOverviewComponent } from './components/pointsOverview/points-over
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RaceListComponent } from './components/raceList/race-list.component';
+import { RaceMapComponent } from './components/raceMap/race-map.component';
 import { RaceResultComponent } from './components/raceResult/race-result.component';
 import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-result-wrapper.component';
 import { StageAddComponent } from './components/stageAdd/stage-add.component';
@@ -38,6 +40,7 @@ import { teamsReducers } from './store/reducers/teams';
     RaceAddComponent,
     RaceResultComponent,
     RaceResultWrapperComponent,
+    RaceMapComponent,
     StagesOverviewComponent,
     StageDetailsComponent,
     StageAddComponent,
@@ -52,6 +55,7 @@ import { teamsReducers } from './store/reducers/teams';
     CommonModule,
     ReactiveFormsModule,
     RacesRoutingModule,
+    LeafletModule,
     StoreModule.forFeature('racesFeature', racesReducers),
     StoreModule.forFeature('stagesFeature', stagesReducers),
     StoreModule.forFeature('pointsFeature', pointsReducers),

@@ -37,6 +37,10 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
         this.modalService.open(content, { size: 'xl', scrollable: true });
     }
 
+    public ShowOnMapClicked(): void {
+        this.router.navigate(['/raceMap', this.raceId]);
+    }
+
     public GetRaceDurationString(value: string): string {
         if (value !== null && value !== undefined) {
             let daysAndRest = value.split(`.`);

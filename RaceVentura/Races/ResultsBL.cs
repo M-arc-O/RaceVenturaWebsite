@@ -138,7 +138,9 @@ namespace RaceVentura.Races
                     stageResult.PointResults.Add(new PointResult
                     {
                         Name = point.Name,
-                        Value = point.Value
+                        Value = point.Value,
+                        Latitude = point.Latitude,
+                        Longitude = point.Longitude
                     });
                     stageResult.TotalValue += point.Value;
                 }

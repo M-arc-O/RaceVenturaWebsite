@@ -1,11 +1,16 @@
 <div class="row pb-3">
     <div class="col-2">
         <button type="button" class="btn btn-primary" id="refresh" (click)="refresh()">
-            refresh
+            Refresh
         </button>
     </div>
     <div class="col">
         <h5 class="mt-1">Click on the teams row to get information about all the registered points.</h5>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-secondary float-right" id="refresh" (click)="ShowOnMapClicked()">
+            Show on map
+        </button>
     </div>
 </div>
 <div *ngIf="(raceResult$ | async)" class="row">
