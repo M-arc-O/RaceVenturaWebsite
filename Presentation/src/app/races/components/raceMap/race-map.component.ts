@@ -70,10 +70,10 @@ export class RaceMapComponent extends ComponentBase implements OnInit, AfterView
         });
 
         osm.addTo(this.map);
-
-        const mqi = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-            maxZoom: 18
+        
+        const mqi = L.tileLayer('http://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg90?access_token=pk.eyJ1IjoibS1hcmMtbyIsImEiOiJja21ld2k5ZDEwMXZ6MndrYjU1ejduNzIxIn0.eNEQaWWWAm1iFa0KOJechA', {
+            attribution: '&copy; <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 19
         });
 
         var baseMaps = {
