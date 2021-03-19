@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
+import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
 import { PointDetailViewModel } from '../../shared/models';
 import { deletePointSelector, IPoints, pointsSelector } from '../../store';

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RacesOverviewComponent } from './components/racesOverview/races-overview.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RaceResultWrapperComponent } from './components/raceResultWrapper/race-result-wrapper.component';
+import { RaceAddComponent } from './components/raceAdd/race-add.component';
+import { RaceMapComponent } from './components/raceMap/race-map.component';
 
 const racesRoutes: Routes = [
-    { path: 'races', component: RacesOverviewComponent },
+    { path: 'addRace', component: RaceAddComponent },
     { path: 'raceDetails/:id', component: RaceDetailsComponent },
+    { path: 'raceMap/:id', component: RaceMapComponent },
     { path: "results", component: RaceResultWrapperComponent }
 ];
 

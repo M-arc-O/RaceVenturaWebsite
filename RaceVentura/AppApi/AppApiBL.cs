@@ -42,7 +42,7 @@ namespace RaceVentura.AppApi
             return race.Name;
         }
 
-        public string RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
+        public Point RegisterPoint(Guid raceId, Guid uniqueId, Guid pointId, double latitude, double longitude, string answer)
         {
             var team = GetTeamByRegisteredId(uniqueId);
             var point = GetPoint(pointId);
@@ -58,14 +58,14 @@ namespace RaceVentura.AppApi
             CheckTime(race, dateNow);
             CheckCoordinates(race, point, latitude, longitude);
 
-            if (!string.IsNullOrEmpty(point.Message))
+            if (point.Type == PointType.QuestionCheckPoint)
             {
                 if (string.IsNullOrEmpty(answer.Trim()))
                 {
-                    return point.Message;
+                    return point;
                 }
 
-                if (!point.Answer.Equals(answer.Trim()))
+                if (!point.Answer.ToLower().Trim().Equals(answer.ToLower().Trim()))
                 {
                     throw new BusinessException($"Answer '{answer}' is incorrect.", BLErrorCodes.AnswerIncorrect);
                 }
@@ -79,7 +79,7 @@ namespace RaceVentura.AppApi
             _UnitOfWork.VisitedPointRepository.Insert(new VisitedPoint { TeamId = team.TeamId, PointId = pointId, Time = dateNow });
             _UnitOfWork.Save();
 
-            return "";
+            return point;
         }
 
         public void RegisterStageEnd(Guid raceId, Guid uniqueId, Guid stageId)
@@ -106,11 +106,6 @@ namespace RaceVentura.AppApi
         public void RegisterRaceEnd(Guid raceId, Guid uniqueId)
         {
             var team = GetTeamByRegisteredId(uniqueId);
-
-            if (team.FinishTime.HasValue)
-            {
-                throw new BusinessException($"Race is ended already for team '{team.TeamId}'", BLErrorCodes.RaceEnded);
-            }
 
             var dateNow = DateTime.Now;
             var race = GetRace(raceId);
@@ -142,6 +137,8 @@ namespace RaceVentura.AppApi
                 throw new BusinessException($"Team with ID '{teamId}' is unknown", BLErrorCodes.NotFound);
             }
 
+            CheckIfTeamHasFinished(team);
+
             return team;
         }
 
@@ -161,7 +158,17 @@ namespace RaceVentura.AppApi
                 throw new BusinessException($"Team with ID '{registeredIds.First().TeamId}' is unknown", BLErrorCodes.NotFound);
             }
 
+            CheckIfTeamHasFinished(team);
+
             return team;
+        }
+
+        private static void CheckIfTeamHasFinished(Team team)
+        {
+            if (team.FinishTime.HasValue)
+            {
+                throw new BusinessException($"Race is ended already for team '{team.TeamId}'", BLErrorCodes.RaceEnded);
+            }
         }
 
         private Stage GetStage(Guid stageId)

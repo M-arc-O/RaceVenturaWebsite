@@ -1,11 +1,18 @@
-<app-menu></app-menu>
+<div class="d-flex flex-column sticky-footer-wrapper min-vh-100">
+    <header>
+        <app-menu></app-menu>
+    </header>
 
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
+    <main role="main" class="main flex-fill">
+        <app-carousel *ngIf="showCarousel"></app-carousel>
+        <div class="container pt-2 pb-2">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
 
-<div class="bg-primary text-center">
-  <div class="mx-auto">
-    footer
-  </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <img src="assets/images/RaceVenturaLogo.png" height="45" alt="Race Ventura"> the(!) application to use for <a href="https://en.wikipedia.org/wiki/Adventure_racing" target="_blank">adventure races</a> or scavenger hunts.
+        </div>
+    </footer>
 </div>

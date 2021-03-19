@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of } from "rxjs";
 import { catchError, finalize, map, takeUntil } from "rxjs/operators";
+import { CarouselService } from "src/app/components/carousel/carousel.service";
 import { ComponentBase, UserService } from "src/app/shared";
 
 @Component({
@@ -20,8 +21,10 @@ export class ConfirmEmailComponent extends ComponentBase implements OnInit {
     constructor(
         private route: ActivatedRoute,
         userService: UserService,
+        private carouselService: CarouselService,
         router: Router) {
         super(userService, router);
+        this.carouselService.showCarousel$.next(true);
     }
 
     ngOnInit(): void {

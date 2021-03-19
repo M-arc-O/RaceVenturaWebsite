@@ -8,6 +8,8 @@ import { environment } from '../environments/environment';
 import { AccountModule } from './account/account.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { CarouselService } from './components/carousel/carousel.service';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { NotFoundComponent } from './components/notFound/not-found.component';
@@ -21,7 +23,8 @@ import { HeadersInterceptor } from './shared/interceptors/headers.interceptor';
     AppComponent,
     NotFoundComponent,
     MenuComponent,
-    HomeComponent
+    HomeComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +42,7 @@ import { HeadersInterceptor } from './shared/interceptors/headers.interceptor';
   ],
   providers: [
     UserService,
+    CarouselService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeadersInterceptor,

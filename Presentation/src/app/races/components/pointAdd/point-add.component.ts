@@ -95,19 +95,32 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             value = details.value;
             latitude = details.latitude;
             longitude = details.longitude;
-            answer = details.answer;
             message = details.message;
+            answer = details.answer;
         }
 
         this.addPointForm = formBuilder.group({
             name: [name, [Validators.required]],
             type: [type, [Validators.required]],
-            value: [value, [Validators.required]],
-            latitude: [latitude, [Validators.required]],
-            longitude: [longitude, [Validators.required]],
-            answer: [answer, []],
-            message: [message, []]
+            value: [value, [Validators.required, Validators.pattern(/^[.\d]+$/)]],
+            latitude: [latitude, [Validators.required, Validators.pattern(/^\d+\.\d{1,10}$/)]],
+            longitude: [longitude, [Validators.required, Validators.pattern(/^\d+\.\d{1,10}$/)]],
+            message: [message, []],
+            answer: [answer, []]
         });
+
+        this.addPointForm.get('type').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
+            let stringValidator = [];
+            
+            if (value !== null && value.toString() === PointType.QuestionCheckPoint.toString())
+            {
+                stringValidator = [Validators.required];
+            }
+
+            this.resetFormControl(this.addPointForm.get('message'), stringValidator);
+            this.resetFormControl(this.addPointForm.get('answer'), stringValidator);
+        });
+
     }
 
     public addPointClick(ngFrom: NgForm): void {
@@ -136,6 +149,10 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
         } else {
             this.validateAllFormFields(this.addPointForm);
         }
+    }
+
+    public RemovePointClicked(): void {
+        this.store.dispatch(new pointActions.DeletePointAction(this.details));
     }
 
     public getErrorText(error: HttpErrorResponse): string {

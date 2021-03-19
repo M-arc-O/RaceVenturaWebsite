@@ -21,33 +21,46 @@
     </table>
 </div>
 
-<div class="row">
+<div class="row pb-3">
     <div class="col">
-        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit" [raceId]="selectedTeam.raceId"></app-team-add>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editTeamModel">
+            Edit team
+        </button>
+        <div class="modal fade" id="editTeamModel" tabindex="-1" role="dialog" aria-labelledby="editTeamModelTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTeamModelTitle">Edit {{selectedTeam.name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <app-team-add [details]="selectedTeam" [type]="addEditType.Edit" [raceId]="selectedTeam.raceId"></app-team-add>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col">
         <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeTeamModal">
             Remove team
         </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="removeTeamModal" tabindex="-1" role="dialog" aria-labelledby="removeTeamModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="removeTeamModal" tabindex="-1" role="dialog" aria-labelledby="removeTeamModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="removeTeamModalLabel">Are you sure?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                         <span aria-hidden="true">&times;</span>
+                     </button>
                     </div>
                     <div class="modal-body">
                         Do you really want to remove {{selectedTeam.name}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" (click)="RemoveTeamClicked()"
-                            data-dismiss="modal">Remove</button>
+                        <button type="button" class="btn btn-danger" (click)="RemoveTeamClicked()" data-dismiss="modal">Remove</button>
                     </div>
                 </div>
             </div>
@@ -55,15 +68,15 @@
     </div>
 </div>
 
-<div class="row">
+<!-- Set team finish time -->
+<div class="row pb-3">
     <div class="col">
         <form *ngIf="setFinishTimeForm" [formGroup]="setFinishTimeForm" (submit)="setFinishTimeClick()" role="form">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label" for="finishDate{{selectedTeam.teamId}}">Finish date</label>
                 <div class="col">
                     <div class="input-group">
-                        <input class="form-control" id="finishDate{{selectedTeam.teamId}}" placeholder="dd-mm-yyyy"
-                            name="dpFinishDate" ngbDatepicker #dFinishDate="ngbDatepicker" formControlName="finishDate">
+                        <input class="form-control" id="finishDate{{selectedTeam.teamId}}" placeholder="dd-mm-yyyy" name="dpFinishDate" ngbDatepicker #dFinishDate="ngbDatepicker" formControlName="finishDate">
                         <div class="input-group-append">
                             <button class="btn btn-secondary" (click)="dFinishDate.toggle()" type="button">
                                 <span class="fa fa-calendar" aria-hidden="true"></span>
@@ -88,8 +101,7 @@
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label" for="finishTime{{selectedTeam.teamId}}">Finish time</label>
                 <div class="col">
-                    <input class="form-control" id="finishTime{{selectedTeam.teamId}}" type="text"
-                        placeholder="hh:mm:ss" formControlName="finishTime" />
+                    <input class="form-control" id="finishTime{{selectedTeam.teamId}}" type="text" placeholder="hh:mm:ss" formControlName="finishTime" />
                 </div>
             </div>
             <validation-message-for field="finishTime">
@@ -114,16 +126,15 @@
     </div>
 </div>
 
+<!-- Set team points visited -->
 <div class="row">
     <div class="col">
         <div class="accordion" id="teamStagesAccordion">
             <div *ngFor="let stage of (stages$ | async); let i = index" class="card">
-                <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
-                    [attr.data-target]="'#stageCollapse-' + i" [attr.id]="'stageHeading-' + i">
+                <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" [attr.data-target]="'#stageCollapse-' + i" [attr.id]="'stageHeading-' + i">
                     {{stage.number}} - {{stage.name}}
                 </button>
-                <div [attr.id]="'stageCollapse-' + i" class="collapse" [attr.aria-labelledby]="'stageHeading-' + i"
-                    data-parent="#teamStagesAccordion">
+                <div [attr.id]="'stageCollapse-' + i" class="collapse" [attr.aria-labelledby]="'stageHeading-' + i" data-parent="#teamStagesAccordion">
                     <div class="card-body">
                         <app-team-points [stageId]="stage.stageId" [teamId]="selectedTeam.teamId"></app-team-points>
                     </div>

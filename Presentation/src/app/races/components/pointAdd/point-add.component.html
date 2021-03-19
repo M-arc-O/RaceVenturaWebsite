@@ -1,108 +1,104 @@
-<p>
-    <a class="btn btn-secondary" data-toggle="collapse" href="#openPointForm{{type}}" role="button"
-        aria-expanded="false" attr.aria-controls="openPointForm{{type}}">
-        <span *ngIf="type === addEditType.Add">
-            Add point
-        </span>
-        <span *ngIf="type === addEditType.Edit">
-            Edit point
-        </span>
-    </a>
-</p>
-<div class="collapse" id="openPointForm{{type}}">
-    <form *ngIf="addPointForm" [formGroup]="addPointForm" (submit)="addPointClick(addPointNgForm)"
-        #addPointNgForm="ngForm" role="form">
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="pointName{{type}}">Name</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('name'))}"
-                    id="pointName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
-            </div>
+<form *ngIf="addPointForm" [formGroup]="addPointForm" (submit)="addPointClick(addPointNgForm)" #addPointNgForm="ngForm" role="form">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="pointName{{type}}">Name</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('name'))}" id="pointName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
         </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+    </div>
+    <validation-message-for field="name">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a name.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
-            <div class="col">
-                <select class="form-control" id="type{{type}}" formControlName="type">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
+        <div class="col">
+            <select class="form-control" id="type{{type}}" formControlName="type">
                     <option *ngFor="let type of pointTypes | enumToArray" [value]="type.index">
                         {{pointTypeToString(type.index)}}</option>
                 </select>
-            </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="value{{type}}">Value</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('value'))}"
-                    id="value{{type}}" type="text" placeholder="Value (required)" formControlName="value" />
-            </div>
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="value{{type}}">Value</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('value'))}" id="value{{type}}" type="text" placeholder="Value (required)" formControlName="value" />
         </div>
-        <validation-message-for field="value">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a value.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="latitude{{type}}">Latitude</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('latitude'))}"
-                    id="latitude{{type}}" type="text" placeholder="xx.xxx (required)" formControlName="latitude" />
+    </div>
+    <validation-message-for field="value">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a value.</span>
             </div>
-        </div>
-        <validation-message-for field="latitude">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the latitude.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="longitude{{type}}">Longitude</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('longitude'))}"
-                    id="longitude{{type}}" type="text" placeholder="xx.xxx (required)" formControlName="longitude" />
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a valid value.</span>
             </div>
-        </div>
-        <validation-message-for field="longitude">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the longitude.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="message{{type}}">Message</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('message'))}"
-                    id="message{{type}}" type="text" placeholder="Message (Optional)" formControlName="message" />
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="latitude{{type}}">Latitude</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('latitude'))}" id="latitude{{type}}" type="text" placeholder="xx.xxx (required)" formControlName="latitude" />
+        </div>
+    </div>
+    <validation-message-for field="latitude">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter the latitude.</span>
             </div>
-        </div>
-        <validation-message-for field="message">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the message.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a valid latitude.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
 
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="longitude{{type}}">Longitude</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('longitude'))}" id="longitude{{type}}" type="text" placeholder="xx.xxx (required)" formControlName="longitude" />
+        </div>
+    </div>
+    <validation-message-for field="longitude">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter the longitude.</span>
+            </div>
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a valid longitude.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="message{{type}}">Message</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('message'))}" id="message{{type}}" type="text" placeholder="Message (Optional)" formControlName="message" />
+        </div>
+    </div>
+    <validation-message-for field="message">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter the message/question.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div *ngIf="addPointForm.get('type').value.toString() === pointTypes.QuestionCheckPoint.toString()">
         <div class="form-group row">
             <label class="col-sm-6 col-form-label" for="answer{{type}}">Answer</label>
             <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('answer'))}"
-                    id="answer{{type}}" type="text" placeholder="Answer (Optional)" formControlName="answer" />
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addPointForm.get('answer'))}" id="answer{{type}}" type="text" placeholder="Answer (Optional)" formControlName="answer" />
             </div>
         </div>
         <validation-message-for field="answer">
@@ -112,25 +108,51 @@
                 </div>
             </validation-message>
         </validation-message-for>
+    </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+    <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)">
-            <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
+        <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
                 role="status" aria-hidden="true"></span>
-            <span *ngIf="type === addEditType.Add">
-                Add point
-            </span>
-            <span *ngIf="type === addEditType.Edit">
-                Edit point
-            </span>
-        </button>
-    </form>
+        <span *ngIf="type === addEditType.Add">
+            Add point
+        </span>
+        <span *ngIf="type === addEditType.Edit">
+            Edit point
+        </span>
+    </button>
+    <button *ngIf="type === addEditType.Edit" type="button" class="btn btn-danger float-right float-bottom" data-toggle="modal" data-target="#removePointModal">
+        Remove point
+    </button>
+</form>
 
-    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
-        {{getErrorText((addBase$ | async).error) }}
-    </div>
-    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
-        {{getErrorText((editBase$ | async).error) }}
+<div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+    {{getErrorText((addBase$ | async).error) }}
+</div>
+<div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+    {{getErrorText((editBase$ | async).error) }}
+</div>
+
+<!-- Modal -->
+<div *ngIf="type === addEditType.Edit">
+    <div class="modal fade" id="removePointModal" tabindex="-1" role="dialog" aria-labelledby="removePointModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removePointModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really want to remove {{details.name}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" (click)="RemovePointClicked()" data-dismiss="modal">Remove</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

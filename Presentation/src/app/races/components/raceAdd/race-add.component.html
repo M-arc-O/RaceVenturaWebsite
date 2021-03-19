@@ -1,131 +1,127 @@
-<p>
-    <a class="btn btn-secondary" data-toggle="collapse" href="#openForm{{type}}" role="button" aria-expanded="false"
-        attr.aria-controls="openForm{{type}}">
-        <span *ngIf="type === addEditType.Add">
-            Add race
-        </span>
-        <span *ngIf="type === addEditType.Edit">
-            Edit race
-        </span>
-    </a>
-</p>
-<div class="collapse" id="openForm{{type}}">
-    <form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick(addRaceNgForm)" #addRaceNgForm="ngForm"
-        role="form">
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="raceName{{type}}">Name</label>
-            <div class="col">
-                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('name'))}"
-                    id="raceName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
-            </div>
+<form *ngIf="addRaceForm" [formGroup]="addRaceForm" (submit)="addRaceClick(addRaceNgForm)" #addRaceNgForm="ngForm" role="form">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="raceName{{type}}">Name</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('name'))}" id="raceName{{type}}" type="text" placeholder="Name (required)" formControlName="name" />
         </div>
-        <validation-message-for field="name">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a name.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+    </div>
+    <validation-message-for field="name">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a name.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
-            <div class="col">
-                <select class="form-control" id="type{{type}}" formControlName="type">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="type{{type}}">Type</label>
+        <div class="col">
+            <select class="form-control" id="type{{type}}" formControlName="type">
                     <option *ngFor="let type of raceTypes | enumToArray" [value]="type.index">
                         {{raceTypeToString(type.index)}}</option>
                 </select>
-            </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-sm-6"></div>
-            <div class="col">
-                <div class="form-check">
-                    <input class="form-check-input" id="checkCoordinates{{type}}" type="checkbox"
-                        formControlName="checkCoordinates">
-                    <label class="form-check-label" for="checkCoordinates{{type}}">
+    <div class="form-group row">
+        <div class="col-sm-6"></div>
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" id="checkCoordinates{{type}}" type="checkbox" formControlName="checkCoordinates">
+                <label class="form-check-label" for="checkCoordinates{{type}}">
                         Check GPS coordinates
                     </label>
-                </div>
             </div>
         </div>
+    </div>
 
-        <div *ngIf="addRaceForm.get('checkCoordinates').value">
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="allowedCoordinatesDeviation{{type}}">Maximum coordinate
-                    deviation.</label>
-                <div class="col">
-                    <input class="form-control"
-                        [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('allowedCoordinatesDeviation'))}"
-                        id="allowedCoordinatesDeviation{{type}}" type="text" placeholder="1 (required)"
-                        formControlName="allowedCoordinatesDeviation" />
-                </div>
-            </div>
-
-            <validation-message-for field="allowedCoordinatesDeviation">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the maximum coordinate deviation.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="pattern">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a positive number.</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
-        </div>
-
+    <div *ngIf="addRaceForm.get('checkCoordinates').value">
         <div class="form-group row">
-            <div class="col-sm-6"></div>
+            <label class="col-sm-6 col-form-label" for="allowedCoordinatesDeviation{{type}}">Maximum coordinate
+                    deviation.</label>
             <div class="col">
-                <div class="form-check">
-                    <input class="form-check-input" id="specialTasksAreStage{{type}}" type="checkbox"
-                        formControlName="specialTasksAreStage">
-                    <label class="form-check-label" for="specialTasksAreStage{{type}}">
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('allowedCoordinatesDeviation'))}" id="allowedCoordinatesDeviation{{type}}" type="text" placeholder="1 (required)" formControlName="allowedCoordinatesDeviation" />
+            </div>
+        </div>
+
+        <validation-message-for field="allowedCoordinatesDeviation">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter the maximum coordinate deviation.</span>
+                </div>
+            </validation-message>
+            <validation-message error="pattern">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a positive number.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-6"></div>
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" id="specialTasksAreStage{{type}}" type="checkbox" formControlName="specialTasksAreStage">
+                <label class="form-check-label" for="specialTasksAreStage{{type}}">
                         Special tasks are a stage
                     </label>
-                </div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="maximumTeamSize{{type}}">Maximum team size</label>
-            <div class="col">
-                <input class="form-control"
-                    [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maximumTeamSize'))}"
-                    id="maximumTeamSize{{type}}" type="text" placeholder="1 (required)"
-                    formControlName="maximumTeamSize" />
-            </div>
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="maximumTeamSize{{type}}">Maximum team size</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maximumTeamSize'))}" id="maximumTeamSize{{type}}" type="text" placeholder="1 (required)" formControlName="maximumTeamSize" />
         </div>
-        <validation-message-for field="maximumTeamSize">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the maximum team size.</span>
-                </div>
-            </validation-message>
-            <validation-message error="pattern">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter a positive number.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
+    </div>
+    <validation-message-for field="maximumTeamSize">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter the maximum team size.</span>
+            </div>
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a positive number.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
 
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="minimumPointsToCompleteStage{{type}}">Minimum points to complete
                 a stage</label>
+        <div class="col">
+            <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('minimumPointsToCompleteStage'))}" id="minimumPointsToCompleteStage{{type}}" type="text" placeholder="1 (required)" formControlName="minimumPointsToCompleteStage" />
+        </div>
+    </div>
+    <validation-message-for field="minimumPointsToCompleteStage">
+        <validation-message error="required">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter the minimum points needed to complete a
+                        stage.</span>
+            </div>
+        </validation-message>
+        <validation-message error="pattern">
+            <div class="form-group row">
+                <span class="text-danger offset-sm-6">Please enter a positive number.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute
+                    late</label>
             <div class="col">
-                <input class="form-control"
-                    [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('minimumPointsToCompleteStage'))}"
-                    id="minimumPointsToCompleteStage{{type}}" type="text" placeholder="1 (required)"
-                    formControlName="minimumPointsToCompleteStage" />
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('penaltyPerMinuteLate'))}" id="penaltyPerMinuteLate{{type}}" type="text" placeholder="0 (required)" formControlName="penaltyPerMinuteLate" />
             </div>
         </div>
-        <validation-message-for field="minimumPointsToCompleteStage">
+        <validation-message-for field="penaltyPerMinuteLate">
             <validation-message error="required">
                 <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the minimum points needed to complete a
-                        stage.</span>
+                    <span class="text-danger offset-sm-6">Please enter the penalty per minute late.</span>
                 </div>
             </validation-message>
             <validation-message error="pattern">
@@ -134,153 +130,116 @@
                 </div>
             </validation-message>
         </validation-message-for>
+    </div>
 
-        <div
-            *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="penaltyPerMinuteLate{{type}}">Penalty per minute
-                    late</label>
-                <div class="col">
-                    <input class="form-control"
-                        [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('penaltyPerMinuteLate'))}"
-                        id="penaltyPerMinuteLate{{type}}" type="text" placeholder="0 (required)"
-                        formControlName="penaltyPerMinuteLate" />
-                </div>
-            </div>
-            <validation-message-for field="penaltyPerMinuteLate">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the penalty per minute late.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="pattern">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a positive number.</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="pointInformationText{{type}}">Point information text</label>
-            <div class="col">
-                <textarea class="form-control"
-                    [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('pointInformationText'))}"
-                    id="pointInformationText{{type}}" type="text"
-                    placeholder="Information text that will be printed with the point QR code. (required)"
-                    formControlName="pointInformationText">
+    <div class="form-group row">
+        <label class="col-sm-6 col-form-label" for="pointInformationText{{type}}">Point information text</label>
+        <div class="col">
+            <textarea class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('pointInformationText'))}" id="pointInformationText{{type}}" type="text" placeholder="Information text that will be printed with the point QR code. (required)" formControlName="pointInformationText">
                 </textarea>
-            </div>
         </div>
-        <validation-message-for field="pointInformationText">
-            <validation-message error="required">
-                <div class="form-group row">
-                    <span class="text-danger offset-sm-6">Please enter the point information text.</span>
-                </div>
-            </validation-message>
-        </validation-message-for>
-
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+    </div>
+    <validation-message-for field="pointInformationText">
+        <validation-message error="required">
             <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
-                <div class="col">
-                    <div class="input-group">
-                        <input class="form-control"
-                            [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('startDate'))}"
-                            id="startDate{{type}}" placeholder="dd-mm-yyyy" name="dpStartDate" ngbDatepicker
-                            #dStartDate="ngbDatepicker" formControlName="startDate">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" (click)="dStartDate.toggle()" type="button">
+                <span class="text-danger offset-sm-6">Please enter the point information text.</span>
+            </div>
+        </validation-message>
+    </validation-message-for>
+
+    <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="startDate{{type}}">Start date</label>
+            <div class="col">
+                <div class="input-group">
+                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('startDate'))}" id="startDate{{type}}" placeholder="dd-mm-yyyy" name="dpStartDate" ngbDatepicker #dStartDate="ngbDatepicker" formControlName="startDate">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" (click)="dStartDate.toggle()" type="button">
                                 <span class="fa fa-calendar" aria-hidden="true"></span>
                             </button>
-                        </div>
                     </div>
                 </div>
             </div>
-            <validation-message-for field="startDate">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the start date.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="ngbDate">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a valid start date (dd-mm-yyyy).</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
         </div>
-
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="startTime{{type}}">Start time</label>
-                <div class="col">
-                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('startTime'))}"
-                        id="startTime{{type}}" type="text" placeholder="hh:mm" formControlName="startTime" />
+        <validation-message-for field="startDate">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter the start date.</span>
                 </div>
-            </div>
-            <validation-message-for field="startTime">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the start time.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="incorrectTime">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a correct time (hh:mm).</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
-        </div>
+            </validation-message>
+            <validation-message error="ngbDate">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a valid start date (dd-mm-yyyy).</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+    </div>
 
-        <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="maxDurationHours{{type}}">Maximum duration (hours and
+    <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString()">
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="startTime{{type}}">Start time</label>
+            <div class="col">
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('startTime'))}" id="startTime{{type}}" type="text" placeholder="hh:mm" formControlName="startTime" />
+            </div>
+        </div>
+        <validation-message-for field="startTime">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter the start time.</span>
+                </div>
+            </validation-message>
+            <validation-message error="incorrectTime">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a correct time (hh:mm).</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+    </div>
+
+    <div *ngIf="addRaceForm.get('type').value.toString() === raceTypes.Classic.toString() || addRaceForm.get('type').value.toString() === raceTypes.TimeLimit.toString()">
+        <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="maxDurationHours{{type}}">Maximum duration (hours and
                     minutes)</label>
-                <div class="col">
-                    <input class="form-control"
-                        [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maxDurationHours'))}"
-                        id="maxDurationHours{{type}}" type="text" placeholder="hh" formControlName="maxDurationHours" />
-                </div>
-                <div class="col">
-                    <input class="form-control"
-                        [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maxDurationMinutes'))}"
-                        id="maxDurationMinutes{{type}}" type="text" placeholder="mm" formControlName="maxDurationMinutes" />
-                </div>                
+            <div class="col">
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maxDurationHours'))}" id="maxDurationHours{{type}}" type="text" placeholder="hh" formControlName="maxDurationHours" />
             </div>
-            <validation-message-for field="maxDurationHours">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the maximum duration hours.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="pattern">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a positive number.</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
-
-            <validation-message-for field="maxDurationMinutes">
-                <validation-message error="required">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter the maximum duration minutes.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="pattern">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a positive number.</span>
-                    </div>
-                </validation-message>
-                <validation-message error="max">
-                    <div class="form-group row">
-                        <span class="text-danger offset-sm-6">Please enter a number smaller than 59.</span>
-                    </div>
-                </validation-message>
-            </validation-message-for>
+            <div class="col">
+                <input class="form-control" [ngClass]="{'is-invalid': isControlValid(addRaceForm.get('maxDurationMinutes'))}" id="maxDurationMinutes{{type}}" type="text" placeholder="mm" formControlName="maxDurationMinutes" />
+            </div>
         </div>
+        <validation-message-for field="maxDurationHours">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter the maximum duration hours.</span>
+                </div>
+            </validation-message>
+            <validation-message error="pattern">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a positive number.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
 
-        <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
+        <validation-message-for field="maxDurationMinutes">
+            <validation-message error="required">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter the maximum duration minutes.</span>
+                </div>
+            </validation-message>
+            <validation-message error="pattern">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a positive number.</span>
+                </div>
+            </validation-message>
+            <validation-message error="max">
+                <div class="form-group row">
+                    <span class="text-danger offset-sm-6">Please enter a number smaller than 59.</span>
+                </div>
+            </validation-message>
+        </validation-message-for>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="(type === addEditType.Add && (addBase$ | async).isActive) || 
         (type === addEditType.Edit && (editBase$ | async).isActive)">
             <span *ngIf="(type === addEditType.Add && (addBase$ | async).isActive) || 
             (type === addEditType.Edit && (editBase$ | async).isActive)" class="spinner-border spinner-border-sm"
@@ -293,11 +252,10 @@
             </span>
         </button>
 
-        <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
-            {{getErrorText((addBase$ | async).error) }}
-        </div>
-        <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
-            {{getErrorText((editBase$ | async).error) }}
-        </div>
-    </form>
-</div>
+    <div *ngIf="type === addEditType.Add && (addBase$ | async).error">
+        {{getErrorText((addBase$ | async).error) }}
+    </div>
+    <div *ngIf="type === addEditType.Edit && (editBase$ | async).error">
+        {{getErrorText((editBase$ | async).error) }}
+    </div>
+</form>

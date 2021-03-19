@@ -1,9 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CarouselService } from '../components/carousel/carousel.service';
 
 @Component({
     selector: 'app-base',
@@ -32,6 +33,17 @@ export abstract class ComponentBase implements OnDestroy {
                 this.validateAllFormFields(control);
             }
         });
+    }
+
+    public isControlValid(control: FormControl): boolean {
+        return (control.dirty || control.touched) && control.invalid;
+    }
+
+    protected resetFormControl(control: AbstractControl, validators: ValidatorFn[]) {
+        control.clearValidators();
+        control.setErrors(null);
+        control.setValidators(validators);
+        control.setValue(null);
     }
 
     protected getDate(date: string, time: string): Date {
@@ -73,10 +85,6 @@ export abstract class ComponentBase implements OnDestroy {
         }
 
         return '';
-    }
-
-    public isControlValid(control: FormControl): boolean {
-        return (control.dirty || control.touched) && control.invalid;
     }
 
     handleError(error: HttpErrorResponse) {

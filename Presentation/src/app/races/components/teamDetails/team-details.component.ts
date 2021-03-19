@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
+import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
 import { StageStoreModel, TeamStoreModel } from '../../shared/models';
 import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';

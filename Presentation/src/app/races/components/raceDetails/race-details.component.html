@@ -1,29 +1,6 @@
 <div *ngIf="(raceDetailsLoad$ | async).success; else raceLoading">
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary" (click)="downloadPointsPdf()">
-                <span>
-                    Download points pdf
-                </span>
-            </button>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary" (click)="downloadTeamsPdf()">
-                <span>
-                    Download teams pdf
-                </span>
-            </button>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary" (click)="downloadStagesAndRaceEndPdf()">
-                <span>
-                    Download stages and race end pdf
-                </span>
-            </button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -56,8 +33,8 @@
                             <td>{{(raceDetails$ | async).name}}</td>
                             <td>{{raceTypeToString((raceDetails$ | async).raceType)}}</td>
                             <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ |
-                                async).allowedCoordinatesDeviation}}</td>
+                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ | async).allowedCoordinatesDeviation}}
+                            </td>
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
                             <td>{{(raceDetails$ | async).minimumPointsToCompleteStage}}</td>
@@ -79,33 +56,59 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row pb-3">
         <div class="col">
-            <app-race-add [details]="raceDetails$ | async" [type]="addEditType.Edit"></app-race-add>
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editRaceModal">
+                Edit race information
+            </button>
+            <div class="modal fade" id="editRaceModal" tabindex="-1" role="dialog" aria-labelledby="editRaceModalTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title " id="editRaceModalTitle">Edit {{(raceDetails$ | async).name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <app-race-add [details]="raceDetails$ | async" [type]="addEditType.Edit"></app-race-add>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="downloading">
+                    <span *ngIf="downloading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Download QR codes
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="downloadPointsPdf()" href="javascript:void(0)">Points</a>
+                    <a class="dropdown-item" (click)="downloadTeamsPdf()" href="javascript:void(0)">Teams</a>
+                    <a class="dropdown-item" (click)="downloadStagesAndRaceEndPdf()" href="javascript:void(0)">Stage and race ends</a>
+                </div>
+            </div>
         </div>
         <div class="col">
             <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeRaceModal">
                 Remove race
             </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="removeRaceModal" tabindex="-1" role="dialog"
-                aria-labelledby="removeRaceModalLabel" aria-hidden="true">
+            <div class="modal fade " id="removeRaceModal" tabindex="-1 " role="dialog" aria-labelledby="removeRaceModalLabel" aria-hidden="true ">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="removeRaceModalLabel">Are you sure?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                         </div>
                         <div class="modal-body">
                             Do you really want to remove {{(raceDetails$ | async).name}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" (click)="RemoveRaceClicked()"
-                                data-dismiss="modal">Remove</button>
+                            <button type="button" class="btn btn-danger" (click)="RemoveRaceClicked()" data-dismiss="modal">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -117,36 +120,30 @@
         <div class="col">
             <div class="accordion" id="raceAccordion">
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
-                        data-target="#StagesCollapse" id="raceHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#StagesCollapse" id="raceHeading">
                         Stages
                     </button>
-                    <div id="StagesCollapse" class="collapse" aria-labelledby="raceHeading"
-                        data-parent="#raceAccordion">
+                    <div id="StagesCollapse" class="collapse" aria-labelledby="raceHeading" data-parent="#raceAccordion">
                         <div class="card-body">
                             <app-stages-overview [raceId]=raceId></app-stages-overview>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
-                        data-target="#teamsCollapse" id="teamsHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#teamsCollapse" id="teamsHeading">
                         Teams
                     </button>
-                    <div id="teamsCollapse" class="collapse" aria-labelledby="teamsHeading"
-                        data-parent="#raceAccordion">
+                    <div id="teamsCollapse" class="collapse" aria-labelledby="teamsHeading" data-parent="#raceAccordion">
                         <div class="card-body">
                             <app-teams-overview [raceId]=raceId></app-teams-overview>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
-                        data-target="#resultsCollapse" id="resultsHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#resultsCollapse" id="resultsHeading">
                         Results
                     </button>
-                    <div id="resultsCollapse" class="collapse" aria-labelledby="resultsHeading"
-                        data-parent="#raceAccordion">
+                    <div id="resultsCollapse" class="collapse" aria-labelledby="resultsHeading" data-parent="#raceAccordion">
                         <div class="card-body">
                             <app-race-result [raceId]="raceId"></app-race-result>
                         </div>

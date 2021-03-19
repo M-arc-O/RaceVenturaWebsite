@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using RaceVenturaData.Models.Races;
 
 namespace RaceVenturaAPITest.Controllers.Races
 {
@@ -86,13 +87,13 @@ namespace RaceVenturaAPITest.Controllers.Races
                 It.IsAny<Guid>(),
                 It.IsAny<double>(),
                 It.IsAny<double>(),
-                It.IsAny<string>())).Returns(question);
+                It.IsAny<string>())).Returns(new Point { Message = question });
 
             var result = _Sut.RegisterPoint(viewModel);
 
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.AreEqual(viewModel, (result as OkObjectResult).Value);
-            Assert.AreEqual(question, ((RegisterPointViewModel)(result as OkObjectResult).Value).Question);
+            Assert.AreEqual(question, ((RegisterPointViewModel)(result as OkObjectResult).Value).Message);
         }
 
         [TestMethod]

@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using RaceVenturaAPI.Auth;
 using RaceVenturaAPI.Helpers;
 using RaceVenturaAPI.ViewModels.Identity;
-using RaceVenturaData.Models.Identity;
 using RaceVentura;
 using System;
 using Microsoft.Extensions.Logging;
+using RaceVenturaAPI.ViewModels;
 
 namespace RaceVenturaAPI.Controllers
 {
@@ -45,11 +45,15 @@ namespace RaceVenturaAPI.Controllers
                 var identity = await GetClaimsIdentity(credentials.Email, credentials.Password);
                 if (identity == null)
                 {
-                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                    return BadRequest(ErrorCodes.UserUnauthorized);
                 }
 
                 var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
                 return new OkObjectResult(jwt);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest((ErrorCodes)ex.ErrorCode);
             }
             catch (Exception ex)
             {

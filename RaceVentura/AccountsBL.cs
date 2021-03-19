@@ -35,12 +35,7 @@ namespace RaceVentura
 
             if (result.Succeeded)
             {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(userIdentity);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                var url = $"{_configuration.GetValue<string>("WebsiteUrl")}/confirmemail/{code}/{userIdentity.Email}";
-                await _emailSender.SendEmailAsync(userIdentity.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{url}'>clicking here</a>.<br/>After confirming your email address use the forgot password option to set your password.");
+                await SendConfirmEmail(userIdentity, "Confirm your email");
             }
 
             return result;
@@ -68,9 +63,15 @@ namespace RaceVentura
             return _userManager.FindByNameAsync(userName);
         }
 
-        public Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
+        public async Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
         {
-            return _userManager.CheckPasswordAsync(userToVerify, password);
+            if (userToVerify == null || !(await _userManager.IsEmailConfirmedAsync(userToVerify)))
+            {
+                await SendConfirmEmail(userToVerify, "Login attempt, Confirm your email");
+                throw new BusinessException("Email address not confirmed.", BLErrorCodes.EmailNotConfirmed);
+            }
+
+            return await _userManager.CheckPasswordAsync(userToVerify, password);
         }
 
         public async Task ForgotPassword(string emailAddress)
@@ -78,7 +79,7 @@ namespace RaceVentura
             var user = await _userManager.FindByEmailAsync(emailAddress);
             if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
             {
-                throw new BusinessException("Email address not confirmed.", BLErrorCodes.UserUnauthorized);
+                throw new BusinessException("Email address not confirmed.", BLErrorCodes.EmailNotConfirmed);
             }
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -107,6 +108,16 @@ namespace RaceVentura
             var result = await _userManager.ResetPasswordAsync(user, token, password);
 
             return result;
+        }
+
+        private async Task SendConfirmEmail(AppUser userIdentity, string title)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(userIdentity);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var url = $"{_configuration.GetValue<string>("WebsiteUrl")}/confirmemail/{code}/{userIdentity.Email}";
+            await _emailSender.SendEmailAsync(userIdentity.Email, title,
+                $"Please confirm your account by <a href='{url}'>clicking here</a>.<br/>After confirming your email address use the forgot password option to set your password.");
         }
     }
 }

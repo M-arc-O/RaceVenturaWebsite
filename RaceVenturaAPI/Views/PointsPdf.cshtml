@@ -3,35 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Points information for @Model.Name</title>
+    <style>
+        body {
+            position: relative;
+        }
+
+        .page {
+            position: relative;
+            page-break-inside: avoid;
+        }
+    </style>
 </head>
 <body>
     <div class="row">
-        <h1>Points information for @Model.Name</h1>
+        <h1 class="m-5">Points information for @Model.Name</h1>
     </div>
     @foreach (var stage in Model.Stages)
     {
-        <p>
-            @foreach (var point in stage.Points)
-            {
-                <div class="row mt-4">
-                    <h3>Stage @stage.Number (@stage.Name) - @point.Name</h3>
-                </div>
+        @foreach (var point in stage.Points)
+        {
+            <div class="page m-5">
                 <div class="row">
                     <div class="col">
-                        <img class="avatar" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="100" width="100" />
-                    </div>
-                    <div class="col">
-                        @Model.PointInformationText
-                    </div>
-                    <div class="col">
-                        <img class="qrcode" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="100" width="100" />
+                        <h3>Stage @stage.Number (@stage.Name) - @point.Name</h3>
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-            }
-        </p>
+                <div class="row">
+                    <div class="col-3">
+                        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="150" width="150" />
+                    </div>
+                    <div class="col-6">
+                        @Model.PointInformationText
+                    </div>
+                    <div class="col-3">
+                        <img class="float-right" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="150" width="150" />
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-3"></div>
+                    <div class="col">
+                        Powered by Race Ventura: raceventura.nl
+                    </div>
+                </div>
+            </div>
+        }
     }
 </body>
 </html>

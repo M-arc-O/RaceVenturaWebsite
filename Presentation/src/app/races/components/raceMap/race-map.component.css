@@ -1,0 +1,13 @@
+.map-list {
+    max-height: 75vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.map-frame {
+    border: 1px solid black;
+}
+
+#map {
+    height: 100%;
+}
