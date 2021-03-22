@@ -24,8 +24,8 @@ namespace RaceVentura.Races
 
             entity.ActiveStage = 1;
 
-            _UnitOfWork.TeamRepository.Insert(entity);
-            _UnitOfWork.Save();
+            _unitOfWork.TeamRepository.Insert(entity);
+            _unitOfWork.Save();
         }
 
         public void Edit(Guid userId, Team newEntity)
@@ -47,21 +47,21 @@ namespace RaceVentura.Races
             team.Category = newEntity.Category;
             team.FinishTime = newEntity.FinishTime;
 
-            _UnitOfWork.TeamRepository.Update(team);
-            _UnitOfWork.Save();
+            _unitOfWork.TeamRepository.Update(team);
+            _unitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid entityId)
         {
             GetAndCheckTeam(userId, entityId);
 
-            _UnitOfWork.TeamRepository.Delete(entityId);
-            _UnitOfWork.Save();
+            _unitOfWork.TeamRepository.Delete(entityId);
+            _unitOfWork.Save();
         }        
 
         private void CheckIfTeamNameExists(Team team)
         {
-            if (_UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper())))
+            if (_unitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Name.ToUpper().Equals(team.Name.ToUpper())))
             {
                 throw new BusinessException($"A team with name '{team.Name}' already exists.", BLErrorCodes.Duplicate);
             }
@@ -69,7 +69,7 @@ namespace RaceVentura.Races
 
         private void CheckIfTeamNumberExists(Team team)
         {
-            if (_UnitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number))
+            if (_unitOfWork.TeamRepository.Get(t => t.RaceId == team.RaceId).Any(t => t.Number == team.Number))
             {
                 throw new BusinessException($"A team with number '{team.Number}' already exists.", BLErrorCodes.Duplicate);
             }

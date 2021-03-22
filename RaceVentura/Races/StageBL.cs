@@ -21,8 +21,8 @@ namespace RaceVentura.Races
             CheckUserIsAuthorizedForRace(userId, entity.RaceId, RaceAccessLevel.ReadWrite);
             CheckIfStageNumberExists(entity);
             
-            _UnitOfWork.StageRepository.Insert(entity);
-            _UnitOfWork.Save();
+            _unitOfWork.StageRepository.Insert(entity);
+            _unitOfWork.Save();
         }
 
         public void Edit(Guid userId, Stage newEntity)
@@ -38,21 +38,21 @@ namespace RaceVentura.Races
             stage.Number = newEntity.Number;
             stage.MimimumPointsToCompleteStage = newEntity.MimimumPointsToCompleteStage;
 
-            _UnitOfWork.StageRepository.Update(stage);
-            _UnitOfWork.Save();
+            _unitOfWork.StageRepository.Update(stage);
+            _unitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid entityId)
         {
             GetAndCheckStage(userId, entityId);
 
-            _UnitOfWork.StageRepository.Delete(entityId);
-            _UnitOfWork.Save();
+            _unitOfWork.StageRepository.Delete(entityId);
+            _unitOfWork.Save();
         }
 
         private void CheckIfStageNumberExists(Stage stage)
         {
-            if (_UnitOfWork.StageRepository.Get(s => s.RaceId == stage.RaceId).Any(s => s.Number == stage.Number))
+            if (_unitOfWork.StageRepository.Get(s => s.RaceId == stage.RaceId).Any(s => s.Number == stage.Number))
             {
                 throw new BusinessException($"A stage with number '{stage.Number}' already exists.", BLErrorCodes.Duplicate);
             }

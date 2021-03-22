@@ -1,17 +1,17 @@
-﻿using RaceVentura.AppApi;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.DependencyInjection;
+using RaceVentura.AppApi;
+using RaceVentura.PdfGeneration;
 using RaceVentura.Races;
+using RaceVentura.Services;
 using RaceVenturaData;
 using RaceVenturaData.Models.Races;
-using Microsoft.Extensions.DependencyInjection;
-using RaceVentura.PdfGeneration;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using RaceVentura.Services;
 
-namespace RaceVentura.Helpers
+namespace RaceVentura.Extensions
 {
-    public class BLHelper
-    {
-        public static void AddBLs(IServiceCollection services)
+    public static class BusinessExtensions
+    {        
+        public static void AddBLs(this IServiceCollection services)
         {
             services.AddScoped<IRaceVenturaUnitOfWork, RaceVenturaUnitOfWork>();
             services.AddScoped<IAccountBL, AccountsBL>();
@@ -21,7 +21,10 @@ namespace RaceVentura.Helpers
             services.AddScoped<IGenericCudBL<Team>, TeamBL>();
             services.AddScoped<IGenericCudBL<VisitedPoint>, VisitedPointBL>();
             services.AddScoped<IResultsBL, ResultsBL>();
+            services.AddScoped<IRaceAccessBL, RaceAccessBL>();
+
             services.AddScoped<IAppApiBL, AppApiBL>();
+
             services.AddScoped<IHtmlToPdfBL, HtmlToPdfBL>();
             services.AddScoped<IRazorToHtml, RazorToHtml>();
 

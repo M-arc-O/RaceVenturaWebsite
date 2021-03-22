@@ -16,7 +16,7 @@ namespace RaceVentura.Races
 
         protected Stage GetStage(Guid stageId)
         {
-            var stage = _UnitOfWork.StageRepository.GetByID(stageId);
+            var stage = _unitOfWork.StageRepository.GetByID(stageId);
             if (stage == null)
             {
                 throw new BusinessException($"Stage with ID '{stageId}' is unknown", BLErrorCodes.NotFound);

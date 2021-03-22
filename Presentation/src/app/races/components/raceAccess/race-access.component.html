@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col">
+        <form *ngIf="raceAccessForm" [formGroup]="raceAccessForm" (submit)="addRaceAccessClick(addAccessNgForm)"
+            #addAccessNgForm="ngForm" role="form">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="raceName{{type}}">Email address</label>
+                <div class="col">
+                    <input class="form-control" [ngClass]="{'is-invalid': isControlValid(raceAccessForm.get('email'))}"
+                        id="email{{type}}" type="text" placeholder="Email (required)" formControlName="email" />
+                </div>
+            </div>
+            <validation-message-for field="email">
+                <validation-message error="required">
+                    <div class="form-group row">
+                        <span class="text-danger offset-sm-6">Please enter an email address.</span>
+                    </div>
+                </validation-message>
+                <validation-message error="email">
+                    <div class="form-group row">
+                        <span class="text-danger offset-sm-6">Please enter a valid email address.</span>
+                    </div>
+                </validation-message>
+            </validation-message-for>
+
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="accessLevel{{type}}">Access type</label>
+                <div class="col">
+                    <select class="form-control" id="accessLevel{{type}}" formControlName="accessLevel">
+                        <option *ngFor="let level of getRaceAccessLevels()" [value]="level.index">
+                            {{raceAccessLevelToString(level.index)}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div *ngIf="(addBase$ | async).error">
+                <div class="row">
+                    <div class="col">
+                        <span class="text-danger">
+                            {{getErrorText((addBase$ | async).error) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="(addBase$ | async).isActive">
+                <span *ngIf="(addBase$ | async).isActive" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                <span>
+                    Add race access
+                </span>
+            </button>
+        </form>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col">
+        <div *ngIf="(loadBase$ | async).success; else raceAccessLoading">
+            <div *ngIf="(raceAccesses$ | async).length > 0">
+                <div class="row">
+                    <div class="col">
+                        <h5>Shared access accounts:</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div *ngFor="let access of (raceAccesses$ | async); index as i" class="list-group-item">
+                            <div class="row no-gutters">
+                                <div class="col-auto mr-auto align-self-center">
+                                    <span>{{access.userEmail}}</span>
+                                </div>
+                                <div class="col-auto pl-1">
+                                    <form *ngIf="raceAccessForm" [formGroup]="editAccessForms[i]"
+                                        (submit)="addRaceAccessClick()" role="form">
+                                        <select class="form-control" id="accessLevel{{access.userEmail}}"
+                                            formControlName="accessLevel"
+                                            [attr.disabled]="(deleteBase$ | async).isActive || (editBase$ | async).isActive ? '' : null">
+                                            <option *ngFor="let level of getRaceAccessLevels()" [value]="level.index">
+                                                {{raceAccessLevelToString(level.index)}}</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="col-auto pl-1">
+                                    <button class="btn btn-outline-danger" (click)="deleteAccessClick(access)"
+                                        [disabled]="(deleteBase$ | async).isActive || (editBase$ | async).isActive">
+                                        <span *ngIf="!(deleteBase$ | async).isActive && !(editBase$ | async).isActive"
+                                            class="fa fa-trash-o" aria-hidden="true"></span>
+                                        <span *ngIf="(deleteBase$ | async).isActive || (editBase$ | async).isActive"
+                                            class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="(editBase$ | async).error">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-danger">
+                                {{getErrorText((editBase$ | async).error)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="(deleteBase$ | async).error">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-danger">
+                                {{getErrorText((deleteBase$ | async).error)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="(loadBase$ | async).error">
+            Error while loading race details.
+        </div>
+
+        <ng-template #raceAccessLoading>
+            <div *ngIf="(loadBase$ | async).isActive">
+                <div class="align-items-center m-2">
+                    <div class="spinner-border spinner-border-sm ml-auto mr-2" role="status"></div>
+                    <strong>Loading race access accounts.</strong>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

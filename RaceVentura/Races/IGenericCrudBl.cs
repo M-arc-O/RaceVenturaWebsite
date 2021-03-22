@@ -1,5 +1,4 @@
-﻿using RaceVenturaData.Models.Races;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace RaceVentura.Races

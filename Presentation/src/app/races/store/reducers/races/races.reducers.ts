@@ -11,6 +11,7 @@ import { teamsReducers } from '../teams';
 import { racesReducer } from './races.reducer';
 import { selectedRaceReducer } from './selected-race.reducer';
 import { teamResultsReducer } from './team-results.reducer';
+import { raceAccessReducers } from '../raceAccess';
 
 export const racesCombinedReducers = combineReducers(<ActionReducerMap<IRaces>>{
     races: racesReducer,
@@ -34,4 +35,5 @@ export const selectedRaceCombinedReducer = combineReducers(<ActionReducerMap<ISe
 export const racesReducers = combineReducers(<ActionReducerMap<IRacesState>>{
     races: racesCombinedReducers,
     selectedRace: selectedRaceCombinedReducer,
+    access: raceAccessReducers
 });

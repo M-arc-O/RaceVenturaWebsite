@@ -1,16 +1,15 @@
-﻿using RaceVenturaData.DatabaseContext;
-using RaceVenturaData.Models.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-using System;
+using RaceVenturaData.DatabaseContext;
+using RaceVenturaData.Models.Identity;
 
-namespace RaceVentura.Helpers
+namespace RaceVentura.Extensions
 {
-    public class DBContextHelper
+    public static class DBContextExtensions
     {
-        public static void AddDBContext(IServiceCollection services, IConfiguration configuration)
+        public static void AddDBContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddEntityFrameworkNpgsql().AddDbContext<RaceVenturaDbContext>(options =>
             {
@@ -20,7 +19,7 @@ namespace RaceVentura.Helpers
             services.AddScoped<IRaceVenturaDbContext>(provider => provider.GetService<RaceVenturaDbContext>());
         }
 
-        public static void AddAuthentication(IServiceCollection services)
+        public static void AddAppUserAuthentication(this IServiceCollection services)
         {
             services.AddIdentity<AppUser, IdentityRole>(o =>
             {

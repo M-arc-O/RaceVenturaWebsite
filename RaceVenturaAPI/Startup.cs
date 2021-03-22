@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using RaceVentura.Helpers;
-using System.ComponentModel;
+using RaceVentura.Extensions;
+using RaceVenturaAPI.Extensions;
 
 namespace RaceVenturaAPI
 {
@@ -27,13 +27,13 @@ namespace RaceVenturaAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            DBContextHelper.AddDBContext(services, Configuration);
-            DBContextHelper.AddAuthentication(services);
+            services.AddDBContext(Configuration);
+            services.AddAppUserAuthentication();
             JwtHelper.AddJwt(services, Configuration);
 
-            BLHelper.AddBLs(services);
+            services.AddBLs();
 
-            MapperHelper.AddAutoMapper(services);
+            services.AddAutoMapperProfiles();
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 

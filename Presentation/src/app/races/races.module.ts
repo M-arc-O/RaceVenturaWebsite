@@ -10,6 +10,7 @@ import { ValidationModule } from '../shared/components/validation/validation.mod
 import { PipesModule } from '../shared/pipes/pipes.module';
 import { PointAddComponent } from './components/pointAdd/point-add.component';
 import { PointsOverviewComponent } from './components/pointsOverview/points-overview.component';
+import { RaceAccessComponent } from './components/raceAccess/race-access.component';
 import { RaceAddComponent } from './components/raceAdd/race-add.component';
 import { RaceDetailsComponent } from './components/raceDetails/race-details.component';
 import { RaceListComponent } from './components/raceList/race-list.component';
@@ -24,10 +25,12 @@ import { TeamDetailsComponent } from './components/teamDetails/team-details.comp
 import { TeamPointsComponent } from './components/teamPoints/team-points.component';
 import { TeamsOverviewComponent } from './components/teamsOverview/teams-overview.component';
 import { RacesRoutingModule } from './race-routing.module';
-import { PointsService, RacesDownloadService, RacesService, ResultsService, StagesService, TeamsService, VisitedPointsService } from './shared';
+import { PointsService, RacesAccessService, RacesDownloadService, RacesService, ResultsService, StagesService, TeamsService, VisitedPointsService } from './shared';
 import { PointEffects, RaceEffects, StageEffects, TeamEffects } from './store/effects';
+import { RaceAccessEffects } from './store/effects/race-access.effects';
 import { TeamPointVisitedEffects } from './store/effects/team-point-visited';
 import { pointsReducers } from './store/reducers/points';
+import { raceAccessReducers } from './store/reducers/raceAccess/race-access.reducers';
 import { racesReducers } from './store/reducers/races';
 import { stagesReducers } from './store/reducers/stages';
 import { teamPointVisitedReducers } from './store/reducers/teamPointVisited';
@@ -41,6 +44,7 @@ import { teamsReducers } from './store/reducers/teams';
     RaceResultComponent,
     RaceResultWrapperComponent,
     RaceMapComponent,
+    RaceAccessComponent,
     StagesOverviewComponent,
     StageDetailsComponent,
     StageAddComponent,
@@ -57,11 +61,12 @@ import { teamsReducers } from './store/reducers/teams';
     RacesRoutingModule,
     LeafletModule,
     StoreModule.forFeature('racesFeature', racesReducers),
+    StoreModule.forFeature('raceAccessFeature', raceAccessReducers),
     StoreModule.forFeature('stagesFeature', stagesReducers),
     StoreModule.forFeature('pointsFeature', pointsReducers),
     StoreModule.forFeature('teamsFeature', teamsReducers),
     StoreModule.forFeature('teamPointVisitedFeature', teamPointVisitedReducers),
-    EffectsModule.forFeature([RaceEffects, StageEffects, PointEffects, TeamEffects, TeamPointVisitedEffects]),
+    EffectsModule.forFeature([RaceEffects, RaceAccessEffects, StageEffects, PointEffects, TeamEffects, TeamPointVisitedEffects]),
     ValidationModule,
     PipesModule,    
     NgbModule
@@ -71,6 +76,7 @@ import { teamsReducers } from './store/reducers/teams';
   ],
   providers: [
     RacesService, 
+    RacesAccessService,
     RacesDownloadService,
     StagesService, 
     PointsService, 

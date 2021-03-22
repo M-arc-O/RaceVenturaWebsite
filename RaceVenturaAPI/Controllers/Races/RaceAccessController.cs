@@ -10,6 +10,7 @@ using RaceVenturaData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -18,11 +19,11 @@ namespace RaceVenturaAPI.Controllers.Races
     [ApiController]
     public class RaceAccessController : RacesControllerBase
     {
-        private readonly IGenericCrudBL<UserLink> _raceAccessBL;
+        private readonly IRaceAccessBL _raceAccessBL;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public RaceAccessController(IGenericCrudBL<UserLink> raceAccessBL, IMapper mapper, ILogger<RacesController> logger)
+        public RaceAccessController(IRaceAccessBL raceAccessBL, IMapper mapper, ILogger<RaceAccessController> logger)
         {
             _raceAccessBL = raceAccessBL ?? throw new ArgumentNullException(nameof(raceAccessBL));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -31,12 +32,12 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpGet]
         [Route("getaccesses")]
-        public IActionResult Get(Guid raceId)
+        public async Task<IActionResult> Get(Guid raceId)
         {
             try
             {
-                var accesses = _raceAccessBL.Get(raceId).ToList();
-                var retVal = new List<RaceAccessViewModel>(accesses.Count);
+                var accesses = (await _raceAccessBL.Get(GetUserId(), raceId)).ToList();
+                var retVal = new List<RaceAccessViewModel>(accesses.Count());
 
                 foreach (var access in accesses)
                 {
@@ -58,7 +59,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPost]
         [Route("addaccess")]
-        public IActionResult AddAccess(RaceAccessViewModel viewModel)
+        public async Task<IActionResult> AddAccess(RaceAccessViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -67,10 +68,8 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var model = _mapper.Map<UserLink>(viewModel);
-                _raceAccessBL.Add(GetUserId(), model);
-
-                return Ok(_mapper.Map<RaceAccessViewModel>(model));
+                await _raceAccessBL.Add(GetUserId(), viewModel.RaceId, viewModel.UserEmail, (RaceAccessLevel)viewModel.AccessLevel);
+                return Ok(viewModel);
             }
             catch (BusinessException ex)
             {
@@ -85,7 +84,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         [HttpPut]
         [Route("editaccess")]
-        public IActionResult EditAccess(RaceAccessViewModel viewModel)
+        public async Task<IActionResult> EditAccess(RaceAccessViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -94,10 +93,8 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var model = _mapper.Map<UserLink>(viewModel);
-                _raceAccessBL.Edit(GetUserId(), model);
-
-                return Ok(_mapper.Map<RaceAccessViewModel>(model));
+                await _raceAccessBL.Edit(GetUserId(), viewModel.RaceId, viewModel.UserEmail, (RaceAccessLevel)viewModel.AccessLevel);
+                return Ok(viewModel);
             }
             catch (BusinessException ex)
             {
@@ -111,14 +108,13 @@ namespace RaceVenturaAPI.Controllers.Races
         }
 
         [HttpDelete]
-        [Route("{raceId}/remove")]
-        public IActionResult Delete(Guid accessId)
+        [Route("{raceId}/{emailAddress}/remove")]
+        public async Task<IActionResult> Delete(Guid raceId, string emailAddress)
         {
             try
             {
-                _raceAccessBL.Delete(GetUserId(), accessId);
-
-                return Ok(accessId);
+                await _raceAccessBL.Delete(GetUserId(), raceId, emailAddress);
+                return Ok(new RaceAccessViewModel { UserEmail = emailAddress, RaceId = raceId });
             }
             catch (BusinessException ex)
             {

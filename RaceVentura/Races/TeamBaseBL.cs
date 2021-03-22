@@ -15,7 +15,7 @@ namespace RaceVentura.Races
 
         protected Team GetTeam(Guid teamId)
         {
-            var team = _UnitOfWork.TeamRepository.GetByID(teamId);
+            var team = _unitOfWork.TeamRepository.GetByID(teamId);
             if (team == null)
             {
                 throw new BusinessException($"Team with ID '{teamId}' is unknown", BLErrorCodes.NotFound);

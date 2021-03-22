@@ -18,15 +18,15 @@ namespace RaceVentura.Races
 
         public IEnumerable<Race> Get(Guid userId)
         {
-            var links = _UnitOfWork.UserLinkRepository.Get(link => link.UserId == userId);
-            return _UnitOfWork.RaceRepository.Get(null, r => r.OrderBy(race => race.Name)).Where(r => links.Any(link => link.RaceId == r.RaceId));
+            var links = _unitOfWork.UserLinkRepository.Get(link => link.UserId == userId);
+            return _unitOfWork.RaceRepository.Get(null, r => r.OrderBy(race => race.Name)).Where(r => links.Any(link => link.RaceId == r.RaceId));
         }
 
         public Race GetById(Guid userId, Guid raceId)
         {
             CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Read);
 
-            var race = _UnitOfWork.RaceRepository.Get(r => r.RaceId == raceId, null,
+            var race = _unitOfWork.RaceRepository.Get(r => r.RaceId == raceId, null,
                 "Teams,Teams.VisitedPoints,Teams.FinishedStages," +
                 "Stages,Stages.Points").FirstOrDefault();
             if (race == null)
@@ -45,17 +45,17 @@ namespace RaceVentura.Races
         {
             CheckIfRaceNameExists(race.Name);
 
-            _UnitOfWork.RaceRepository.Insert(race);
-            _UnitOfWork.Save();
+            _unitOfWork.RaceRepository.Insert(race);
+            _unitOfWork.Save();
 
-            _UnitOfWork.UserLinkRepository.Insert(new UserLink
+            _unitOfWork.UserLinkRepository.Insert(new UserLink
             {
                 RaceId = race.RaceId,
                 UserId = userId,
                 RaceAccess = RaceAccessLevel.Owner
             });
 
-            _UnitOfWork.Save();
+            _unitOfWork.Save();
         }
 
         public void Edit(Guid userId, Race newEntity)
@@ -63,7 +63,7 @@ namespace RaceVentura.Races
             CheckIfRaceExsists(userId, newEntity.RaceId);
             CheckUserIsAuthorizedForRace(userId, newEntity.RaceId, RaceAccessLevel.ReadWrite);
 
-            var race = _UnitOfWork.RaceRepository.GetByID(newEntity.RaceId);
+            var race = _unitOfWork.RaceRepository.GetByID(newEntity.RaceId);
 
             if (!race.Name.ToUpper().Equals(newEntity.Name.ToUpper()))
             {
@@ -80,9 +80,9 @@ namespace RaceVentura.Races
             race.StartTime = newEntity.StartTime;
             race.MaxDuration = newEntity.MaxDuration;
 
-            _UnitOfWork.RaceRepository.Update(race);
+            _unitOfWork.RaceRepository.Update(race);
 
-            _UnitOfWork.Save();
+            _unitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid raceId)
@@ -90,15 +90,15 @@ namespace RaceVentura.Races
             CheckIfRaceExsists(userId, raceId);
             UserLink userLink = CheckUserIsAuthorizedForRace(userId, raceId, RaceAccessLevel.Owner);
 
-            _UnitOfWork.UserLinkRepository.Delete(userLink);
-            _UnitOfWork.RaceRepository.Delete(raceId);
+            _unitOfWork.UserLinkRepository.Delete(userLink);
+            _unitOfWork.RaceRepository.Delete(raceId);
 
-            _UnitOfWork.Save();
+            _unitOfWork.Save();
         }
 
         private void CheckIfRaceNameExists(string name)
         {
-            if (_UnitOfWork.RaceRepository.Get().Any(race => race.Name.ToUpper().Equals(name.ToUpper())))
+            if (_unitOfWork.RaceRepository.Get().Any(race => race.Name.ToUpper().Equals(name.ToUpper())))
             {
                 throw new BusinessException($"A race with name '{name}' already exists.", BLErrorCodes.Duplicate);
             }

@@ -20,14 +20,14 @@ namespace RaceVentura.Races
             var team = GetTeam(entity.TeamId);
             CheckUserIsAuthorizedForRace(userId, team.RaceId, RaceAccessLevel.WriteTeams);
 
-            if (_UnitOfWork.VisitedPointRepository.Get().Any(vp => vp.PointId == entity.PointId && vp.TeamId == entity.TeamId))
+            if (_unitOfWork.VisitedPointRepository.Get().Any(vp => vp.PointId == entity.PointId && vp.TeamId == entity.TeamId))
             {
                 throw new BusinessException($"Visited point with ID '{entity.PointId}' is already known", BLErrorCodes.Duplicate);
             }
 
             entity.Time = DateTime.Now;
-            _UnitOfWork.VisitedPointRepository.Insert(entity);
-            _UnitOfWork.Save();
+            _unitOfWork.VisitedPointRepository.Insert(entity);
+            _unitOfWork.Save();
         }
 
         public void Edit(Guid userId, VisitedPoint newEntity)
@@ -37,7 +37,7 @@ namespace RaceVentura.Races
 
         public void Delete(Guid userId, Guid entityId)
         {
-            var visitedPoint = _UnitOfWork.VisitedPointRepository.GetByID(entityId);
+            var visitedPoint = _unitOfWork.VisitedPointRepository.GetByID(entityId);
 
             if (visitedPoint == null)
             {
@@ -47,8 +47,8 @@ namespace RaceVentura.Races
             var team = GetTeam(visitedPoint.TeamId);
             CheckUserIsAuthorizedForRace(userId, team.RaceId, RaceAccessLevel.WriteTeams);
 
-            _UnitOfWork.VisitedPointRepository.Delete(visitedPoint);
-            _UnitOfWork.Save();
+            _unitOfWork.VisitedPointRepository.Delete(visitedPoint);
+            _unitOfWork.Save();
         }
     }
 }

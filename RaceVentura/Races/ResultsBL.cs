@@ -31,7 +31,7 @@ namespace RaceVentura.Races
 
         private Race GetRace(Guid raceId)
         {
-            var race = _UnitOfWork.RaceRepository.Get(t => t.RaceId == raceId, null, "Teams,Teams.VisitedPoints,Stages,Stages.Points").FirstOrDefault();
+            var race = _unitOfWork.RaceRepository.Get(t => t.RaceId == raceId, null, "Teams,Teams.VisitedPoints,Stages,Stages.Points").FirstOrDefault();
 
             if (race == null)
             {

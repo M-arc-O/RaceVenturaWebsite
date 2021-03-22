@@ -19,8 +19,8 @@ namespace RaceVentura.Races
             GetAndCheckStage(userId, point.StageId);
             CheckIfPointNameExists(point);
 
-            _UnitOfWork.PointRepository.Insert(point);
-            _UnitOfWork.Save();
+            _unitOfWork.PointRepository.Insert(point);
+            _unitOfWork.Save();
         }
 
         public void Edit(Guid userId, Point newEntity)
@@ -40,16 +40,16 @@ namespace RaceVentura.Races
             point.Answer = newEntity.Answer;
             point.Message = newEntity.Message;
 
-            _UnitOfWork.PointRepository.Update(point);
-            _UnitOfWork.Save();
+            _unitOfWork.PointRepository.Update(point);
+            _unitOfWork.Save();
         }
 
         public void Delete(Guid userId, Guid pointId)
         {
             GetAndCheckPoint(userId, pointId);
 
-            _UnitOfWork.PointRepository.Delete(pointId);
-            _UnitOfWork.Save();
+            _unitOfWork.PointRepository.Delete(pointId);
+            _unitOfWork.Save();
         }
 
         private Point GetAndCheckPoint(Guid userId, Guid pointId)
@@ -61,7 +61,7 @@ namespace RaceVentura.Races
 
         private Point GetPoint(Guid pointId)
         {
-            var point = _UnitOfWork.PointRepository.GetByID(pointId);
+            var point = _unitOfWork.PointRepository.GetByID(pointId);
             if (point == null)
             {
                 throw new BusinessException($"Point with id '{pointId}' not found.", BLErrorCodes.NotFound);
@@ -72,7 +72,7 @@ namespace RaceVentura.Races
 
         private void CheckIfPointNameExists(Point point)
         {
-            if (_UnitOfWork.PointRepository.Get(p => p.StageId == point.StageId).Any(p => p.Name.ToUpper().Equals(point.Name.ToUpper())))
+            if (_unitOfWork.PointRepository.Get(p => p.StageId == point.StageId).Any(p => p.Name.ToUpper().Equals(point.Name.ToUpper())))
             {
                 throw new BusinessException($"A point with name '{point.Name}' already exists.", BLErrorCodes.Duplicate);
             }

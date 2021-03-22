@@ -2,6 +2,8 @@ export * from './race-view-model';
 export * from './race-store-model';
 export * from './race-detail-view-model';
 export * from './race-type';
+export * from './race-access-view-model';
+export * from './race-access-level-view-model';
 export * from './stage-detail-view-model';
 export * from './stage-store-model';
 export * from './team-store-model';

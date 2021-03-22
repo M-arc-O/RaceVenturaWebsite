@@ -1,14 +1,13 @@
-﻿using RaceVenturaAPI.ViewModels.Identity.Mappings;
-using RaceVenturaAPI.ViewModels.Races.MappingProfiles;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using RaceVenturaAPI.ViewModels.Identity.Mappings;
+using RaceVenturaAPI.ViewModels.Races.MappingProfiles;
 
-namespace RaceVenturaAPI.Helpers
+namespace RaceVenturaAPI.Extensions
 {
-    public static class MapperHelper
+    public static class AutoMapperExtensions
     {
-
-        public static void AddAutoMapper(IServiceCollection services)
+        public static void AddAutoMapperProfiles(this IServiceCollection services)
         {   // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -16,6 +15,7 @@ namespace RaceVenturaAPI.Helpers
                 mc.AddProfile(new PointMappingProfile());
                 mc.AddProfile(new StageMappingProfile());
                 mc.AddProfile(new RaceMappingProfile());
+                mc.AddProfile(new RaceAccessMappingProfile());
                 mc.AddProfile(new TeamMappingProfile());
                 mc.AddProfile(new VisitedPointMappingProfile());
                 mc.AddProfile(new FinishedStageMappingProfile());

@@ -1,5 +1,4 @@
-﻿using RaceVenturaData.DatabaseContext;
-using RaceVenturaData.Models.Identity;
+﻿using RaceVenturaData.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace RaceVentura
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
 
-        public AccountsBL(UserManager<AppUser> userManager, IRaceVenturaDbContext context, IEmailSender emailSender, IConfiguration configuration)
+        public AccountsBL(UserManager<AppUser> userManager, IEmailSender emailSender, IConfiguration configuration)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
@@ -61,6 +60,23 @@ namespace RaceVentura
         public Task<AppUser> FindByNameAsync(string userName)
         {
             return _userManager.FindByNameAsync(userName);
+        }
+
+        public Task<AppUser> FindByEmailAsync(string email)
+        {
+            return _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<string> FindEmailByIdAsync(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+            {
+                throw new BusinessException($"Could not find user with id '{userId}'", BLErrorCodes.NotFound);
+            }
+
+            return user.Email;
         }
 
         public async Task<bool> CheckPasswordAsync(AppUser userToVerify, string password)
