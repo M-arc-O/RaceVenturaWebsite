@@ -1,3 +1,4 @@
+import { Byte } from "@angular/compiler/src/util";
 import { TeamCategory } from "./team-category";
 
 export class TeamStoreModel {
@@ -7,4 +8,5 @@ export class TeamStoreModel {
     public name: string;
     public category: TeamCategory;
     public finishTime: Date;
+    public qrCodeArray: Byte[];
 }

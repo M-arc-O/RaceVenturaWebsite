@@ -71,4 +71,8 @@ export class TeamDetailsComponent extends TeamComponentBase implements OnInit {
     public RemoveTeamClicked(): void {
         this.store.dispatch(new teamActions.DeleteTeamAction(this.selectedTeam));
     }
+
+    public getQrCodeString(): string {
+        return `data:image/png;base64,${this.selectedTeam.qrCodeArray}`;
+    }
 }

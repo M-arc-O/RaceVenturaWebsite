@@ -81,6 +81,7 @@ namespace RaceVenturaAPI.Controllers.Races
                 var raceModel = _raceBL.GetById(userId, raceId);
                 var viewModel = _mapper.Map<RaceDetailViewModel>(raceModel);
                 viewModel.AccessLevel = (AccessLevelViewModel)_raceAccessBL.GetAccessLevel(userId, raceId);
+                CreateQrCodesForTeams(viewModel);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)

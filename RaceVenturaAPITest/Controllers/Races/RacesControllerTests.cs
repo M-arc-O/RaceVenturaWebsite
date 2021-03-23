@@ -7,6 +7,7 @@ using RaceVentura.PdfGeneration;
 using Moq;
 using Microsoft.AspNetCore.Hosting;
 using RaceVentura.Races;
+using System.Collections.Generic;
 
 namespace RaceVenturaAPITest.Controllers.Races
 {
@@ -59,7 +60,7 @@ namespace RaceVenturaAPITest.Controllers.Races
         [TestMethod]
         public void GetByIdRaceNoErrorsTest()
         {
-            _MapperMock.Setup(m => m.Map<RaceDetailViewModel>(It.IsAny<Race>())).Returns(new RaceDetailViewModel());
+            _MapperMock.Setup(m => m.Map<RaceDetailViewModel>(It.IsAny<Race>())).Returns(new RaceDetailViewModel { Teams = new List<TeamViewModel>() });
             GetByIdNoErrorsTest();
         }
 

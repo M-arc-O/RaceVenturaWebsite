@@ -69,8 +69,8 @@
 </div>
 
 <!-- Set team finish time -->
-<div *ngIf="accessLevel<raceAccessLevels.Read" class="row pb-3">
-    <div class="col">
+<div class="row no-gutters pb-3">
+    <div *ngIf="accessLevel<raceAccessLevels.Read" class="col">
         <form *ngIf="setFinishTimeForm" [formGroup]="setFinishTimeForm" (submit)="setFinishTimeClick()" role="form">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label" for="finishDate{{selectedTeam.teamId}}">Finish date</label>
@@ -123,6 +123,12 @@
                 Set finish time
             </button>
         </form>
+    </div>
+    <div class="col-3 pl-2">
+        Scan QR code to register to team
+    </div>
+    <div class="col-auto">
+        <img class="float-right" src="{{getQrCodeString()}}" height="150" width="150" />
     </div>
 </div>
 
