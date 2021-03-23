@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { PointDetailViewModel, PointType } from '../../shared/models';
+import { PointDetailViewModel, PointType, RaceAccessLevelViewModel } from '../../shared/models';
 import { addPointSelector, editPointSelector, IPoints } from '../../store';
 import * as pointActions from '../../store/actions/point.actions';
 import { PointComponentBase } from '../point-component-base.component';
@@ -19,6 +19,8 @@ import { PointComponentBase } from '../point-component-base.component';
 export class PointAddComponent extends PointComponentBase implements OnInit, OnChanges, AfterViewInit {
     @Input() public type: AddEditType;
     @Input() public details: PointDetailViewModel;
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
 
     public pointTypes = PointType;
     public addEditType = AddEditType;

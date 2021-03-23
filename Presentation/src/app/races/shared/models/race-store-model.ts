@@ -1,3 +1,4 @@
+import { RaceAccessLevelViewModel } from './race-access-level-view-model';
 import { RaceType } from './race-type';
 import { RaceViewModel } from './race-view-model';
 
@@ -12,4 +13,5 @@ export class RaceStoreModel extends RaceViewModel {
     public pointInformationText: string;
     public startTime: Date;
     public maxDuration: string;
+    public accessLevel: RaceAccessLevelViewModel;
 }

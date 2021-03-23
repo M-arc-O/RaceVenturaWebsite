@@ -33,7 +33,8 @@
                             <td>{{(raceDetails$ | async).name}}</td>
                             <td>{{raceTypeToString((raceDetails$ | async).raceType)}}</td>
                             <td>{{(raceDetails$ | async).coordinatesCheckEnabled}}</td>
-                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ | async).allowedCoordinatesDeviation}}
+                            <td *ngIf="(raceDetails$ | async).coordinatesCheckEnabled">{{(raceDetails$ |
+                                async).allowedCoordinatesDeviation}}
                             </td>
                             <td>{{(raceDetails$ | async).specialTasksAreStage}}</td>
                             <td>{{(raceDetails$ | async).maximumTeamSize}}</td>
@@ -57,15 +58,17 @@
     </div>
 
     <div class="row pb-3">
-        <div class="col">
+        <div *ngIf="(raceDetails$ | async).accessLevel<raceAccessLevels.WriteTeams" class="col">
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editRaceModal">
                 Edit race information
             </button>
-            <div class="modal fade" id="editRaceModal" tabindex="-1" role="dialog" aria-labelledby="editRaceModalTitle" aria-hidden="true">
+            <div class="modal fade" id="editRaceModal" tabindex="-1" role="dialog" aria-labelledby="editRaceModalTitle"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title " id="editRaceModalTitle">Edit {{(raceDetails$ | async).name}}</h5>
+                            <h5 class="modal-title " id="editRaceModalTitle">Edit {{(raceDetails$ | async).name}}
+                            </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -77,15 +80,17 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div *ngIf="(raceDetails$ | async).accessLevel === raceAccessLevels.Owner" class="col">
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#raceAccessModal">
                 Shared race access
             </button>
-            <div class="modal fade" id="raceAccessModal" tabindex="-1" role="dialog" aria-labelledby="raceAccessModalTitle" aria-hidden="true">
+            <div class="modal fade" id="raceAccessModal" tabindex="-1" role="dialog"
+                aria-labelledby="raceAccessModalTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title " id="raceAccessModalTitle">Shared race access for {{(raceDetails$ | async).name}}</h5>
+                            <h5 class="modal-title " id="raceAccessModalTitle">Shared race access for
+                                {{(raceDetails$ | async).name}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -99,36 +104,41 @@
         </div>
         <div class="col">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="downloading">
-                    <span *ngIf="downloading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="downloading">
+                    <span *ngIf="downloading" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
                     Download QR codes
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" (click)="downloadPointsPdf()" href="javascript:void(0)">Points</a>
                     <a class="dropdown-item" (click)="downloadTeamsPdf()" href="javascript:void(0)">Teams</a>
-                    <a class="dropdown-item" (click)="downloadStagesAndRaceEndPdf()" href="javascript:void(0)">Stage and race ends</a>
+                    <a class="dropdown-item" (click)="downloadStagesAndRaceEndPdf()" href="javascript:void(0)">Stage and
+                        race ends</a>
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div *ngIf="(raceDetails$ | async).accessLevel === raceAccessLevels.Owner" class="col">
             <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeRaceModal">
                 Remove race
             </button>
-            <div class="modal fade " id="removeRaceModal" tabindex="-1 " role="dialog" aria-labelledby="removeRaceModalLabel" aria-hidden="true ">
+            <div class="modal fade " id="removeRaceModal" tabindex="-1 " role="dialog"
+                aria-labelledby="removeRaceModalLabel" aria-hidden="true ">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="removeRaceModalLabel">Are you sure?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             Do you really want to remove {{(raceDetails$ | async).name}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" (click)="RemoveRaceClicked()" data-dismiss="modal">Remove</button>
+                            <button type="button" class="btn btn-danger" (click)="RemoveRaceClicked()"
+                                data-dismiss="modal">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -140,30 +150,36 @@
         <div class="col">
             <div class="accordion" id="raceAccordion">
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#StagesCollapse" id="raceHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#StagesCollapse" id="raceHeading">
                         Stages
                     </button>
-                    <div id="StagesCollapse" class="collapse" aria-labelledby="raceHeading" data-parent="#raceAccordion">
+                    <div id="StagesCollapse" class="collapse" aria-labelledby="raceHeading"
+                        data-parent="#raceAccordion">
                         <div class="card-body">
-                            <app-stages-overview [raceId]=raceId></app-stages-overview>
+                            <app-stages-overview [raceId]=raceId [accessLevel]="(raceDetails$ | async).accessLevel"></app-stages-overview>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#teamsCollapse" id="teamsHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#teamsCollapse" id="teamsHeading">
                         Teams
                     </button>
-                    <div id="teamsCollapse" class="collapse" aria-labelledby="teamsHeading" data-parent="#raceAccordion">
+                    <div id="teamsCollapse" class="collapse" aria-labelledby="teamsHeading"
+                        data-parent="#raceAccordion">
                         <div class="card-body">
-                            <app-teams-overview [raceId]=raceId></app-teams-overview>
+                            <app-teams-overview [raceId]=raceId [accessLevel]="(raceDetails$ | async).accessLevel"></app-teams-overview>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse" data-target="#resultsCollapse" id="resultsHeading">
+                    <button type="button" class="btn btn-link collapsed card-header text-left" data-toggle="collapse"
+                        data-target="#resultsCollapse" id="resultsHeading">
                         Results
                     </button>
-                    <div id="resultsCollapse" class="collapse" aria-labelledby="resultsHeading" data-parent="#raceAccordion">
+                    <div id="resultsCollapse" class="collapse" aria-labelledby="resultsHeading"
+                        data-parent="#raceAccordion">
                         <div class="card-body">
                             <app-race-result [raceId]="raceId"></app-race-result>
                         </div>

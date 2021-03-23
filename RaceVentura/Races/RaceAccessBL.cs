@@ -40,6 +40,18 @@ namespace RaceVentura.Races
 
             return retVal;
         }
+        
+        public RaceAccessLevel GetAccessLevel(Guid userId, Guid raceId)
+        {
+            var userLink = GetRaceUserLink(userId, raceId);
+            if (userLink == null)
+            {
+                _logger.LogWarning($"Error in {GetType().Name}: User with ID '{userId}' tried to access race with ID '{raceId}' but is unauthorized.");
+                throw new BusinessException($"User is not authorized for race.", BLErrorCodes.UserUnauthorized);
+            }
+
+            return userLink.RaceAccess;
+        }
 
         public async Task Add(Guid userId, Guid raceId, string emailaddress, RaceAccessLevel raceAccessLevel)
         {

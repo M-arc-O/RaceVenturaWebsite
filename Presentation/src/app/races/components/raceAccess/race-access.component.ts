@@ -108,7 +108,9 @@ export class RaceAccessComponent extends RaceComponentBase implements OnInit, On
             const viewModel = new RaceAccessViewModel();
             viewModel.raceId = this.details.raceId;
             viewModel.userEmail = this.raceAccessForm.get('email').value;
-            viewModel.accessLevel = this.raceAccessForm.get('accessLevel').value;
+            viewModel.accessLevel = +this.raceAccessForm.get('accessLevel').value;
+
+            console.log(viewModel)
 
             this.store.dispatch(new raceAccessActions.AddRaceAccessAction(viewModel));
         } else {

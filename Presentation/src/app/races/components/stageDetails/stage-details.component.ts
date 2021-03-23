@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
-import { StageStoreModel } from '../../shared/models';
+import { RaceAccessLevelViewModel, StageStoreModel } from '../../shared/models';
 import { IStages } from '../../store';
 import * as stageActions from '../../store/actions/stage.actions';
 
@@ -11,8 +11,10 @@ import * as stageActions from '../../store/actions/stage.actions';
     templateUrl: './stage-details.component.html'
 })
 export class StageDetailsComponent extends ComponentBase {
-    @Input() raceId: string;
-    @Input() selectedStage: StageStoreModel;
+    @Input() public raceId: string;
+    @Input() public selectedStage: StageStoreModel;
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
 
     public addEditType = AddEditType;
 

@@ -5,7 +5,7 @@
                 <div class="col">
                     <h5 class="mt-1">Points:</h5>
                 </div>
-                <div class="col">
+                <div *ngIf="accessLevel<raceAccessLevels.WriteTeams" class="col">
                     <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#addPointModel">
                         Add points
                     </button>
@@ -19,7 +19,7 @@
                               </button>
                                 </div>
                                 <div class="modal-body">
-                                    <app-point-add [type]="addEditType.Add" [details]="getPoint(points$ | async)" [stageId]="stageId"></app-point-add>
+                                    <app-point-add [type]="addEditType.Add" [details]="getPoint(points$ | async)" [stageId]="stageId" [accessLevel]="accessLevel"></app-point-add>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div *ngIf="selectedPointId" class="col">
-            <app-point-add [details]="getPoint(points$ | async)" [type]="addEditType.Edit" [stageId]="stageId"></app-point-add>
+            <app-point-add [details]="getPoint(points$ | async)" [type]="addEditType.Edit" [stageId]="stageId" [accessLevel]="accessLevel"></app-point-add>
         </div>
     </div>
 </div>

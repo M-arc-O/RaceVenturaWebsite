@@ -24,21 +24,23 @@ namespace RaceVenturaAPI.Controllers.Races
     [ApiController]
     public class RacesController : RacesControllerBase, ICrudController<RaceViewModel, RaceDetailViewModel>
     {
-        private readonly IGenericCrudBL<Race> _RaceBL;
-        private readonly IHtmlToPdfBL _HtmlToPdfBL;
-        private readonly IRazorToHtml _RazorToHtml;
-        private readonly IWebHostEnvironment _WebHostingEnvironment;
-        private readonly IMapper _Mapper;
-        private readonly ILogger _Logger;
+        private readonly IGenericCrudBL<Race> _raceBL;
+        private readonly IRaceAccessBL _raceAccessBL;
+        private readonly IHtmlToPdfBL _htmlToPdfBL;
+        private readonly IRazorToHtml _razorToHtml;
+        private readonly IWebHostEnvironment _webHostingEnvironment;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public RacesController(IGenericCrudBL<Race> raceBL, IHtmlToPdfBL htmlToPdfBL, IRazorToHtml razorToHtml, IWebHostEnvironment webHostingEnvironment, IMapper mapper, ILogger<RacesController> logger)
+        public RacesController(IGenericCrudBL<Race> raceBL, IRaceAccessBL raceAccessBL, IHtmlToPdfBL htmlToPdfBL, IRazorToHtml razorToHtml, IWebHostEnvironment webHostingEnvironment, IMapper mapper, ILogger<RacesController> logger)
         {
-            _RaceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
-            _HtmlToPdfBL = htmlToPdfBL ?? throw new ArgumentNullException(nameof(htmlToPdfBL));
-            _RazorToHtml = razorToHtml ?? throw new ArgumentNullException(nameof(razorToHtml));
-            _WebHostingEnvironment = webHostingEnvironment ?? throw new ArgumentNullException(nameof(webHostingEnvironment));
-            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _raceBL = raceBL ?? throw new ArgumentNullException(nameof(raceBL));
+            _raceAccessBL = raceAccessBL ?? throw new ArgumentNullException(nameof(raceAccessBL));
+            _htmlToPdfBL = htmlToPdfBL ?? throw new ArgumentNullException(nameof(htmlToPdfBL));
+            _razorToHtml = razorToHtml ?? throw new ArgumentNullException(nameof(razorToHtml));
+            _webHostingEnvironment = webHostingEnvironment ?? throw new ArgumentNullException(nameof(webHostingEnvironment));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
@@ -47,13 +49,13 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var races = _RaceBL.Get(GetUserId());
+                var races = _raceBL.Get(GetUserId());
 
                 var retVal = new List<RaceViewModel>();
 
                 foreach (var race in races)
                 {
-                    retVal.Add(_Mapper.Map<RaceViewModel>(race));
+                    retVal.Add(_mapper.Map<RaceViewModel>(race));
                 }
 
                 return Ok(retVal);
@@ -64,7 +66,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -75,8 +77,11 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var raceModel = _RaceBL.GetById(GetUserId(), raceId);
-                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+                var userId = GetUserId();
+                var raceModel = _raceBL.GetById(userId, raceId);
+                var viewModel = _mapper.Map<RaceDetailViewModel>(raceModel);
+                viewModel.AccessLevel = (AccessLevelViewModel)_raceAccessBL.GetAccessLevel(userId, raceId);
+                return Ok(viewModel);
             }
             catch (BusinessException ex)
             {
@@ -84,7 +89,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -102,10 +107,10 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var raceModel = _Mapper.Map<Race>(viewModel);
-                _RaceBL.Add(GetUserId(), raceModel);
+                var raceModel = _mapper.Map<Race>(viewModel);
+                _raceBL.Add(GetUserId(), raceModel);
 
-                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+                return Ok(_mapper.Map<RaceDetailViewModel>(raceModel));
             }
             catch (BusinessException ex)
             {
@@ -113,7 +118,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -168,10 +173,10 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var raceModel = _Mapper.Map<Race>(viewModel);
-                _RaceBL.Edit(GetUserId(), raceModel);
+                var raceModel = _mapper.Map<Race>(viewModel);
+                _raceBL.Edit(GetUserId(), raceModel);
 
-                return Ok(_Mapper.Map<RaceDetailViewModel>(raceModel));
+                return Ok(_mapper.Map<RaceDetailViewModel>(raceModel));
             }
             catch (BusinessException ex)
             {
@@ -179,7 +184,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -190,7 +195,7 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                _RaceBL.Delete(GetUserId(), raceId);
+                _raceBL.Delete(GetUserId(), raceId);
 
                 return Ok(raceId);
             }
@@ -200,7 +205,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -211,12 +216,12 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var race = _RaceBL.GetById(GetUserId(), raceId);
-                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                var race = _raceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodesForPoints(raceViewModel);
                 AddAvatar(raceViewModel);
-                var html = await _RazorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
+                var html = await _razorToHtml.RenderRazorViewAsync("PointsPdf", raceViewModel);
+                var bytes = await _htmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "Points.pdf");
             }
             catch (BusinessException ex)
@@ -225,7 +230,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -236,11 +241,11 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var race = _RaceBL.GetById(GetUserId(), raceId);
-                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                var race = _raceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodesForTeams(raceViewModel);
-                var html = await _RazorToHtml.RenderRazorViewAsync("TeamsPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
+                var html = await _razorToHtml.RenderRazorViewAsync("TeamsPdf", raceViewModel);
+                var bytes = await _htmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "Teams.pdf");
             }
             catch (BusinessException ex)
@@ -249,7 +254,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -260,11 +265,11 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                var race = _RaceBL.GetById(GetUserId(), raceId);
-                var raceViewModel = _Mapper.Map<RaceDetailViewModel>(race);
+                var race = _raceBL.GetById(GetUserId(), raceId);
+                var raceViewModel = _mapper.Map<RaceDetailViewModel>(race);
                 CreateQrCodesForStagesAndRaceEnd(raceViewModel);
-                var html = await _RazorToHtml.RenderRazorViewAsync("StagesAndRaceEndPdf", raceViewModel);
-                var bytes = await _HtmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
+                var html = await _razorToHtml.RenderRazorViewAsync("StagesAndRaceEndPdf", raceViewModel);
+                var bytes = await _htmlToPdfBL.ConvertHtmlToPdf(html, "views/css/bootstrap.css");
                 return File(bytes, "application/pdf", "StagesAndRaceEnd.pdf");
             }
             catch (BusinessException ex)
@@ -273,7 +278,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(RacesController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -304,7 +309,7 @@ namespace RaceVenturaAPI.Controllers.Races
 
         private void AddAvatar(RaceDetailViewModel raceViewModel, string avatarFileName = "DefaultAvatar.png")
         {
-            var avatar = new Bitmap($@"{_WebHostingEnvironment.ContentRootPath}\Content\Images\{avatarFileName}");
+            var avatar = new Bitmap($@"{_webHostingEnvironment.ContentRootPath}\Content\Images\{avatarFileName}");
             using MemoryStream stream = new MemoryStream();
             avatar.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             raceViewModel.Avatar = stream.ToArray();

@@ -4,7 +4,7 @@
             <div class="col">
                 <h5 class="mt-1">Teams</h5>
             </div>
-            <div class="col">
+            <div *ngIf="accessLevel<raceAccessLevels.Read" class="col">
                 <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#addTeamModel">
                     Add teams
                 </button>
@@ -34,7 +34,7 @@
     </div>
     <div class="col">
         <div *ngIf="selectedTeamId" class="col p-0">
-            <app-team-details [selectedTeam]="getSelectedTeam(teams$ | async)"></app-team-details>
+            <app-team-details [selectedTeam]="getSelectedTeam(teams$ | async)" [accessLevel]="accessLevel"></app-team-details>
         </div>
     </div>
 </div>

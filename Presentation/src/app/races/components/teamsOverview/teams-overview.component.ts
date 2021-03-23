@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { TeamStoreModel } from '../../shared/models';
+import { RaceAccessLevelViewModel, TeamStoreModel } from '../../shared/models';
 import { deleteTeamSelector, ISelectedRace, teamsSelector } from '../../store';
 
 @Component({
@@ -16,6 +16,8 @@ import { deleteTeamSelector, ISelectedRace, teamsSelector } from '../../store';
 })
 export class TeamsOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
 
     public teams$: Observable<TeamStoreModel[]>;
     public deleteTeamBase$: Observable<IBase>;

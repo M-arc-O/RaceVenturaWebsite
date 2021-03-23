@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store';
-import { StageStoreModel, TeamStoreModel } from '../../shared/models';
-import { ISelectedRace, stagesSelector, editTeamSelector } from '../../store';
-import * as teamActions from '../../store/actions';
-import { takeUntil } from 'rxjs/operators';
+import { RaceAccessLevelViewModel, StageStoreModel, TeamStoreModel } from '../../shared/models';
 import { timeValidator } from '../../shared/Validators/time.validator';
+import { editTeamSelector, ISelectedRace, stagesSelector } from '../../store';
+import * as teamActions from '../../store/actions';
 import { TeamComponentBase } from '../team-component-base.component';
 
 @Component({
@@ -18,6 +18,8 @@ import { TeamComponentBase } from '../team-component-base.component';
 })
 export class TeamDetailsComponent extends TeamComponentBase implements OnInit {
     @Input() selectedTeam: TeamStoreModel;
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
 
     public setFinishTimeForm: FormGroup;
     public addEditType = AddEditType;

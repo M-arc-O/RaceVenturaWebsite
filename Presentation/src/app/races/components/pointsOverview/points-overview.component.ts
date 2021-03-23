@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { PointDetailViewModel } from '../../shared/models';
+import { PointDetailViewModel, RaceAccessLevelViewModel } from '../../shared/models';
 import { deletePointSelector, IPoints, pointsSelector } from '../../store';
 import { PointComponentBase } from '../point-component-base.component';
 
@@ -16,6 +16,9 @@ import { PointComponentBase } from '../point-component-base.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PointsOverviewComponent extends PointComponentBase implements OnInit, OnChanges {
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
+
     public points$: Observable<PointDetailViewModel[]>;
     public deletePointBase$: Observable<IBase>;
     public selectedPointId: string;

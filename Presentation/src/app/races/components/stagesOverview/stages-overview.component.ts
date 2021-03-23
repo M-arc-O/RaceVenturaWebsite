@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditType, ComponentBase, UserService } from 'src/app/shared';
 import { IBase } from 'src/app/store/base.interface';
-import { StageStoreModel } from '../../shared/models';
+import { RaceAccessLevelViewModel, StageStoreModel } from '../../shared/models';
 import { deleteStageSelector, IStages, stagesSelector } from '../../store';
 
 @Component({
@@ -16,6 +16,8 @@ import { deleteStageSelector, IStages, stagesSelector } from '../../store';
 })
 export class StagesOverviewComponent extends ComponentBase implements OnInit {
     @Input() raceId: string;
+    @Input() public accessLevel: RaceAccessLevelViewModel;
+    public raceAccessLevels = RaceAccessLevelViewModel;
 
     public stages$: Observable<StageStoreModel[]>;
     public deleteStageBase$: Observable<IBase>;

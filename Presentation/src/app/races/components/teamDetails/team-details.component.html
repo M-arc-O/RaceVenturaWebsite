@@ -21,7 +21,7 @@
     </table>
 </div>
 
-<div class="row pb-3">
+<div *ngIf="accessLevel<raceAccessLevels.Read" class="row pb-3">
     <div class="col">
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editTeamModel">
             Edit team
@@ -69,7 +69,7 @@
 </div>
 
 <!-- Set team finish time -->
-<div class="row pb-3">
+<div *ngIf="accessLevel<raceAccessLevels.Read" class="row pb-3">
     <div class="col">
         <form *ngIf="setFinishTimeForm" [formGroup]="setFinishTimeForm" (submit)="setFinishTimeClick()" role="form">
             <div class="form-group row">
@@ -127,7 +127,7 @@
 </div>
 
 <!-- Set team points visited -->
-<div class="row">
+<div *ngIf="accessLevel<raceAccessLevels.Read" class="row">
     <div class="col">
         <div class="accordion" id="teamStagesAccordion">
             <div *ngFor="let stage of (stages$ | async); let i = index" class="card">

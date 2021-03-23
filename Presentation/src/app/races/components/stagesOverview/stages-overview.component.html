@@ -4,7 +4,7 @@
             <div class="col">
                 <h5 class="mt-1">Stages:</h5>
             </div>
-            <div class="col">
+            <div *ngIf="accessLevel<raceAccessLevels.WriteTeams" class="col">
                 <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#addStageModel">
                     Add stages
                 </button>
@@ -36,6 +36,6 @@
     </div>
 
     <div *ngIf="selectedStageId" class="col p-0 ml-1">
-        <app-stage-details [selectedStage]="getStage(stages$ | async)" [raceId]="raceId"></app-stage-details>
+        <app-stage-details [selectedStage]="getStage(stages$ | async)" [raceId]="raceId" [accessLevel]="accessLevel"></app-stage-details>
     </div>
 </div>

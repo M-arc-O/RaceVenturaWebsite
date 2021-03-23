@@ -35,6 +35,8 @@ namespace RaceVenturaAPI.ViewModels.Races
         [Required]
         public RaceTypeViewModel RaceType { get; set; }
 
+        public AccessLevelViewModel AccessLevel { get; set; }
+
         public byte[] Avatar { get; set; }
 
         public byte[] QrCodeArray { get; set; }

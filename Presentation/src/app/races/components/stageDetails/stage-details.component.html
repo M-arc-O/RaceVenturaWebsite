@@ -15,7 +15,7 @@
     </table>
 </div>
 
-<div class="row pb-2">
+<div *ngIf="accessLevel<raceAccessLevels.WriteTeams"  class="row pb-2">
     <div class="col">
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editStageModel">
             Edit stage information
@@ -64,6 +64,6 @@
 
 <div class="row">
     <div class="col">
-        <app-points-overview [stageId]="selectedStage.stageId"></app-points-overview>
+        <app-points-overview [stageId]="selectedStage.stageId" [accessLevel]="accessLevel"></app-points-overview>
     </div>
 </div>
