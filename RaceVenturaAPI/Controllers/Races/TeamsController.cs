@@ -8,6 +8,7 @@ using RaceVenturaData.Models.Races;
 using RaceVentura.Races;
 using Microsoft.Extensions.Logging;
 using RaceVenturaAPI.ViewModels.Races;
+using RaceVenturaAPI.Extensions;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -16,15 +17,15 @@ namespace RaceVenturaAPI.Controllers.Races
     [ApiController]
     public class TeamsController : RacesControllerBase, ICudController<TeamViewModel>
     {
-        private readonly IGenericCudBL<Team> _TeamBL;
-        private readonly IMapper _Mapper;
-        private readonly ILogger _Logger;
+        private readonly IGenericCudBL<Team> _teamBL;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public TeamsController(IGenericCudBL<Team> teamBL, IMapper mapper, ILogger<TeamsController> logger)
         {
-            _TeamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
-            _Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _teamBL = teamBL ?? throw new ArgumentNullException(nameof(teamBL));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         
         [HttpPost]
@@ -38,11 +39,13 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var team = _Mapper.Map<Team>(viewModel);
+                var team = _mapper.Map<Team>(viewModel);
 
-                _TeamBL.Add(GetUserId(), team);
+                _teamBL.Add(GetUserId(), team);
 
-                return Ok(_Mapper.Map<TeamViewModel>(team));
+                viewModel = _mapper.Map<TeamViewModel>(team);
+                viewModel.AddQrCode(viewModel.RaceId);
+                return Ok(viewModel);
             }
             catch (BusinessException ex)
             {
@@ -50,7 +53,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -67,11 +70,13 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var team = _Mapper.Map<Team>(viewModel);
+                var team = _mapper.Map<Team>(viewModel);
 
-                _TeamBL.Edit(GetUserId(), team);
+                _teamBL.Edit(GetUserId(), team);
 
-                return Ok(_Mapper.Map<TeamViewModel>(team));
+                viewModel = _mapper.Map<TeamViewModel>(team);
+                viewModel.AddQrCode(viewModel.RaceId);
+                return Ok(viewModel);
             }
             catch (BusinessException ex)
             {
@@ -79,7 +84,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }
@@ -90,7 +95,7 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             try
             {
-                _TeamBL.Delete(GetUserId(), teamId);
+                _teamBL.Delete(GetUserId(), teamId);
 
                 return Ok(teamId);
             }
@@ -100,7 +105,7 @@ namespace RaceVenturaAPI.Controllers.Races
             }
             catch (Exception ex)
             {
-                _Logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
+                _logger.LogError(ex, $"Error in {typeof(TeamsController)}: {ex.Message}");
                 return StatusCode(500);
             }
         }

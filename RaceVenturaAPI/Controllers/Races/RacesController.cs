@@ -11,11 +11,12 @@ using RaceVenturaData.Models.Races;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using RaceVentura.PdfGeneration;
-using QRCoder;
 using System.Drawing;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using RaceVenturaAPI.ViewModels.AppApi;
+using RaceVenturaAPI.Extensions;
+using RaceVenturaAPI.Helpers;
 
 namespace RaceVenturaAPI.Controllers.Races
 {
@@ -287,13 +288,13 @@ namespace RaceVenturaAPI.Controllers.Races
         private static void CreateQrCodesForStagesAndRaceEnd(RaceDetailViewModel raceViewModel)
         {
             var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterRaceEnd}, RaceId:{raceViewModel.RaceId}";
-            var stream = CreateQrCodes(txtQRCode);
+            var stream = RaceQrCodeHelper.CreateQrCodes(txtQRCode);
             raceViewModel.QrCodeArray = stream.ToArray();
 
             foreach (var stage in raceViewModel.Stages)
             {
                 txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterStageEnd}, RaceId:{raceViewModel.RaceId}, StageId:{stage.StageId}";
-                stream = CreateQrCodes(txtQRCode);
+                stream = RaceQrCodeHelper.CreateQrCodes(txtQRCode);
                 stage.QrCodeArray = stream.ToArray();
             }
         }
@@ -302,9 +303,7 @@ namespace RaceVenturaAPI.Controllers.Races
         {
             foreach (var team in raceViewModel.Teams)
             {
-                var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterToRace}, RaceId:{raceViewModel.RaceId}, TeamId:{team.TeamId}";
-                var stream = CreateQrCodes(txtQRCode);
-                team.QrCodeArray = stream.ToArray();
+                team.AddQrCode(raceViewModel.RaceId);
             }
         }
 
@@ -323,21 +322,10 @@ namespace RaceVenturaAPI.Controllers.Races
                 foreach (var point in stage.Points)
                 {
                     var txtQRCode = $"QrCodeType: {QrCodeTypes.RegisterPoint}, RaceId:{raceViewModel.RaceId}, PointId:{point.PointId}";
-                    var stream = CreateQrCodes(txtQRCode);
+                    var stream = RaceQrCodeHelper.CreateQrCodes(txtQRCode);
                     point.QrCodeArray = stream.ToArray();
                 }
             }
-        }
-
-        private static MemoryStream CreateQrCodes(string txtQRCode)
-        {
-            QRCodeGenerator qrCodeGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrCodeGenerator.CreateQrCode(txtQRCode, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            MemoryStream stream = new MemoryStream();
-            qrCodeImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            return stream;
         }
     }
 }
