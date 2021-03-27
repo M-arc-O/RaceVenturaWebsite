@@ -34,7 +34,7 @@ namespace RaceVentura
 
             if (result.Succeeded)
             {
-                await SendConfirmEmail(userIdentity, "Confirm your email");
+                await SendConfirmEmail(userIdentity, "Confirm RaceVentura account email address");
             }
 
             return result;
@@ -83,7 +83,7 @@ namespace RaceVentura
         {
             if (userToVerify == null || !(await _userManager.IsEmailConfirmedAsync(userToVerify)))
             {
-                await SendConfirmEmail(userToVerify, "Login attempt, Confirm your email");
+                await SendConfirmEmail(userToVerify, "Login attempt, Please confirm your RaceVentura account email address");
                 throw new BusinessException("Email address not confirmed.", BLErrorCodes.EmailNotConfirmed);
             }
 
@@ -106,8 +106,12 @@ namespace RaceVentura
 
             await _emailSender.SendEmailAsync(
                 emailAddress,
-                "Reset Password",
-                $"Please reset your password by <a href='{url}'>clicking here</a>.");
+                "Reset RaceVentura password",
+                $"Dear RaceVentura user,<br><br>" +
+                $"Please reset your password by <a href='{url}'>clicking here</a>.<br><br>" +
+                $"If you did not request a password reset link please ignore this email, if it happens more often please contact our support.<br><br>" +
+                $"Best regards,<br><br>" +
+                $"RaceVentura Team");
         }
 
         public async Task<IdentityResult> ResetPassword(string emailAddress, string password, string code)
@@ -133,7 +137,10 @@ namespace RaceVentura
 
             var url = $"{_configuration.GetValue<string>("WebsiteUrl")}/confirmemail/{code}/{userIdentity.Email}";
             await _emailSender.SendEmailAsync(userIdentity.Email, title,
-                $"Please confirm your account by <a href='{url}'>clicking here</a>.<br/>After confirming your email address use the forgot password option to set your password.");
+                $"Dear RaceVentura user,<br><br>" +
+                $"Please confirm your account by <a href='{url}'>clicking here</a>.<br/>After confirming your email address use the forgot password option to set your password.<br><br>" +
+                $"Best regards,<br><br>" +
+                $"RaceVentura Team");
         }
     }
 }
