@@ -25,21 +25,22 @@
             <div class="page m-5">
                 <div class="row">
                     <div class="col">
-                        <h3>Stage @stage.Number (@stage.Name) - @point.Name</h3>
+                        <h3>Stage @stage.Number (@stage.Name)</h3>
+                        <h3>@point.Name</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="150" width="150" />
+                        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="150" width="150" />
                     </div>
                     <div class="col-6">
                         @Model.PointInformationText
                     </div>
                     <div class="col-3">
-                        <img class="float-right" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(point.QrCodeArray))" height="150" width="150" />
+                        <img class="float-right" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Avatar))" height="150" width="150" />
                     </div>
                 </div>
-                <div class="row mt-4">
+                <div class="row mt-1">
                     <div class="col-3"></div>
                     <div class="col">
                         Powered by Race Ventura: raceventura.nl

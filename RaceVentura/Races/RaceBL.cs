@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RaceVentura.Races
 {
@@ -36,9 +37,14 @@ namespace RaceVentura.Races
 
             race.Teams = race.Teams.OrderBy(team => team.Number).ToList();
             race.Stages = race.Stages.OrderBy(stage => stage.Number).ToList();
-            race.Stages.ForEach(stage => stage.Points = stage.Points?.OrderBy(point => point.Name).ToList());
+            race.Stages.ForEach(stage => stage.Points = stage.Points?.OrderBy(point => PadNumbers(point.Name)).ToList());
 
             return race;
+        }
+
+        private static string PadNumbers(string input)
+        {
+            return Regex.Replace(input, "[0-9]+", match => match.Value.PadLeft(10, '0'));
         }
 
         public void Add(Guid userId, Race race)
