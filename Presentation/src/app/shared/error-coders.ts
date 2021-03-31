@@ -9,4 +9,5 @@ export enum ErrorCodes {
     RaceNotStarted = 8,
     RaceEnded = 9,
     EmailNotConfirmed = 10,
+    InvalidToken = 11,
 }

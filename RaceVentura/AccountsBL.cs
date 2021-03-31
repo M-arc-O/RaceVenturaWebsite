@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using RaceVentura.Models;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace RaceVentura
 {
@@ -53,6 +54,12 @@ namespace RaceVentura
 
             if (!result.Succeeded)
             {
+                if (result.Errors.FirstOrDefault().Code.Equals("InvalidToken"))
+                {
+                    await SendConfirmEmail(user, "New confirmation token");
+                    throw new BusinessException($"Invalid token while confirming email address '{emailAddress}'", BLErrorCodes.InvalidToken);
+                }
+
                 throw new BusinessException($"Error while confirming email address '{emailAddress}'", BLErrorCodes.UserUnauthorized);
             }
         }

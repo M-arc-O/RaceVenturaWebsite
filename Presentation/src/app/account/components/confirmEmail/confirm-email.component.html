@@ -5,11 +5,16 @@
 
     <ng-template #showSending>
         <div *ngIf="sending">
-            <div class="spinner-border text-primary" role="status"></div> 
+            <div class="spinner-border text-primary" role="status"></div>
             <span>Confirming email address...</span>
         </div>
         <div *ngIf="serverError">
-            An error occured while confirming your email address, please contact support.
+            <span *ngIf="serverError === 11; else defaultError">
+                Your confirmation code has expired, a new confirmation link has been send to your email address.
+            </span>
+            <ng-template #defaultError>
+                An error occured while confirming your email address, please contact support.
+            </ng-template>
         </div>
     </ng-template>
 </div>
