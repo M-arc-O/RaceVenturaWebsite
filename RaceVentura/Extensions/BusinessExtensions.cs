@@ -15,6 +15,7 @@ namespace RaceVentura.Extensions
         {
             services.AddScoped<IRaceVenturaUnitOfWork, RaceVenturaUnitOfWork>();
             services.AddScoped<IAccountBL, AccountsBL>();
+            services.AddScoped<IRolesBL, RolesBL>();
             services.AddScoped<IGenericCudBL<Point>, PointBL>();
             services.AddScoped<IGenericCrudBL<Race>, RaceBL>();
             services.AddScoped<IGenericCudBL<Stage>, StageBL>();

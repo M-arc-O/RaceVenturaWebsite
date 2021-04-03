@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using RaceVenturaAPI.Auth;
-using RaceVenturaData.Models.Identity;
 
 namespace RaceVenturaAPI.Helpers
 {

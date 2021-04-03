@@ -12,6 +12,8 @@ using RaceVentura;
 using System;
 using Microsoft.Extensions.Logging;
 using RaceVenturaAPI.ViewModels;
+using RaceVentura.Models;
+using System.Collections.Generic;
 
 namespace RaceVenturaAPI.Controllers
 {
@@ -20,13 +22,15 @@ namespace RaceVenturaAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAccountBL _AccountBL;
+        private readonly IRolesBL _rolesBL;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger _Logger;
 
-        public AuthController(IAccountBL accountBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, ILogger<AuthController> logger)
+        public AuthController(IAccountBL accountBL, IRolesBL rolesBL, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions, ILogger<AuthController> logger)
         {
             _AccountBL = accountBL;
+            _rolesBL = rolesBL ?? throw new ArgumentNullException(nameof(rolesBL));
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
             _Logger = logger;
@@ -75,7 +79,12 @@ namespace RaceVenturaAPI.Controllers
             // check the credentials
             if (await _AccountBL.CheckPasswordAsync(userToVerify, password))
             {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                var roles = new List<Roles>();
+                if (await _rolesBL.IsInRoleAsync(userToVerify.Id, Roles.Admin))
+                {
+                    roles.Add(Roles.Admin);
+                }
+                return _jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, roles.ToArray());
             }
 
             // Credentials are invalid, or account doesn't exist

@@ -40,6 +40,7 @@ namespace RaceVenturaAPI
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RaceUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("Admin", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
             });
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();

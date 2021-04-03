@@ -1,4 +1,6 @@
-﻿namespace RaceVenturaAPI.Helpers
+﻿using System.Security.Claims;
+
+namespace RaceVenturaAPI.Helpers
 {
     public static class Constants
     {
@@ -13,6 +15,7 @@
             public static class JwtClaims
             {
                 public const string ApiAccess = "api_access";
+                public const string AdminAccess = "admin_access";
             }
         }
     }
