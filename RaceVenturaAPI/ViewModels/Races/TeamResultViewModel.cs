@@ -9,7 +9,7 @@ namespace RaceVenturaAPI.ViewModels.Races
         public int TeamNumber { get; set; }
         public string TeamName { get; set; }
         public DateTime? EndTime { get; set; }
-
+        public TeamCategoryViewModel Category { get; set; }
         [JsonConverter(typeof(JsonTimeSpanConverter))]
         public TimeSpan RaceDuration { get; set; }
         public int TotalValue { get; set; }

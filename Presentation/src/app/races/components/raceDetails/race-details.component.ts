@@ -98,6 +98,7 @@ export class RaceDetailsComponent extends RaceComponentBase implements OnInit, O
 
     public RemoveRaceClicked(): void {
         this.store.dispatch(new raceActions.DeleteRaceAction(this.raceId));
+        this.router.navigateByUrl('home');
     }
 
     public GetRaceDurationString(value: string): string {

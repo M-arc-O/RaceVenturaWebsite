@@ -122,7 +122,6 @@ export class PointAddComponent extends PointComponentBase implements OnInit, OnC
             this.resetFormControl(this.addPointForm.get('message'), stringValidator);
             this.resetFormControl(this.addPointForm.get('answer'), stringValidator);
         });
-
     }
 
     public addPointClick(ngFrom: NgForm): void {
