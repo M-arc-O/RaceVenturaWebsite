@@ -1,19 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ComponentBase, UserService } from 'src/app/shared';
-import { TeamResultViewModel } from '../../shared/models';
+import { takeUntil } from 'rxjs/operators';
+import { UserService } from 'src/app/shared';
+import { TeamCategory, TeamResultViewModel } from '../../shared/models';
 import { resultStateSelector } from '../../store';
 import * as raceActions from '../../store/actions/race.actions';
+import { TeamComponentBase } from '../team-component-base.component';
 
 @Component({
     selector: 'app-race-result',
     templateUrl: './race-result.component.html'
 })
-export class RaceResultComponent extends ComponentBase implements OnInit {
+export class RaceResultComponent extends TeamComponentBase implements OnInit {
     @Input() raceId: string;
+    
+    public selectedCategory = '4';
+    public categorys = TeamCategory;
+    public categoryForm: FormGroup;
 
     public raceResult$: Observable<TeamResultViewModel[]>;
 
@@ -26,6 +33,7 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.setupForm();
         this.store.dispatch(new raceActions.GetRaceResultAction(this.raceId));
     }
 
@@ -37,11 +45,18 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
         this.modalService.open(content, { size: 'xl', scrollable: true });
     }
 
-    public ShowOnMapClicked(): void {
+    public showOnMapClicked(): void {
         this.router.navigate(['/raceMap', this.raceId]);
     }
 
-    public GetRaceDurationString(value: string): string {
+    public getResults(value: TeamResultViewModel[]): TeamResultViewModel[] {
+        if (this.selectedCategory === '4') {
+            return value;
+        }
+        return value.filter(result => result.category.toString() === this.selectedCategory);
+    }
+
+    public getRaceDurationString(value: string): string {
         if (value !== null && value !== undefined) {
             let daysAndRest = value.split(`.`);
             let timeArray = new Array(3);
@@ -61,5 +76,17 @@ export class RaceResultComponent extends ComponentBase implements OnInit {
         }
 
         return "";
+    }
+
+    private setupForm(): void {
+        const formBuilder = new FormBuilder();
+
+        this.categoryForm = formBuilder.group({
+            category: ['4', [Validators.required]]
+        });
+
+        this.categoryForm.get('category').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => {
+            this.selectedCategory = value;
+        });
     }
 }

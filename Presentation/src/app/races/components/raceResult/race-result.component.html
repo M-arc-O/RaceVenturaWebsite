@@ -1,14 +1,23 @@
 <div class="row pb-3">
-    <div class="col-2">
+    <div class="col-auto">
         <button type="button" class="btn btn-primary" id="refresh" (click)="refresh()">
             Refresh
         </button>
     </div>
+    <div class="col-auto">
+        <form *ngIf="categoryForm" [formGroup]="categoryForm" role="form">
+            <select class="form-control" id="categorySelect" formControlName="category">
+                <option [value]="4">Overall</option>
+                <option *ngFor="let category of categorys | enumToArray" [value]="category.index">
+                    {{categoryToString(category.index)}}</option>
+            </select>
+        </form>
+    </div>
     <div class="col">
         <h5 class="mt-1">Click on the teams row to get information about all the registered points.</h5>
     </div>
-    <div class="col-2">
-        <button type="button" class="btn btn-secondary float-right" id="refresh" (click)="ShowOnMapClicked()">
+    <div class="col-auto">
+        <button type="button" class="btn btn-secondary float-right" id="refresh" (click)="showOnMapClicked()">
             Show on map
         </button>
     </div>
@@ -29,20 +38,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let result of raceResult$ | async; let i = index" (click)="openModal(content)" style="cursor: pointer;">
+                    <tr *ngFor="let result of getResults(raceResult$ | async); let i = index" (click)="openModal(content)"
+                        style="cursor: pointer;">
                         <td>{{(i + 1)}}</td>
                         <td>{{result.teamNumber}} {{result.teamName}}</td>
                         <td>{{getDateString(result.endTime)}} - {{getTimeString(result.endTime)}}</td>
-                        <td>{{GetRaceDurationString(result.raceDuration)}}</td>
+                        <td>{{getRaceDurationString(result.raceDuration)}}</td>
                         <td>{{result.numberOfStages}}</td>
                         <td>{{result.totalValue}}</td>
                         <td>{{result.numberOfPoints}}</td>
 
                         <ng-template #content let-modal>
                             <div class="modal-header">
-                                <h4 class="modal-title">Stage and point results for team {{result.teamNumber}} {{result.teamName}}
+                                <h4 class="modal-title">Stage and point results for team {{result.teamNumber}}
+                                    {{result.teamName}}
                                 </h4>
-                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                <button type="button" class="close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -64,7 +76,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                                <button type="button" class="btn btn-light"
+                                    (click)="modal.close('Close click')">Close</button>
                             </div>
                         </ng-template>
                     </tr>

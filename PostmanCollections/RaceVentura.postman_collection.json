@@ -75,7 +75,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Name\": \"Race1\",\n    \"RaceType\": 0,\n    \"CoordinatesCheckEnabled\": true,\n    \"allowedCoordinatesDeviation\": 2,\n    \"SpecialTasksAreStage\": false,\n    \"MaximumTeamSize\": 2,\n    \"MinimumPointsToCompleteStage\": 1,\n    \"PenaltyPerMinuteLate\": 12,\n    \"PointInformationText\": \"TestTekst\",\n    \"StartTime\": \"2020-07-08T05:00:00.000Z\",\n    \"EndTime\": \"2020-07-08T16:00:00.000Z\"\n}",
+					"raw": "{\n\t\"Name\": \"Race1\",\n    \"RaceType\": 0,\n    \"CoordinatesCheckEnabled\": true,\n    \"allowedCoordinatesDeviation\": 2,\n    \"SpecialTasksAreStage\": false,\n    \"MaximumTeamSize\": 2,\n    \"MinimumPointsToCompleteStage\": 1,\n    \"PenaltyPerMinuteLate\": 12,\n    \"PointInformationText\": \"TestTekst\",\n    \"StartTime\": \"2020-07-08T05:00:00.000Z\",\n    \"MaxDuration\": \"11:00:00\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2085,114 +2085,58 @@
 	],
 	"variable": [
 		{
-<<<<<<< HEAD
-			"id": "ebe491b3-954e-4cdb-b109-dbffeb597bb2",
-=======
->>>>>>> dev
 			"key": "AuthToken",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "a727bcc1-bcbb-4d3b-b408-886833e5364f",
-=======
->>>>>>> dev
 			"key": "Race1Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "244b9607-f2a1-4438-9038-66c38996ee57",
-=======
->>>>>>> dev
 			"key": "Race2Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "7d3dec80-9a72-4490-89cf-163eef538f05",
-=======
->>>>>>> dev
 			"key": "Team1Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "bca557de-6af4-40c3-b434-bcc19853c897",
-=======
->>>>>>> dev
 			"key": "Team2Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "208277d6-f740-429d-aa84-96eabb74374a",
-=======
->>>>>>> dev
 			"key": "Stage1Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "2b151621-6c65-47b1-b82a-14637e782863",
-=======
->>>>>>> dev
 			"key": "Stage1Point1Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "e383cfa7-4a50-41ff-9ce6-e063a59baaa4",
-=======
->>>>>>> dev
 			"key": "Stage1Point2Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "1335ca3b-7c26-4387-989d-f6e7b56ad1bb",
-=======
->>>>>>> dev
 			"key": "Stage2Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "44a685a9-de25-4131-aff5-7be8c8d69522",
-=======
->>>>>>> dev
 			"key": "Stage2Point1Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "e486d1d0-edc4-47f6-bcea-25a793c714d4",
-=======
->>>>>>> dev
 			"key": "Stage2Point2Id",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "8cd8ca2e-4f74-4953-92b2-9b807df5960c",
-=======
->>>>>>> dev
 			"key": "VisitedPointId",
 			"value": ""
 		},
 		{
-<<<<<<< HEAD
-			"id": "78f56d2a-0561-4901-9c36-c660fb8db174",
-=======
->>>>>>> dev
 			"key": "Team1UniqueId",
 			"value": "ea485b0c-7779-4dfb-bb25-08e1afd7a003"
 		},
 		{
-<<<<<<< HEAD
-			"id": "33f665c2-310a-4ec0-a755-0e9f6f7ad196",
-=======
->>>>>>> dev
 			"key": "Team2UniqueId",
 			"value": "15ffdd12-d0da-4262-8a59-522d982fac25"
 		},

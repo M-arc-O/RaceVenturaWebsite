@@ -47,6 +47,7 @@ namespace RaceVentura.Races
             {
                 TeamNumber = team.Number,
                 TeamName = team.Name,
+                Category = team.Category,
                 NumberOfStages = 0,
                 TotalValue = 0,
                 EndTime = team.FinishTime,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaceVenturaData.Models.Races;
+using System;
 using System.Collections.Generic;
 
 namespace RaceVentura.Models.Results
@@ -7,6 +8,7 @@ namespace RaceVentura.Models.Results
     {
         public int TeamNumber { get; set; }
         public string TeamName { get; set; }
+        public TeamCategory Category { get; set; }
         public DateTime? EndTime { get; set; }
         public TimeSpan RaceDuration { get; set; }
         public int TotalValue { get; set; }
