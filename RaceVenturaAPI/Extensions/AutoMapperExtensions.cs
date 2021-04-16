@@ -20,6 +20,7 @@ namespace RaceVenturaAPI.Extensions
                 mc.AddProfile(new VisitedPointMappingProfile());
                 mc.AddProfile(new FinishedStageMappingProfile());
                 mc.AddProfile(new ResultMappingProfile());
+                mc.AddProfile(new OrganisationMappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

@@ -9,27 +9,40 @@ namespace RaceVenturaData
 {
     public class RaceVenturaUnitOfWork : IDisposable, IRaceVenturaUnitOfWork
     {
-        private bool _Disposed = false;
-        private readonly IRaceVenturaDbContext _Context;
-        private GenericRepository<UserLink> _UserLinkRepository;
-        private GenericRepository<Race> _RaceRepository;
-        private GenericRepository<Stage> _StageRepository;
-        private GenericRepository<Point> _PointRepository;
-        private GenericRepository<Team> _TeamRepository;
-        private GenericRepository<VisitedPoint> _VisitedPointRepository;
-        private GenericRepository<FinishedStage> _FinishedStageRepository;
-        private GenericRepository<RegisteredId> _RegisteredIdRepository;
+        private bool _disposed = false;
+        private readonly IRaceVenturaDbContext _context;
+        private GenericRepository<UserLink> _userLinkRepository;
+        private GenericRepository<Organisation> _organisationRepository;
+        private GenericRepository<Race> _raceRepository;
+        private GenericRepository<Stage> _stageRepository;
+        private GenericRepository<Point> _pointRepository;
+        private GenericRepository<Team> _teamRepository;
+        private GenericRepository<VisitedPoint> _visitedPointRepository;
+        private GenericRepository<FinishedStage> _finishedStageRepository;
+        private GenericRepository<RegisteredId> _registeredIdRepository;
 
         public IGenericRepository<UserLink> UserLinkRepository
         {
             get
             {
-                if (_UserLinkRepository == null)
+                if (_userLinkRepository == null)
                 {
-                    _UserLinkRepository = new GenericRepository<UserLink>(_Context);
+                    _userLinkRepository = new GenericRepository<UserLink>(_context);
                 }
 
-                return (IGenericRepository<UserLink>)_UserLinkRepository;
+                return (IGenericRepository<UserLink>)_userLinkRepository;
+            }
+        }
+        public IGenericRepository<Organisation> OrganisationRepository
+        {
+            get
+            {
+                if (_organisationRepository == null)
+                {
+                    _organisationRepository = new GenericRepository<Organisation>(_context);
+                }
+
+                return (IGenericRepository<Organisation>)_organisationRepository;
             }
         }
 
@@ -37,12 +50,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_RaceRepository == null)
+                if (_raceRepository == null)
                 {
-                    _RaceRepository = new GenericRepository<Race>(_Context);
+                    _raceRepository = new GenericRepository<Race>(_context);
                 }
 
-                return (IGenericRepository<Race>)_RaceRepository;
+                return (IGenericRepository<Race>)_raceRepository;
             }
         }
 
@@ -50,12 +63,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_StageRepository == null)
+                if (_stageRepository == null)
                 {
-                    _StageRepository = new GenericRepository<Stage>(_Context);
+                    _stageRepository = new GenericRepository<Stage>(_context);
                 }
 
-                return (IGenericRepository<Stage>)_StageRepository;
+                return (IGenericRepository<Stage>)_stageRepository;
             }
         }
 
@@ -63,12 +76,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_PointRepository == null)
+                if (_pointRepository == null)
                 {
-                    _PointRepository = new GenericRepository<Point>(_Context);
+                    _pointRepository = new GenericRepository<Point>(_context);
                 }
 
-                return (IGenericRepository<Point>)_PointRepository;
+                return (IGenericRepository<Point>)_pointRepository;
             }
         }
 
@@ -76,12 +89,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_TeamRepository == null)
+                if (_teamRepository == null)
                 {
-                    _TeamRepository = new GenericRepository<Team>(_Context);
+                    _teamRepository = new GenericRepository<Team>(_context);
                 }
 
-                return (IGenericRepository<Team>)_TeamRepository;
+                return (IGenericRepository<Team>)_teamRepository;
             }
         }
 
@@ -89,12 +102,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_VisitedPointRepository == null)
+                if (_visitedPointRepository == null)
                 {
-                    _VisitedPointRepository = new GenericRepository<VisitedPoint>(_Context);
+                    _visitedPointRepository = new GenericRepository<VisitedPoint>(_context);
                 }
 
-                return (IGenericRepository<VisitedPoint>)_VisitedPointRepository;
+                return (IGenericRepository<VisitedPoint>)_visitedPointRepository;
             }
         }
 
@@ -102,12 +115,12 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_FinishedStageRepository == null)
+                if (_finishedStageRepository == null)
                 {
-                    _FinishedStageRepository = new GenericRepository<FinishedStage>(_Context);
+                    _finishedStageRepository = new GenericRepository<FinishedStage>(_context);
                 }
 
-                return (IGenericRepository<FinishedStage>)_FinishedStageRepository;
+                return (IGenericRepository<FinishedStage>)_finishedStageRepository;
             }
         }
 
@@ -115,40 +128,40 @@ namespace RaceVenturaData
         {
             get
             {
-                if (_RegisteredIdRepository == null)
+                if (_registeredIdRepository == null)
                 {
-                    _RegisteredIdRepository = new GenericRepository<RegisteredId>(_Context);
+                    _registeredIdRepository = new GenericRepository<RegisteredId>(_context);
                 }
 
-                return (IGenericRepository<RegisteredId>)_RegisteredIdRepository;
+                return (IGenericRepository<RegisteredId>)_registeredIdRepository;
             }
         }
 
         public RaceVenturaUnitOfWork(IRaceVenturaDbContext context)
         {
-            _Context = context;
+            _context = context;
         }
 
         public void Save()
         {
-            _Context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public Task<int> SaveAsync()
         {
-            return _Context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_Disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    _Context.Dispose();
+                    _context.Dispose();
                 }
             }
-            _Disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

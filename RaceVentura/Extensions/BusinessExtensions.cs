@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
+using RaceVentura.Admin;
 using RaceVentura.AppApi;
 using RaceVentura.PdfGeneration;
 using RaceVentura.Races;
@@ -16,6 +17,7 @@ namespace RaceVentura.Extensions
             services.AddScoped<IRaceVenturaUnitOfWork, RaceVenturaUnitOfWork>();
             services.AddScoped<IAccountBL, AccountsBL>();
             services.AddScoped<IRolesBL, RolesBL>();
+            services.AddScoped<IOrganisationBL, OrganisationBL>();
             services.AddScoped<IGenericCudBL<Point>, PointBL>();
             services.AddScoped<IGenericCrudBL<Race>, RaceBL>();
             services.AddScoped<IGenericCudBL<Stage>, StageBL>();

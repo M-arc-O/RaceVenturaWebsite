@@ -1,5 +1,4 @@
-﻿using RaceVenturaAPI.ViewModels.Validators;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaceVenturaAPI.ViewModels.Races

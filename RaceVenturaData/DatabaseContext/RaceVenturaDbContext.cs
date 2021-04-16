@@ -17,5 +17,7 @@ namespace RaceVenturaData.DatabaseContext
         public DbSet<Race> Races { get; set; }
 
         public DbSet<UserLink> UserLinks { get; set; }
+
+        public DbSet<Organisation> Organisations { get; set; }
     }
 }
