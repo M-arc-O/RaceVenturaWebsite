@@ -45,7 +45,11 @@ namespace RaceVentura.Races
             team.Name = newEntity.Name;
             team.Number = newEntity.Number;
             team.Category = newEntity.Category;
-            team.FinishTime = newEntity.FinishTime;
+
+            if (newEntity.FinishTime != null)
+            {
+                team.FinishTime = newEntity.FinishTime;
+            }
 
             _unitOfWork.TeamRepository.Update(team);
             _unitOfWork.Save();
