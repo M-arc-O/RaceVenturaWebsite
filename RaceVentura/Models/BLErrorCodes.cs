@@ -2,17 +2,24 @@
 {
     public enum BLErrorCodes
     {
-        Duplicate = 1,
-        UserUnauthorized = 2,
-        NotFound = 3,
-        MaxIdsReached = 4,
-        AnswerIncorrect = 5,
-        CoordinatesIncorrect = 6,
-        NotActiveStage = 7,
-        RaceNotStarted = 8,
-        RaceEnded = 9,
-        EmailNotConfirmed = 10,
-        InvalidToken = 11,
-        NotAsignedToOrganization = 12,
+        // User related
+        UserUnauthorized = 000,
+        EmailNotConfirmed = 001,
+        InvalidToken = 002,
+
+        // Organisation related
+        NotAsignedToOrganization = 100,
+
+        // Entity related
+        Duplicate = 200,
+        NotFound = 201,
+
+        // Race related
+        MaxIdsReached = 300,
+        AnswerIncorrect = 301,
+        CoordinatesIncorrect = 302,
+        NotActiveStage = 303,
+        RaceNotStarted = 304,
+        RaceEnded = 305,
     }
 }
