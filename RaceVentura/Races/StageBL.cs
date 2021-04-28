@@ -25,7 +25,7 @@ namespace RaceVentura.Races
             _unitOfWork.Save();
         }
 
-        public void Edit(Guid userId, Stage newEntity)
+        public Stage Edit(Guid userId, Stage newEntity)
         {
             var stage = GetAndCheckStage(userId, newEntity.StageId);
 
@@ -40,6 +40,8 @@ namespace RaceVentura.Races
 
             _unitOfWork.StageRepository.Update(stage);
             _unitOfWork.Save();
+
+            return stage;
         }
 
         public void Delete(Guid userId, Guid entityId)

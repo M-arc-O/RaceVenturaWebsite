@@ -2,10 +2,10 @@
 
 namespace RaceVentura.Races
 {
-    public interface IGenericCudBL<T>
+    public interface IGenericCudBL<EntityType>
     {
-        void Add(Guid userId, T entity);
-        void Edit(Guid userId, T newEntity);
+        void Add(Guid userId, EntityType entity);
+        EntityType Edit(Guid userId, EntityType newEntity);
         void Delete(Guid userId, Guid entityId);
     }
 }

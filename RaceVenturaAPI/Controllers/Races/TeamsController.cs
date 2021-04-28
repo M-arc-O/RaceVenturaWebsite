@@ -70,9 +70,9 @@ namespace RaceVenturaAPI.Controllers.Races
 
             try
             {
-                var team = _mapper.Map<Team>(viewModel);
+                var newTeam = _mapper.Map<Team>(viewModel);
 
-                _teamBL.Edit(GetUserId(), team);
+                var team = _teamBL.Edit(GetUserId(), newTeam);
 
                 viewModel = _mapper.Map<TeamViewModel>(team);
                 viewModel.AddQrCode(viewModel.RaceId);

@@ -64,7 +64,7 @@ namespace RaceVentura.Races
             _unitOfWork.Save();
         }
 
-        public void Edit(Guid userId, Race newEntity)
+        public Race Edit(Guid userId, Race newEntity)
         {
             CheckIfRaceExsists(userId, newEntity.RaceId);
             CheckUserIsAuthorizedForRace(userId, newEntity.RaceId, RaceAccessLevel.ReadWrite);
@@ -89,6 +89,8 @@ namespace RaceVentura.Races
             _unitOfWork.RaceRepository.Update(race);
 
             _unitOfWork.Save();
+
+            return race;
         }
 
         public void Delete(Guid userId, Guid raceId)

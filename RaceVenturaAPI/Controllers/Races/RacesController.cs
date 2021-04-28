@@ -310,7 +310,7 @@ namespace RaceVenturaAPI.Controllers.Races
         private void AddAvatar(RaceDetailViewModel raceViewModel, string avatarFileName = "DefaultAvatar.png")
         {
             var avatar = new Bitmap($@"{_webHostingEnvironment.ContentRootPath}\Content\Images\{avatarFileName}");
-            using MemoryStream stream = new MemoryStream();
+            using var stream = new MemoryStream();
             avatar.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             raceViewModel.Avatar = stream.ToArray();
         }

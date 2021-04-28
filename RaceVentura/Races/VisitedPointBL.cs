@@ -30,7 +30,7 @@ namespace RaceVentura.Races
             _unitOfWork.Save();
         }
 
-        public void Edit(Guid userId, VisitedPoint newEntity)
+        public VisitedPoint Edit(Guid userId, VisitedPoint newEntity)
         {
             throw new NotImplementedException();
         }

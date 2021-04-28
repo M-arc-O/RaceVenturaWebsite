@@ -23,7 +23,7 @@ namespace RaceVentura.Races
             _unitOfWork.Save();
         }
 
-        public void Edit(Guid userId, Point newEntity)
+        public Point Edit(Guid userId, Point newEntity)
         {
             var point = GetAndCheckPoint(userId, newEntity.PointId);
 
@@ -42,6 +42,8 @@ namespace RaceVentura.Races
 
             _unitOfWork.PointRepository.Update(point);
             _unitOfWork.Save();
+
+            return point;
         }
 
         public void Delete(Guid userId, Guid pointId)

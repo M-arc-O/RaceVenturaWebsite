@@ -28,7 +28,7 @@ namespace RaceVentura.Races
             _unitOfWork.Save();
         }
 
-        public void Edit(Guid userId, Team newEntity)
+        public Team Edit(Guid userId, Team newEntity)
         {
             Team team = GetAndCheckTeam(userId, newEntity.TeamId);
 
@@ -53,6 +53,8 @@ namespace RaceVentura.Races
 
             _unitOfWork.TeamRepository.Update(team);
             _unitOfWork.Save();
+
+            return team;
         }
 
         public void Delete(Guid userId, Guid entityId)
