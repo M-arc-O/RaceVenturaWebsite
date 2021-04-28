@@ -9,6 +9,7 @@ using RaceVenturaAPI.ViewModels.Admin;
 using RaceVenturaData.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RaceVenturaAPI.Controllers.Admin
 {
@@ -50,7 +51,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPost]
         [Route("addorganization")]
-        public IActionResult Add(OrganisationViewModel viewModel)
+        public async Task<IActionResult> Add(OrganisationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +61,7 @@ namespace RaceVenturaAPI.Controllers.Admin
             try
             {
                 var organisation = _mapper.Map<Organisation>(viewModel);
-                _organisationBL.Add(organisation);
+                await _organisationBL.Add(organisation);
                 return Ok(_mapper.Map<OrganisationViewModel>(organisation));
             }
             catch (BusinessException ex)
@@ -76,7 +77,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPut]
         [Route("editorganization")]
-        public IActionResult Edit(OrganisationViewModel viewModel)
+        public async Task<IActionResult> Edit(OrganisationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -85,8 +86,8 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                var organisation = _mapper.Map<Organisation>(viewModel);
-                _organisationBL.Edit(organisation);
+                var newOrganisation = _mapper.Map<Organisation>(viewModel);
+                var organisation = await _organisationBL.Edit(newOrganisation);
                 return Ok(_mapper.Map<OrganisationViewModel>(organisation));
             }
             catch (BusinessException ex)
@@ -102,11 +103,11 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpDelete]
         [Route("{organizationId}/remove")]
-        public IActionResult Delete(Guid organizationId)
+        public async Task<IActionResult> Delete(Guid organizationId)
         {
             try
             {
-                _organisationBL.Delete(organizationId);
+                await _organisationBL.Delete(organizationId);
                 return Ok(organizationId);
             }
             catch (BusinessException ex)
@@ -122,7 +123,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPost]
         [Route("addusertoorganization")]
-        public IActionResult AddUserToOrganization(AddUserToOrganizationViewModel viewModel)
+        public async Task<IActionResult> AddUserToOrganization(AddUserToOrganizationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -131,7 +132,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                _organisationBL.AddUserToOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
+                await _organisationBL.AddUserToOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)
@@ -147,7 +148,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPost]
         [Route("removeuserfromorganization")]
-        public IActionResult RemoveUserFromOrganization(AddUserToOrganizationViewModel viewModel)
+        public async Task<IActionResult>  RemoveUserFromOrganization(AddUserToOrganizationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -156,7 +157,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                _organisationBL.RemoveUserToOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
+                await _organisationBL.RemoveUserFromOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)

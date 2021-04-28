@@ -8,6 +8,7 @@ namespace RaceVenturaData
     public interface IRaceVenturaUnitOfWork
     {
         IGenericRepository<UserLink> UserLinkRepository { get; }
+        IGenericRepository<Organisation> OrganisationRepository { get; }
         IGenericRepository<Point> PointRepository { get; }
         IGenericRepository<Race> RaceRepository { get; }
         IGenericRepository<Stage> StageRepository { get; }

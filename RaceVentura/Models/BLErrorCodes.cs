@@ -13,5 +13,6 @@
         RaceEnded = 9,
         EmailNotConfirmed = 10,
         InvalidToken = 11,
+        NotAsignedToOrganization = 12,
     }
 }

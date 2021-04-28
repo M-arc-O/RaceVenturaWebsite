@@ -1,16 +1,17 @@
 ﻿using RaceVenturaData.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RaceVentura.Admin
 {
     public interface IOrganisationBL
     {
         IEnumerable<Organisation> Get();
-        void Add(Organisation organisation);
-        void Edit(Organisation organisation);
-        void Delete(Guid organizationId);
-        void AddUserToOrganisation(Guid organizationId, string emailAddress);
-        void RemoveUserToOrganisation(Guid organizationId, string emailAddress);
+        Task Add(Organisation organisation);
+        Task<Organisation> Edit(Organisation organisation);
+        Task Delete(Guid organizationId);
+        Task AddUserToOrganisation(Guid organizationId, string emailAddress);
+        Task RemoveUserFromOrganisation(Guid organizationId, string emailAddress);
     }
 }
