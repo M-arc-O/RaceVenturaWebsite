@@ -53,6 +53,260 @@
 			"response": []
 		},
 		{
+			"name": "AddOrganisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"Organization1Id\", jsonData.organizationId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Organization1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/addorganization",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"addorganization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddOrganisationDuplicate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error code is 200\", function () {\r",
+							"    pm.expect(responseBody).to.equal('200');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Organization1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/addorganization",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"addorganization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditOrganisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.test(\"Error code is 200\", function () {\r",
+							"    pm.expect(jsonData.name).to.equal('Organization3');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"OrganizationId\": \"{{Organization1Id}}\",\n\t\"Name\": \"Organization3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/editorganization",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"editorganization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUserToOrganisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"OrganizationId\": \"{{Organization1Id}}\",\n    \"EmailAddress\": \"m.trapman@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/addusertoorganization",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"addusertoorganization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveUserFromOrganisation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"Organization1Id\", jsonData.organizationId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"OrganizationId\": \"{{Organization1Id}}\",\n    \"EmailAddress\": \"m.trapman@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/removeuserfromorganization",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"removeuserfromorganization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrganization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/{{Organization1Id}}/remove",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"{{Organization1Id}}",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "AddRace1",
 			"event": [
 				{
@@ -2179,6 +2433,10 @@
 		{
 			"key": "Race2Team2UniqueId",
 			"value": "56f8e8d0-5d38-4d9a-bac7-13cb793a5407"
+		},
+		{
+			"key": "Organization1Id",
+			"value": ""
 		}
 	]
 }
