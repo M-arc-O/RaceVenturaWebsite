@@ -53,7 +53,7 @@
 			"response": []
 		},
 		{
-			"name": "AddOrganisation",
+			"name": "AddOrganization",
 			"event": [
 				{
 					"listen": "test",
@@ -97,7 +97,56 @@
 			"response": []
 		},
 		{
-			"name": "AddOrganisationDuplicate",
+			"name": "GetAllOrganizations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Organization name is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.equal(\"Organization1\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/getallorganizations",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"getallorganizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddOrganizationDuplicate",
 			"event": [
 				{
 					"listen": "test",
@@ -142,7 +191,7 @@
 			"response": []
 		},
 		{
-			"name": "EditOrganisation",
+			"name": "EditOrganization",
 			"event": [
 				{
 					"listen": "test",
@@ -188,7 +237,56 @@
 			"response": []
 		},
 		{
-			"name": "AddUserToOrganisation",
+			"name": "GetAllOrganizations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Organization name is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.equal(\"Organization3\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/getallorganizations",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"getallorganizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUserToOrganization",
 			"event": [
 				{
 					"listen": "test",
@@ -230,7 +328,57 @@
 			"response": []
 		},
 		{
-			"name": "RemoveUserFromOrganisation",
+			"name": "GetAllOrganizationsWithUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Organization name is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.equal(\"Organization3\");\r",
+							"    pm.expect(jsonData[0].userEmails[0]).to.equal(\"m.trapman@gmail.com\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ApiBaseUrl}}/api/organization/getallorganizations",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"api",
+						"organization",
+						"getallorganizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveUserFromOrganization",
 			"event": [
 				{
 					"listen": "test",

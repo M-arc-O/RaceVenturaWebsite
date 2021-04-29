@@ -13,5 +13,6 @@ namespace RaceVentura.Admin
         Task Delete(Guid organizationId);
         Task AddUserToOrganization(Guid organizationId, string emailAddress);
         Task RemoveUserFromOrganization(Guid organizationId, string emailAddress);
+        IEnumerable<string> GetUserEmails(Guid organizationId);
     }
 }

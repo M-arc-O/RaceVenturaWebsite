@@ -9,6 +9,7 @@ using RaceVenturaAPI.ViewModels.Admin;
 using RaceVenturaData.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RaceVenturaAPI.Controllers.Admin
@@ -36,7 +37,14 @@ namespace RaceVenturaAPI.Controllers.Admin
             try
             {
                 var organizations = _organizationBL.Get();
-                return Ok(_mapper.Map<List<OrganizationViewModel>>(organizations));
+
+                var retVal = _mapper.Map<List<OrganizationViewModel>>(organizations);
+                foreach (var organization in retVal)
+                {
+                    organization.UserEmails = _organizationBL.GetUserEmails(organization.OrganizationId).ToList();
+                }
+
+                return Ok(retVal);
             }
             catch (BusinessException ex)
             {

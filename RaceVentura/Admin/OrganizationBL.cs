@@ -29,6 +29,12 @@ namespace RaceVentura.Admin
             return _unitOfWork.OrganizationRepository.Get();
         }
 
+        public IEnumerable<string> GetUserEmails(Guid organizationId)
+        {
+            CheckIfOrganizationExsists(organizationId);
+            return GetUsers(organizationId).Select(user => user.Email);
+        }
+
         public async Task Add(Organization organization)
         {
             CheckIfOrganisationNameExists(organization.Name);
@@ -57,11 +63,13 @@ namespace RaceVentura.Admin
 
             _unitOfWork.OrganizationRepository.Delete(organizationId);
 
-            _userManager.Users.Where(user => user.OrganizationId.Equals(organizationId)).ToList().ForEach(user =>
+            var users = GetUsers(organizationId).ToList();
+
+            foreach (var user in users)
             {
                 user.OrganizationId = Guid.Empty;
-                _userManager.UpdateAsync(user);
-            });
+                await _userManager.UpdateAsync(user);
+            }
 
             await _unitOfWork.SaveAsync();
         }
@@ -100,6 +108,11 @@ namespace RaceVentura.Admin
             }
 
             return user;
+        }
+
+        private IEnumerable<AppUser> GetUsers(Guid organizationId)
+        {
+            return _userManager.Users.Where(user => user.OrganizationId.Equals(organizationId));
         }
 
         private void CheckIfOrganizationExsists(Guid organizationId)

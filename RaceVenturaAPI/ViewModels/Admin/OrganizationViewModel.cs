@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RaceVenturaAPI.ViewModels.Admin
@@ -9,5 +10,7 @@ namespace RaceVenturaAPI.ViewModels.Admin
 
         [Required]
         public string Name { get; set; }
+
+        public List<string> UserEmails { get; set; }
     }
 }
