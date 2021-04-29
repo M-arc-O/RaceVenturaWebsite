@@ -11,51 +11,51 @@ using System.Threading.Tasks;
 
 namespace RaceVentura.Admin
 {
-    public class OrganisationBL : IOrganisationBL
+    public class OrganizationBL : IOrganizationBL
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IRaceVenturaUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
 
-        public OrganisationBL(UserManager<AppUser> userManager, IRaceVenturaUnitOfWork unitOfWork, ILogger<OrganisationBL> logger)
+        public OrganizationBL(UserManager<AppUser> userManager, IRaceVenturaUnitOfWork unitOfWork, ILogger<OrganizationBL> logger)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public IEnumerable<Organisation> Get()
+        public IEnumerable<Organization> Get()
         {
-            return _unitOfWork.OrganisationRepository.Get();
+            return _unitOfWork.OrganizationRepository.Get();
         }
 
-        public async Task Add(Organisation organisation)
+        public async Task Add(Organization organization)
         {
-            CheckIfOrganisationNameExists(organisation.Name);
+            CheckIfOrganisationNameExists(organization.Name);
 
-            _unitOfWork.OrganisationRepository.Insert(organisation);
+            _unitOfWork.OrganizationRepository.Insert(organization);
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<Organisation> Edit(Organisation newOrganisation)
+        public async Task<Organization> Edit(Organization newOrganization)
         {
-            CheckIfOrganizationExsists(newOrganisation.OrganizationId);
-            CheckIfOrganisationNameExists(newOrganisation.Name);
+            CheckIfOrganizationExsists(newOrganization.OrganizationId);
+            CheckIfOrganisationNameExists(newOrganization.Name);
 
-            var organisation = _unitOfWork.OrganisationRepository.GetByID(newOrganisation.OrganizationId);
-            organisation.Name = newOrganisation.Name;
+            var organization = _unitOfWork.OrganizationRepository.GetByID(newOrganization.OrganizationId);
+            organization.Name = newOrganization.Name;
 
-            _unitOfWork.OrganisationRepository.Update(organisation);
+            _unitOfWork.OrganizationRepository.Update(organization);
             await _unitOfWork.SaveAsync();
 
-            return organisation;
+            return organization;
         }
 
         public async Task Delete(Guid organizationId)
         {
             CheckIfOrganizationExsists(organizationId);
 
-            _unitOfWork.OrganisationRepository.Delete(organizationId);
+            _unitOfWork.OrganizationRepository.Delete(organizationId);
 
             _userManager.Users.Where(user => user.OrganizationId.Equals(organizationId)).ToList().ForEach(user =>
             {
@@ -66,7 +66,7 @@ namespace RaceVentura.Admin
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task AddUserToOrganisation(Guid organizationId, string emailAddress)
+        public async Task AddUserToOrganization(Guid organizationId, string emailAddress)
         {
             CheckIfOrganizationExsists(organizationId);
             var user = await GetUser(emailAddress);
@@ -76,7 +76,7 @@ namespace RaceVentura.Admin
             await _userManager.UpdateAsync(user);
         }
 
-        public async Task RemoveUserFromOrganisation(Guid organizationId, string emailAddress)
+        public async Task RemoveUserFromOrganization(Guid organizationId, string emailAddress)
         {
             CheckIfOrganizationExsists(organizationId);
             var user = await GetUser(emailAddress);
@@ -104,18 +104,18 @@ namespace RaceVentura.Admin
 
         private void CheckIfOrganizationExsists(Guid organizationId)
         {
-            if (_unitOfWork.OrganisationRepository.GetByID(organizationId) == null)
+            if (_unitOfWork.OrganizationRepository.GetByID(organizationId) == null)
             {
-                _logger.LogError($"Error in {GetType().Name}: Someone tried to access organisation with ID '{organizationId}' but it does not exsist.");
-                throw new BusinessException($"Organisation with ID '{organizationId}' does not exsist.", BLErrorCodes.NotFound);
+                _logger.LogError($"Error in {GetType().Name}: Someone tried to access organization with ID '{organizationId}' but it does not exsist.");
+                throw new BusinessException($"Organization with ID '{organizationId}' does not exsist.", BLErrorCodes.NotFound);
             }
         }
 
         private void CheckIfOrganisationNameExists(string name)
         {
-            if (_unitOfWork.OrganisationRepository.Get().Any(organisation => organisation.Name.ToUpper().Equals(name.ToUpper())))
+            if (_unitOfWork.OrganizationRepository.Get().Any(organisation => organisation.Name.ToUpper().Equals(name.ToUpper())))
             {
-                throw new BusinessException($"An organisation with name '{name}' already exists.", BLErrorCodes.Duplicate);
+                throw new BusinessException($"An organization with name '{name}' already exists.", BLErrorCodes.Duplicate);
             }
         }
     }

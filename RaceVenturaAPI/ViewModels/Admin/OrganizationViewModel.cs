@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RaceVenturaAPI.ViewModels.Admin
 {
-    public class OrganisationViewModel
+    public class OrganizationViewModel
     {
         public Guid OrganizationId { get; set; }
 

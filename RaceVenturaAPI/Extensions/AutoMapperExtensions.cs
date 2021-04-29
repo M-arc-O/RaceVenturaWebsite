@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using RaceVenturaAPI.ViewModels.Admin.MappingProfiles;
 using RaceVenturaAPI.ViewModels.Identity.Mappings;
 using RaceVenturaAPI.ViewModels.Races.MappingProfiles;
 
@@ -20,7 +21,7 @@ namespace RaceVenturaAPI.Extensions
                 mc.AddProfile(new VisitedPointMappingProfile());
                 mc.AddProfile(new FinishedStageMappingProfile());
                 mc.AddProfile(new ResultMappingProfile());
-                mc.AddProfile(new OrganisationMappingProfile());
+                mc.AddProfile(new OrganizationMappingProfile());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

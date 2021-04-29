@@ -8,7 +8,7 @@ namespace RaceVenturaAPI.ViewModels
         EmailNotConfirmed = 001,
         InvalidToken = 002,
 
-        // Organisation related
+        // Organization related
         NotAsignedToOrganization = 100,
 
         // Entity related

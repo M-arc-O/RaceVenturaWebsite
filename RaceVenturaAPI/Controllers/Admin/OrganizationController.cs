@@ -18,13 +18,13 @@ namespace RaceVenturaAPI.Controllers.Admin
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private readonly IOrganisationBL _organisationBL;
+        private readonly IOrganizationBL _organizationBL;
         private readonly IMapper _mapper;
         private readonly ILogger<OrganizationController> _logger;
 
-        public OrganizationController(IOrganisationBL organisationBL, IMapper mapper, ILogger<OrganizationController> logger)
+        public OrganizationController(IOrganizationBL organizationBL, IMapper mapper, ILogger<OrganizationController> logger)
         {
-            _organisationBL = organisationBL ?? throw new ArgumentNullException(nameof(organisationBL));
+            _organizationBL = organizationBL ?? throw new ArgumentNullException(nameof(organizationBL));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -35,8 +35,8 @@ namespace RaceVenturaAPI.Controllers.Admin
         {
             try
             {
-                var organisations = _organisationBL.Get();
-                return Ok(_mapper.Map<List<OrganisationViewModel>>(organisations));
+                var organizations = _organizationBL.Get();
+                return Ok(_mapper.Map<List<OrganizationViewModel>>(organizations));
             }
             catch (BusinessException ex)
             {
@@ -51,7 +51,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPost]
         [Route("addorganization")]
-        public async Task<IActionResult> Add(OrganisationViewModel viewModel)
+        public async Task<IActionResult> Add(OrganizationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -60,9 +60,9 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                var organisation = _mapper.Map<Organisation>(viewModel);
-                await _organisationBL.Add(organisation);
-                return Ok(_mapper.Map<OrganisationViewModel>(organisation));
+                var organization = _mapper.Map<Organization>(viewModel);
+                await _organizationBL.Add(organization);
+                return Ok(_mapper.Map<OrganizationViewModel>(organization));
             }
             catch (BusinessException ex)
             {
@@ -77,7 +77,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
         [HttpPut]
         [Route("editorganization")]
-        public async Task<IActionResult> Edit(OrganisationViewModel viewModel)
+        public async Task<IActionResult> Edit(OrganizationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                var newOrganisation = _mapper.Map<Organisation>(viewModel);
-                var organisation = await _organisationBL.Edit(newOrganisation);
-                return Ok(_mapper.Map<OrganisationViewModel>(organisation));
+                var newOrganization = _mapper.Map<Organization>(viewModel);
+                var organization = await _organizationBL.Edit(newOrganization);
+                return Ok(_mapper.Map<OrganizationViewModel>(organization));
             }
             catch (BusinessException ex)
             {
@@ -107,7 +107,7 @@ namespace RaceVenturaAPI.Controllers.Admin
         {
             try
             {
-                await _organisationBL.Delete(organizationId);
+                await _organizationBL.Delete(organizationId);
                 return Ok(organizationId);
             }
             catch (BusinessException ex)
@@ -132,7 +132,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                await _organisationBL.AddUserToOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
+                await _organizationBL.AddUserToOrganization(viewModel.OrganizationId, viewModel.EmailAddress);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)
@@ -157,7 +157,7 @@ namespace RaceVenturaAPI.Controllers.Admin
 
             try
             {
-                await _organisationBL.RemoveUserFromOrganisation(viewModel.OrganizationId, viewModel.EmailAddress);
+                await _organizationBL.RemoveUserFromOrganization(viewModel.OrganizationId, viewModel.EmailAddress);
                 return Ok(viewModel);
             }
             catch (BusinessException ex)

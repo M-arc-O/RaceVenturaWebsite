@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RaceVenturaData.Models
 {
-    public class Organisation
+    public class Organization
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

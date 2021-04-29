@@ -12,7 +12,7 @@ namespace RaceVenturaData
         private bool _disposed = false;
         private readonly IRaceVenturaDbContext _context;
         private GenericRepository<UserLink> _userLinkRepository;
-        private GenericRepository<Organisation> _organisationRepository;
+        private GenericRepository<Organization> _organizationRepository;
         private GenericRepository<Race> _raceRepository;
         private GenericRepository<Stage> _stageRepository;
         private GenericRepository<Point> _pointRepository;
@@ -33,16 +33,16 @@ namespace RaceVenturaData
                 return (IGenericRepository<UserLink>)_userLinkRepository;
             }
         }
-        public IGenericRepository<Organisation> OrganisationRepository
+        public IGenericRepository<Organization> OrganizationRepository
         {
             get
             {
-                if (_organisationRepository == null)
+                if (_organizationRepository == null)
                 {
-                    _organisationRepository = new GenericRepository<Organisation>(_context);
+                    _organizationRepository = new GenericRepository<Organization>(_context);
                 }
 
-                return (IGenericRepository<Organisation>)_organisationRepository;
+                return (IGenericRepository<Organization>)_organizationRepository;
             }
         }
 
