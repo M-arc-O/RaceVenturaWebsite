@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using RaceVenturaData.Models;
-using RaceVenturaAPI.ViewModels.Admin;
+using RaceVenturaData.Models.Organization;
 
 namespace RaceVenturaAPI.ViewModels.Admin.MappingProfiles
 {

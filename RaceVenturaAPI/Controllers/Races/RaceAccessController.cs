@@ -37,7 +37,7 @@ namespace RaceVenturaAPI.Controllers.Races
             try
             {
                 var accesses = (await _raceAccessBL.Get(GetUserId(), raceId)).ToList();
-                var retVal = new List<RaceAccessViewModel>(accesses.Count());
+                var retVal = new List<RaceAccessViewModel>(accesses.Count);
 
                 foreach (var access in accesses)
                 {

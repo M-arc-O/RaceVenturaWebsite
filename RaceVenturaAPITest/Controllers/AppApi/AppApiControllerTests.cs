@@ -16,8 +16,8 @@ namespace RaceVenturaAPITest.Controllers.Races
     [TestClass]
     public class AppApiControllerTests
     {
-        protected readonly Mock<IAppApiBL> _BLMock = new Mock<IAppApiBL>();
-        protected readonly Mock<ILogger<AppApiController>> _LoggerMock = new Mock<ILogger<AppApiController>>();
+        protected readonly Mock<IAppApiBL> _BLMock = new();
+        protected readonly Mock<ILogger<AppApiController>> _LoggerMock = new();
         protected AppApiController _Sut;
 
         [TestInitialize]

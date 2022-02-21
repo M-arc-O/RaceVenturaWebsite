@@ -3,6 +3,7 @@ using RaceVenturaAPI.ViewModels.Races;
 using RaceVenturaData.Models.Races;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Moq;
 
 namespace RaceVenturaAPITest.Controllers.Races
 {
@@ -28,6 +29,7 @@ namespace RaceVenturaAPITest.Controllers.Races
         [TestMethod]
         public void AddTeamNoErrorsTest()
         {
+            _MapperMock.Setup(m => m.Map<TeamViewModel>(It.IsAny<Team>())).Returns(new TeamViewModel());
             AddNoErrorsTest(Sut);
         }
 
@@ -52,6 +54,7 @@ namespace RaceVenturaAPITest.Controllers.Races
         [TestMethod]
         public void EditTeamNoErrorsTest()
         {
+            _MapperMock.Setup(m => m.Map<TeamViewModel>(It.IsAny<Team>())).Returns(new TeamViewModel());
             EditNoErrorsTest(Sut);
         }
 

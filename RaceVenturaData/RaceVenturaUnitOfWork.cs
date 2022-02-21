@@ -1,5 +1,6 @@
 ﻿using RaceVenturaData.DatabaseContext;
 using RaceVenturaData.Models;
+using RaceVenturaData.Models.Organization;
 using RaceVenturaData.Models.Races;
 using RaceVenturaData.Repositories;
 using System;

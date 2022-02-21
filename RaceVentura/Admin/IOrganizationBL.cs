@@ -1,4 +1,4 @@
-﻿using RaceVenturaData.Models;
+﻿using RaceVenturaData.Models.Organization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

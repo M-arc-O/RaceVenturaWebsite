@@ -3,6 +3,7 @@ using RaceVenturaData.Models.Identity;
 using RaceVenturaData.Models.Races;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RaceVenturaData.Models.Organization;
 
 namespace RaceVenturaData.DatabaseContext
 {

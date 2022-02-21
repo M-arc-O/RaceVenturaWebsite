@@ -17,9 +17,9 @@ namespace RaceVenturaAPITest.Controllers.Races
 {
     public abstract class ApiControllerCudTestsBase<ControllerType, ModelType, ViewModelType>
     {
-        protected readonly Mock<IGenericCudBL<ModelType>> _BLMock = new Mock<IGenericCudBL<ModelType>>();
-        protected readonly Mock<IMapper> _MapperMock = new Mock<IMapper>();
-        protected readonly Mock<ILogger<ControllerType>> _LoggerMock = new Mock<ILogger<ControllerType>>();
+        protected readonly Mock<IGenericCudBL<ModelType>> _BLMock = new();
+        protected readonly Mock<IMapper> _MapperMock = new();
+        protected readonly Mock<ILogger<ControllerType>> _LoggerMock = new();
         protected ICudController<ViewModelType> Sut;
 
         protected virtual void AddNoErrorsTest(ICudController<ViewModelType> sut)

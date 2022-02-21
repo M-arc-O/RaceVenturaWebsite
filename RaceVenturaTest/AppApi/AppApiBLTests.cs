@@ -18,8 +18,8 @@ namespace RaceVenturaTest.AppApi
     [TestClass]
     public class AppApiBLTests
     {
-        private readonly Mock<ILogger<AppApiBL>> _LoggerMock = new Mock<ILogger<AppApiBL>>();
-        private readonly Mock<IRaceVenturaUnitOfWork> _UnitOfWorkMock = new Mock<IRaceVenturaUnitOfWork>();
+        private readonly Mock<ILogger<AppApiBL>> _LoggerMock = new();
+        private readonly Mock<IRaceVenturaUnitOfWork> _UnitOfWorkMock = new();
         private AppApiBL _Sut;
 
         [TestInitialize]
@@ -150,7 +150,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude);
 
-            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
+            _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -343,7 +343,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, true, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 50.000000, 4.000000, 100);
 
-            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
+            _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -363,7 +363,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, 1, 1);
 
-            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
+            _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }
@@ -457,7 +457,7 @@ namespace RaceVenturaTest.AppApi
             var visitedPointsRepositoryMock = SetupMocksForRegisterPoint(raceId, false, teamId, stageId, 1, pointId, stageId,
                 new List<RegisteredId> { new RegisteredId { TeamId = teamId, UniqueId = uniqueId } }, latitude, longitude, 0, message, answer);
 
-            var result = _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
+            _Sut.RegisterPoint(raceId, uniqueId, pointId, latitude, longitude, answer);
 
             AssertRegisterPointNoErrors(teamId, pointId, visitedPointsRepositoryMock);
         }

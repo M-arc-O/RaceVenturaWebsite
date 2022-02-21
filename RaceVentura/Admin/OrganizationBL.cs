@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RaceVentura.Models;
 using RaceVenturaData;
-using RaceVenturaData.Models;
+using RaceVenturaData.Models.Organization;
 using RaceVenturaData.Models.Identity;
 using System;
 using System.Collections.Generic;
