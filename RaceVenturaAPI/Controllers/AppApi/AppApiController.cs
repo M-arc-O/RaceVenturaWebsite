@@ -84,7 +84,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
         [HttpPost]
         [Route("registerStageEnd")]
-        public IActionResult RegisterStageEnd(RegisterStageEndViewModel viewModel)
+        public IActionResult RegisterStageStart(RegisterStageStartViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace RaceVenturaAPI.Controllers.AppApi
 
             try
             {
-                _AppApiBL.RegisterStageEnd(viewModel.RaceId, viewModel.UniqueId, viewModel.StageId);
+                _AppApiBL.RegisterStageStart(viewModel.RaceId, viewModel.UniqueId, viewModel.StageId);
 
                 return Ok(viewModel);
             }

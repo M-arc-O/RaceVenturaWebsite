@@ -26,6 +26,9 @@ namespace RaceVenturaAPITest.Controllers.Races
         {
             var viewModel = (ViewModelType)Activator.CreateInstance(typeof(ViewModelType));
 
+            _MapperMock.Setup(m => m.Map<ModelType>(It.IsAny<ViewModelType>())).Returns((ModelType)Activator.CreateInstance(typeof(ModelType)));
+            _MapperMock.Setup(m => m.Map<ViewModelType>(It.IsAny<ModelType>())).Returns((ViewModelType)Activator.CreateInstance(typeof(ViewModelType)));
+
             var result = sut.Add(viewModel);
 
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
@@ -79,6 +82,9 @@ namespace RaceVenturaAPITest.Controllers.Races
         protected virtual void EditNoErrorsTest(ICudController<ViewModelType> sut)
         {
             var viewModel = (ViewModelType)Activator.CreateInstance(typeof(ViewModelType));
+
+            _MapperMock.Setup(m => m.Map<ModelType>(It.IsAny<ViewModelType>())).Returns((ModelType)Activator.CreateInstance(typeof(ModelType)));
+            _MapperMock.Setup(m => m.Map<ViewModelType>(It.IsAny<ModelType>())).Returns((ViewModelType)Activator.CreateInstance(typeof(ViewModelType)));
 
             var result = sut.Edit(viewModel);
 

@@ -140,40 +140,40 @@ namespace RaceVenturaAPITest.Controllers.Races
         }
 
         [TestMethod]
-        public void RegisterStageEndNoError()
+        public void RegisterStageStartNoError()
         {
-            var viewModel = new RegisterStageEndViewModel();
+            var viewModel = new RegisterStageStartViewModel();
 
-            var result = _Sut.RegisterStageEnd(viewModel);
+            var result = _Sut.RegisterStageStart(viewModel);
 
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.AreEqual(viewModel, (result as OkObjectResult).Value);
         }
 
         [TestMethod]
-        public void RegisterStageEndBusinessError()
+        public void RegisterStageStartBusinessError()
         {
-            var viewModel = new RegisterStageEndViewModel();
+            var viewModel = new RegisterStageStartViewModel();
             var exception = new BusinessException("", BLErrorCodes.Duplicate);
 
-            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterStageStart(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
 
-            var result = _Sut.RegisterStageEnd(viewModel);
+            var result = _Sut.RegisterStageStart(viewModel);
 
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             Assert.AreEqual((int)BLErrorCodes.Duplicate, (int)(result as BadRequestObjectResult).Value);
         }
 
         [TestMethod]
-        public void RegisterStageEndException()
+        public void RegisterStageStartException()
         {
-            var viewModel = new RegisterStageEndViewModel();
+            var viewModel = new RegisterStageStartViewModel();
             var exceptionMessage = "a";
             var exception = new Exception(exceptionMessage);
 
-            _BLMock.Setup(bl => bl.RegisterStageEnd(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
+            _BLMock.Setup(bl => bl.RegisterStageStart(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>())).Throws(exception);
 
-            var result = _Sut.RegisterStageEnd(viewModel);
+            var result = _Sut.RegisterStageStart(viewModel);
 
             Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
             Assert.AreEqual(500, (result as StatusCodeResult).StatusCode);

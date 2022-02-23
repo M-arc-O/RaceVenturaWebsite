@@ -22,7 +22,7 @@ namespace RaceVentura.Races
             CheckIfTeamNameExists(entity);
             CheckIfTeamNumberExists(entity);
 
-            entity.ActiveStage = 1;
+            entity.ActiveStage = -1;
 
             _unitOfWork.TeamRepository.Insert(entity);
             _unitOfWork.Save();

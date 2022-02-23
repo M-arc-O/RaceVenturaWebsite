@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RaceVenturaAPI.ViewModels.AppApi
 {
-    public class RegisterStageEndViewModel
+    public class RegisterStageStartViewModel
     {
         [RequiredNotEmpty]
         public Guid RaceId { get; set; }

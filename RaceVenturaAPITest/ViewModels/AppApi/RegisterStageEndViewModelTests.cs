@@ -11,9 +11,9 @@ namespace RaceVenturaAPITest.ViewModels.AppApi
         [TestMethod]
         public void AttributeTest()
         {
-            TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("RaceId");
-            TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredAttribute>("UniqueId");
-            TestUtils.TestAttributeOnProperty<RegisterStageEndViewModel, RequiredNotEmptyAttribute>("StageId");
+            TestUtils.TestAttributeOnProperty<RegisterStageStartViewModel, RequiredNotEmptyAttribute>("RaceId");
+            TestUtils.TestAttributeOnProperty<RegisterStageStartViewModel, RequiredAttribute>("UniqueId");
+            TestUtils.TestAttributeOnProperty<RegisterStageStartViewModel, RequiredNotEmptyAttribute>("StageId");
         }
     }
 }

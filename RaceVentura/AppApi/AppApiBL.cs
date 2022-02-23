@@ -82,24 +82,36 @@ namespace RaceVentura.AppApi
             return point;
         }
 
-        public void RegisterStageEnd(Guid raceId, Guid uniqueId, Guid stageId)
+        public void RegisterStageStart(Guid raceId, Guid uniqueId, Guid stageId)
         {
             var team = GetTeamByRegisteredId(uniqueId);
 
-            var stage = GetStage(stageId);
-            if (team.ActiveStage != stage.Number)
+            if (_UnitOfWork.FinishedStageRepository.Get(s => s.TeamId == team.TeamId && s.StageId == stageId).Any())
             {
-                throw new BusinessException($"Stage with ID '{stageId}' is not the active stage.", BLErrorCodes.NotActiveStage);
+                throw new BusinessException($"Stage with ID '{stageId}' has already been started.", BLErrorCodes.NotActiveStage);
             }
+
+            var previousActiveStageNumber = team.ActiveStage;
+
+            var stage = GetStage(stageId);
+            //if (team.ActiveStage != stage.Number)
+            //{
+            //    throw new BusinessException($"Stage with ID '{stageId}' is not the active stage.", BLErrorCodes.NotActiveStage);
+            //}
 
             var dateNow = DateTime.Now;
             var race = GetRace(raceId);
             CheckTime(race, dateNow);
 
-            team.ActiveStage++;
+            team.ActiveStage = stage.Number;
 
             _UnitOfWork.TeamRepository.Update(team);
-            _UnitOfWork.FinishedStageRepository.Insert(new FinishedStage { TeamId = team.TeamId, StageId = stageId, FinishTime = dateNow });
+
+            if (previousActiveStageNumber >= 0)
+            {
+                var previousActiveStage = _UnitOfWork.StageRepository.Get(s => s.Number == previousActiveStageNumber).First();
+                _UnitOfWork.FinishedStageRepository.Insert(new FinishedStage { TeamId = team.TeamId, StageId = previousActiveStage.StageId, FinishTime = dateNow });
+            }
             _UnitOfWork.Save();
         }
 
